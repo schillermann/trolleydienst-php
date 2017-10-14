@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'congregation_name', FILTER_SANITIZE_STRING);

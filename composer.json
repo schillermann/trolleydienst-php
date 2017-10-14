@@ -1,0 +1,12 @@
+{
+  "name": "trolleydienst/trolleydienst-php",
+  "description": "Plan the public witnessing with table and cart very easy on your own server.",
+  "support": {
+    "email": "support@trolleydienst.de",
+    "source": "https://github.com/trolleydienst/trolleydienst-php",
+    "issues": "https://github.com/trolleydienst/trolleydienst-php/issues"
+  },
+  "require": {
+    "components/font-awesome": "~4.7.0"
+  }
+}

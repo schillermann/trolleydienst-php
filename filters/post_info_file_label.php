@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'info_file_label', FILTER_SANITIZE_STRING);

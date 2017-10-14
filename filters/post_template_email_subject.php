@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'template_email_subject', FILTER_SANITIZE_STRING);

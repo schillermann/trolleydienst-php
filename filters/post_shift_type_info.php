@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'shift_type_info', FILTER_SANITIZE_STRING);

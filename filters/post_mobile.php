@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_NUMBER_INT);

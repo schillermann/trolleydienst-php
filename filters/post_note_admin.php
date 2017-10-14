@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'note_admin', FILTER_SANITIZE_STRING);
