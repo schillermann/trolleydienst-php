@@ -6,9 +6,9 @@ $page_file = '';
 
 if(isset($_POST['save'])) {
 
-    $username = include 'filters/post_username.php';
+    $name = include 'filters/post_name.php';
 
-    if(Tables\Users::is_username($database_pdo, $username)) {
+    if(Tables\Users::is_name($database_pdo, $name)) {
         $placeholder['message']['error'] = 'Der Name ist bereits vergeben!';
     } else {
         $get_password = require 'modules/random_string.php';
@@ -17,7 +17,7 @@ if(isset($_POST['save'])) {
 
         $user = new Models\User(
             0,
-            include 'filters/post_name.php',
+			$name,
             $email,
             $password,
             include 'filters/post_is_admin.php',
@@ -30,21 +30,27 @@ if(isset($_POST['save'])) {
         );
     }
 
-
-    if(Tables\Users::is_username($database_pdo, $username))
+    if(Tables\Users::is_name($database_pdo, $name))
         $placeholder['message']['error'] = 'Der Name ist bereits vergeben!';
     elseif (!Tables\Users::insert($database_pdo, $user))
         $placeholder['message']['error'] = 'Der Teilnehmer konnte nicht angelegt werden!';
+    else {
+		$placeholder['message']['success'] = 'Der Teilnehmer wurde angelegt.';
 
-    if(empty($placeholder['message']['error'])) {
-        $page_file = 'user-add-mail.php';
+		$get_template_email_user_add = include 'services/get_email_template.php';
+		$email_template = $get_template_email_user_add($database_pdo, Tables\EmailTemplates::USER_ADD);
 
-        $placeholder['email'] = $email;
-        $placeholder['username'] = $username;
-        $placeholder['password'] = $password;
+		$replace_with = array(
+			'NAME' => $name,
+			'PASSWORD' => $password
+		);
+		$email_template_message = strtr($email_template['message'], $replace_with);
 
-        //TODO: Send mail to added user
-    }
+		$send_mail_plain = include 'modules/send_mail_plain.php';
+
+		if($send_mail_plain($email, $email_template['subject'], $email_template_message))
+			$placeholder['message']['success'] .= ' Eine E-Mail mit den Zugangsdaten wurde an ' . $email . ' geschickt.';
+	}
 }
 
 echo $render_page($placeholder, $page_file);

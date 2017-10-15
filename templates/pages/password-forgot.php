@@ -3,7 +3,9 @@
     <h2>Passwort vergessen</h2>
 </header>
 <nav id="nav-sub">
-    <a href="index.php" tabindex="4" class="button"><i class="fa fa-chevron-left"></i> zurück</a>
+    <a href="index.php" tabindex="4" class="button">
+        <i class="fa fa-chevron-left"></i> zurück
+    </a>
 </nav>
 <div class="container-center">
     <form method="post">

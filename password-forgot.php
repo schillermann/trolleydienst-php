@@ -6,10 +6,10 @@ $placeholder = array();
 
 if(isset($_POST['password_reset'])) {
 
-    $username = include 'filters/post_username.php';
+    $name = include 'filters/post_name.php';
     $send_to_email = include 'filters/post_email.php';
 
-    $id_user = Tables\Users::select_id_user($database_pdo, $username, $send_to_email);
+    $id_user = Tables\Users::select_id_user($database_pdo, $name, $send_to_email);
 
     if($id_user == 0) {
         $placeholder['message']['error'] = 'Name oder E-Mail existiert nicht!';

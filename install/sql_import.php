@@ -63,6 +63,23 @@ deine Schicht vom SHIFT_DATE wurde gelöscht.
 
 SIGNATURE",
 	datetime("now", "localtime")
+),
+(
+	7,
+	"Zugangsdaten",
+	"Hallo NAME,
+
+mit den Zugangsdaten kannst du dich auf WEBSITE_LINK anmelden. 
+
+== Zugangsdaten ==
+
+Name: NAME
+Passwort: PASSWORD
+
+==============
+
+SIGNATURE",
+	datetime("now", "localtime")
 );
 INSERT INTO shift_types
 VALUES (

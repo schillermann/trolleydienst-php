@@ -11,6 +11,7 @@ class EmailTemplates
 	const APPLICATION_ACCEPT = 4;
 	const APPLICATION_CANCEL = 5;
 	const SHIFT_DELETE = 6;
+	const USER_ADD = 7;
 
     static function create_table(\PDO $connection): bool {
         $sql =
