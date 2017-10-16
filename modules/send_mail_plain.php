@@ -1,5 +1,5 @@
 <?php
-return function ($to, $subject, $message) {
+return function ($to, $subject, $message): bool {
 
     $headers   = array();
     $headers[] = 'Content-type: text/plain; charset=utf-8';

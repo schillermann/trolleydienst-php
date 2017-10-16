@@ -8,7 +8,7 @@
             <legend>Admin</legend>
             <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>
-                <input id="name" name="name" tabindex="1" required oninput="insertUsername()" value="<?php echo (isset($_POST['name']))? $_POST['name'] : '';?>">
+                <input id="name" name="name" tabindex="1" required value="<?php echo (isset($_POST['name']))? $_POST['name'] : '';?>">
             </div>
             <div>
                 <label for="email">E-Mail <small>(Pflichtfeld)</small></label>

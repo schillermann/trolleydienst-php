@@ -83,7 +83,7 @@ class LoginFails {
 		return (int)$stmt->fetchColumn() > 0;
 	}
 
-	static function update_fail(\PDO $connection, string $ip) {
+	static function update_fail(\PDO $connection, string $ip): bool {
 		$stmt = $connection->prepare(
 			'UPDATE ' . self::TABLE_NAME . '
             SET fail = fail + 1, updated = datetime("now", "localtime")
@@ -97,7 +97,7 @@ class LoginFails {
 			) && $stmt->rowCount() == 1;
 	}
 
-	static function update_ban(\PDO $connection, string $ip) {
+	static function update_ban(\PDO $connection, string $ip): bool {
 		$stmt = $connection->prepare(
 			'UPDATE ' . self::TABLE_NAME . '
             SET fail = fail + 1, ban = datetime("now", "localtime"), updated = datetime("now", "localtime")
@@ -111,7 +111,7 @@ class LoginFails {
 		) && $stmt->rowCount() == 1;
 	}
 
-	static function insert(\PDO $connection, string $ip) {
+	static function insert(\PDO $connection, string $ip): bool {
 		$stmt = $connection->prepare(
 			'INSERT INTO ' . self::TABLE_NAME . '
             (ip, updated) VALUES (:ip, datetime("now", "localtime"))'
