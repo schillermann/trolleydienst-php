@@ -66,6 +66,14 @@ SIGNATURE",
 ),
 (
 	7,
+	"SHIFT_TYPE_NAME Schicht Termin",
+	"SHIFT_TYPE_NAME Schicht Termin
+DATE
+ROUTE",
+	datetime("now", "localtime")
+),
+(
+	8,
 	"Zugangsdaten",
 	"Hallo NAME,
 

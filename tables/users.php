@@ -45,8 +45,8 @@ class Users {
             'SELECT id_user, name, email, is_admin, is_active, last_login
             FROM ' . self::TABLE_NAME
         );
-        $result = $stmt->fetchAll();
-        return ($result === false)? array() : $result;
+        $user_list = $stmt->fetchAll();
+        return ($user_list === false)? array() : $user_list;
     }
 
     static function select_all_email(\PDO $connection): array {
@@ -55,8 +55,8 @@ class Users {
             'SELECT name, email FROM ' . self::TABLE_NAME . ' WHERE is_active = 1 '
         );
 
-        $result = $stmt->fetchAll();
-        return ($result === false)? array() : $result;
+        $name_email_list = $stmt->fetchAll();
+        return ($name_email_list === false)? array() : $name_email_list;
     }
 
     static function select_all_without_user(\PDO $connection, int $id_user): array {
@@ -71,8 +71,8 @@ class Users {
             array(':id_user' => $id_user)
         ))
         	return array();
-        $result = $stmt->fetchAll();
-        return ($result === false)? array() : $result;
+        $user_list = $stmt->fetchAll();
+        return ($user_list === false)? array() : $user_list;
     }
 
     static function select_user(\PDO $connection, int $id_user): array {
@@ -88,8 +88,8 @@ class Users {
             array(':id_user' => $id_user)
         ))
         	return array();
-        $result = $stmt->fetch();
-        return ($result === false)? array() : $result;
+        $user = $stmt->fetch();
+        return ($user === false)? array() : $user;
     }
 
     static function select_name(\PDO $connection, int $id_user): string {
@@ -104,9 +104,25 @@ class Users {
             array(':id_user' => $id_user)
         ))
         	return array();
-        $result = $stmt->fetchColumn();
-        return ($result)? $result : '';
+        $name = $stmt->fetchColumn();
+        return ($name)? $name : '';
     }
+
+	static function select_email(\PDO $connection, int $id_user): string {
+
+		$stmt = $connection->prepare(
+			'SELECT email
+            FROM ' . self::TABLE_NAME . '
+            WHERE id_user = :id_user'
+		);
+
+		if(!$stmt->execute(
+			array(':id_user' => $id_user)
+		))
+			return array();
+		$email = $stmt->fetchColumn();
+		return ($email)? $email : '';
+	}
 
     static function select_id_user(\PDO $connection, string $name, string $email): int {
         $stmt = $connection->prepare(
@@ -140,8 +156,8 @@ class Users {
             array(':id_user' => $id_user)
         ))
         	return array();
-        $result = $stmt->fetch();
-        return ($result === false)? array() : $result;
+        $profile = $stmt->fetch();
+        return ($profile === false)? array() : $profile;
     }
 
     static function select_logindata(\PDO $connection, string $name, string $password): array {
@@ -160,8 +176,8 @@ class Users {
             )
         ))
         	return array();
-        $result = $stmt->fetch();
-        return ($result === false)? array() : $result;
+        $logindata = $stmt->fetch();
+        return ($logindata === false)? array() : $logindata;
     }
 
     static function update_login_time(\PDO $connection, int $id_user): bool {
