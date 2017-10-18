@@ -8,6 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="vendor/components/font-awesome/css/font-awesome.min.css">
         <link href="/css/global.css" rel="stylesheet">
+        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-ipad-retina.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-iphone-retina.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-ipad.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-iphone.png" />
     </head>
 
     <body>
