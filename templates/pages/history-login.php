@@ -1,3 +1,4 @@
+<?php $parse_link_ip_geo = include 'templates/helpers/parse_link_ip_geo.php';?>
 <header>
     <h2>Verlauf</h2>
 </header>
@@ -28,7 +29,7 @@
                     <tr>
                         <td><?php echo $shift_history['created'];?></td>
                         <td><?php echo $shift_history['name'];?></td>
-                        <td><?php echo $shift_history['message'];?></td>
+                        <td><?php echo $parse_link_ip_geo($shift_history['message']);?></td>
                     </tr>
 				<?php endforeach; ?>
             </table>
