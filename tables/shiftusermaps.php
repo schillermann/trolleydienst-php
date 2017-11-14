@@ -88,13 +88,17 @@ class ShiftUserMaps {
             VALUES (:id_shift, :id_user, :position, datetime("now", "localtime"))'
         );
 
-        return $stmt->execute(
-            array(
-                ':id_shift' => $id_shift,
-                ':id_user' => $id_user,
-                ':position' => $position
-            )
-        ) && $stmt->rowCount() == 1;
+        try {
+            return $stmt->execute(
+                    array(
+                        ':id_shift' => $id_shift,
+                        ':id_user' => $id_user,
+                        ':position' => $position
+                    )
+                ) && $stmt->rowCount() == 1;
+        } catch (\PDOException $error) {
+            return false;
+        }
     }
 
     static function delete(\PDO $connection, int $id_shift, int $position, int $id_user): bool {
