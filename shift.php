@@ -9,20 +9,19 @@ if(!isset($_GET['id_shift_type'])) {
         header('location: info.php');
     return;
 }
+if (isset($_POST['promote_id_user'])) {
 
-if (isset($_POST['promote_user'])) {
+    $promote_user = include 'services/promote_user.php';
 
-	$promote_user = include 'services/promote_user.php';
+    if($promote_user($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['promote_id_user']))
+        $placeholder['message']['success'] = 'Die Bewerbung wurde angenommen.';
+    else
+        $placeholder['message']['error'] = 'Die Bewerbung konnte nicht angenommen werden!';
 
-	if($promote_user($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['promote_id_user']))
-		$placeholder['message']['success'] = 'Die Bewerbung wurde angenommen.';
-	else
-		$placeholder['message']['error'] = 'Die Bewerbung konnte nicht angenommen werden!';
-
-} elseif (isset($_POST['cancel_application'])) {
+} elseif (isset($_POST['cancel_id_user'])) {
 
     $cancel_application = include 'services/cancel_application.php';
-    if($cancel_application($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['id_user']))
+    if($cancel_application($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['cancel_id_user']))
         $placeholder['message']['success'] = 'Die Bewerbung wurde zurück gezogen.';
     else
         $placeholder['message']['error'] = 'Die Bewerbung konnte nicht zurück gezogen werden!';
@@ -33,8 +32,8 @@ $id_shift_type = (int)$_GET['id_shift_type'];
 $placeholder['shift_type'] = Tables\ShiftTypes::select($database_pdo, $id_shift_type);
 
 if(!empty($placeholder['shift_type']['info'])) {
-	$parse_text_to_html = include 'templates/helpers/parse_text_to_html.php';
-	$placeholder['shift_type']['info'] = $parse_text_to_html($placeholder['shift_type']['info']);
+    $parse_text_to_html = include 'templates/helpers/parse_text_to_html.php';
+    $placeholder['shift_type']['info'] = $parse_text_to_html($placeholder['shift_type']['info']);
 }
 
 $user_list = Tables\Users::select_all_without_user($database_pdo, $_SESSION['id_user']);

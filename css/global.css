@@ -230,6 +230,7 @@ button:hover, .button:hover {
     border-color: #adadad; }
 .promoted { background-color: #d5c8e4; }
 .email-subject { width: 100%; }
+.form_inline { display: inline-block; }
 /**
  * Icons
  */
