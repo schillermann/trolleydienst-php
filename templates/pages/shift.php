@@ -1,5 +1,5 @@
 <?php ob_start();?>
-<select name="promote_id_user" class="button promote" onchange="this.form.submit()">
+<select name="promote_id_user" class="button promote" onchange="submitForm(this)">
     <option value="0">bewerben</option>
     <?php foreach ($placeholder['user_promote_list'] as $id_user => $name): ?>
         <option value="<?php echo $id_user; ?>"><?php echo $name; ?></option>
@@ -93,20 +93,20 @@
                         <?php foreach ($user_list as $id_user => $name) : ?>
                             <?php $has_user_promoted = $id_user === $_SESSION['id_user'];?>
 
-                            <form method="post" class="form_inline" action="#id_shift_<?php echo $id_shift; ?>">
-                                <input type="hidden" name="position" value="<?php echo $position; ?>">
-                                <input type="hidden" name="id_shift" value="<?php echo $id_shift; ?>">
-                                <?php if($has_user_promoted): ?>
-                                    <button name="cancel_application" class="enable">
+                            <?php if($has_user_promoted): ?>
+                                <form method="post" class="form_inline" action="#id_shift_<?php echo $id_shift; ?>">
+                                    <input type="hidden" name="position" value="<?php echo $position; ?>">
+                                    <input type="hidden" name="id_shift" value="<?php echo $id_shift; ?>">
+                                    <input type="hidden" name="cancel_id_user" value="<?php echo $_SESSION['id_user']; ?>">
+                                    <button class="enable" onclick="submitForm(this)" type="button">
                                         <i class="fa fa-thumbs-o-up"></i> <?php echo $name; ?>
                                     </button>
-                                <?php else: ?>
-                                    <a href="user-details.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>&id_user=<?php echo $id_user; ?>" class="button promoted">
-                                        <i class="fa fa-info"></i> <?php echo $name; ?>
-                                    </a>
-                                <?php endif; ?>
-                            </form>
-
+                                </form>
+                            <?php else: ?>
+                                <a href="user-details.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>&id_user=<?php echo $id_user; ?>" class="button promoted">
+                                    <i class="fa fa-info"></i> <?php echo $name; ?>
+                                </a>
+                            <?php endif; ?>
                         <?php endforeach; ?>
 
                         <?php for($free_place_counter = 0; $free_place_counter < $free_places; $free_place_counter++): ?>
@@ -123,3 +123,9 @@
         </table>
     <?php endforeach; ?>
 </div>
+<script>
+    function submitForm(submitForm) {
+        document.getElementById('loading-screen').style.display = 'block';
+        setTimeout(function() { submitForm.form.submit(); }, 200);
+    }
+</script>

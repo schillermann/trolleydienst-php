@@ -16,6 +16,12 @@
     </head>
 
     <body>
+        <div id="loading-screen" class="fade-in">
+            <div id="loading-screen-center">
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <header>
             <div>
                 <div class="wrapper-center">
