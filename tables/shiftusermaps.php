@@ -12,6 +12,8 @@ class ShiftUserMaps {
             `id_shift` INTEGER NOT NULL,
             `id_user` INTEGER NOT NULL,
             `position` INTEGER DEFAULT 1,
+            `is_active` INTEGER DEFAULT 0,
+            `updated` TEXT NOT NULL,
             `created` TEXT NOT NULL,
             PRIMARY KEY (id_shift, id_shift, id_user)
             )';
@@ -21,8 +23,8 @@ class ShiftUserMaps {
 
     static function select_all(\PDO $connection, int $id_shift): array {
         $stmt = $connection->prepare(
-            'SELECT position, users.id_user, name
-            FROM ' . self::TABLE_NAME . '
+            'SELECT position, users.id_user, name, shift_user_maps.is_active
+            FROM ' . self::TABLE_NAME . ' AS shift_user_maps
             LEFT JOIN users
             ON ' . self::TABLE_NAME . '.id_user = users.id_user
             WHERE id_shift = :id_shift
@@ -84,8 +86,8 @@ class ShiftUserMaps {
 
         $stmt = $connection->prepare(
             'INSERT INTO ' . self::TABLE_NAME . '
-            (id_shift, id_user, position, created)
-            VALUES (:id_shift, :id_user, :position, datetime("now", "localtime"))'
+            (id_shift, id_user, position, updated, created)
+            VALUES (:id_shift, :id_user, :position, datetime("now", "localtime"), datetime("now", "localtime"))'
         );
 
         try {

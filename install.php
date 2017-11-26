@@ -39,7 +39,7 @@ if(isset($_POST['install'])) {
             'UPLOAD_SIZE_MAX_IN_MEGABYTE' => 5,
 			'BAN_TIME_IN_MINUTES' => 5,
 			'LOGIN_FAIL_MAX' => 5,
-            'APPLICANT ACTIVATION' => isset($_POST['applicant_activation']) ? true : false
+            'APPLICANT_ACTIVATION' => isset($_POST['applicant_activation']) ? true : false
         );
 
         if(

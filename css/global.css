@@ -294,6 +294,7 @@ input:checked + .slider:before {
 .warning {
     background-color: red;
     color: white; }
+.wait { background-color: #FFC000; }
 .enable { background-color: #92D050; }
 /**
  * Content

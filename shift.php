@@ -9,26 +9,32 @@ if(!isset($_GET['id_shift_type'])) {
         header('location: info.php');
     return;
 }
-if (isset($_POST['promote_id_user'])) {
+
+$id_shift_type = (int)$_GET['id_shift_type'];
+$action = include 'helpers/get_action.php';
+
+if($action == 'promote') {
 
     $promote_user = include 'services/promote_user.php';
 
-    if($promote_user($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['promote_id_user']))
+    if($promote_user($database_pdo, (int)$_GET['id_shift'], (int)$_GET['position'], (int)$_POST['id_user']))
         $placeholder['message']['success'] = 'Die Bewerbung wurde angenommen.';
     else
         $placeholder['message']['error'] = 'Die Bewerbung konnte nicht angenommen werden!';
 
-} elseif (isset($_POST['cancel_id_user'])) {
+} elseif ($action == 'cancel') {
 
     $cancel_application = include 'services/cancel_application.php';
-    if($cancel_application($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['cancel_id_user']))
+    if($cancel_application($database_pdo, (int)$_GET['id_shift'], (int)$_GET['position'], (int)$_POST['id_user']))
         $placeholder['message']['success'] = 'Die Bewerbung wurde zurück gezogen.';
     else
         $placeholder['message']['error'] = 'Die Bewerbung konnte nicht zurück gezogen werden!';
-
+} elseif ($action == 'userinfo') {
+    header('location: user-details.php?id_shift_type=' . $id_shift_type . '&id_user=' . $_POST['id_user']);
+    return;
 }
 
-$id_shift_type = (int)$_GET['id_shift_type'];
+
 $placeholder['shift_type'] = Tables\ShiftTypes::select($database_pdo, $id_shift_type);
 
 if(!empty($placeholder['shift_type']['info'])) {
@@ -36,13 +42,25 @@ if(!empty($placeholder['shift_type']['info'])) {
     $placeholder['shift_type']['info'] = $parse_text_to_html($placeholder['shift_type']['info']);
 }
 
-$user_list = Tables\Users::select_all_without_user($database_pdo, $_SESSION['id_user']);
-$get_user_promote_list = include 'helpers/get_user_promote_list.php';
-$placeholder['user_promote_list'] = $get_user_promote_list($user_list);
+$get_user_promote_list = include 'services/get_user_promote_list.php';
+$placeholder['user_promote_list'] = $get_user_promote_list($database_pdo);
+
 $placeholder['id_shift_type'] = $id_shift_type;
 
 $get_shifts_with_users = include 'services/get_shifts_with_users.php';
 $placeholder['shift_day'] = $get_shifts_with_users($database_pdo, $id_shift_type);
 
+$placeholder['form_uri'] = 'id_shift_type=%d&id_shift=%d&position=%d#id_shift_%2$d';
+
 $render_page = include 'includes/render_page.php';
-echo $render_page($placeholder);
+
+if($_SESSION['is_admin'])
+    if(APPLICANT_ACTIVATION)
+        echo $render_page($placeholder, 'shift-admin-activation.php');
+    else
+        echo $render_page($placeholder, 'shift-admin.php');
+else
+    if(APPLICANT_ACTIVATION)
+        echo $render_page($placeholder, 'shift-activation.php');
+    else
+        echo $render_page($placeholder);
