@@ -45,6 +45,13 @@
                 <label for="congregation_name">Name der Versammlung <small>(Pflichtfeld)</small></label>
                 <input id="congregation_name" name="congregation_name" tabindex="9" required placeholder="Muster Versammlung" value="<?php echo (isset($_POST['congregation_name']))? $_POST['congregation_name'] : '';?>">
             </div>
+            <div>
+                <label>Bewerber Freischaltung für Schichten</label>
+                <label class="toggle">
+                    <input type="checkbox" name="applicant_activation">
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </fieldset>
         <div class="from-button">
             <button name="install" class="active" tabindex="10">

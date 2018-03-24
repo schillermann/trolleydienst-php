@@ -107,6 +107,6 @@
                 </nav>
             </footer>
         </div>
-        <script type="text/javascript" src="js/note_box.js"></script>
+        <script type="text/javascript" src="js/note-box.js"></script>
     </body>
 </html>
