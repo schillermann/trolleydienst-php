@@ -32,14 +32,14 @@
         'UPDATE settings
         SET value = :application_version
         WHERE name = "application_version"';
-    
+
     foreach ($migration_files as $migration_file)
     {
         $migration_version = str_replace('.php', '', $migration_file);
 
         if(version_compare($application_version, $migration_version) >= 0)
-            break;
-        
+            continue;
+
         $migration_action = include $dir . $migration_file;
         if($migration_action($connection)) {
             $stmt = $connection->prepare ($sql_update_application_version);

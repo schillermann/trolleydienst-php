@@ -38,7 +38,7 @@
             <legend>Schichten</legend>
             <div>
                 <label for="route">Route <small>(Pflichtfeld)</small></label>
-                <input id="route" name="route" required maxlength="10" placeholder="Wie heißt die Route?" value="<?php echo (isset($_POST['route']))? $_POST['route'] : '';?>">
+                <input id="route" name="route" required placeholder="Wie heißt die Route?" value="<?php echo (isset($_POST['route']))? $_POST['route'] : '';?>">
             </div>
             <div>
                 <label for="date_from">Datum <small>(Pflichtfeld)</small></label>

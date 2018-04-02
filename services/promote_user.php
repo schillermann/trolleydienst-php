@@ -11,11 +11,13 @@
 
     if ($promote_user_success) {
 
-		$send_mail_shift_date = include 'services/send_mail_shift_date.php';
-		$send_mail_shift_date($connection, $id_shift, $shift_type_name, $id_user);
+        if(!DEMO) {
+            $send_mail_shift_date = include 'services/send_mail_shift_date.php';
+            $send_mail_shift_date($connection, $id_shift, $shift_type_name, $id_user);
 
-    	$send_mail_to_participants_of_shift = include 'services/send_mail_applicant_action.php';
-		$send_mail_to_participants_of_shift($connection, $id_shift, $position, $id_user, $shift_datetime);
+            $send_mail_to_participants_of_shift = include 'services/send_mail_applicant_action.php';
+            $send_mail_to_participants_of_shift($connection, $id_shift, $position, $id_user, $shift_datetime);
+        }
 
         $history_type = Tables\History::SHIFT_PROMOTE_SUCCESS;
         $message = 'Die ' . $shift_type_name . ' Schicht Bewerbung vom  ' . $shift_datetime_format . ' Schicht ' . $position . ' für ' . $user_name . ' wurde angenommen.';

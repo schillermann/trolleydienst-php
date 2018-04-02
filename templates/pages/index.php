@@ -1,5 +1,22 @@
 <?php include 'templates/pagesnippets/note-box.php' ?>
 <div class="container-center">
+    <?php if(DEMO): ?>
+        <div class="info-box">
+            <p>Du kannst dich in der Demo Version mit folgenden Benutzern anmelden: </p>
+            <dl>
+                <dt>Benutzername</dt>
+                <dd>admin</dd>
+                <dt>Passwort</dt>
+                <dd>demo</dd>
+          </dl>
+            <dl>
+                <dt>Benutzername</dt>
+                <dd>teilnehmer</dd>
+                <dt>Passwort</dt>
+                <dd>demo</dd>
+          </dl>
+        </div>
+    <?php endif;?>
     <form method="post">
         <fieldset>
             <legend>Anmelden</legend>

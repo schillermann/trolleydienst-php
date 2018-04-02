@@ -39,7 +39,8 @@ if(isset($_POST['install'])) {
             'TEAM_NAME' => $input_list['team_name'],
             'UPLOAD_SIZE_MAX_IN_MEGABYTE' => 5,
             'BAN_TIME_IN_MINUTES' => 5,
-            'LOGIN_FAIL_MAX' => 5
+            'LOGIN_FAIL_MAX' => 5,
+            'DEMO' => false
         );
 
         if(
