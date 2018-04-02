@@ -11,27 +11,27 @@
     <form method="post">
         <label for="id_shift_type">Schichtart</label>
         <select id="id_shift_type" name="id_shift_type">
-			<?php foreach($placeholder['shifttype_list'] as $shifttype): ?>
+            <?php foreach($placeholder['shifttype_list'] as $shifttype): ?>
                 <option value="<?php echo $shifttype['id_shift_type'];?>" <?php echo (isset($_POST['id_shift_type']) && $_POST['id_shift_type'] == $shifttype['id_shift_type'])? 'selected':'';?>>
-					<?php echo $shifttype['name'];?>
+                    <?php echo $shifttype['name'];?>
                 </option>
-			<?php endforeach;?>
+            <?php endforeach;?>
         </select>
         <label for="report_from">von:</label>
         <input id="report_from" name="report_from" type="date" value="<?php echo $placeholder['report_from'];?>">
         <label for="report_to">bis:</label>
         <input id="report_to" name="report_to" type="date" value="<?php echo $placeholder['report_to'];?>">
-        <button name="filter" class="active" tabindex="14">
+        <button name="filter" class="active">
             <i class="fa fa-search"></i> filtern
         </button>
     </form>
-	<div class="table-container">
+    <div class="table-container">
         <?php foreach ($placeholder['report_list'] as $id_report => $report): ?>
             <table>
                 <thead>
                     <tr>
                         <th colspan="2" style="background-color: #d5c8e4">
-							<?php echo $report['day'];?>, <?php echo $report['datetime'];?> - <?php echo $report['name'];?> - <?php echo $report['route'];?>
+			<?php echo $report['day'];?>, <?php echo $report['datetime'];?> - <?php echo $report['name'];?> - <?php echo $report['route'];?>
                         </th>
                     </tr>
                 </thead>
@@ -131,5 +131,5 @@
                 </tbody>
             </table>
         <?php endforeach;?>
-	</div>
+    </div>
 </div>

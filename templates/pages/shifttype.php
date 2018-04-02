@@ -4,7 +4,7 @@
     <h2>Schichttyp Liste</h2>
 </header>
 <nav id="nav-sub">
-    <a href="shifttype-add.php" tabindex="1" class="button active">
+    <a href="shifttype-add.php" class="button active">
         <i class="fa fa-plus"></i> Neuer Schichttyp
     </a>
 </nav>

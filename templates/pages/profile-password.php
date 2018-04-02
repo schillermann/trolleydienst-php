@@ -16,16 +16,16 @@
             <legend>Passwort</legend>
             <div>
                 <label for="password">Neues Passwort</label>
-                <input id="password" type="password" name="password" tabindex="12">
+                <input id="password" type="password" name="password">
             </div>
             <div>
                 <label for="password_repeat">Neues Passwort (wiederholen)</label>
-                <input id="password_repeat" type="password" name="password_repeat" tabindex="13">
+                <input id="password_repeat" type="password" name="password_repeat">
             </div>
 
         </fieldset>
         <div class="from-button">
-            <button name="save" class="active" tabindex="14">
+            <button name="save" class="active">
                 <i class="fa fa-floppy-o"></i> Passwort ändern
             </button>
         </div>

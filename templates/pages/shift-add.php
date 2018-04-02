@@ -28,7 +28,7 @@
     <h2>Neue Schichten</h2>
 </header>
 <nav id="nav-sub">
-    <a href="shift.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" tabindex="13" class="button">
+    <a href="shift.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>
@@ -38,23 +38,23 @@
             <legend>Schichten</legend>
             <div>
                 <label for="route">Route <small>(Pflichtfeld)</small></label>
-                <input id="route" name="route" tabindex="1" required maxlength="10" placeholder="Wie heißt die Route?" value="<?php echo (isset($_POST['route']))? $_POST['route'] : '';?>">
+                <input id="route" name="route" required maxlength="10" placeholder="Wie heißt die Route?" value="<?php echo (isset($_POST['route']))? $_POST['route'] : '';?>">
             </div>
             <div>
                 <label for="date_from">Datum <small>(Pflichtfeld)</small></label>
-                <input id="date_from" type="date" name="date_from" tabindex="2" required value="<?php echo (isset($_POST['date_from']))? $_POST['date_from'] : '';?>">
+                <input id="date_from" type="date" name="date_from" required value="<?php echo (isset($_POST['date_from']))? $_POST['date_from'] : '';?>">
             </div>
             <div>
                 <label for="time_from">Von <small>(Pflichtfeld)</small></label>
-                <input id="time_from" type="time" name="time_from" tabindex="3" required onchange="calculateShiftTimeTo()" value="<?php echo (isset($_POST['time_from']))? $_POST['time_from'] : '';?>">
+                <input id="time_from" type="time" name="time_from" required onchange="calculateShiftTimeTo()" value="<?php echo (isset($_POST['time_from']))? $_POST['time_from'] : '';?>">
             </div>
             <div>
                 <label for="number">Schichtanzahl <small>(Pflichtfeld)</small></label>
-                <input id="number" type="number" name="number" tabindex="4" required onchange="calculateShiftTimeTo()" value="<?php echo (isset($_POST['number']))? (int)$_POST['number'] : 2;?>">
+                <input id="number" type="number" name="number" required onchange="calculateShiftTimeTo()" value="<?php echo (isset($_POST['number']))? (int)$_POST['number'] : 2;?>">
             </div>
             <div>
                 <label for="hours_per_shift">Schichtlänge in Stunden <small>(Pflichtfeld)</small></label>
-                <input id="hours_per_shift" type="number" name="hours_per_shift" tabindex="5" required value="<?php echo (isset($_POST['hours_per_shift']))? (int)$_POST['hours_per_shift'] : 2;?>" onchange="calculateShiftTimeTo()">
+                <input id="hours_per_shift" type="number" name="hours_per_shift" required value="<?php echo (isset($_POST['hours_per_shift']))? (int)$_POST['hours_per_shift'] : 2;?>" onchange="calculateShiftTimeTo()">
             </div>
             <div>
                 <label for="time_to">Bis</label>
@@ -63,7 +63,7 @@
 
             <div>
                 <label for="shiftday_series_until">Terminserie bis zum</label>
-                <input id="shiftday_series_until" type="date" name="shiftday_series_until" tabindex="6" value="<?php echo (isset($_POST['shiftday_series_until']))? $_POST['shiftday_series_until'] : '';?>">
+                <input id="shiftday_series_until" type="date" name="shiftday_series_until" value="<?php echo (isset($_POST['shiftday_series_until']))? $_POST['shiftday_series_until'] : '';?>">
             </div>
             <div>
                 <label for="color_hex">Farbe</label>
@@ -71,7 +71,7 @@
             </div>
         </fieldset>
         <div class="from-button">
-            <button name="save" class="active" tabindex="12">
+            <button name="save" class="active">
                 <i class="fa fa-floppy-o"></i> speichern
             </button>
         </div>

@@ -22,10 +22,10 @@ if(isset($_SESSION) && !empty($_SESSION)) {
 include 'config.php';
 $placeholder = array();
 
-if(isset($_POST['name']) && isset($_POST['password'])) {
+if(isset($_POST['username']) && isset($_POST['password'])) {
 
     $check_login = include 'includes/check_login.php';
-    $name = include 'filters/post_name.php';
+    $username = include 'filters/post_username.php';
 	$database_pdo = Tables\Database::get_connection();
 
 	$get_ban_time_in_minutes = include 'services/get_ban_time_in_minutes.php';
@@ -33,25 +33,25 @@ if(isset($_POST['name']) && isset($_POST['password'])) {
 
 	if($ban_time_in_minutes > 0) {
 		$placeholder['message']['error'] = 'Du bist noch für ' . $ban_time_in_minutes . ' Minuten gesperrt!';
-	} elseif($check_login($database_pdo, $name, $_POST['password'])) {
+	} elseif($check_login($database_pdo, $username, $_POST['password'])) {
         header('location: shift.php');
         return;
     }
     else {
-		$set_ban_time = include 'services/set_ban_time.php';
+        $set_ban_time = include 'services/set_ban_time.php';
 
-		if($set_ban_time($database_pdo, LOGIN_FAIL_MAX))
-			$placeholder['message']['error'] = 'Du bist für ' . BAN_TIME_IN_MINUTES . ' Minuten gesperrt!';
-		else
-	        $placeholder['message']['error'] = 'Anmeldung ist fehlgeschlagen!';
+        if($set_ban_time($database_pdo, LOGIN_FAIL_MAX))
+            $placeholder['message']['error'] = 'Du bist für ' . BAN_TIME_IN_MINUTES . ' Minuten gesperrt!';
+        else
+            $placeholder['message']['error'] = 'Anmeldung ist fehlgeschlagen!';
 
-		$user_ip_address = include 'modules/get_ip_address.php';
+        $user_ip_address = include 'modules/get_ip_address.php';
 
         Tables\History::insert(
             $database_pdo,
-			$name,
+            $username,
             Tables\History::LOGIN_ERROR,
-			'Anmeldung mit der IP ' . $user_ip_address . ' ist fehlgeschlagen!'
+            'Anmeldung mit der IP ' . $user_ip_address . ' ist fehlgeschlagen!'
         );
     }
 }

@@ -1,0 +1,59 @@
+<?php return function(\PDO $connection): array {
+    try {
+        $query = $connection->query('SELECT value FROM settings WHERE name = "application_version"');
+        $application_version = $query->fetchColumn();    
+    } catch (Exception $exc) {
+
+        $application_version = include 'includes/get_version.php';
+
+        $sql_create_table_settings =
+            'CREATE TABLE `settings` (
+            `name` TEXT,
+            `value` TEXT,
+            PRIMARY KEY(`name`)
+        )';
+        
+        $sql_insert_application_version =
+            'INSERT INTO settings (name, value)
+            VALUES ("application_version", :application_version)';
+
+        $connection->query($sql_create_table_settings);
+        
+        $stmt = $connection->prepare($sql_insert_application_version);
+        $stmt->execute(array(':application_version' => $application_version));
+    }
+    
+    $dir = 'updates/';
+    $directory_list = scandir($dir);
+    $migration_files = array_slice($directory_list, 2);
+
+    $success_migration_list = array();
+    $sql_update_application_version =
+        'UPDATE settings
+        SET value = :application_version
+        WHERE name = "application_version"';
+    
+    foreach ($migration_files as $migration_file)
+    {
+        $migration_version = str_replace('.php', '', $migration_file);
+
+        if(version_compare($application_version, $migration_version) >= 0)
+            break;
+        
+        $migration_action = include $dir . $migration_file;
+        if($migration_action($connection)) {
+            $stmt = $connection->prepare ($sql_update_application_version);
+            $stmt->execute(array(':application_version' => $migration_version));
+
+            $success_migration_list[] = $migration_version;
+        }
+        else
+        {
+            throw new RuntimeException(
+                'Die Migration ' . $migration_version . ' ist fehlgeschlagen!'
+            );
+        }
+    }
+    
+     return $success_migration_list;
+};

@@ -3,7 +3,7 @@
 </header>
 <?php if($_SESSION['is_admin']): ?>
     <nav id="nav-sub">
-        <a href="info-add.php" tabindex="1" class="button active">
+        <a href="info-add.php" class="button active">
             <i class="fa fa-cloud-upload"></i> Datei hochladen
         </a>
     </nav>
@@ -14,9 +14,9 @@
         <li>
             <a target="_blank" href="info-file.php?id_info=<?php echo $file['id_info'];?>">
                 <?php if($file['mime_type'] == 'application/pdf'): ?>
-                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    <i class="fa fa-file-pdf-o"></i>
                 <?php else: ?>
-                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                    <i class="fa fa-file-image-o"></i>
                 <?php endif;?>
                 <h4><?php echo $file['label']; ?></h4>
                 <?php if ($_SESSION['is_admin']) : ?>

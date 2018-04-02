@@ -7,9 +7,9 @@ if(isset($_POST['save'])) {
     $profile_update = new Models\Profile($_SESSION['id_user'], $profile_filter_post_input());
 
     if(Tables\Users::update_profile($database_pdo, $profile_update))
-        $placeholder['message']['success'] = 'Dein Benutzerdaten wurde gespeichert.';
+        $placeholder['message']['success'] = 'Deine Benutzerdaten wurden gespeichert.';
     else
-        $placeholder['message']['error'] = 'Dein Benutzerdaten konnte nicht gespeichert werden!';
+        $placeholder['message']['error'] = 'Deine Benutzerdaten konnten nicht gespeichert werden!';
 }
 
 $placeholder['profile'] = Tables\Users::select_profile($database_pdo, $_SESSION['id_user']);

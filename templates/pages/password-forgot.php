@@ -3,7 +3,7 @@
     <h2>Passwort vergessen</h2>
 </header>
 <nav id="nav-sub">
-    <a href="index.php" tabindex="4" class="button">
+    <a href="index.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>
@@ -12,17 +12,16 @@
         <fieldset>
             <legend>Passwort anfordern</legend>
             <div>
-                <label for="name">Name <small>(Pflichtfeld)</small></label>
-                <input id="name" name="name" tabindex="1" required">
+                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
+                <input id="username" name="username" required>
             </div>
             <div>
                 <label for="email">E-Mail <small>(Pflichtfeld)</small></label>
-                <input id="email" type="email" name="email" tabindex="2" required>
+                <input id="email" type="email" name="email" required>
             </div>
-
         </fieldset>
         <div class="from-button">
-            <button name="password_reset" class="active" tabindex="3">
+            <button name="password_reset" class="active">
                 <i class="fa fa-undo"></i> Neues Passwort anfordern
             </button>
         </div>

@@ -3,12 +3,12 @@
 </header>
 <form method="post">
     <div class="from-button">
-        <a href="user-add.php" tabindex="1" class="button active">
-            <i class="fa fa-plus" aria-hidden="true"></i> Neuer Teilnehmer
+        <a href="user-add.php" class="button active">
+            <i class="fa fa-plus"></i> Neuer Teilnehmer
         </a>
-        <input placeholder="Teilnehmer suchen" tabindex="2">
-        <button type="submit" name="user_search" tabindex="3">
-            <i class="fa fa-search" aria-hidden="true"></i>
+        <input placeholder="Teilnehmer suchen">
+        <button type="submit" name="user_search">
+            <i class="fa fa-search"></i>
         </button>
     </div>
 </form>
@@ -26,10 +26,10 @@
         <tr>
             <td><?php echo $user['name'];?></td>
             <td><?php echo $user['email'];?></td>
-            <td><i class="fa <?php echo ($user['is_active']) ? 'fa-check' : 'fa-times';?>" aria-hidden="true"></i></td>
-            <td><i class="fa <?php echo ($user['is_admin']) ? 'fa-check' : 'fa-times';?>" aria-hidden="true"></i></td>
+            <td><i class="fa <?php echo ($user['is_active']) ? 'fa-check' : 'fa-times';?>"></i></td>
+            <td><i class="fa <?php echo ($user['is_admin']) ? 'fa-check' : 'fa-times';?>"></i></td>
             <td><?php echo $user['last_login'];?></td>
-            <td><a class="button" href="user-edit.php?id_user=<?php echo $user['id_user'];?>"><i class="fa fa-pencil" aria-hidden="true"></i> bearbeiten</a></td>
+            <td><a class="button" href="user-edit.php?id_user=<?php echo $user['id_user'];?>"><i class="fa fa-pencil"></i> bearbeiten</a></td>
         </tr>
         <?php endforeach; ?>
     </table>

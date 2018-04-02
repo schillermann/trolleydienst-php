@@ -49,7 +49,7 @@
 
 <?php if($_SESSION['is_admin']): ?>
     <nav>
-        <a href="shift-add.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" tabindex="1" class="button active">
+        <a href="shift-add.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" class="button active">
             <i class="fa fa-plus"></i> Neue Schichten
         </a>
     </nav>

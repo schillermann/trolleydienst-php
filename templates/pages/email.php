@@ -29,10 +29,10 @@
     <h2>E-Mail Versand</h2>
 </header>
 <nav id="nav-sub">
-    <a href="email-settings.php" tabindex="4" class="button">
+    <a href="email-settings.php" class="button">
         <i class="fa fa-cog"></i> Einstellungen
     </a>
-    <a href="email-templates.php?id_email_template=1" tabindex="5" class="button">
+    <a href="email-templates.php?id_email_template=1" class="button">
         <i class="fa fa-cog"></i> Vorlagen
     </a>
 </nav>
@@ -42,16 +42,16 @@
             <legend>An alle Teilnehmer</legend>
             <div>
                 <label for="email_subject">Betreff <small>(Pflichtfeld)</small></label>
-                <input id="email_subject" name="email_subject" class="email-subject" tabindex="1" required value="<?php echo $placeholder['email']['subject']; ?>">
+                <input id="email_subject" name="email_subject" class="email-subject" required value="<?php echo $placeholder['email']['subject']; ?>">
             </div>
             <div>
                 <label for=email_"message">Text <small>(Pflichtfeld)</small></label>
-                <textarea id="email_message" name="email_message" tabindex="2" rows="20" required><?php echo $placeholder['email']['message'];?></textarea>
+                <textarea id="email_message" name="email_message" rows="20" required><?php echo $placeholder['email']['message'];?></textarea>
             </div>
 
         </fieldset>
         <div class="from-button">
-            <button name="send" class="active" tabindex="3">
+            <button name="send" class="active">
                 <i class="fa fa-paper-plane"></i> Senden
             </button>
         </div>

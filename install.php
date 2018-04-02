@@ -1,7 +1,7 @@
 <?php
 define('APPLICATION_NAME', 'Öffentliches Zeugnisgeben');
 define('CONGREGATION_NAME', 'Installation');
-define('REQUIRE_INPUT_FIELDS', 7);
+define('REQUIRE_INPUT_FIELDS', 8);
 
 spl_autoload_register();
 
@@ -22,6 +22,7 @@ if(isset($_POST['install'])) {
 
         $user = new Models\User(
             1,
+            $input_list['username'],
             $input_list['name'],
             $input_list['email'],
             $_POST['password'],
@@ -37,14 +38,14 @@ if(isset($_POST['install'])) {
             'APPLICATION_NAME' => $input_list['application_name'],
             'TEAM_NAME' => $input_list['team_name'],
             'UPLOAD_SIZE_MAX_IN_MEGABYTE' => 5,
-			'BAN_TIME_IN_MINUTES' => 5,
-			'LOGIN_FAIL_MAX' => 5
+            'BAN_TIME_IN_MINUTES' => 5,
+            'LOGIN_FAIL_MAX' => 5
         );
 
         if(
             Tables\Database::create_tables($pdo) &&
             Tables\Users::insert($pdo, $user) &&
-			$pdo->exec(include 'install/sql_import.php') !== false &&
+            $pdo->exec(include 'install/sql_import.php') !== false &&
             $write_config_file($config)
         ) {
             header('location: /');
@@ -53,8 +54,8 @@ if(isset($_POST['install'])) {
 
         $placeholder['message']['error'] = 'Bei der Installation ist ein Fehler aufgetreten!';
     } else {
-		$placeholder['message']['error'] = 'Alle Pflichtfelder müssen ausgefüllt werden!';
-	}
+        $placeholder['message']['error'] = 'Alle Pflichtfelder müssen ausgefüllt werden!';
+    }
 }
 
 $render_page = include 'includes/render_page.php';
