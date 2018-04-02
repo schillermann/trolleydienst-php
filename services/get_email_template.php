@@ -9,8 +9,7 @@ return function (\PDO $connection, int $id_email_template = Tables\EmailTemplate
         'TEAM_NAME' => TEAM_NAME,
         'APPLICATION_NAME' => APPLICATION_NAME,
         'CONGREGATION_NAME' => CONGREGATION_NAME,
-        'EMAIL_ADDRESS_REPLY' => EMAIL_ADDRESS_REPLY,
-        'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME']
+        'EMAIL_ADDRESS_REPLY' => EMAIL_ADDRESS_REPLY
     );
 
     $template_placeholder_replaced = array();

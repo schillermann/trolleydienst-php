@@ -6,7 +6,7 @@
             <p>Wenn du ein Konto hast, bitte <em>Benutzernamen</em> und <em>Passwort</em> eingeben.</p>
             <div>
                 <label for="username">Benutzername</label>
-                <input id="username" name="username">
+                <input id="username" name="username" value="<?php echo $placeholder['username']; ?>">
             </div>
             <div>
                 <label for="password">Passwort</label>

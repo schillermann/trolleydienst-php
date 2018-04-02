@@ -3,15 +3,15 @@ INSERT INTO email_templates
 VALUES (
 	1,
 	"Signature",
-	"---
+	"Dein Zugang: WEBSITE_LINK
+---
 Deine Brüder
 
 TEAM_NAME
 APPLICATION_NAME CONGREGATION_NAME
 
 Kontakt
-E-Mail EMAIL_ADDRESS_REPLY
-Webseite WEBSITE_LINK",
+E-Mail EMAIL_ADDRESS_REPLY",
 	 datetime("now", "localtime")
 ),
 (
@@ -66,7 +66,7 @@ SIGNATURE",
 ),
 (
 	7,
-	"SHIFT_TYPE_NAME Schicht Termin",
+	"Schicht Termin",
 	"SHIFT_TYPE_NAME Schicht Termin
 DATE
 ROUTE",

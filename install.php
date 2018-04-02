@@ -48,7 +48,7 @@ if(isset($_POST['install'])) {
             $pdo->exec(include 'install/sql_import.php') !== false &&
             $write_config_file($config)
         ) {
-            header('location: /');
+            header('location: /?username=' . urlencode($input_list['username']));
             return;
         }
 

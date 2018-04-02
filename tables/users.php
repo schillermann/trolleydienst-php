@@ -53,7 +53,7 @@ class Users {
     static function select_all_email(\PDO $connection): array {
 
         $stmt = $connection->query(
-            'SELECT name, email FROM ' . self::TABLE_NAME . ' WHERE is_active = 1 '
+            'SELECT username, name, email FROM ' . self::TABLE_NAME . ' WHERE is_active = 1 '
         );
 
         $name_email_list = $stmt->fetchAll();
