@@ -13,7 +13,7 @@ class ShiftUserMaps {
             `id_user` INTEGER NOT NULL,
             `position` INTEGER DEFAULT 1,
             `created` TEXT NOT NULL,
-            PRIMARY KEY (id_shift, id_shift, id_user)
+            PRIMARY KEY (id_shift, id_user, position)
             )';
 
         return ($connection->exec($sql) === false)? false : true;

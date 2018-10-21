@@ -3,7 +3,7 @@
     $sql_users_bak = 'ALTER TABLE users RENAME TO users_backup';
     $sql_users_rollback = 'ALTER TABLE users_backup RENAME TO users';
     
-    if(!$connection->exec($sql_users_bak))
+    if($connection->exec($sql_users_bak) === false)
         return false;
     
     if(!Tables\Users::create_table($connection)) {

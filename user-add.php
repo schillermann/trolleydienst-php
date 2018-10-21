@@ -17,11 +17,12 @@ if(isset($_POST['save'])) {
             $get_password = require 'modules/random_string.php';
             $password = $get_password(8);
             $email = include 'filters/post_email.php';
+            $name = include 'filters/post_name.php';
 
             $user = new Models\User(
                 0,
                 $username,
-                include 'filters/post_name.php',
+                $name,
                 $email,
                 $password,
                 include 'filters/post_is_admin.php',
@@ -43,6 +44,7 @@ if(isset($_POST['save'])) {
 
                 $replace_with = array(
                     'NAME' => $name,
+                    'USERNAME' => $username,
                     'PASSWORD' => $password
                 );
                 $email_template_message = strtr($email_template['message'], $replace_with);

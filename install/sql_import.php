@@ -81,7 +81,7 @@ mit den Zugangsdaten kannst du dich auf WEBSITE_LINK anmelden.
 
 == Zugangsdaten ==
 
-Name: NAME
+Benutzername: USERNAME
 Passwort: PASSWORD
 
 ==============

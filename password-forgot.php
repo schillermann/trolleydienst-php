@@ -37,6 +37,10 @@ if(isset($_POST['password_reset'])) {
 
                 if($send_mail_plain($send_to_email, $email_template['subject'], $email_template_message))
                     $placeholder['message']['success'] = 'Dein neues Passwort wurde an <b>' . $send_to_email . '</b> versandt.';
+                else
+                    $placeholder['message']['error'] =
+                        'Dein Passwort konnte nicht per E-Mail versendet werden!<br><br>Bitte prüfe ob die E-Mail Adresse ' .
+                        EMAIL_ADDRESS_FROM . ',<br>bei deinem Webserver Provider, für den Versand angelegt ist.';
             } else {
                 $placeholder['message']['error'] = 'Dein Passwort konnte nicht geändert werden!';
             }
