@@ -12,10 +12,12 @@ $placeholder = array();
 
 if($_POST)
 {
+    $get_database_version = include 'services/get_database_version.php';
     $update = include 'services/update.php';
     
     try {
-        $success_migrations = $update($database_pdo);
+        $database_version = $get_database_version($database_pdo);
+        $success_migrations = $update($database_pdo, $database_version);
 
         if($success_migrations)
             $placeholder['message']['success']  =

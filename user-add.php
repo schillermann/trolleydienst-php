@@ -52,7 +52,7 @@ if(isset($_POST['save'])) {
                 $send_mail_plain = include 'modules/send_mail_plain.php';
 
                 if($send_mail_plain($email, $email_template['subject'], $email_template_message))
-                    $placeholder['message']['success'] .= ' Eine E-Mail mit den Zugangsdaten wurde an ' . $email . ' geschickt.';
+                    $placeholder['message']['success'] .= '<br>Eine E-Mail mit den Zugangsdaten wurde an ' . $email . ' geschickt.';
             }
         }  
     }

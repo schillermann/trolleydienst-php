@@ -6,7 +6,7 @@ class Database {
 
     static function get_connection(): \PDO {
         try {
-            $pdo = new \PDO('sqlite:' . self::FILENAME);
+            $pdo = new \PDO('sqlite:' . self::FILENAME );
             $pdo->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
             return $pdo;
         } catch (PDOException $exception) {
@@ -29,8 +29,8 @@ class Database {
 			Shifts::create_table($connection) &&
 			ShiftTypes::create_table($connection) &&
 			ShiftUserMaps::create_table($connection) &&
-                           Users::create_table($connection) &&
-                           Settings::create_table($connection) &&
-                           Settings::insert($connection, 'application_version', include 'includes/get_version.php') ;
+            Users::create_table($connection) &&
+            Settings::create_table($connection) &&
+            Settings::insert($connection, 'application_version', include 'includes/get_version.php') ;
     }
 }

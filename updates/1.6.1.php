@@ -1,13 +1,13 @@
 <?php return function (\PDO $connection): bool {
 
-    $sql_maps_bak = 'ALTER TABLE shift_user_maps RENAME TO shift_user_maps_backup';
-    $sql_maps_rollback = 'ALTER TABLE shift_user_maps_backup RENAME TO shift_user_maps';
+    $sql_create_backup = 'ALTER TABLE shift_user_maps RENAME TO shift_user_maps_backup';
+    $sql_rollback = 'ALTER TABLE shift_user_maps_backup RENAME TO shift_user_maps';
 
-    if($connection->exec($sql_maps_bak) === false)
+    if($connection->exec($sql_create_backup) === false)
         return false;
 
     if(!Tables\ShiftUserMaps::create_table($connection)) {
-        $connection->exec($sql_maps_rollback);
+        $connection->exec($sql_rollback);
         return false;
     }
 
@@ -32,10 +32,13 @@
         );
 
         if($is_error) {
-            $connection->exec('DROP TABLE shift_user_maps;' . $sql_maps_rollback);
+            $connection->exec('DROP TABLE shift_user_maps;' . $sql_rollback);
             return false;
         }
     }
+
+    $sql_drop_backup = 'DROP TABLE shift_user_maps_backup';
+    $isDropBackupRemoved = $connection->exec($sql_drop_backup);
 
     $sql_remove_email_template = 'DELETE FROM email_templates WHERE id_email_template = 8';
     $sql_insert_email_template =
@@ -54,9 +57,6 @@ Passwort: PASSWORD
 SIGNATURE", datetime("now", "localtime"))';
 
     $isEmailTemplateUpdated = $connection->exec($sql_remove_email_template) && $connection->exec($sql_insert_email_template);
-
-    $sql_drop_backup = 'DROP TABLE shift_user_maps_backup';
-    $isDropBackupRemoved = $connection->exec($sql_drop_backup);
 
     return $isDropBackupRemoved && $isEmailTemplateUpdated;
 };
