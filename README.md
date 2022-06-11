@@ -22,7 +22,7 @@ Du kannst das Trolley Programm auf deinen Server installieren und nach belieben 
 - Schichtverlauf, Login Fehlversuche und System Fehlermeldungen bequem einsehbar
 
 ## :desktop_computer: Systemanforderungen
-Minimum PHP7 und Sqlite muss auf dem Server installiert sein.
+Minimum **PHP7** und **Sqlite** muss auf dem Server installiert sein.
 
 ## :floppy_disk: Software installieren
 1. Lade dir die letzte Trolleydienst Version herunter und entpacke die Datei.
