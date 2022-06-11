@@ -2,12 +2,12 @@
 Plane den Trolleydienst für deine Versammlung kinderleicht.
 Du kannst das Trolley Programm auf deinen Server installieren und nach belieben in der Programmiersprache PHP an die Bedürfnisse deiner Versammlung anpassen.
 
-## Download :cloud:
+## :cloud: Download
 - [Alle Versionen](https://github.com/schillermann/trolleydienst-php/tags)
 - [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.6.2)
 
 
-## Funktionen :gem:
+## :gem: Funktionen
 - Einfache Installation
 - Ohne MySQL Datenbank
 - Übersichtliche Bedienung
@@ -21,16 +21,16 @@ Du kannst das Trolley Programm auf deinen Server installieren und nach belieben 
 - Mehrere Schichttypen wie z.B. Trolley, Infostand, usw können angelegt werden
 - Schichtverlauf, Login Fehlversuche und System Fehlermeldungen bequem einsehbar
 
-## Systemanforderungen :desktop_computer:
+## :desktop_computer: Systemanforderungen
 Minimum PHP7 und Sqlite muss auf dem Server installiert sein.
 
-## Software installieren :floppy_disk:
+## :floppy_disk: Software installieren
 1. Lade dir die letzte Trolleydienst Version herunter und entpacke die Datei.
 2. Die enpackten Dateien lädst du mit einem FTP Programm deiner Wahl auf deinen Server.
 3. Als nächstes rufst du die install.php Seite auf, wo du deine Benutzerdaten hinterlegst.
 4. Nach dem du auf installieren gedrückt hast ist die Anwendung fertig eingerichtet.
 
-## Software aktualisieren :wrench:
+## :wrench: Software aktualisieren
 1. Erstelle ein Backup der Dateien database.sqlite und config.php
 2. Auf deinen Server lädst du die neuste Version hoch und überschreibst die alten Dateien. Du kannst auch vorher alle Dateien, bis auf die config.php und database.sqlite löschen, bevor du die aktuellste Version hoch lädst.
 3. Nachdem alle Dateien auf deinem Server hochgeladen wurden musst du noch die Seite update.php aufrufen. Dadurch wird deine Datenbank auf den neusten Stand gebracht.
