@@ -1,11 +1,11 @@
 <?php return function (\PDO $connection, int $id_shift_type): array {
 
-    $get_users_from_shift = include 'services/get_users_from_shift.php';
+    $get_users_from_shift = include '../services/get_users_from_shift.php';
     $shift_day_list = array();
-    foreach (Tables\Shifts::select_all($connection, $id_shift_type) as $shift_day) {
+    foreach (App\Tables\Shifts::select_all($connection, $id_shift_type) as $shift_day) {
 
         $shift_datetime_from = new DateTime($shift_day['datetime_from']);
-        $get_weekday = include 'helpers/get_weekday.php';
+        $get_weekday = include '../helpers/get_weekday.php';
         $id_shift = $shift_day['id_shift'];
 
         $shift_day_list[$id_shift] = array(

@@ -1,6 +1,6 @@
 <?php return function(\PDO $connection, $application_version): array {
 
-    $dir = 'updates/';
+    $dir = '../updates/';
     $directory_list = scandir($dir);
     $migration_files = array_slice($directory_list, 2);
 

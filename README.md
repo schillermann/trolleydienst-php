@@ -2,6 +2,8 @@
 Plane den Trolleydienst für deine Versammlung kinderleicht.
 Du kannst das Trolley Programm auf deinen Server installieren und nach belieben in der Programmiersprache PHP an die Bedürfnisse deiner Versammlung anpassen.
 
+[Trolleydienst Demo](https://trolleydienst-demo.schillermann.de/)
+
 ## :cloud: Download
 - [Alle Versionen](https://github.com/schillermann/trolleydienst-php/tags)
 - [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.7.0)

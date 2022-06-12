@@ -6,7 +6,7 @@
     if($connection->exec($sql_create_backup) === false)
         return false;
 
-    if(!Tables\ShiftUserMaps::create_table($connection)) {
+    if(!App\Tables\ShiftUserMaps::create_table($connection)) {
         $connection->exec($sql_rollback);
         return false;
     }

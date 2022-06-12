@@ -1,4 +1,4 @@
-<?php include 'templates/pagesnippets/note-box.php' ?>
+<?php include '../templates/pagesnippets/note-box.php' ?>
 <div class="container-center">
     <?php if(DEMO): ?>
         <div class="info-box">

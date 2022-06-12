@@ -1,5 +1,5 @@
 <?php return function(\PDO $connection): bool {
-    $application_version = include 'includes/get_version.php';
+    $application_version = include '../includes/get_version.php';
     
      try {
         $query = $connection->query('SELECT value FROM settings WHERE name = "application_version"');

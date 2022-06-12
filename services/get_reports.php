@@ -2,11 +2,11 @@
 
 	$report_list = array();
 
-	foreach (Tables\Reports::select_all($connection, $report_from, $report_to, $id_shift_type, $name) as $report) {
+	foreach (App\Tables\Reports::select_all($connection, $report_from, $report_to, $id_shift_type, $name) as $report) {
 
 		$shift_datetime_from = new \DateTime($report['shift_datetime_from']);
         $created = new \DateTime($report['created']);
-		$get_weekday = include 'helpers/get_weekday.php';
+		$get_weekday = include '../helpers/get_weekday.php';
 
 		$report_list[$report['id_report']] = array(
 			'name' => $report['name'],

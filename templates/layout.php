@@ -1,4 +1,7 @@
-<?php $active_page = include 'templates/helpers/active_page.php'; ?>
+<?php
+    $active_page = include '../templates/helpers/active_page.php';
+    $baseUrl = include '../includes/get_base_uri.php';
+?>
 <!DOCTYPE html>
 <html lang="de">
     <head>
@@ -6,13 +9,13 @@
         <title><?php echo APPLICATION_NAME; ?> - <?php echo CONGREGATION_NAME; ?></title>
         <meta name="description" content="Trolleydienst Verwaltung">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link href="css/global.css" rel="stylesheet">
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-ipad-retina.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-iphone-retina.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-ipad.png" />
-        <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-iphone.png" />
+        <link rel="stylesheet" href="<?= $baseUrl?>/css/font-awesome.min.css">
+        <link href="<?= $baseUrl?>/css/global.css" rel="stylesheet">
+        <link rel="shortcut icon" type="image/x-icon" href="<?= $baseUrl?>/images/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="144x144" href="<?= $baseUrl?>/images/apple-touch-icon-ipad-retina.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="<?= $baseUrl?>/images/apple-touch-icon-iphone-retina.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="<?= $baseUrl?>/images/apple-touch-icon-ipad.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="<?= $baseUrl?>/images/apple-touch-icon-iphone.png" />
     </head>
 
     <body>
@@ -25,7 +28,7 @@
         <header>
             <div>
                 <div class="wrapper-center">
-                    <a href="/" id="logo"><img src="images/logo-trolleydienst.png"></a>
+                    <a href="/" id="logo"><img src="<?= $baseUrl?>/images/logo-trolleydienst.png"></a>
                 </div>
             </div>
             <div>
@@ -98,14 +101,14 @@
             <footer>
                 <nav>
                     <ul id="nav-footer">
-                        <li><a href="licence.php">Licence</a></li>
+                        <li><a href="<?= $baseUrl?>/licence.php">Licence</a></li>
                         <li><a href="https://github.com/schillermann/trolleydienst-php" target="_blank" id="link-github">GitHub</a></li>
                         <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank">Issues</a></li>
-                        <?php if(!empty($_SESSION)):?><li>Version <?php echo include 'includes/get_version.php';?></li><?php endif;?>
+                        <?php if(!empty($_SESSION)):?><li>Version <?php echo include '../includes/get_version.php';?></li><?php endif;?>
                     </ul>
                 </nav>
             </footer>
         </div>
-        <script type="text/javascript" src="js/note_box.js"></script>
+        <script type="text/javascript" src="<?= $baseUrl?>/js/note_box.js"></script>
     </body>
 </html>

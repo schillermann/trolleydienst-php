@@ -1,8 +1,8 @@
 <?php return function (\PDO $connection, int $ban_minutes): int {
 
-	$user_ip_address = include 'modules/get_ip_address.php';
+	$user_ip_address = include '../modules/get_ip_address.php';
 
-	$ban_datetime_string = Tables\LoginFails::select_ban($connection, $user_ip_address);
+	$ban_datetime_string = App\Tables\LoginFails::select_ban($connection, $user_ip_address);
 	if(empty($ban_datetime_string))
 		return 0;
 
@@ -15,7 +15,7 @@
 	$remaining_ban_time = $ban_minutes - $ban_datetime_diff_in_minutes;
 
 	if($remaining_ban_time <= 0) {
-		Tables\LoginFails::delete($connection, $user_ip_address);
+		App\Tables\LoginFails::delete($connection, $user_ip_address);
 		return 0;
 	}
 

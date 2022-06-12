@@ -1,5 +1,5 @@
 <?php return function (string $message): string {
-	$filter_ip = include 'modules/filter_ip.php';
+	$filter_ip = include '../modules/filter_ip.php';
 	$ip = $filter_ip($message);
 	$urlencode_ip = $ip;
 

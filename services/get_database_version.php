@@ -5,7 +5,7 @@
         $application_version = $query->fetchColumn();
         return $application_version;
     } catch (Exception $error) {
-        $application_version = include 'includes/get_version.php';
+        $application_version = include '../includes/get_version.php';
 
         $sql_create_table_settings =
             'CREATE TABLE `settings` (

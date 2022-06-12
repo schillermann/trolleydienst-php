@@ -1,4 +1,4 @@
-<?php include 'templates/pagesnippets/note-box.php' ?>
+<?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
     <h2>Update</h2>
     <a href="/" class="button"><i class="fa fa-chevron-left"></i> zurück</a>

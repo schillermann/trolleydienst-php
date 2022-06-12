@@ -1,13 +1,13 @@
-<?php return function (\PDO $connection, int $id_shift, int $position, int $id_user, \DateTime $shift_datetime, int $id_email_template = Tables\EmailTemplates::APPLICATION_ACCEPT) {
+<?php return function (\PDO $connection, int $id_shift, int $position, int $id_user, \DateTime $shift_datetime, int $id_email_template = App\Tables\EmailTemplates::APPLICATION_ACCEPT) {
 
-	$user_name = Tables\Users::select_name($connection, $id_user);
-	$user_list_from_shift_postion = Tables\ShiftUserMaps::select_all_with_id_shift_and_position($connection, $id_shift, $position);
+	$user_name = App\Tables\Users::select_name($connection, $id_user);
+	$user_list_from_shift_postion = App\Tables\ShiftUserMaps::select_all_with_id_shift_and_position($connection, $id_shift, $position);
 
 	foreach ($user_list_from_shift_postion as $user) {
 		if($user['id_user'] == $id_user)
 			continue;
 
-		$get_template_email_user_promote = include 'services/get_email_template.php';
+		$get_template_email_user_promote = include '../services/get_email_template.php';
 		$email_template = $get_template_email_user_promote($connection, $id_email_template);
 
 		$replace_with = array(
@@ -18,12 +18,12 @@
 
 		$email_template_message = strtr($email_template['message'], $replace_with);
 
-		$send_mail_plain = include 'modules/send_mail_plain.php';
+		$send_mail_plain = include '../modules/send_mail_plain.php';
 		if(!$send_mail_plain($user['email'], $email_template['subject'], $email_template_message)) {
-			Tables\History::insert(
+			App\Tables\History::insert(
 				$connection,
 				$_SESSION['name'],
-				Tables\History::SYSTEM_ERROR,
+				App\Tables\History::SYSTEM_ERROR,
 				'Die Bewerber Info E-Mail konnte nicht an ' . $user['name'] . ' mit der E-Mail Adresse ' . $user['email'] . ' verschickt werden!'
 			);
 		}

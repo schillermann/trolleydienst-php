@@ -2,5 +2,10 @@
   "name": "schillermann/trolleydienst-php",
   "type": "project",
   "description": "Plan the public witnessing with table and cart very easy on your own server.",
-  "license": "MIT"
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+        "App\\": "src/"
+    }
+  }
 }

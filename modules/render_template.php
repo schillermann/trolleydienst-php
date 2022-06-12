@@ -1,5 +1,5 @@
 <?php
-return function (array $placeholder = array(), string $template_file_path): string {
+return function (string $template_file_path, array $placeholder = []): string {
 
     $page_content = '';
 

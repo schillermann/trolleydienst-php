@@ -12,12 +12,12 @@
 	if($file_size > $file_size_max_byte)
 		return false;
 
-	$id_info = Tables\Infos::insert($connection, $file_label, $mime_type);
+	$id_info = App\Tables\Infos::insert($connection, $file_label, $mime_type);
 	if($id_info == 0)
 		return false;
 
 	$file_resource = fopen($file_tmp_path, 'rb');
-	$is_file_insert = Tables\InfoFiles::insert($connection, $id_info, $file_resource);
+	$is_file_insert = App\Tables\InfoFiles::insert($connection, $id_info, $file_resource);
 	fclose($file_resource);
 	unlink($file_tmp_path);
 

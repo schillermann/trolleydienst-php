@@ -6,7 +6,7 @@
     if($connection->exec($sql_users_bak) === false)
         return false;
     
-    if(!Tables\Users::create_table($connection)) {
+    if(!App\Tables\Users::create_table($connection)) {
         $connection->exec($sql_users_rollback);
         return false;
     }

@@ -1,4 +1,4 @@
-<?php $parse_link_ip_geo = include 'templates/helpers/parse_link_ip_geo.php';?>
+<?php $parse_link_ip_geo = include '../templates/helpers/parse_link_ip_geo.php';?>
 <header>
     <h2>Verlauf</h2>
 </header>

@@ -1,4 +1,4 @@
-<?php $parse_text_to_html = include 'templates/helpers/parse_text_to_html.php'; ?>
+<?php $parse_text_to_html = include '../templates/helpers/parse_text_to_html.php'; ?>
 
 <header>
     <h2>Schichttyp Liste</h2>

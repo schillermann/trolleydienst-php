@@ -21,5 +21,5 @@ return function (array $configs): bool {
         $config_content .= "define('" . strtoupper($name) . "', ". $define_value .");\n";
     }
 
-    return (file_put_contents('config.php', $config_content) === false)? false: true;
+    return (file_put_contents('../config.php', $config_content) === false)? false: true;
 };

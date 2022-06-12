@@ -1,4 +1,4 @@
-<?php include 'templates/pagesnippets/note-box.php' ?>
+<?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
     <h2>Berichte</h2>
 </header>

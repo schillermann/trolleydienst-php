@@ -1,13 +1,13 @@
 <?php return function (\PDO $connection): array {
 
     $histroy_types = array(
-        Tables\History::SHIFT_PROMOTE_SUCCESS,
-        Tables\History::SHIFT_PROMOTE_ERROR,
-        Tables\History::SHIFT_WITHDRAWN_SUCCESS,
-        Tables\History::SHIFT_WITHDRAWN_ERROR
+        App\Tables\History::SHIFT_PROMOTE_SUCCESS,
+        App\Tables\History::SHIFT_PROMOTE_ERROR,
+        App\Tables\History::SHIFT_WITHDRAWN_SUCCESS,
+        App\Tables\History::SHIFT_WITHDRAWN_ERROR
     );
 
-    $shift_history_list = Tables\History::select_all($connection, $histroy_types);
+    $shift_history_list = App\Tables\History::select_all($connection, $histroy_types);
     $sort_shift_history_list = array();
 
     foreach ($shift_history_list as $shift_history) {
