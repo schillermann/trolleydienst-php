@@ -7,7 +7,7 @@
         <meta name="description" content="Trolleydienst Verwaltung">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link href="/css/global.css" rel="stylesheet">
+        <link href="css/global.css" rel="stylesheet">
         <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
         <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-ipad-retina.png" />
         <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-iphone-retina.png" />
@@ -25,7 +25,7 @@
         <header>
             <div>
                 <div class="wrapper-center">
-                    <a href="/" id="logo"><img src="../images/logo-trolleydienst.png"></a>
+                    <a href="/" id="logo"><img src="images/logo-trolleydienst.png"></a>
                 </div>
             </div>
             <div>
@@ -83,7 +83,7 @@
                     </li>
                     <?php endif;?>
                     <li id="logout">
-                        <a href="/?logout">
+                        <a href="./?logout">
                             <i class="fa fa-sign-out"></i> Abmelden
                         </a>
                     </li>
@@ -98,10 +98,9 @@
             <footer>
                 <nav>
                     <ul id="nav-footer">
-                        <li><a href="//trolleydienst.de/feedback.php" target="_blank">Feedback</a></li>
                         <li><a href="licence.php">Licence</a></li>
-                        <li><a href="https://github.com/trolleydienst/trolleydienst-php" target="_blank" id="link-github">GitHub</a></li>
-                        <li><a href="https://github.com/trolleydienst/trolleydienst-php/issues" target="_blank">Issues</a></li>
+                        <li><a href="https://github.com/schillermann/trolleydienst-php" target="_blank" id="link-github">GitHub</a></li>
+                        <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank">Issues</a></li>
                         <?php if(!empty($_SESSION)):?><li>Version <?php echo include 'includes/get_version.php';?></li><?php endif;?>
                     </ul>
                 </nav>

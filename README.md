@@ -4,7 +4,7 @@ Du kannst das Trolley Programm auf deinen Server installieren und nach belieben 
 
 ## :cloud: Download
 - [Alle Versionen](https://github.com/schillermann/trolleydienst-php/tags)
-- [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.6.3)
+- [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.7.0)
 
 
 ## :gem: Funktionen
@@ -15,6 +15,7 @@ Du kannst das Trolley Programm auf deinen Server installieren und nach belieben 
 - Login Schutz vor Hacker Angriffe
 - Berichte können abgegeben werden
 - E-Mail Versand an alle Teilnehmer
+- Mehrere Anwendungen auf einer Domain, durch Unterordner, möglich 
 - Kann mit PHP Kenntnissen leicht angepasst werden
 - Hochgeladene Dateien sind vor dem Zugriff von außen geschützt
 - Teilnehmer können andere Teilnehmer in eine Schicht eintragen
