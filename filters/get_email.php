@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL);

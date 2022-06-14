@@ -3,7 +3,7 @@
     <h2>Datei hochladen</h2>
 </header>
 <nav id="nav-sub">
-    <a href="info.php" class="button"><i class="fa fa-chevron-left"></i> zurück</a>
+    <a href="./info.php" class="button"><i class="fa fa-chevron-left"></i> zurück</a>
 </nav>
 <div class="container-center">
     <div class="info-box">

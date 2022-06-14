@@ -3,11 +3,11 @@
 	<h2>E-Mail Vorlagen</h2>
 </header>
 <nav id="nav-sub">
-	<a href="email.php" class="button">
+	<a href="./email.php" class="button">
 		<i class="fa fa-chevron-left"></i> zurück
 	</a>
 	<?php foreach ($placeholder['email_templates'] as $template): ?>
-		<a href="email-templates.php?id_email_template=<?php echo $template['id_email_template'];?>" class="button <?php echo ($placeholder['id_email_template'] == $template['id_email_template'])? 'active': '';?>">
+		<a href="./email-templates.php?id_email_template=<?php echo $template['id_email_template'];?>" class="button <?php echo ($placeholder['id_email_template'] == $template['id_email_template'])? 'active': '';?>">
 			<?php echo $template['subject'];?>
 		</a>
 	<?php endforeach;?>

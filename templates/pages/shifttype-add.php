@@ -3,7 +3,7 @@
     <h2>Neuer Schichttyp</h2>
 </header>
 <nav id="nav-sub">
-    <a href="shifttype.php" class="button">
+    <a href="./shifttype.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>

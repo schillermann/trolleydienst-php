@@ -3,7 +3,7 @@
     <h2>Passwort vergessen</h2>
 </header>
 <nav id="nav-sub">
-    <a href="index.php" class="button">
+    <a href="./" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>
@@ -12,8 +12,8 @@
         <fieldset>
             <legend>Passwort anfordern</legend>
             <div>
-                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
-                <input id="username" name="username" required>
+                <label for="name">Name <small>(Pflichtfeld)</small></label>
+                <input id="name" type="text" name="name" required>
             </div>
             <div>
                 <label for="email">E-Mail <small>(Pflichtfeld)</small></label>

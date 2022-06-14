@@ -9,9 +9,9 @@ if(isset($_POST['save'])) {
     if(DEMO) {
         $placeholder['message']['error'] = 'In der Demo Version darf kein Teilnehmer angelegt werden!';
     } else {
-        $username = include '../filters/post_username.php';
+        $email = include '../filters/post_email.php';
 
-        if(App\Tables\Users::exists_username($database_pdo, $username)) {
+        if(App\Tables\Users::exists_email($database_pdo, $email)) {
             $placeholder['message']['error'] = 'Der Name ist bereits vergeben!';
         } else {
             $get_password = require '../modules/random_string.php';
@@ -21,7 +21,6 @@ if(isset($_POST['save'])) {
 
             $user = new App\Models\User(
                 0,
-                $username,
                 $name,
                 $email,
                 $password,
@@ -44,7 +43,7 @@ if(isset($_POST['save'])) {
 
                 $replace_with = array(
                     'NAME' => $name,
-                    'USERNAME' => $username,
+                    'EMAIL' => $email,
                     'PASSWORD' => $password
                 );
                 $email_template_message = strtr($email_template['message'], $replace_with);

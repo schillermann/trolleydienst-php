@@ -1,7 +1,7 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
     <h2>Update</h2>
-    <a href="/" class="button"><i class="fa fa-chevron-left"></i> zurück</a>
+    <a href="./" class="button"><i class="fa fa-chevron-left"></i> zurück</a>
 </header>
 <div class="container-center">
     

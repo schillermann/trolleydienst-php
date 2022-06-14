@@ -3,7 +3,7 @@
     <h2>Teilnehmer bearbeiten</h2>
 </header>
 <nav id="nav-sub">
-    <a href="user.php" class="button">
+    <a href="./user.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>
@@ -20,10 +20,6 @@
                 <input id="is_admin" type="checkbox" name="is_admin" <?php if ($placeholder['user']['is_admin']):?>checked<?php endif;?>>
             </div>
             <div>
-                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
-                <input id="username" name="username" required value="<?php echo $placeholder['user']['username'];?>">
-            </div>
-            <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>
                 <input id="name" name="name" required value="<?php echo $placeholder['user']['name'];?>">
             </div>
@@ -32,11 +28,11 @@
                 <input id="email" name="email" required value="<?php echo $placeholder['user']['email'];?>">
             </div>
             <div>
-                <label for="mobile">Handynr</label>
+                <label for="mobile">Handynummer</label>
                 <input id="mobile" name="mobile" value="<?php echo $placeholder['user']['mobile'];?>">
             </div>
             <div>
-                <label for="phone">Telefonnr</label>
+                <label for="phone">Telefonnummer</label>
                 <input id="phone" name="phone" value="<?php echo $placeholder['user']['phone'];?>">
             </div>
             <div>

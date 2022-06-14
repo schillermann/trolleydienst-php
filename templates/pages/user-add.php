@@ -3,7 +3,7 @@
     <h2>Neuer Teilnehmer</h2>
 </header>
 <nav id="nav-sub">
-    <a href="user.php" class="button">
+    <a href="./user.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>
@@ -14,10 +14,6 @@
             <div>
                 <label for="is_admin">Admin-Rechte</label>
                 <input id="is_admin" type="checkbox" name="is_admin" <?php if (isset($_POST['is_admin'])):?>checked<?php endif;?>>
-            </div>
-            <div>
-                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
-                <input id="username" name="username" required value="<?php echo (isset($_POST['name']))? $_POST['username'] : '';?>">
             </div>
             <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>

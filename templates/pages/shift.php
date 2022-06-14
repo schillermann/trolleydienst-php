@@ -49,7 +49,7 @@
 
 <?php if($_SESSION['is_admin']): ?>
     <nav>
-        <a href="shift-add.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" class="button active">
+        <a href="./shift-add.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" class="button active">
             <i class="fa fa-plus"></i> Neue Schichten
         </a>
     </nav>
@@ -72,7 +72,7 @@
                 <td colspan="2" style="background-color: <?php echo $shift_list['color_hex'];?>">
                     <p>
                         <?php if($_SESSION['is_admin']): ?>
-                            <a href="shift-edit.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>&id_shift=<?php echo $id_shift;?>" class="button">
+                            <a href="./shift-edit.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>&id_shift=<?php echo $id_shift;?>" class="button">
                                 <i class="fa fa-pencil"></i> bearbeiten
                             </a>
                         <?php endif; ?>
@@ -103,7 +103,7 @@
                                     </button>
                                 </form>
                             <?php else: ?>
-                                <a href="user-details.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>&id_user=<?php echo $id_user; ?>" class="button promoted">
+                                <a href="./user-details.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>&id_user=<?php echo $id_user; ?>" class="button promoted">
                                     <i class="fa fa-info"></i> <?php echo $name; ?>
                                 </a>
                             <?php endif; ?>

@@ -22,12 +22,12 @@ if(isset($_SESSION) && !empty($_SESSION)) {
 
 include '../config.php';
 $placeholder = array();
-$placeholder['username'] = include '../filters/get_username.php';
+$placeholder['email'] = include '../filters/get_email.php';
 
-if(isset($_POST['username']) && isset($_POST['password'])) {
+if(isset($_POST['email']) && isset($_POST['password'])) {
 
     $check_login = include '../includes/check_login.php';
-    $placeholder['username']  = include '../filters/post_username.php';
+    $placeholder['email']  = include '../filters/post_email.php';
     $database_pdo = App\Tables\Database::get_connection();
 
     $get_ban_time_in_minutes = include '../services/get_ban_time_in_minutes.php';
@@ -35,7 +35,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
     if($ban_time_in_minutes > 0) {
         $placeholder['message']['error'] = 'Du bist noch für ' . $ban_time_in_minutes . ' Minuten gesperrt!';
-    } elseif($check_login($database_pdo, $placeholder['username'] , $_POST['password'])) {
+    } elseif($check_login($database_pdo, $placeholder['email'] , $_POST['password'])) {
         header('location: ' . $baseUrl . '/shift.php');
         return;
     }
@@ -51,7 +51,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
         App\Tables\History::insert(
             $database_pdo,
-            $placeholder['username'] ,
+            $placeholder['email'] ,
             App\Tables\History::LOGIN_ERROR,
             'Anmeldung mit der IP ' . $user_ip_address . ' ist fehlgeschlagen!'
         );

@@ -3,7 +3,7 @@
     <h2>Bericht abgeben</h2>
 </header>
 <nav>
-    <a href="report.php" class="button">
+    <a href="./report.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>

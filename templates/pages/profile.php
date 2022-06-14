@@ -3,10 +3,10 @@
     <h2>Profil</h2>
 </header>
 <nav id="nav-sub">
-    <a href="profile.php" class="button active">
+    <a href="./profile.php" class="button active">
         <i class="fa fa-user"></i> Benutzerdaten
     </a>
-    <a href="profile-password.php" class="button">
+    <a href="./profile-password.php" class="button">
         <i class="fa fa-lock"></i> Passwort
     </a>
 </nav>
@@ -14,10 +14,6 @@
     <form method="post">
         <fieldset>
             <legend>Kontaktdaten</legend>
-            <div>
-                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
-                <input id="username" name="username" required value="<?php echo $placeholder['profile']['username']; ?>">
-            </div>
             <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>
                 <input id="name" name="name" required value="<?php echo $placeholder['profile']['name']; ?>">

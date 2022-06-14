@@ -1,7 +1,7 @@
 <?php
-return function (\PDO $database_pdo, string $username, string $password): bool {
+return function (\PDO $database_pdo, string $email, string $password): bool {
 
-    $user = App\Tables\Users::select_logindata($database_pdo, $username, $password);
+    $user = App\Tables\Users::select_logindata($database_pdo, $email, $password);
 
     if(empty($user))
         return false;

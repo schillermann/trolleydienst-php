@@ -2,7 +2,7 @@
     <h2>Teilnehmer Kontaktdaten</h2>
 </header>
 <nav id="nav-sub">
-    <a href="shift.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>" class="button">
+    <a href="./shift.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>

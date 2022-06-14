@@ -3,7 +3,7 @@
     <h2>E-Mail Einstellungen</h2>
 </header>
 <nav id="nav-sub">
-    <a href="email.php" class="button">
+    <a href="./email.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>

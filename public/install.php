@@ -24,7 +24,6 @@ if(isset($_POST['install'])) {
 
         $user = new App\Models\User(
             1,
-            $input_list['username'],
             $input_list['name'],
             $input_list['email'],
             $_POST['password'],
@@ -51,7 +50,7 @@ if(isset($_POST['install'])) {
             $pdo->exec(include '../install/sql_import.php') !== false &&
             $write_config_file($config)
         ) {
-            header('location: ' . $baseUrl . '/?username=' . urlencode($input_list['username']));
+            header('location: ' . $baseUrl . '/?email=' . urlencode($input_list['email']));
             return;
         }
 

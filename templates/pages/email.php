@@ -29,10 +29,10 @@
     <h2>E-Mail Versand</h2>
 </header>
 <nav id="nav-sub">
-    <a href="email-settings.php" class="button">
+    <a href="./email-settings.php" class="button">
         <i class="fa fa-cog"></i> Einstellungen
     </a>
-    <a href="email-templates.php?id_email_template=1" class="button">
+    <a href="./email-templates.php?id_email_template=1" class="button">
         <i class="fa fa-cog"></i> Vorlagen
     </a>
 </nav>

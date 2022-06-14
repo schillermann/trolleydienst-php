@@ -9,7 +9,6 @@ class Profile {
      */
     function __construct(int $id_user, array $data) {
         $this->id_user = $id_user;
-        $this->username = (isset($data['username']))? $data['username'] : '';
         $this->name = (isset($data['name']))? $data['name'] : '';
         $this->email = (isset($data['email']))? $data['email'] : '';
         $this->phone = (isset($data['phone']))? $data['phone'] : '';
@@ -21,10 +20,6 @@ class Profile {
 
     function  get_id_user(): int {
         return $this->id_user;
-    }
-
-    function get_username(): string {
-        return $this->username;
     }
     
     function get_name(): string {
@@ -55,5 +50,5 @@ class Profile {
         return $this->note_user;
     }
 
-    protected $id_user, $username, $name, $email, $phone, $mobile, $congregation_name, $language, $note_user;
+    protected $id_user, $name, $email, $phone, $mobile, $congregation_name, $language, $note_user;
 }

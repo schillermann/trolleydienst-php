@@ -14,25 +14,25 @@ if (isset($_POST['save'])) {
         $placeholder['message']['error'] = 'In der Demo Version dürfen die Teilnehmer Daten nicht geändert werden!';
     } else {
         $user = new App\Models\User(
-        $id_user,
-        include '../filters/post_username.php',
-        include '../filters/post_name.php',
-        include '../filters/post_email.php',
-        '',
-        include '../filters/post_is_admin.php',
-        include '../filters/post_is_active.php',
-        include '../filters/post_phone.php',
-        include '../filters/post_mobile.php',
-        include '../filters/post_congregation_name.php',
-        include '../filters/post_language.php',
-        include '../filters/post_note_admin.php'
-    );
+            $id_user,
+            include '../filters/post_name.php',
+            include '../filters/post_email.php',
+            '',
+            include '../filters/post_is_admin.php',
+            include '../filters/post_is_active.php',
+            include '../filters/post_phone.php',
+            include '../filters/post_mobile.php',
+            include '../filters/post_congregation_name.php',
+            include '../filters/post_language.php',
+            include '../filters/post_note_admin.php'
+        );
 
-    if(App\Tables\Users::update_user($database_pdo, $user)) {
-        header('location: ' . $baseUrl . '/user.php');
-        return;
-    } else
-        $placeholder['message']['error'] = 'Die Teilnehmer Daten konnten nicht geändert werden!';
+        if(App\Tables\Users::update_user($database_pdo, $user)) {
+            header('location: ' . $baseUrl . '/user.php');
+            return;
+        } else {
+            $placeholder['message']['error'] = 'Die Teilnehmer Daten konnten nicht geändert werden!';
+        }
     }
 } elseif (isset($_POST['delete'])) {
     

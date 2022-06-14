@@ -1,5 +1,5 @@
 <?php
-return function (string $filter_folder = 'filters'): array {
+return function (string $filter_folder = '../filters'): array {
 
     $return_value_list = array();
 

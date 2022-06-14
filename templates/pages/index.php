@@ -20,17 +20,17 @@
     <form method="post">
         <fieldset>
             <legend>Anmelden</legend>
-            <p>Wenn du ein Konto hast, bitte <em>Benutzernamen</em> und <em>Passwort</em> eingeben.</p>
+            <p>Wenn du ein Konto hast, bitte <em>E-Mail</em> und <em>Passwort</em> eingeben.</p>
             <div>
-                <label for="username">Benutzername</label>
-                <input id="username" name="username" value="<?php echo $placeholder['username']; ?>">
+                <label for="email">E-Mail</label>
+                <input id="email" name="email" value="<?php echo $placeholder['email']; ?>" required>
             </div>
             <div>
                 <label for="password">Passwort</label>
-                <input id="password" type="password" name="password" autocomplete="off">
+                <input id="password" type="password" name="password" autocomplete="off" required>
             </div>
             <div id="divForgotLink" class="login">
-                <a href="/password-forgot.php" class="xsmall">Passwort vergessen</a>
+                <a href="./password-forgot.php" class="xsmall">Passwort vergessen</a>
             </div>
         </fieldset>
         <div class="from-button">

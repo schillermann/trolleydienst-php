@@ -5,7 +5,6 @@ class User {
 
     function __construct(
         int $id_user,
-        string $username,
         string $name,
         string $email,
         string $password,
@@ -19,7 +18,6 @@ class User {
         string $note_user = ''
     ) {
         $this->id_user = $id_user;
-        $this->username = $username;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
@@ -35,10 +33,6 @@ class User {
 
     function get_id_user(): int {
         return $this->id_user;
-    }
-
-    function get_username(): string {
-        return $this->username;
     }
     
     function get_name(): string {
@@ -85,6 +79,6 @@ class User {
         return $this->note_admin;
     }
 
-    protected $id_user, $username, $name, $email, $password, $is_admin, $is_active, $phone, $mobile;
+    protected $id_user, $name, $email, $password, $is_admin, $is_active, $phone, $mobile;
     protected $congregation_name, $language, $note_user, $note_admin;
 }

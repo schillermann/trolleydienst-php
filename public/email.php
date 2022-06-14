@@ -21,7 +21,7 @@ if(isset($_POST['send']) && !empty($_POST['email_subject']) && !empty($_POST['em
             foreach ($placeholder['user_list'] as $user) {
                 $replace_with = array(
                     'NAME' => $user['name'],
-                    'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME'] . '?username=' . urlencode($user['username'])
+                    'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME'] . '?email=' . urlencode($user['email'])
                 );
                 $email_message = strtr($placeholder['email']['message'], $replace_with);
 

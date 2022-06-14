@@ -3,7 +3,7 @@
 </header>
 <form method="post">
     <div class="from-button">
-        <a href="user-add.php" class="button active">
+        <a href="./user-add.php" class="button active">
             <i class="fa fa-plus"></i> Neuer Teilnehmer
         </a>
         <input placeholder="Teilnehmer suchen">
@@ -29,7 +29,7 @@
             <td><i class="fa <?php echo ($user['is_active']) ? 'fa-check' : 'fa-times';?>"></i></td>
             <td><i class="fa <?php echo ($user['is_admin']) ? 'fa-check' : 'fa-times';?>"></i></td>
             <td><?php echo $user['last_login'];?></td>
-            <td><a class="button" href="user-edit.php?id_user=<?php echo $user['id_user'];?>"><i class="fa fa-pencil"></i> bearbeiten</a></td>
+            <td><a class="button" href="./user-edit.php?id_user=<?php echo $user['id_user'];?>"><i class="fa fa-pencil"></i> bearbeiten</a></td>
         </tr>
         <?php endforeach; ?>
     </table>

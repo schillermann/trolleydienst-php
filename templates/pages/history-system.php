@@ -2,13 +2,13 @@
     <h2>Verlauf</h2>
 </header>
 <nav id="nav-sub">
-    <a href="history-shift.php" class="button">
+    <a href="./history-shift.php" class="button">
         <i class="fa fa-calendar-o"></i> Schichtverlauf
     </a>
-    <a href="history-login.php" class="button">
+    <a href="./history-login.php" class="button">
         <i class="fa fa-sign-in"></i> Login
     </a>
-    <a href="history-system.php" class="button active">
+    <a href="./history-system.php" class="button active">
         <i class="fa fa-cog"></i> System
     </a>
 </nav>

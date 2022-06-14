@@ -3,7 +3,7 @@
     <h2>Schichttyp bearbeiten</h2>
 </header>
 <nav>
-    <a href="shifttype.php" class="button">
+    <a href="./shifttype.php" class="button">
         <i class="fa fa-chevron-left"></i> zurück
     </a>
 </nav>
