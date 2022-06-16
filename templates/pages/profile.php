@@ -15,6 +15,10 @@
         <fieldset>
             <legend>Kontaktdaten</legend>
             <div>
+                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
+                <input id="username" name="username" required value="<?php echo $placeholder['profile']['username']; ?>">
+            </div>
+            <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>
                 <input id="name" name="name" required value="<?php echo $placeholder['profile']['name']; ?>">
             </div>

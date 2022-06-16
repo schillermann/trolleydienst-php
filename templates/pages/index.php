@@ -20,10 +20,10 @@
     <form method="post">
         <fieldset>
             <legend>Anmelden</legend>
-            <p>Wenn du ein Konto hast, bitte <em>E-Mail</em> und <em>Passwort</em> eingeben.</p>
+            <p>Wenn du ein Konto hast, bitte deine Login Daten eingeben.</p>
             <div>
-                <label for="email">E-Mail</label>
-                <input id="email" name="email" value="<?php echo $placeholder['email']; ?>" required>
+                <label for="email_or_username">E-Mail oder Benutzername</label>
+                <input id="email_or_username" name="email_or_username" value="<?php echo $placeholder['email_or_username']; ?>" required>
             </div>
             <div>
                 <label for="password">Passwort</label>

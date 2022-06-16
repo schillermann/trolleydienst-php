@@ -9,10 +9,10 @@ if(isset($_POST['password_reset'])) {
     if(DEMO) {
         $placeholder['message']['error'] = 'In der Demo Version darf das Passwort nicht zurück gesetzt werden!';
     } else {
+        $username = include '../filters/post_username.php';
         $email = include '../filters/post_email.php';
-        $name = include '../filters/post_name.php';
 
-        $id_user = App\Tables\Users::select_id_user($database_pdo, $email, $name);
+        $id_user = App\Tables\Users::select_id_user($database_pdo, $email, $username);
 
         if($id_user == 0) {
             $placeholder['message']['error'] = 'Name oder E-Mail existiert nicht!';

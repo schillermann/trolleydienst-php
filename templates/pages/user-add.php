@@ -16,6 +16,10 @@
                 <input id="is_admin" type="checkbox" name="is_admin" <?php if (isset($_POST['is_admin'])):?>checked<?php endif;?>>
             </div>
             <div>
+                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
+                <input id="username" name="username" required value="<?php echo (isset($_POST['username']))? $_POST['username'] : '';?>">
+            </div>
+            <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>
                 <input id="name" name="name" required value="<?php echo (isset($_POST['name']))? $_POST['name'] : '';?>">
             </div>

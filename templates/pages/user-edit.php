@@ -20,6 +20,10 @@
                 <input id="is_admin" type="checkbox" name="is_admin" <?php if ($placeholder['user']['is_admin']):?>checked<?php endif;?>>
             </div>
             <div>
+                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
+                <input id="username" name="username" required value="<?php echo $placeholder['user']['username'];?>">
+            </div>
+            <div>
                 <label for="name">Name <small>(Pflichtfeld)</small></label>
                 <input id="name" name="name" required value="<?php echo $placeholder['user']['name'];?>">
             </div>

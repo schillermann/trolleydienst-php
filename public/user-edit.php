@@ -15,6 +15,7 @@ if (isset($_POST['save'])) {
     } else {
         $user = new App\Models\User(
             $id_user,
+            include '../filters/post_username.php',
             include '../filters/post_name.php',
             include '../filters/post_email.php',
             '',

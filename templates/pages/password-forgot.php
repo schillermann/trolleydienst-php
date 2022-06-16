@@ -12,8 +12,8 @@
         <fieldset>
             <legend>Passwort anfordern</legend>
             <div>
-                <label for="name">Name <small>(Pflichtfeld)</small></label>
-                <input id="name" type="text" name="name" required>
+                <label for="username">Benutzername <small>(Pflichtfeld)</small></label>
+                <input id="username" name="username" required>
             </div>
             <div>
                 <label for="email">E-Mail <small>(Pflichtfeld)</small></label>
