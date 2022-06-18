@@ -44,8 +44,12 @@ if(isset($_POST['save'])) {
 
                 $replace_with = array(
                     'NAME' => $name,
+                    'USERNAME' => $username,
                     'EMAIL' => $email,
-                    'PASSWORD' => $password
+                    'PASSWORD' => $password,
+                    'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME'] . '?username=' . urlencode($username),
+                    'SIGNATURE' => App\Tables\EmailTemplates::select($database_pdo, App\Tables\EmailTemplates::SIGNATURE)
+
                 );
                 $email_template_message = strtr($email_template['message'], $replace_with);
 

@@ -1,1 +1,0 @@
-<?php return filter_input(INPUT_GET, 'email_or_username', FILTER_SANITIZE_STRING);

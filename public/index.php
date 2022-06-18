@@ -22,7 +22,7 @@ if(isset($_SESSION) && !empty($_SESSION)) {
 
 include '../config.php';
 $placeholder = array();
-$placeholder['email_or_username'] = include '../filters/get_email_or_username.php';
+$placeholder['email_or_username'] = include '../filters/get_username.php';
 
 if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
 

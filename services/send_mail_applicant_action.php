@@ -1,4 +1,4 @@
-<?php return function (\PDO $connection, int $id_shift, int $position, int $id_user, \DateTime $shift_datetime, int $id_email_template = App\Tables\EmailTemplates::APPLICATION_ACCEPT) {
+<?php return function (\PDO $connection, int $id_shift, int $position, int $id_user, \DateTimeInterface $shift_datetime, int $id_email_template = App\Tables\EmailTemplates::APPLICATION_ACCEPT) {
 
 	$user_name = App\Tables\Users::select_name($connection, $id_user);
 	$user_list_from_shift_postion = App\Tables\ShiftUserMaps::select_all_with_id_shift_and_position($connection, $id_shift, $position);
@@ -13,7 +13,8 @@
 		$replace_with = array(
 			'NAME' => $user['name'],
 			'APPLICANT_NAME' => $user_name,
-			'SHIFT_DATE' => $shift_datetime->format('d.m.Y')
+			'SHIFT_DATE' => $shift_datetime->format('d.m.Y'),
+			'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME']
 		);
 
 		$email_template_message = strtr($email_template['message'], $replace_with);

@@ -6,17 +6,20 @@
 
     $promote_user_success = App\Tables\ShiftUserMaps::insert($connection, $id_shift, $position, $id_user);
 
-    $shift_datetime = new \DateTime($shift['datetime_from']);
-    $shift_datetime_format = $shift_datetime->format('d.m.Y');
+    $nextShiftInMinutes = (int)$shift['minutes_per_shift'] * ($position - 1);
+
+	$shift_from = date_modify(new \DateTime($shift['datetime_from']), '+' . $nextShiftInMinutes . ' minutes');
+	$shift_to = clone $shift_from;
+	$shift_to->add(new DateInterval('PT' . (int)$shift['minutes_per_shift'] . 'M'));
 
     if ($promote_user_success) {
 
         if(!DEMO) {
             $send_mail_shift_date = include '../services/send_mail_shift_date.php';
-            $send_mail_shift_date($connection, $id_shift, $shift_type_name, $id_user);
+            $send_mail_shift_date($connection, $id_shift, $shift_from, $shift_to, $shift_type_name, $id_user);
 
             $send_mail_to_participants_of_shift = include '../services/send_mail_applicant_action.php';
-            $send_mail_to_participants_of_shift($connection, $id_shift, $position, $id_user, $shift_datetime);
+            $send_mail_to_participants_of_shift($connection, $id_shift, $position, $id_user, $shift_from);
         }
 
         $history_type = App\Tables\History::SHIFT_PROMOTE_SUCCESS;
