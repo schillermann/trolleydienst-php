@@ -21,6 +21,7 @@ if(isset($_SESSION) && !empty($_SESSION)) {
 }
 
 include '../config.php';
+include '../includes/language.php';
 
 $placeholder = array();
 $placeholder['email_or_username'] = include '../filters/get_username.php';
