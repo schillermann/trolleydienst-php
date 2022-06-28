@@ -231,7 +231,7 @@
 		"Dein Bericht konnte nicht gelöscht werden!" => "Your report could not be deleted!",
 		"Die Schicht wurde geändert." => "The shift has been changed.",
 		"Die Schicht konnte nicht geändert werden!" => "The shift could not be changed!",
-		"Die Schicht konnte nicht gelöscht werden" => "The shift could not be deleted!"
+		"Die Schicht konnte nicht gelöscht werden" => "The shift could not be deleted!",
 		"Die Bewerbung wurde angenommen." => "Your application was successful.",
 		"Die Bewerbung konnte nicht angenommen werden!" => "Your application was unsuccessful.",
 		"Die Bewerbung wurde zurück gezogen." => "Your application was withdrawen.",
