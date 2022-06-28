@@ -7,12 +7,12 @@ $page_file = '';
 if(isset($_POST['save'])) {
 
     if(DEMO) {
-        $placeholder['message']['error'] = 'In der Demo Version darf kein Teilnehmer angelegt werden!';
+        $placeholder['message']['error'] = __('In der Demo Version darf kein Teilnehmer angelegt werden!');
     } else {
         $username = include '../filters/post_username.php';
 
         if(App\Tables\Users::exists_username($database_pdo, $username)) {
-            $placeholder['message']['error'] = 'Der Benutzerame ist bereits vergeben!';
+            $placeholder['message']['error'] = __('Der Benutzerame ist bereits vergeben!');
         } else {
             $get_password = require '../modules/random_string.php';
             $password = $get_password(8);
@@ -35,9 +35,9 @@ if(isset($_POST['save'])) {
             );
 
             if (!App\Tables\Users::insert($database_pdo, $user))
-                $placeholder['message']['error'] = 'Der Teilnehmer konnte nicht angelegt werden!';
+                $placeholder['message']['error'] = __('Der Teilnehmer konnte nicht angelegt werden!');
             else {
-                $placeholder['message']['success'] = 'Der Teilnehmer wurde angelegt.';
+                $placeholder['message']['success'] = __('Der Teilnehmer wurde angelegt.');
 
                 $get_template_email_user_add = include '../services/get_email_template.php';
                 $email_template = $get_template_email_user_add($database_pdo, App\Tables\EmailTemplates::USER_ADD);
@@ -56,7 +56,7 @@ if(isset($_POST['save'])) {
                 $send_mail_plain = include '../modules/send_mail_plain.php';
 
                 if($send_mail_plain($email, $email_template['subject'], $email_template_message))
-                    $placeholder['message']['success'] .= '<br>Eine E-Mail mit den Zugangsdaten wurde an ' . $email . ' geschickt.';
+                    $placeholder['message']['success'] .= __('<br>Eine E-Mail mit den Zugangsdaten wurde an ') . $email . __(' geschickt.');
             }
         }  
     }

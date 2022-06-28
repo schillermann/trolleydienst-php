@@ -3,7 +3,7 @@
     $baseUrl = include '../includes/get_base_uri.php';
 ?>
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<?php echo LANG; ?>">
     <head>
         <meta charset="utf-8">
         <title><?php echo APPLICATION_NAME; ?> - <?php echo CONGREGATION_NAME; ?></title>
@@ -51,43 +51,44 @@
                     <?php endforeach;?>
                     <li>
                         <a href="report.php" class="<?php echo $active_page('report.php', 'report-submit.php');?>">
-                            <i class="fa fa-list-alt"></i> Bericht
+                            <i class="fa fa-list-alt"></i> <?php echo __("Bericht"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="info.php" class="<?php echo $active_page('info.php', 'info-add.php', 'info-edit.php');?>">
-                            <i class="fa fa-info"></i> Info
+                            <i class="fa fa-info"></i> <?php echo __("Info"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="profile.php" class="<?php echo $active_page('profile.php', 'profile-password.php');?>">
-                            <i class="fa fa-user"></i> Profil
+                            <i class="fa fa-user"></i> <?php echo __("Profil"); ?>
                         </a>
                     </li>
                     <?php if($_SESSION['is_admin']) : ?>
                     <li>
                         <a href="shifttype.php" class="<?php echo $active_page('shifttype.php', 'shifttype-add.php', 'shifttype-edit.php');?>">
-                            <i class="fa fa-calendar"></i> Schichtart</a>
+                            <i class="fa fa-calendar"></i> <?php echo __("Schichtart"); ?>
+                        </a>
                     </li>
                     <li>
                         <a href="user.php" class="<?php echo $active_page('user.php', 'user-add.php', 'user-edit.php', 'user-add-mail.php');?>">
-                            <i class="fa fa-users"></i> Teilnehmer
+                            <i class="fa fa-users"></i> <?php echo __("Teilnehmer"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="email.php" class="<?php echo $active_page('email.php', 'email-settings.php', 'email-templates.php');?>">
-                            <i class="fa fa-envelope-o"></i> E-Mail
+                            <i class="fa fa-envelope-o"></i> <?php echo __("E-Mail"); ?>
                         </a>
                     </li>
                     <li>
                         <a href="history-shift.php" class="<?php echo $active_page('history-login.php', 'history-shift.php', 'history-system.php');?>">
-                            <i class="fa fa-history"></i> Verlauf
+                            <i class="fa fa-history"></i> <?php echo __("Verlauf"); ?>
                         </a>
                     </li>
                     <?php endif;?>
                     <li id="logout">
                         <a href="./?logout">
-                            <i class="fa fa-sign-out"></i> Abmelden
+                            <i class="fa fa-sign-out"></i> <?php echo __("Abmelden"); ?>
                         </a>
                     </li>
                     <?php endif;?>
@@ -101,10 +102,10 @@
             <footer>
                 <nav>
                     <ul id="nav-footer">
-                        <li><a href="<?= $baseUrl?>/licence.php">Licence</a></li>
+                        <li><a href="<?= $baseUrl?>/licence.php"><?php echo __("Licence"); ?></a></li>
                         <li><a href="https://github.com/schillermann/trolleydienst-php" target="_blank" id="link-github">GitHub</a></li>
-                        <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank">Issues</a></li>
-                        <?php if(!empty($_SESSION)):?><li>Version <?php echo include '../includes/get_version.php';?></li><?php endif;?>
+                        <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank"><?php echo __("Issues"); ?></a></li>
+                        <?php if(!empty($_SESSION)):?><li><?php echo __("Version"); ?> <?php echo include '../includes/get_version.php';?></li><?php endif;?>
                     </ul>
                 </nav>
             </footer>

@@ -6,6 +6,7 @@ if(empty($_SESSION)) {
 }
 
 include '../config.php';
+include '../includes/language.php';
 require __DIR__ . '/../vendor/autoload.php';
 $database_pdo = App\Tables\Database::get_connection();
 $placeholder = array();

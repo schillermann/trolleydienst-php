@@ -7,7 +7,7 @@ return function (\PDO $connection, int $id_shift, int $position,  int $id_user):
     $shift_type_name = App\Tables\ShiftTypes::select_name($connection, $shift['id_shift_type']);
     $applicant_name = App\Tables\Users::select_name($connection, $id_user);
     $shift_datetime = new \DateTime($shift['datetime_from']);
-    $shift_datetime_format = $shift_datetime->format('d.m.Y');
+    $shift_datetime_format = $shift_datetime->format(__('d.m.Y'));
 
     if ($cancel_application_success) {
         if(!DEMO) {
@@ -16,10 +16,10 @@ return function (\PDO $connection, int $id_shift, int $position,  int $id_user):
         }
         
         $history_type = App\Tables\History::SHIFT_WITHDRAWN_SUCCESS;
-        $message = 'Die ' . $shift_type_name . ' Schicht Bewerbung vom ' . $shift_datetime_format . ' Schicht ' . $position . ' für ' . $applicant_name . ' wurde zurück gezogen.';
+        $message = __("Die ") . $shift_type_name . __(" Schicht Bewerbung vom ") . $shift_datetime_format . __(" Schicht ") . $position . __(" für ") . $applicant_name . __(" wurde zurück gezogen.");
     } else {
         $history_type = App\Tables\History::SHIFT_WITHDRAWN_ERROR;
-        $message = 'Die ' . $shift_type_name . ' Schicht Bewerbung vom ' . $shift_datetime_format . ' Schicht ' . $position . ' für ' . $applicant_name . ' konnte nicht zurück gezogen werden!';
+        $message = __("Die ") . $shift_type_name . __(" Schicht Bewerbung vom ") . $shift_datetime_format . __(" Schicht ") . $position . __(" für ") . $applicant_name . __(" konnte nicht zurück gezogen werden!");
     }
 
     App\Tables\History::insert(

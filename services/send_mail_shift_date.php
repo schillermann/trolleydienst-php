@@ -28,7 +28,7 @@
 		$connection,
 		$_SESSION['name'],
 		App\Tables\History::SYSTEM_ERROR,
-		'Der Schicht Termin ' . $shift_date . ' konnte nicht an ' . $user_email . ' verschickt werden!'
+		__('Der Schicht Termin ') . $shift_date . __(' konnte nicht an ') . $user_email . __(' verschickt werden!')
 	);
 	return false;
 };

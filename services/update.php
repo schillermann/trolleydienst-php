@@ -27,7 +27,7 @@
         else
         {
             throw new RuntimeException(
-                'Die Migration ' . $migration_version . ' ist fehlgeschlagen!'
+                __('Die Migration ') . $migration_version . __(' ist fehlgeschlagen!')
             );
         }
     }

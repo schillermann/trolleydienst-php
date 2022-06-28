@@ -12,28 +12,28 @@ $id_info = (int)$_GET['id_info'];
 if(isset($_POST['delete'])) {
 
     if(DEMO) {
-        $placeholder['message']['error'] = 'In der Demo Version darf die Datei nicht gelöscht werden!';
+        $placeholder['message']['error'] = __('In der Demo Version darf die Datei nicht gelöscht werden!');
     } else {
         if(App\Tables\Infos::delete($database_pdo, $id_info)) {
             header('location: ' . $baseUrl . '/info.php');
             return;
         }
         $file_label = include '../filters/post_info_file_label.php';
-        $placeholder['message']['error'] = 'Die Datei ' . $file_label . ' konnte nicht gelöscht werden!';
+        $placeholder['message']['error'] = __('Die Datei ') . $file_label . __(' konnte nicht gelöscht werden!');
     }
 }
 elseif (isset($_POST['save'])) {
     
     if(DEMO) {
-        $placeholder['message']['error'] = 'In der Demo Version darf die Datei nicht bearbeitet werden!';
+        $placeholder['message']['error'] = __('In der Demo Version darf die Datei nicht bearbeitet werden!');
     } else {
         $file_label = include '../filters/post_info_file_label.php';
 
         if($file_label)
             if(App\Tables\Infos::update($database_pdo, $id_info, $file_label))
-                $placeholder['message']['success'] = 'Die Datei wurde in "' . $file_label . '" umbenannt.';
+                $placeholder['message']['success'] = __('Die Datei wurde in "') . $file_label . __('" umbenannt.');
             else
-                $placeholder['message']['error'] = 'Die Datei konnte nicht in "' . $file_label . '" umbennant werden!';
+                $placeholder['message']['error'] = __('Die Datei konnte nicht in "') . $file_label . __('" umbennant werden!');
     }
 }
 

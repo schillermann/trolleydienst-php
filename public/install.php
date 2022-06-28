@@ -1,10 +1,11 @@
 <?php
-define('APPLICATION_NAME', 'Öffentliches Zeugnisgeben');
-define('CONGREGATION_NAME', 'Installation');
+define('LANG', 'en');
+require '../includes/language.php';
+define('APPLICATION_NAME', __("Öffentliches Zeugnisgeben"));
+define('CONGREGATION_NAME', __("Installation"));
 define('REQUIRE_INPUT_FIELDS', 8);
 
 $baseUrl = include '../includes/get_base_uri.php';
-
 require __DIR__ . '/../vendor/autoload.php';
 
 if(App\Tables\Database::exists_database()) {
@@ -19,7 +20,7 @@ if(isset($_POST['install'])) {
     $input_list = $filter_post_input();
 
     if(empty($_POST['password']) || empty($_POST['password_repeat']) || $_POST['password'] != $_POST['password_repeat']) {
-        $placeholder['message']['error'] = 'Passwörter stimmen nicht überein!';
+        $placeholder['message']['error'] = __('Passwörter stimmen nicht überein!');
     } else if(count($input_list) === REQUIRE_INPUT_FIELDS) {
 
         $user = new App\Models\User(
@@ -42,7 +43,9 @@ if(isset($_POST['install'])) {
             'UPLOAD_SIZE_MAX_IN_MEGABYTE' => 5,
             'BAN_TIME_IN_MINUTES' => 5,
             'LOGIN_FAIL_MAX' => 5,
-            'DEMO' => false
+            'DEMO' => false,
+            'LANG' => 'de',
+            'TIMEZONE' => 'Europe/Berlin'
         );
 
         if(
@@ -55,9 +58,9 @@ if(isset($_POST['install'])) {
             return;
         }
 
-        $placeholder['message']['error'] = 'Bei der Installation ist ein Fehler aufgetreten!';
+        $placeholder['message']['error'] = __('Bei der Installation ist ein Fehler aufgetreten!');
     } else {
-        $placeholder['message']['error'] = 'Alle Pflichtfelder müssen ausgefüllt werden!';
+        $placeholder['message']['error'] = __('Alle Pflichtfelder müssen ausgefüllt werden!');
     }
 }
 
