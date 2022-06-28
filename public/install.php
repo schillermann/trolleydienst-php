@@ -1,5 +1,5 @@
 <?php
-define('LANG', 'en');
+define('LANG', 'de');
 require '../includes/language.php';
 define('APPLICATION_NAME', __("Öffentliches Zeugnisgeben"));
 define('CONGREGATION_NAME', __("Installation"));

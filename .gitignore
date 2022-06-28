@@ -1,4 +1,4 @@
 composer.lock
 config.php
-database.*
+database.sqlite
 vendor/
