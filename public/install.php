@@ -24,6 +24,7 @@ if(isset($_POST['install'])) {
 
         $user = new App\Models\User(
             1,
+            $input_list['username'],
             $input_list['name'],
             $input_list['email'],
             $_POST['password'],
