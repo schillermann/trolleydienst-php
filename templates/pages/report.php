@@ -1,15 +1,15 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
-    <h2>Berichte</h2>
+    <h2><?php echo __("Berichte"); ?></h2>
 </header>
 <nav id="nav-sub">
     <a href="./report-submit.php" class="button active">
-        <i class="fa fa-plus"></i> Bericht abgeben
+        <i class="fa fa-plus"></i> <?php echo __("Bericht abgeben"); ?>
     </a>
 </nav>
 <div class="container-center">
     <form method="post">
-        <label for="id_shift_type">Schichtart</label>
+        <label for="id_shift_type"><?php echo __("Schichtart"); ?></label>
         <select id="id_shift_type" name="id_shift_type">
             <?php foreach($placeholder['shifttype_list'] as $shifttype): ?>
                 <option value="<?php echo $shifttype['id_shift_type'];?>" <?php echo (isset($_POST['id_shift_type']) && $_POST['id_shift_type'] == $shifttype['id_shift_type'])? 'selected':'';?>>
@@ -17,12 +17,12 @@
                 </option>
             <?php endforeach;?>
         </select>
-        <label for="report_from">von:</label>
+        <label for="report_from"><?php echo __("von:"); ?></label>
         <input id="report_from" name="report_from" type="date" value="<?php echo $placeholder['report_from'];?>">
-        <label for="report_to">bis:</label>
+        <label for="report_to"><?php echo __("bis:"); ?></label>
         <input id="report_to" name="report_to" type="date" value="<?php echo $placeholder['report_to'];?>">
         <button name="filter" class="active">
-            <i class="fa fa-search"></i> filtern
+            <i class="fa fa-search"></i> <?php echo __("filtern"); ?>
         </button>
     </form>
     <div class="table-container">
@@ -40,9 +40,9 @@
                         <td colspan="2">
                             <p>
                                 <a href="./report.php?id_report=<?php echo $id_report;?>" class="button warning">
-                                    <i class="fa fa-trash-o"></i> löschen
+                                    <i class="fa fa-trash-o"></i> <?php echo __("löschen"); ?>
                                 </a>
-                                <span><strong>Erstellt am:</strong> <?php echo $report['created'];?></span>
+                                <span><strong><?php echo __("Erstellt am"); ?>:</strong> <?php echo $report['created'];?></span>
                             </p>
                         </td>
                     </tr>
@@ -51,7 +51,7 @@
                     <?php if($report['book'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Bücher
+                        <?php echo __("Bücher"); ?>
                         </td>
                         <td>
                             <?php echo $report['book'];?>
@@ -61,7 +61,7 @@
                     <?php if($report['brochure'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Broschüren
+                        <?php echo __("Broschüren"); ?>
                         </td>
                         <td>
                             <?php echo $report['brochure'];?>
@@ -71,7 +71,7 @@
                     <?php if($report['bible'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Bibel
+                        <?php echo __("Bibel"); ?>
                         </td>
                         <td>
                             <?php echo $report['bible'];?>
@@ -81,7 +81,7 @@
                     <?php if($report['magazine'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Zeitschriften
+                        <?php echo __("Zeitschriften"); ?>
                         </td>
                         <td>
                             <?php echo $report['magazine'];?>
@@ -91,7 +91,7 @@
                     <?php if($report['tract'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Traktate
+                        <?php echo __("Traktate"); ?>
                         </td>
                         <td>
                             <?php echo $report['tract'];?>
@@ -101,7 +101,7 @@
                     <?php if($report['address'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Adressen
+                        <?php echo __("Adressen"); ?>
                         </td>
                         <td>
                             <?php echo $report['address'];?>
@@ -111,7 +111,7 @@
                     <?php if($report['talk'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                            Gespräche
+                        <?php echo __("Gespräche"); ?>
                         </td>
                         <td>
                             <?php echo $report['talk'];?>
@@ -121,7 +121,7 @@
                     <?php if(!empty($report['note_user'])): ?>
                     <tr>
                         <td class="report-label">
-                            Bemerkung
+                        <?php echo __("Bemerkung"); ?>
                         </td>
                         <td>
                             <?php echo $report['note_user'];?>

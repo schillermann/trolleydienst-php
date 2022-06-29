@@ -25,9 +25,9 @@ if (isset($_POST['save'])) {
     );
 
     if(App\Tables\Shifts::update($database_pdo, $shift))
-        $placeholder['message']['success'] = 'Die Schicht wurde geändert.';
+        $placeholder['message']['success'] = __('Die Schicht wurde geändert.');
     else
-        $placeholder['message']['error'] = 'Die Schicht konnte nicht geändert werden!';
+        $placeholder['message']['error'] = __('Die Schicht konnte nicht geändert werden!');
 } elseif (isset($_POST['delete'])) {
 	$delete_shift = include '../services/delete_shift.php';
 
@@ -35,7 +35,7 @@ if (isset($_POST['save'])) {
 		header('location: ' . $baseUrl . '/shift.php?id_shift_type=' . $id_shift_type);
 		return;
 	} else {
-		$placeholder['message']['error'] = 'Die Schicht konnte nicht gelöscht werden';
+		$placeholder['message']['error'] = __('Die Schicht konnte nicht gelöscht werden');
 	}
 }
 

@@ -1,29 +1,29 @@
 <?php $parse_link_ip_geo = include '../templates/helpers/parse_link_ip_geo.php';?>
 <header>
-    <h2>Verlauf</h2>
+    <h2><?php echo __("Verlauf"); ?></h2>
 </header>
 <nav id="nav-sub">
     <a href="./history-shift.php" class="button">
-        <i class="fa fa-calendar-o"></i> Schichtverlauf
+        <i class="fa fa-calendar-o"></i> <?php echo __("Schichtverlauf"); ?>
     </a>
     <a href="./history-login.php" class="button active">
-        <i class="fa fa-sign-in"></i> Login
+        <i class="fa fa-sign-in"></i> <?php echo __("Login"); ?>
     </a>
     <a href="./history-system.php" class="button">
-        <i class="fa fa-cog"></i> System
+        <i class="fa fa-cog"></i> <?php echo __("System"); ?>
     </a>
 </nav>
 <div>
-    <h3>Login Fehlermeldungen</h3>
+    <h3><?php echo __("Login Fehlermeldungen"); ?></h3>
 	<?php if(empty($placeholder['login_error_list'])) : ?>
-        <p>Es sind keine Fehlermeldungen vorhanden.</p>
+        <p><?php echo __("Es sind keine Fehlermeldungen vorhanden."); ?></p>
 	<?php else : ?>
         <div class="table-container">
             <table>
                 <tr>
-                    <th>Ausgeführt am</th>
-                    <th>Name</th>
-                    <th>Mitteilung</th>
+                    <th><?php echo __("Ausgeführt am"); ?></th>
+                    <th><?php echo __("Name"); ?></th>
+                    <th><?php echo __("Mitteilung"); ?></th>
                 </tr>
 				<?php foreach ($placeholder['login_error_list'] as $shift_history) : ?>
                     <tr>

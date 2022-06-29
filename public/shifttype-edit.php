@@ -14,9 +14,9 @@ if (isset($_POST['save'])) {
     $user_per_shift_max = (int)$_POST['user_per_shift_max'];
 
     if(App\Tables\ShiftTypes::update($database_pdo, $id_shift_type, $name, $shift_type_info, $user_per_shift_max))
-        $placeholder['message']['success'] = 'Die Änderungen wurden gespeichert.';
+        $placeholder['message']['success'] = __('Die Änderungen wurden gespeichert.');
     else
-        $placeholder['message']['error'] = 'Die Änderungen konnten nicht gespeichert werden!';
+        $placeholder['message']['error'] = __('Die Änderungen konnten nicht gespeichert werden!');
 } elseif (isset($_POST['delete'])) {
     if(App\Tables\ShiftTypes::delete($database_pdo, $id_shift_type)) {
         header('location: ' . $baseUrl . '/shifttype.php');

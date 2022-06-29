@@ -7,7 +7,7 @@
 		return 0;
 
 	$ban_datetime = new \DateTime($ban_datetime_string);
-	$datetime_now = new \DateTime('now', new DateTimezone('Europe/Berlin'));
+	$datetime_now = new \DateTime('now', new DateTimezone(TIMEZONE));
 
 	$ban_datetime_diff = $ban_datetime->diff($datetime_now);
 	$ban_datetime_diff_in_minutes = (int)$ban_datetime_diff->format('%i');

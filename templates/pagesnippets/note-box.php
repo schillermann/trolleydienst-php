@@ -10,7 +10,7 @@
 			</p>
 		<?php endif; ?>
 		<button type="button" onclick="closeNoteBox()">
-			<i class="fa fa-times"></i> schliessen
+			<i class="fa fa-times"></i> <?php echo __("schliessen"); ?>
 		</button>
 	</div>
 <?php endif; ?>

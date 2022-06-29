@@ -1,6 +1,6 @@
 <?php ob_start();?>
 <select name="promote_id_user" class="button promote" onchange="submitForm(this)">
-    <option value="0">bewerben</option>
+    <option value="0"><?php echo __("bewerben"); ?></option>
     <?php foreach ($placeholder['user_promote_list'] as $id_user => $name): ?>
         <option value="<?php echo $id_user; ?>"><?php echo $name; ?></option>
     <?php endforeach;?>
@@ -20,12 +20,12 @@
         <?php endif; ?>
 
         <button onclick="closeNoteBox(); return false;">
-            <i class="fa fa-times"></i> schliessen
+            <i class="fa fa-times"></i> <?php echo __("schliessen"); ?>
         </button>
         <form method="post" class="form_inline">
             <?php if(isset($_POST['promote_id_user'])): ?>
                 <button>
-                    <i class="fa fa-undo"></i> rückgängig
+                    <i class="fa fa-undo"></i> <?php echo __("rückgängig"); ?>
                 </button>
                 <input type="hidden" name="id_shift" value="<?php echo (int)$_POST['id_shift'];?>">
                 <input type="hidden" name="position" value="<?php echo (int)$_POST['position'];?>">
@@ -37,7 +37,7 @@
 <?php endif; ?>
 
 <header>
-    <h2><?php echo $placeholder['shift_type']['name'];?> Schichten</h2>
+    <h2><?php echo $placeholder['shift_type']['name'];?> <?php echo __("Schichten"); ?></h2>
     <?php if(!empty($placeholder['shift_type']['info'])): ?>
         <div class="info-box">
             <p>
@@ -50,7 +50,7 @@
 <?php if($_SESSION['is_admin']): ?>
     <nav>
         <a href="./shift-add.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>" class="button active">
-            <i class="fa fa-plus"></i> Neue Schichten
+            <i class="fa fa-plus"></i> <?php echo __("Neue Schichten"); ?>
         </a>
     </nav>
 <?php endif; ?>
@@ -73,7 +73,7 @@
                     <p>
                         <?php if($_SESSION['is_admin']): ?>
                             <a href="./shift-edit.php?id_shift_type=<?php echo $placeholder['id_shift_type']?>&id_shift=<?php echo $id_shift;?>" class="button">
-                                <i class="fa fa-pencil"></i> bearbeiten
+                                <i class="fa fa-pencil"></i> <?php echo __("bearbeiten"); ?>
                             </a>
                         <?php endif; ?>
                     </p>

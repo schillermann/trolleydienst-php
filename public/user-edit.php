@@ -11,7 +11,7 @@ $id_user = (int)$_GET['id_user'];
 
 if (isset($_POST['save'])) {
     if(DEMO) {
-        $placeholder['message']['error'] = 'In der Demo Version dürfen die Teilnehmer Daten nicht geändert werden!';
+        $placeholder['message']['error'] = __('In der Demo Version dürfen die Teilnehmer Daten nicht geändert werden!');
     } else {
         $user = new App\Models\User(
             $id_user,
@@ -32,13 +32,13 @@ if (isset($_POST['save'])) {
             header('location: ' . $baseUrl . '/user.php');
             return;
         } else {
-            $placeholder['message']['error'] = 'Die Teilnehmer Daten konnten nicht geändert werden!';
+            $placeholder['message']['error'] = __('Die Teilnehmer Daten konnten nicht geändert werden!');
         }
     }
 } elseif (isset($_POST['delete'])) {
     
     if(DEMO) {
-         $placeholder['message']['error'] = 'In der Demo Version darf der Teilnehmer nicht gelöscht werden!';
+         $placeholder['message']['error'] = __('In der Demo Version darf der Teilnehmer nicht gelöscht werden!');
      } else {
         if(App\Tables\Users::delete($database_pdo, $id_user)) {
             header('location: ' . $baseUrl . '/user.php');
@@ -47,15 +47,15 @@ if (isset($_POST['save'])) {
      }
 } elseif(isset($_POST['password_save']) && !empty($_POST['password'])) {
     if(DEMO) {
-        $placeholder['message']['error'] = 'In der Demo Version darf das Passwort nicht geändert werden!';
+        $placeholder['message']['error'] = __('In der Demo Version darf das Passwort nicht geändert werden!');
     } else {
         if($_POST['password'] == $_POST['password_repeat'])
             if(App\Tables\Users::update_password($database_pdo, $id_user, $_POST['password']))
-                $placeholder['message']['success'] = 'Dein Passwort wurde geändert.';
+                $placeholder['message']['success'] = __('Dein Passwort wurde geändert.');
             else
-                $placeholder['message']['error'] = 'Dein Passwort konnte nicht geändert werden!';
+                $placeholder['message']['error'] = __('Dein Passwort konnte nicht geändert werden!');
         else
-            $placeholder['message']['error'] = 'Passwörter stimmen nicht überein!';  
+            $placeholder['message']['error'] = __('Passwörter stimmen nicht überein!');
     }
 }
 

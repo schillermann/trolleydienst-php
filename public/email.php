@@ -8,15 +8,15 @@ if(isset($_POST['send']) && !empty($_POST['email_subject']) && !empty($_POST['em
     $placeholder['email']['message'] = $_POST['email_message'];
     
     if(DEMO) {
-        $placeholder['message']['error'] = 'In der Demo Version darf keine E-Mail gesendet werden!';   
+        $placeholder['message']['error'] = __('In der Demo Version darf keine E-Mail gesendet werden!');
     } else {
 
         $placeholder['user_list'] = App\Tables\Users::select_all_email($database_pdo);
 
         if(empty($placeholder['user_list']))
-            $placeholder['message']['error'] = 'Es wurden keine E-Mail Adresse für den Versand gefunden!';
+            $placeholder['message']['error'] = __('Es wurden keine E-Mail Adresse für den Versand gefunden!');
         else {
-            $placeholder['message']['success'] = 'E-Mail wurde versendet an:';
+            $placeholder['message']['success'] = __('E-Mail wurde versendet an:');
 
             foreach ($placeholder['user_list'] as $user) {
                 $replace_with = array(
