@@ -25,9 +25,9 @@ if (isset($_POST['save'])) {
     );
 
     if(App\Tables\Shifts::update($database_pdo, $shift))
-        $placeholder['message']['success'] = __('Die Schicht wurde geändert.');
+        $placeholder['message']['success'] = __('The shift has been changed.');
     else
-        $placeholder['message']['error'] = __('Die Schicht konnte nicht geändert werden!');
+        $placeholder['message']['error'] = __('The shift could not be changed!');
 } elseif (isset($_POST['delete'])) {
 	$delete_shift = include '../services/delete_shift.php';
 
@@ -35,7 +35,7 @@ if (isset($_POST['save'])) {
 		header('location: ' . $baseUrl . '/shift.php?id_shift_type=' . $id_shift_type);
 		return;
 	} else {
-		$placeholder['message']['error'] = __('Die Schicht konnte nicht gelöscht werden');
+		$placeholder['message']['error'] = __('The shift could not be deleted!');
 	}
 }
 
@@ -53,8 +53,8 @@ $placeholder['time_from'] = $datetime_from[1];
 
 $updated = new \DateTime($shift['updated']);
 $created = new \DateTime($shift['created']);
-$placeholder['updated'] = $updated->format('d.m.Y H:i');
-$placeholder['created'] = $created->format('d.m.Y H:i');
+$placeholder['updated'] = $updated->format(__('d/m/Y') . ' H:i');
+$placeholder['created'] = $created->format(__('d/m/Y') . ' H:i');
 
 $render_page = include '../includes/render_page.php';
 echo $render_page($placeholder);

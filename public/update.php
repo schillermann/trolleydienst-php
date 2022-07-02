@@ -23,9 +23,9 @@ if($_POST)
 
         if($success_migrations)
             $placeholder['message']['success']  =
-                __('Folgende Datenbank Migrationen wurden durchgeführt: ') . implode(', ', $success_migrations);
+                __('The following database migrations were carried out successfully: ') . implode(', ', $success_migrations);
         else
-            $placeholder['message']['success'] = __('Die Datenbank ist auf dem neusten Stand.');
+            $placeholder['message']['success'] = __('The database is up to date.');
     } catch (Exception $exc) {
         $placeholder['message']['error'] = $exc->getMessage();
     }

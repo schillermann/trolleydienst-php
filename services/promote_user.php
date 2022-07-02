@@ -12,7 +12,7 @@
 	$shift_to = clone $shift_from;
 	$shift_to->add(new DateInterval('PT' . (int)$shift['minutes_per_shift'] . 'M'));
     $shift_datetime = new \DateTime($shift['datetime_from']);
-    $shift_datetime_format = $shift_datetime->format(__('d.m.Y'));
+    $shift_datetime_format = $shift_datetime->format(__('d/m/Y'));
 
     if ($promote_user_success) {
 
@@ -25,10 +25,26 @@
         }
 
         $history_type = App\Tables\History::SHIFT_PROMOTE_SUCCESS;
-        $message = __('Die ') . $shift_type_name . __(' Schicht Bewerbung vom ') . $shift_datetime_format . __(' Schicht ') . $position . __(' für ') . $user_name . __(' wurde angenommen.');
+        $message = __(
+            'The %s shift for %s shift %s from %s was accepted.',
+            [
+                $shift_type_name,
+                $shift_datetime_format,
+                $position,
+                $user_name
+            ]
+        );
     } else {
         $history_type = App\Tables\History::SHIFT_PROMOTE_ERROR;
-        $message = __('Die ') . $shift_type_name . __(' Schicht Bewerbung vom  ') . $shift_datetime_format . __(' Schicht ') . $position . __(' für ') . $user_name . __(' konnte nicht angenommen werden!');
+        $message = __(
+            'The %s shift for %s shift %s für %s could not be accepted!',
+            [
+                $shift_type_name,
+                $shift_datetime_format,
+                $position,
+                $user_name
+            ]
+        );
     }
 
     App\Tables\History::insert(

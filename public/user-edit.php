@@ -11,7 +11,7 @@ $id_user = (int)$_GET['id_user'];
 
 if (isset($_POST['save'])) {
     if(DEMO) {
-        $placeholder['message']['error'] = __('In der Demo Version dürfen die Teilnehmer Daten nicht geändert werden!');
+        $placeholder['message']['error'] = __('User details cannot be changed in the demo version!');
     } else {
         $user = new App\Models\User(
             $id_user,
@@ -32,13 +32,13 @@ if (isset($_POST['save'])) {
             header('location: ' . $baseUrl . '/user.php');
             return;
         } else {
-            $placeholder['message']['error'] = __('Die Teilnehmer Daten konnten nicht geändert werden!');
+            $placeholder['message']['error'] = __('The publisher details could not be changed!');
         }
     }
 } elseif (isset($_POST['delete'])) {
     
     if(DEMO) {
-         $placeholder['message']['error'] = __('In der Demo Version darf der Teilnehmer nicht gelöscht werden!');
+         $placeholder['message']['error'] = __('Users cannot be deleted in the demo version!');
      } else {
         if(App\Tables\Users::delete($database_pdo, $id_user)) {
             header('location: ' . $baseUrl . '/user.php');
@@ -47,15 +47,15 @@ if (isset($_POST['save'])) {
      }
 } elseif(isset($_POST['password_save']) && !empty($_POST['password'])) {
     if(DEMO) {
-        $placeholder['message']['error'] = __('In der Demo Version darf das Passwort nicht geändert werden!');
+        $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
     } else {
         if($_POST['password'] == $_POST['password_repeat'])
             if(App\Tables\Users::update_password($database_pdo, $id_user, $_POST['password']))
-                $placeholder['message']['success'] = __('Dein Passwort wurde geändert.');
+                $placeholder['message']['success'] = __('Your password has been changed successfully.');
             else
-                $placeholder['message']['error'] = __('Dein Passwort konnte nicht geändert werden!');
+                $placeholder['message']['error'] = __('Your password could not be changed!');
         else
-            $placeholder['message']['error'] = __('Passwörter stimmen nicht überein!');
+            $placeholder['message']['error'] = __('Passwords do not match!');
     }
 }
 
@@ -63,8 +63,8 @@ $placeholder['user'] = App\Tables\Users::select_user($database_pdo, $id_user);
 
 $user_updated = new \DateTime($placeholder['user']['updated']);
 $user_created = new \DateTime($placeholder['user']['created']);
-$placeholder['user']['updated'] = $user_updated->format('d.m.Y H:i');
-$placeholder['user']['created'] = $user_created->format('d.m.Y H:i');
+$placeholder['user']['updated'] = $user_updated->format(__('d/m/Y') . ' H:i');
+$placeholder['user']['created'] = $user_created->format(__('d/m/Y') . ' H:i');
 
 $render_page = include '../includes/render_page.php';
 echo $render_page($placeholder);

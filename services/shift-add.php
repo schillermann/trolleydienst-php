@@ -38,9 +38,9 @@ if(isset($_POST['save'])) {
     while ($shift_datetime_from <= $shift_datetime_until) {
 
         if(App\Tables\Shifts::insert($database_pdo, $shift))
-            $placeholder['message']['success'][] = $shift_datetime_from->format(__('d.m.Y')) . ' ' . $shift_datetime_from->format('H:i');
+            $placeholder['message']['success'][] = $shift_datetime_from->format(__('d/m/Y')) . ' ' . $shift_datetime_from->format('H:i');
         else
-            $placeholder['message']['error'][] = $shift_datetime_from->format(__('d.m.Y')) . ' ' . $shift_datetime_from->format('H:i');
+            $placeholder['message']['error'][] = $shift_datetime_from->format(__('d/m/Y')) . ' ' . $shift_datetime_from->format('H:i');
 
         $shift_datetime_from->add(new \DateInterval('P7D'));
     }

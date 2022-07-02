@@ -1,16 +1,28 @@
 <?php
-	if ( !function_exists('__') ) {
-		function __($string) {
-			if ( LANG == "de" ) {
-				return $string;
-			}
-			
-			include '../includes/lang/' . LANG . '.lang.php';	
-			
-			if ( array_key_exists($string, $language) ) {
-				return $language[$string];
-			} else {
-				return $string;
-			}
-		}
+
+function __(string $text, array $args = []) {
+	
+	$language = include '../helpers/get_language.php';
+	$languageFile = '../language/' . $language . '.php';
+
+	if (!is_readable($languageFile)) {
+		return vsprintf(
+			$text,
+			$args
+		);
 	}
+
+	$translation = include($languageFile);
+
+	if ( array_key_exists($text, $translation) ) {
+		return vsprintf(
+			$translation[$text],
+			$args
+		);
+	} else {
+		return vsprintf(
+			$text,
+			$args
+		);
+	}
+}

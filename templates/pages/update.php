@@ -1,43 +1,43 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
-    <h2><?php echo __("Update"); ?></h2>
-    <a href="./" class="button"><i class="fa fa-chevron-left"></i> <?php echo __("zurück"); ?></a>
+    <h2><?= __('Update') ?></h2>
+    <a href="./" class="button"><i class="fa fa-chevron-left"></i> <?= __('Back') ?></a>
 </header>
 <div class="container-center">
     
     <?php if($placeholder['is_up_to_date']) : ?>
         <div class="info-box">
             <p>
-                <strong style="color:red"><?php echo __("ACHTUNG"); ?>:</strong> <?php echo __("Aus Sicherheitsgründen lösche die Datei update.php auf dem Server."); ?>
+                <strong style="color:red"><?= __('WARNING') ?>:</strong> <?= __('For security reasons, please delete the update.php file from the server.') ?>
             </p>
         </div>
-        <p><?php echo __("Die Datenbank ist auf dem aktuellsten Stand."); ?></p>
+        <p><?= __('The database is up to date.') ?></p>
         <p>
-        <?php echo __("Sobald eine neue Version von Trolleydienst PHP auf"); ?> <a href="https://trolleydienst.de">trolleydienst.de</a> <?php echo __("zur Verfügung, steht kannst du sie herunterladen und auf deinen Server hochladen."); ?>
+        <?= __('As soon as a new version of Trolleydienst PHP from <a href="https://github.com/schillermann/trolleydienst-php/releases">github.com</a> is released, you can download it and upload it to your server.') ?>
         </p>
         <p>
-        <?php echo __("Beim Hochladen musst du die vorhandenen Dateien überschreiben."); ?>
-        <?php echo __("Du kannst auch die alte Version löschen, bevor du die neue Version hoch lädst."); ?>
-        <?php echo __("Es dürfen dabei die Dateien config.php und database.sqlite"); ?> <strong style="color:red"><?php echo __("NICHT GELÖSCHT"); ?></strong> <?php echo __("werden."); ?>
+        <?= __('When uploading, be sure to overwrite the existing files.') ?>
+        <?= __('Alternatively, delete the old version before uploading the new version.') ?>
+        <?= __('The files config.php and database.sqlite <strong style="color:red">MUST NOT BE</strong> deleted.') ?>
        </p>
        <p>
-       <?php echo __("Als nächstes musst du das Update starten um die Datenbank auf den neusten Stand zu bringen."); ?>
+       <?= __('Now you need to start the update to update the database.') ?>
         </p>
     <?php else: ?>
         <div class="info-box">
-            <p><?php echo __("Die Datenbank muss aktuallisiert werden."); ?></p>
+            <p><?= __('The database needs to be updated.') ?></p>
         </div>
         <p>
-            <strong style="color:red"><?php echo __("Bitte starte das Update jetzt."); ?></strong>
+            <strong style="color:red"><?= __('Please start the update now.') ?></strong>
         </p>
         <p>
             <form method="post">
                <div class="from-button">
                    <button name="update" class="active">
-                       <i class="fa fa-floppy-o"></i> <?php echo __("Update starten"); ?>
+                       <i class="fa fa-floppy-o"></i> <?= __('Start update') ?>
                    </button>
                </div>
            </form>
        </p>
-    <?php endif; ?>
+    <?php endif ?>
 </div>

@@ -45,9 +45,9 @@ if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
         $set_ban_time = include '../services/set_ban_time.php';
 
         if($set_ban_time($database_pdo, LOGIN_FAIL_MAX))
-            $placeholder['message']['error'] = __('Du bist für ') . BAN_TIME_IN_MINUTES . __(' Minuten gesperrt!');
+            $placeholder['message']['error'] = __('You have been blocked for %d minutes!', [ BAN_TIME_IN_MINUTES ]);
         else
-            $placeholder['message']['error'] = __('Anmeldung ist fehlgeschlagen!');
+            $placeholder['message']['error'] = __('Login failed!');
 
         $user_ip_address = include '../modules/get_ip_address.php';
 
@@ -55,7 +55,7 @@ if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
             $database_pdo,
             $placeholder['post_email_or_username'] ,
             App\Tables\History::LOGIN_ERROR,
-            __('Anmeldung mit der IP ') . $user_ip_address . __(' ist fehlgeschlagen!')
+            __('Login with the IP %s failed!', [ $user_ip_address ])
         );
     }
 }

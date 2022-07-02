@@ -12,7 +12,7 @@
 			'name' => $report['name'],
 			'route' => $report['route'],
 			'day' => $get_weekday($shift_datetime_from),
-			'datetime' => $shift_datetime_from->format('d.m.Y H:i'),
+			'datetime' => $shift_datetime_from->format(__('d/m/Y') . ' H:i'),
 			'book' => (int)$report['book'],
 			'brochure' => (int)$report['brochure'],
 			'bible' => (int)$report['bible'],
@@ -21,7 +21,7 @@
 			'address' => (int)$report['address'],
 			'talk' => (int)$report['talk'],
 			'note_user' => $report['note_user'],
-            'created' => $created->format('d.m.Y H:i')
+            'created' => $created->format(__('d/m/Y') . ' H:i')
 		);
 	}
 	return $report_list;

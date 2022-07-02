@@ -1,12 +1,12 @@
 <header>
-    <h2><?php echo __("Teilnehmer Liste"); ?></h2>
+    <h2><?= __('Publisher List') ?></h2>
 </header>
 <form method="post">
     <div class="from-button">
         <a href="./user-add.php" class="button active">
-            <i class="fa fa-plus"></i> <?php echo __("Neuer Teilnehmer"); ?>
+            <i class="fa fa-plus"></i> <?= __('New Pubisher') ?>
         </a>
-        <input placeholder="<?php echo __("Teilnehmer suchen"); ?>">
+        <input placeholder="<?= __('Search Publishers') ?>">
         <button type="submit" name="user_search">
             <i class="fa fa-search"></i>
         </button>
@@ -15,22 +15,22 @@
 <div class="table-container">
     <table>
         <tr>
-            <th><?php echo __("Name"); ?></th>
-            <th><?php echo __("E-Mail"); ?></th>
-            <th><?php echo __("Aktiv"); ?></th>
-            <th><?php echo __("Admin"); ?></th>
-            <th><?php echo __("Letzter Login"); ?></th>
-            <th><?php echo __("Aktion"); ?></th>
+            <th><?= __('Name') ?></th>
+            <th><?= __('Email') ?></th>
+            <th><?= __('Active') ?></th>
+            <th><?= __('Admin') ?></th>
+            <th><?= __('Last Login') ?></th>
+            <th><?= __('Action') ?></th>
         </tr>
         <?php foreach ($placeholder['user_list'] as $user) : ?>
         <tr>
-            <td><?php echo $user['name'];?></td>
-            <td><?php echo $user['email'];?></td>
-            <td><i class="fa <?php echo ($user['is_active']) ? 'fa-check' : 'fa-times';?>"></i></td>
-            <td><i class="fa <?php echo ($user['is_admin']) ? 'fa-check' : 'fa-times';?>"></i></td>
-            <td><?php echo $user['last_login'];?></td>
-            <td><a class="button" href="./user-edit.php?id_user=<?php echo $user['id_user'];?>"><i class="fa fa-pencil"></i> <?php echo __("bearbeiten"); ?></a></td>
+            <td><?= $user['name'];?></td>
+            <td><?= $user['email'];?></td>
+            <td><i class="fa <?= ($user['is_active']) ? 'fa-check' : 'fa-times';?>"></i></td>
+            <td><i class="fa <?= ($user['is_admin']) ? 'fa-check' : 'fa-times';?>"></i></td>
+            <td><?= $user['last_login'];?></td>
+            <td><a class="button" href="./user-edit.php?id_user=<?= $user['id_user'];?>"><i class="fa fa-pencil"></i> <?= __('Edit') ?></a></td>
         </tr>
-        <?php endforeach; ?>
+        <?php endforeach ?>
     </table>
 </div>

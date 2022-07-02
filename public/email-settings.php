@@ -30,9 +30,9 @@ if (isset($_POST['save'])) {
         $placeholder['application_name'] = $input_fields['application_name'];
         $placeholder['team_name'] = $input_fields['team_name'];
 
-        $placeholder['message']['success'] = __('Die E-Mail Platzhalter wurden in die Datei config.php geschrieben.');
+        $placeholder['message']['success'] = __('The email placeholders have been written to the config.php file.');
     } else {
-        $placeholder['message']['error'] = __('Die E-Mail Platzhalter konnten nicht in die Datei config.php geschrieben werden!');
+        $placeholder['message']['error'] = __('The email placeholders could not be written to the config.php file.');
     }
 }
 

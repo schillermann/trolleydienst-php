@@ -11,9 +11,9 @@ $placeholder['shifttype_list'] = array();
 if(isset($_GET['id_report'])) {
 	$id_report = (int)$_GET['id_report'];
 	if(App\Tables\Reports::delete($database_pdo, $id_report))
-		$placeholder['message']['success'] = __('Dein Bericht wurde gelöscht.');
+		$placeholder['message']['success'] = __('Your report has been deleted.');
 	else
-		$placeholder['message']['error'] = __('Dein Bericht konnte nicht gelöscht werden!');
+		$placeholder['message']['error'] = __('Your report could not be deleted!');
 }
 
 if($id_shift_type > 0) {

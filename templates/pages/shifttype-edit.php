@@ -1,39 +1,39 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
-    <h2><?php echo __("Schichttyp bearbeiten"); ?></h2>
+    <h2><?= __('Edit Shift Type') ?></h2>
 </header>
 <nav>
     <a href="./shifttype.php" class="button">
-        <i class="fa fa-chevron-left"></i> <?php echo __("zurück"); ?>
+        <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>
 <div class="container-center">
     <form method="post">
         <fieldset>
-            <legend><?php echo __("Schichttyp"); ?></legend>
+            <legend><?= __('Shift Type') ?></legend>
             <div>
-                <label for="name"><?php echo __("Name"); ?> <small>(<?php echo __("Pflichtfeld"); ?>)</small></label>
-                <input id="name" name="name" required value="<?php echo $placeholder['shift_type']['name'];?>">
+                <label for="name"><?= __('Name') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="name" name="name" required value="<?= $placeholder['shift_type']['name'];?>">
             </div>
             <div>
-                <label for="user_per_shift_max"><?php echo __("Teilnehmer pro Schicht maximal"); ?> <small>(<?php echo __("Pflichtfeld"); ?>)</small></label>
-                <input id="user_per_shift_max" type="number" name="user_per_shift_max" required value="<?php echo $placeholder['shift_type']['user_per_shift_max'];?>">
+                <label for="user_per_shift_max"><?= __('Max. Publishers per Shift') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="user_per_shift_max" type="number" name="user_per_shift_max" required value="<?= $placeholder['shift_type']['user_per_shift_max'];?>">
             </div>
             <div>
-                <label for="shift_type_info"><?php echo __("Info"); ?></label>
-                <textarea id="shift_type_info" name="shift_type_info" class="note"><?php echo $placeholder['shift_type']['info'];?></textarea>
+                <label for="shift_type_info"><?= __('Info') ?></label>
+                <textarea id="shift_type_info" name="shift_type_info" class="note"><?= $placeholder['shift_type']['info'];?></textarea>
             </div>
         </fieldset>
         <div class="from-button">
             <button name="save" class="active">
-                <i class="fa fa-floppy-o"></i> <?php echo __("speichern"); ?>
+                <i class="fa fa-floppy-o"></i> <?= __('Save') ?>
             </button>
             <button name="delete" class="warning">
-                <i class="fa fa-trash-o"></i> <?php echo __("löschen"); ?>
+                <i class="fa fa-trash-o"></i> <?= __('Delete') ?>
             </button>
         </div>
     </form>
     <div id="footnote">
-        <p><strong><?php echo __("Geändert am"); ?>:</strong> <?php echo $placeholder['shift_type']['updated'];?> - <strong><?php echo __("Erstellt am"); ?>:</strong> <?php echo $placeholder['shift_type']['created'];?></p>
+        <p><strong><?= __('Updated on') ?>:</strong> <?= $placeholder['shift_type']['updated'];?> - <strong><?= __('Created on') ?>:</strong> <?= $placeholder['shift_type']['created'];?></p>
     </div>
 </div>

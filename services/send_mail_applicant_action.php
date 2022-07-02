@@ -13,7 +13,7 @@
 		$replace_with = array(
 			'NAME' => $user['name'],
 			'APPLICANT_NAME' => $user_name,
-			'SHIFT_DATE' => $shift_datetime->format(__('d.m.Y')),
+			'SHIFT_DATE' => $shift_datetime->format(__('d/m/Y')),
 			'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME']
 		);
 
@@ -25,7 +25,13 @@
 				$connection,
 				$_SESSION['name'],
 				App\Tables\History::SYSTEM_ERROR,
-				__('Die Bewerber Info E-Mail konnte nicht an ') . $user['name'] . __(' mit der E-Mail Adresse ') . $user['email'] . __(' verschickt werden!')
+				__(
+					'The information email for %s with the email address %s could not be sent!',
+					[
+						$user['name'],
+						$user['email']
+					]
+				)
 			);
 		}
 

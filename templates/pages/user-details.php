@@ -1,41 +1,41 @@
 <header>
-    <h2><?php echo __("Teilnehmer Kontaktdaten"); ?></h2>
+    <h2><?= __('Publisher Contact Details') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./shift.php?id_shift_type=<?php echo (int)$_GET['id_shift_type'];?>" class="button">
-        <i class="fa fa-chevron-left"></i> <?php echo __("zurück"); ?>
+    <a href="./shift.php?id_shift_type=<?= (int)$_GET['id_shift_type'];?>" class="button">
+        <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>
 <div class="container-center">
     <fieldset>
-        <legend><?php echo $placeholder['user']['name']; ?></legend>
+        <legend><?= $placeholder['user']['name'] ?></legend>
         <dl>
-            <dt><?php echo __("E-Mail"); ?></dt>
-                <dd><a href="mailto:<?php echo $placeholder['user']['email'];?>?subject=Trolleydienst"><?php echo $placeholder['user']['email']; ?></a></dd>
-            <dt><?php echo __("Handynr"); ?></dt>
+            <dt><?= __('Email') ?></dt>
+                <dd><a href="mailto:<?= $placeholder['user']['email'];?>?subject=Trolleydienst"><?= $placeholder['user']['email'] ?></a></dd>
+            <dt><?= __('Mobile Number') ?></dt>
             <?php if(empty($placeholder['user']['mobile'])): ?>
-                <dd><?php echo __("fehlt"); ?></dd>
+                <dd><?= __('N/A') ?></dd>
             <?php else: ?>
-                <dd><a href="tel:<?php echo $placeholder['user']['mobile']; ?>"><?php echo $placeholder['user']['mobile']; ?></a></dd>
+                <dd><a href="tel:<?= $placeholder['user']['mobile'] ?>"><?= $placeholder['user']['mobile'] ?></a></dd>
             <?php endif;?>
-            <dt><?php echo __("Telefonnr"); ?></dt>
+            <dt><?= __('Phone Number') ?></dt>
             <?php if(empty($placeholder['user']['phone'])): ?>
-                <dd><?php echo __("fehlt"); ?></dd>
+                <dd><?= __('N/A') ?></dd>
             <?php else: ?>
-                <dd><a href="tel:<?php echo $placeholder['user']['phone']; ?>"><?php echo $placeholder['user']['phone']; ?></a></dd>
+                <dd><a href="tel:<?= $placeholder['user']['phone'] ?>"><?= $placeholder['user']['phone'] ?></a></dd>
             <?php endif;?>
-            <dt><?php echo __("Versammlung"); ?></dt>
+            <dt><?= __('Congregation') ?></dt>
             <?php if(empty($placeholder['user']['congregation_name'])): ?>
-                <dd><?php echo __("fehlt"); ?></dd>
+                <dd><?= __('N/A') ?></dd>
             <?php else : ?>
-                <dd><?php echo $placeholder['user']['congregation_name']; ?></dd>
-            <?php endif; ?>
-            <dt><?php echo __("Sprache"); ?></dt>
+                <dd><?= $placeholder['user']['congregation_name'] ?></dd>
+            <?php endif ?>
+            <dt><?= __('Language') ?></dt>
             <?php if(empty($placeholder['user']['language'])): ?>
-                <dd><?php echo __("fehlt"); ?></dd>
+                <dd><?= __('N/A') ?></dd>
             <?php else : ?>
-                <dd><?php echo $placeholder['user']['language']; ?></dd>
-            <?php endif; ?>
+                <dd><?= $placeholder['user']['language'] ?></dd>
+            <?php endif ?>
         </dl>
     </fieldset>
 </div>
