@@ -7,7 +7,7 @@ $placeholder = array();
 if(isset($_POST['password_reset'])) {
 
     if(DEMO) {
-        $placeholder['message']['error'] = __('In der Demo Version darf das Passwort nicht zurück gesetzt werden!');
+        $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
     } else {
         $username = include '../filters/post_username.php';
         $email = include '../filters/post_email.php';
@@ -15,7 +15,7 @@ if(isset($_POST['password_reset'])) {
         $id_user = App\Tables\Users::select_id_user($database_pdo, $email, $username);
 
         if($id_user == 0) {
-            $placeholder['message']['error'] = __('Name oder E-Mail existiert nicht!');
+            $placeholder['message']['error'] = __('Name and/or email does not exist!');
         }
         else {
             $generate_password = include '../helpers/generate_password.php';
@@ -37,13 +37,13 @@ if(isset($_POST['password_reset'])) {
                 $send_mail_plain = include '../modules/send_mail_plain.php';
 
                 if($send_mail_plain($email, $email_template['subject'], $email_template_message)) {
-                    $placeholder['message']['success'] = __('Dein neues Passwort wurde an <b>') . $email . __('</b> versandt.');
+                    $placeholder['message']['success'] = __('Your new password was sent to <b>%s</b> successfully.', [ $email ]);
                 } else {
                     $placeholder['message']['error'] =
-                        __('Dein Passwort konnte nicht per E-Mail versendet werden!<br><br>Bitte prüfe ob die E-Mail Adresse ') . EMAIL_ADDRESS_FROM . __(',<br>bei deinem Webserver Provider, für den Versand angelegt ist.');
+                        __('The new password could not be sent!<br><br>Please check that the server is correctly configured to send mail from the %s email address.', [ EMAIL_ADDRESS_FROM ]);
                 }
             } else {
-                $placeholder['message']['error'] = __('Dein Passwort konnte nicht geändert werden!');
+                $placeholder['message']['error'] = __('Your password could not be changed!');
             }
         }
     }

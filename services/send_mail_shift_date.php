@@ -5,7 +5,7 @@
 	$shift = App\Tables\Shifts::select($connection, $id_shift);
 
 	$user_email = App\Tables\Users::select_email($connection, $id_user);
-	$shift_date = $shift_from->format('d.m.Y H:i') . ' - ' . $shift_to->format('H:i');
+	$shift_date = $shift_from->format(__('d/m/Y') . ' H:i') . ' - ' . $shift_to->format('H:i');
 
 	$subject_replace_with = array(
 		'SHIFT_TYPE_NAME' => $shift_type_name
@@ -28,7 +28,13 @@
 		$connection,
 		$_SESSION['name'],
 		App\Tables\History::SYSTEM_ERROR,
-		__('Der Schicht Termin ') . $shift_date . __(' konnte nicht an ') . $user_email . __(' verschickt werden!')
+		__(
+			'The shift appointment on %s for %s could not be sent!',
+			[
+				$shift_date,
+				$user_email
+			]
+		)
 	);
 	return false;
 };

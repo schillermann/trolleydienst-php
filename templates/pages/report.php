@@ -1,28 +1,28 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
-    <h2><?php echo __("Berichte"); ?></h2>
+    <h2><?= __('Reports') ?></h2>
 </header>
 <nav id="nav-sub">
     <a href="./report-submit.php" class="button active">
-        <i class="fa fa-plus"></i> <?php echo __("Bericht abgeben"); ?>
+        <i class="fa fa-plus"></i> <?= __('Submit Report') ?>
     </a>
 </nav>
 <div class="container-center">
     <form method="post">
-        <label for="id_shift_type"><?php echo __("Schichtart"); ?></label>
+        <label for="id_shift_type"><?= __('Shift Type') ?></label>
         <select id="id_shift_type" name="id_shift_type">
             <?php foreach($placeholder['shifttype_list'] as $shifttype): ?>
-                <option value="<?php echo $shifttype['id_shift_type'];?>" <?php echo (isset($_POST['id_shift_type']) && $_POST['id_shift_type'] == $shifttype['id_shift_type'])? 'selected':'';?>>
-                    <?php echo $shifttype['name'];?>
+                <option value="<?= $shifttype['id_shift_type'];?>" <?= (isset($_POST['id_shift_type']) && $_POST['id_shift_type'] == $shifttype['id_shift_type'])? 'selected':'';?>>
+                    <?= $shifttype['name'];?>
                 </option>
             <?php endforeach;?>
         </select>
-        <label for="report_from"><?php echo __("von:"); ?></label>
-        <input id="report_from" name="report_from" type="date" value="<?php echo $placeholder['report_from'];?>">
-        <label for="report_to"><?php echo __("bis:"); ?></label>
-        <input id="report_to" name="report_to" type="date" value="<?php echo $placeholder['report_to'];?>">
+        <label for="report_from"><?= __('from:') ?></label>
+        <input id="report_from" name="report_from" type="date" value="<?= $placeholder['report_from'];?>">
+        <label for="report_to"><?= __('to:') ?></label>
+        <input id="report_to" name="report_to" type="date" value="<?= $placeholder['report_to'];?>">
         <button name="filter" class="active">
-            <i class="fa fa-search"></i> <?php echo __("filtern"); ?>
+            <i class="fa fa-search"></i> <?= __('Filter') ?>
         </button>
     </form>
     <div class="table-container">
@@ -31,7 +31,7 @@
                 <thead>
                     <tr>
                         <th colspan="2" style="background-color: #d5c8e4">
-			<?php echo $report['day'];?>, <?php echo $report['datetime'];?> - <?php echo $report['name'];?> - <?php echo $report['route'];?>
+			<?= $report['day'];?>, <?= $report['datetime'];?> - <?= $report['name'];?> - <?= $report['route'];?>
                         </th>
                     </tr>
                 </thead>
@@ -39,10 +39,10 @@
                     <tr>
                         <td colspan="2">
                             <p>
-                                <a href="./report.php?id_report=<?php echo $id_report;?>" class="button warning">
-                                    <i class="fa fa-trash-o"></i> <?php echo __("löschen"); ?>
+                                <a href="./report.php?id_report=<?= $id_report;?>" class="button warning">
+                                    <i class="fa fa-trash-o"></i> <?= __('Delete') ?>
                                 </a>
-                                <span><strong><?php echo __("Erstellt am"); ?>:</strong> <?php echo $report['created'];?></span>
+                                <span><strong><?= __('Created on') ?>:</strong> <?= $report['created'];?></span>
                             </p>
                         </td>
                     </tr>
@@ -51,80 +51,80 @@
                     <?php if($report['book'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Bücher"); ?>
+                        <?= __('Books') ?>
                         </td>
                         <td>
-                            <?php echo $report['book'];?>
+                            <?= $report['book'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if($report['brochure'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Broschüren"); ?>
+                        <?= __('Brochures') ?>
                         </td>
                         <td>
-                            <?php echo $report['brochure'];?>
+                            <?= $report['brochure'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if($report['bible'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Bibel"); ?>
+                        <?= __('Bibles') ?>
                         </td>
                         <td>
-                            <?php echo $report['bible'];?>
+                            <?= $report['bible'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if($report['magazine'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Zeitschriften"); ?>
+                        <?= __('Magazines') ?>
                         </td>
                         <td>
-                            <?php echo $report['magazine'];?>
+                            <?= $report['magazine'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if($report['tract'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Traktate"); ?>
+                        <?= __('Tracts') ?>
                         </td>
                         <td>
-                            <?php echo $report['tract'];?>
+                            <?= $report['tract'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if($report['address'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Adressen"); ?>
+                        <?= __('Addresses') ?>
                         </td>
                         <td>
-                            <?php echo $report['address'];?>
+                            <?= $report['address'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if($report['talk'] > 0): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Gespräche"); ?>
+                        <?= __('Conversations') ?>
                         </td>
                         <td>
-                            <?php echo $report['talk'];?>
+                            <?= $report['talk'];?>
                         </td>
                     </tr>
                     <?php endif;?>
                     <?php if(!empty($report['note_user'])): ?>
                     <tr>
                         <td class="report-label">
-                        <?php echo __("Bemerkung"); ?>
+                        <?= __('Notes') ?>
                         </td>
                         <td>
-                            <?php echo $report['note_user'];?>
+                            <?= $report['note_user'];?>
                         </td>
                     </tr>
                     <?php endif;?>

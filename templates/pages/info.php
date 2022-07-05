@@ -1,29 +1,29 @@
 <header>
-    <h2><?php echo __("Info"); ?></h2>
+    <h2> <?= __('Info') ?></h2>
 </header>
 <?php if($_SESSION['is_admin']): ?>
     <nav id="nav-sub">
         <a href="./info-add.php" class="button active">
-            <i class="fa fa-cloud-upload"></i> <?php echo __("Datei hochladen"); ?>
+            <i class="fa fa-cloud-upload"></i>  <?= __('Upload File') ?>
         </a>
     </nav>
-<?php endif; ?>
+<?php endif ?>
 <div>
     <ul id="info-list">
     <?php foreach ($placeholder['file_list'] as $file) : ?>
         <li>
-            <a target="_blank" href="./info-file.php?id_info=<?php echo $file['id_info'];?>">
+            <a target="_blank" href="./info-file.php?id_info= <?= $file['id_info'];?>">
                 <?php if($file['mime_type'] == 'application/pdf'): ?>
                     <i class="fa fa-file-pdf-o"></i>
                 <?php else: ?>
                     <i class="fa fa-file-image-o"></i>
                 <?php endif;?>
-                <h4><?php echo $file['label']; ?></h4>
+                <h4> <?= $file['label'] ?></h4>
                 <?php if ($_SESSION['is_admin']) : ?>
-                    <a href="./info-edit.php?id_info=<?php echo $file['id_info']; ?>" class="button" target="_blank"><?php echo __("bearbeiten"); ?></a>
-                <?php endif; ?>
+                    <a href="./info-edit.php?id_info= <?= $file['id_info'] ?>" class="button" target="_blank"> <?= __('Edit') ?></a>
+                <?php endif ?>
             </a>
         </li>
-    <?php endforeach; ?>
+    <?php endforeach ?>
     </ul>
 </div>

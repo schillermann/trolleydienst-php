@@ -3,10 +3,10 @@
     $baseUrl = include '../includes/get_base_uri.php';
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo LANG; ?>">
+<html lang="<?= include('../helpers/get_language.php') ?>">
     <head>
         <meta charset="utf-8">
-        <title><?php echo APPLICATION_NAME; ?> - <?php echo CONGREGATION_NAME; ?></title>
+        <title><?= APPLICATION_NAME ?> - <?= CONGREGATION_NAME ?></title>
         <meta name="description" content="Trolleydienst Verwaltung">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<?= $baseUrl?>/css/font-awesome.min.css">
@@ -33,7 +33,7 @@
             </div>
             <div>
                 <div id="site-header" class="wrapper-center">
-                    <h1 id="site-name"><?php echo APPLICATION_NAME; ?> <span><?php echo CONGREGATION_NAME; ?></span></h1>
+                    <h1 id="site-name"><?= APPLICATION_NAME ?> <span><?= CONGREGATION_NAME ?></span></h1>
                 </div>
             </div>
         </header>
@@ -44,51 +44,51 @@
                     <?php foreach ($placeholder['shift_types'] as $shift_type): ?>
                         <?php $shift_class = ($_SERVER['REQUEST_URI'] == '/shift.php?id_shift_type=' . $shift_type['id_shift_type'])? 'active':'';?>
                         <li>
-                            <a href="shift.php?id_shift_type=<?php echo $shift_type['id_shift_type'];?>" class="<?php echo $shift_class;?>">
-                                <i class="fa fa-calendar"></i> <?php echo $shift_type['name'];?>
+                            <a href="shift.php?id_shift_type=<?= $shift_type['id_shift_type'];?>" class="<?= $shift_class;?>">
+                                <i class="fa fa-calendar"></i> <?= $shift_type['name'];?>
                             </a>
                         </li>
                     <?php endforeach;?>
                     <li>
-                        <a href="report.php" class="<?php echo $active_page('report.php', 'report-submit.php');?>">
-                            <i class="fa fa-list-alt"></i> <?php echo __("Bericht"); ?>
+                        <a href="report.php" class="<?= $active_page('report.php', 'report-submit.php');?>">
+                            <i class="fa fa-list-alt"></i> <?= __('Report') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="info.php" class="<?php echo $active_page('info.php', 'info-add.php', 'info-edit.php');?>">
-                            <i class="fa fa-info"></i> <?php echo __("Info"); ?>
+                        <a href="info.php" class="<?= $active_page('info.php', 'info-add.php', 'info-edit.php');?>">
+                            <i class="fa fa-info"></i> <?= __('Info') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="profile.php" class="<?php echo $active_page('profile.php', 'profile-password.php');?>">
-                            <i class="fa fa-user"></i> <?php echo __("Profil"); ?>
+                        <a href="profile.php" class="<?= $active_page('profile.php', 'profile-password.php');?>">
+                            <i class="fa fa-user"></i> <?= __('Profile') ?>
                         </a>
                     </li>
                     <?php if($_SESSION['is_admin']) : ?>
                     <li>
-                        <a href="shifttype.php" class="<?php echo $active_page('shifttype.php', 'shifttype-add.php', 'shifttype-edit.php');?>">
-                            <i class="fa fa-calendar"></i> <?php echo __("Schichtart"); ?>
+                        <a href="shifttype.php" class="<?= $active_page('shifttype.php', 'shifttype-add.php', 'shifttype-edit.php');?>">
+                            <i class="fa fa-calendar"></i> <?= __('Shift Type') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="user.php" class="<?php echo $active_page('user.php', 'user-add.php', 'user-edit.php', 'user-add-mail.php');?>">
-                            <i class="fa fa-users"></i> <?php echo __("Teilnehmer"); ?>
+                        <a href="user.php" class="<?= $active_page('user.php', 'user-add.php', 'user-edit.php', 'user-add-mail.php');?>">
+                            <i class="fa fa-users"></i> <?= __('Publisher') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="email.php" class="<?php echo $active_page('email.php', 'email-settings.php', 'email-templates.php');?>">
-                            <i class="fa fa-envelope-o"></i> <?php echo __("E-Mail"); ?>
+                        <a href="email.php" class="<?= $active_page('email.php', 'email-settings.php', 'email-templates.php');?>">
+                            <i class="fa fa-envelope-o"></i> <?= __('Email') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="history-shift.php" class="<?php echo $active_page('history-login.php', 'history-shift.php', 'history-system.php');?>">
-                            <i class="fa fa-history"></i> <?php echo __("Verlauf"); ?>
+                        <a href="history-shift.php" class="<?= $active_page('history-login.php', 'history-shift.php', 'history-system.php');?>">
+                            <i class="fa fa-history"></i> <?= __('History') ?>
                         </a>
                     </li>
                     <?php endif;?>
                     <li id="logout">
                         <a href="./?logout">
-                            <i class="fa fa-sign-out"></i> <?php echo __("Abmelden"); ?>
+                            <i class="fa fa-sign-out"></i> <?= __('Logout') ?>
                         </a>
                     </li>
                     <?php endif;?>
@@ -97,15 +97,15 @@
         </nav>
         <div class="wrapper-center">
             <main>
-                <?php echo $placeholder['template']; ?>
+                <?= $placeholder['template'] ?>
             </main>
             <footer>
                 <nav>
                     <ul id="nav-footer">
-                        <li><a href="<?= $baseUrl?>/licence.php"><?php echo __("Licence"); ?></a></li>
+                        <li><a href="<?= $baseUrl?>/licence.php"><?= __('Licence') ?></a></li>
                         <li><a href="https://github.com/schillermann/trolleydienst-php" target="_blank" id="link-github">GitHub</a></li>
-                        <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank"><?php echo __("Issues"); ?></a></li>
-                        <?php if(!empty($_SESSION)):?><li><?php echo __("Version"); ?> <?php echo include '../includes/get_version.php';?></li><?php endif;?>
+                        <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank"><?= __('Issues') ?></a></li>
+                        <?php if(!empty($_SESSION)):?><li><?= __('Version') ?> <?= include '../includes/get_version.php';?></li><?php endif;?>
                     </ul>
                 </nav>
             </footer>

@@ -24,9 +24,9 @@ if(isset($_POST['save'])) {
 		$shift_datetime_from
 	);
 	if(App\Tables\Reports::insert($database_pdo, $report))
-		$placeholder['message']['success'] = __('Dein Bericht wurde gespeichert.');
+		$placeholder['message']['success'] = __('Your report has been saved.');
 	else
-		$placeholder['message']['error'] = __('Dein Bericht konnte nicht gespeichert werden!');
+		$placeholder['message']['error'] = __('Your report could not be saved!');
 }
 
 $placeholder['user_list'] = App\Tables\Users::select_all($database_pdo);

@@ -1,9 +1,10 @@
 <?php
-define('LANG', 'de');
 require '../includes/language.php';
-define('APPLICATION_NAME', __("Öffentliches Zeugnisgeben"));
-define('CONGREGATION_NAME', __("Installation"));
-define('REQUIRE_INPUT_FIELDS', 8);
+
+define('LANGUAGE', include('../helpers/get_language.php'));
+define('APPLICATION_NAME', __('Public Witnessing'));
+define('CONGREGATION_NAME', __('Installation'));
+define('REQUIRE_INPUT_FIELDS', 9);
 
 $baseUrl = include '../includes/get_base_uri.php';
 require __DIR__ . '/../vendor/autoload.php';
@@ -20,7 +21,7 @@ if(isset($_POST['install'])) {
     $input_list = $filter_post_input();
 
     if(empty($_POST['password']) || empty($_POST['password_repeat']) || $_POST['password'] != $_POST['password_repeat']) {
-        $placeholder['message']['error'] = __('Passwörter stimmen nicht überein!');
+        $placeholder['message']['error'] = __('Passwords do not match!');
     } else if(count($input_list) === REQUIRE_INPUT_FIELDS) {
 
         $user = new App\Models\User(
@@ -44,7 +45,7 @@ if(isset($_POST['install'])) {
             'BAN_TIME_IN_MINUTES' => 5,
             'LOGIN_FAIL_MAX' => 5,
             'DEMO' => false,
-            'LANG' => 'de',
+            'LANGUAGE' => $input_list['language'],
             'TIMEZONE' => 'Europe/Berlin'
         );
 
@@ -58,9 +59,9 @@ if(isset($_POST['install'])) {
             return;
         }
 
-        $placeholder['message']['error'] = __('Bei der Installation ist ein Fehler aufgetreten!');
+        $placeholder['message']['error'] = __('An error occurred during the installation!');
     } else {
-        $placeholder['message']['error'] = __('Alle Pflichtfelder müssen ausgefüllt werden!');
+        $placeholder['message']['error'] = __('All required fields must be completed!');
     }
 }
 

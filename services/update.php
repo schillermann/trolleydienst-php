@@ -14,8 +14,9 @@
     {
         $migration_version = str_replace('.php', '', $migration_file);
 
-        if(version_compare($application_version, $migration_version) >= 0)
+        if(version_compare($application_version, $migration_version) >= 0) {
             continue;
+        }
 
         $migration_action = include $dir . $migration_file;
         if($migration_action($connection)) {
@@ -27,7 +28,7 @@
         else
         {
             throw new RuntimeException(
-                __('Die Migration ') . $migration_version . __(' ist fehlgeschlagen!')
+                __('The migration %s failed!', [ $migration_version ])
             );
         }
     }

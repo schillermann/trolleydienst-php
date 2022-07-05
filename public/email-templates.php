@@ -14,9 +14,9 @@ if(isset($_POST['save'])) {
 	$template_email_message = include '../filters/post_template_email_message.php';
 
 	if(App\Tables\EmailTemplates::update($database_pdo, $id_email_template, $template_email_message, $template_email_subject))
-		$placeholder['message']['success'] = __('Die Vorlage ') . $template_email_subject . __(' wurde gespeichert.');
+		$placeholder['message']['success'] = __('The template %s has been saved.', [ $template_email_subject ]);
 	else
-		$placeholder['message']['error'] = __('Die Vorlage ') . $template_email_subject . __(' konnte nicht gespeichert werden!');
+		$placeholder['message']['error'] = __('The template %s could not be saved!', [ $template_email_subject ]);
 }
 
 $placeholder['email_templates'] = App\Tables\EmailTemplates::select_all($database_pdo);

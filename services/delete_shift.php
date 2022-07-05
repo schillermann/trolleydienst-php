@@ -14,7 +14,7 @@
 
 		$replace_with = array(
 			'NAME' => $user['name'],
-			'SHIFT_DATE' => $shift_datetime->format(__('d.m.Y'))
+			'SHIFT_DATE' => $shift_datetime->format(__('d/m/Y'))
 		);
 
 		$email_template_message = strtr($email_template['message'], $replace_with);
@@ -25,7 +25,14 @@
 				$connection,
 				$_SESSION['name'],
 				App\Tables\History::SYSTEM_ERROR,
-				__('Die Info über die gelöschte Schicht vom ') . $shift_datetime->format(__('d.m.Y')) . __(' konnte nicht an ') . $user['name'] . __(' mit der E-Mail Adresse ') . $user['email'] . __(' verschickt werden!')
+				__(
+					'The notification for the deleted shift on %s for %s with the email address %s failed to send!',
+					[
+						$shift_datetime->format(__('d/m/Y')),
+						$user['name'],
+						$user['email']
+					]
+				)
 			);
 		}
 	}

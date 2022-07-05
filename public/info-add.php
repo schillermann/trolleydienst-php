@@ -3,7 +3,7 @@ $placeholder = require '../includes/init_page.php';
 
 if(isset($_POST['upload'])) {
     if(DEMO) {
-        $placeholder['message']['error'] = __('In der Demo Version darf keine Datei hochgeladen werden!');
+        $placeholder['message']['error'] = __('Files cannot be uploaded in the demo version!');
     } else {
         $upload_info_file = include '../services/upload_info_file.php';
         if($upload_info_file(
@@ -13,9 +13,9 @@ if(isset($_POST['upload'])) {
             $_FILES['file']['type'],
             $_FILES['file']['size']
         ))
-            $placeholder['message']['success'] = __('Die Datei wurde hochgeladen.');
+            $placeholder['message']['success'] = __('The file was uploaded successfully.');
 	else
-            $placeholder['message']['error'] = __('Die Datei konnte nicht hochgeladen werden!');
+            $placeholder['message']['error'] = __('The file could not be uploaded!');
     }
 }
 

@@ -9,7 +9,7 @@
         $id_shift = $shift_day['id_shift'];
 
         $shift_day_list[$id_shift] = [
-            'date' => $shift_datetime_from->format(__('d.m.Y')),
+            'date' => $shift_datetime_from->format(__('d/m/Y')),
             'day' => $get_weekday($shift_datetime_from),
             'route' => $shift_day['route'],
             'color_hex' => $shift_day['color_hex'],
