@@ -82,6 +82,12 @@
             <button name="password_save" class="active">
                 <i class="fa fa-floppy-o"></i>  <?= __('Save Password') ?>
             </button>
+            <input type="hidden" name="name" value="<?php echo $placeholder['user']['name'];?>">
+            <input type="hidden" name="username" value="<?php echo $placeholder['user']['username'];?>">
+            <input type="hidden" name="email" value="<?php echo $placeholder['user']['email'];?>">
+            <button name="resend_welcome_email" class="active">
+            	<i class="fa fa-paper-plane"></i> <?php echo __('Resend Welcome Email'); ?>
+            </button>
         </div>
     </form>
     <div id="footnote">
