@@ -28,8 +28,8 @@
                 <input id="number" type="number" name="number" required value="<?= $placeholder['number'];?>" disabled>
             </div>
             <div>
-                <label for="hours_per_shift"><?= __('Shift Lenfth in Hours') ?> <small>(<?= __('Required') ?>)</small></label>
-                <input id="hours_per_shift" type="number" name="hours_per_shift" required value="<?= $placeholder['hours_per_shift'];?>" onchange="calculateShiftTimeTo()" value="<?= $placeholder['hours_per_shift'];?>">
+                <label for="hours_per_shift"><?= __('Shift Length in Hours') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="hours_per_shift" type="text" name="hours_per_shift" required value="<?= $placeholder['hours_per_shift'];?>" onchange="calculateShiftTimeTo()" value="<?= $placeholder['hours_per_shift'];?>">
             </div>
             <div>
                 <label for="time_to"><?= __('To') ?></label>

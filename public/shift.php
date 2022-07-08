@@ -23,7 +23,7 @@ if (isset($_POST['promote_id_user'])) {
 
     $cancel_application = include '../services/cancel_application.php';
     if($cancel_application($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['cancel_id_user']))
-        $placeholder['message']['success'] = __('Your application was withdrawen.');
+        $placeholder['message']['success'] = __('Your application was withdrawn.');
     else
         $placeholder['message']['error'] = __('Your application could not be withdrawn.');
 

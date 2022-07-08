@@ -53,8 +53,8 @@
                 <input id="number" type="number" name="number" required onchange="calculateShiftTimeTo()" value="<?= (isset($_POST['number']))? (int)$_POST['number'] : 2;?>">
             </div>
             <div>
-                <label for="hours_per_shift"><?= __('Shift Lenfth in Hours') ?> <small>(<?= __('Required') ?>)</small></label>
-                <input id="hours_per_shift" type="number" name="hours_per_shift" required value="<?= (isset($_POST['hours_per_shift']))? (int)$_POST['hours_per_shift'] : 2;?>" onchange="calculateShiftTimeTo()">
+                <label for="hours_per_shift"><?= __('Shift Length in Hours') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="hours_per_shift" type="text" name="hours_per_shift" required value="<?= (isset($_POST['hours_per_shift']))? (int)$_POST['hours_per_shift'] : 2;?>" onchange="calculateShiftTimeTo()">
             </div>
             <div>
                 <label for="time_to"><?= __('To') ?></label>

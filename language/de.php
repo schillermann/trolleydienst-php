@@ -130,7 +130,7 @@ return [
     'From' => 'Von',
     'To' => 'Bis',
     'Publishers per Shift' => 'Schichtanzahl',
-    'Shift Lenfth in Hours' => 'Schichtlänge in Stunden',
+    'Shift Length in Hours' => 'Schichtlänge in Stunden',
     'End Date' => 'Terminserie bis zum',
     'Colour' => 'Farbe',
     'What is the name of this location?' => 'Wie heißt die Route?',
@@ -210,7 +210,7 @@ return [
     'The shift could not be deleted!' => 'Die Schicht konnte nicht gelöscht werden!',
     'Your application was successful.' => 'Die Bewerbung wurde angenommen.',
     'Your application was unsuccessful.' => 'Die Bewerbung konnte nicht angenommen werden!',
-    'Your application was withdrawen.' => 'Die Bewerbung wurde zurückgezogen.',
+    'Your application was withdrawn.' => 'Die Bewerbung wurde zurückgezogen.',
     'Your application could not be withdrawn.' => 'Die Bewerbung konnte nicht zurück gezogen werden!',
     'The new shift type was added successfully.' => 'Neuer Schichttyp wurde hinzugefügt.',
     'The new shift type could not be added!' => 'Der neue Schichttyp konnte nicht hinzugefügt werden!',
@@ -228,5 +228,9 @@ return [
     'Users cannot be deleted in the demo version!' => 'In der Demo Version darf der Teilnehmer nicht gelöscht werden!',
     'Your password could not be changed!' => 'Dein Passwort konnte nicht geändert werden!',
     'Passwords do not match!' => 'Passwörter stimmen nicht überein!',
-    'In the demo version you can log in with the following users:' => 'Du kannst dich in der Demo Version mit folgenden Benutzern anmelden:'
+    'In the demo version you can log in with the following users:' => 'Du kannst dich in der Demo Version mit folgenden Benutzern anmelden:',
+    'Hidden' => 'Versteckt',
+    'Are you sure you would like to cover this shift?' => 'Bist du sicher, dass du diese Schicht überdecken möchtest?',
+    'Are you sure you would like to cancel this shift?' => 'Bist du sicher, dass du diese Schicht abbrechen möchtest?',
+    'Resend Welcome Email' => 'Willkommens E-Mail erneut senden'
 ];
