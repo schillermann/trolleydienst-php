@@ -1,63 +1,77 @@
 <?php
-session_start();
-$baseUrl = include '../includes/get_base_uri.php';
-
-if(isset($_GET['logout'])) {
-    $_SESSION = array();
-    header('location: ' . $baseUrl);
-    return;
-}
-
 require __DIR__ . '/../vendor/autoload.php';
 
-if(!App\Tables\Database::exists_database()) {
-    header('location: ' . $baseUrl . '/install.php');
-    return;
-}
+use App\AppConfig;
+use App\Pages\LoginPage;
+use App\Pages\LogoutPage;
+use App\Pages\UserListPage;
+use App\UserPool;
+use PhpPages\App;
+use PhpPages\Page\LayoutPage;
+use PhpPages\Page\PageWithRoutes;
+use PhpPages\Page\PageWithType;
+use PhpPages\Page\SessionPage;
+use PhpPages\Page\TextPage;
+use PhpPages\Request\NativeRequest;
+use PhpPages\Response\NativeResponse;
+use PhpPages\Session\NativeSession;
+use PhpPages\Template\SimpleTemplate;
 
-if(isset($_SESSION) && !empty($_SESSION)) {
-	header('location: ' . $baseUrl . '/shift.php');
-	return;
-}
+$appConfig = new AppConfig();
+$userPool = new UserPool(
+    new \PDO('sqlite:./../database.sqlite')
+);
 
-include '../config.php';
-$placeholder = array();
-$placeholder['email_or_username'] = include '../filters/get_username.php';
+$session = new NativeSession();
+$session->start();
 
-if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
-
-    $check_login = include '../includes/check_login.php';
-    $placeholder['post_email_or_username']  = include '../filters/post_email_or_username.php';
-    $database_pdo = App\Tables\Database::get_connection();
-
-    $get_ban_time_in_minutes = include '../services/get_ban_time_in_minutes.php';
-    $ban_time_in_minutes = $get_ban_time_in_minutes($database_pdo, BAN_TIME_IN_MINUTES);
-
-    if($ban_time_in_minutes > 0) {
-        $placeholder['message']['error'] = 'Du bist noch für ' . $ban_time_in_minutes . ' Minuten gesperrt!';
-    } elseif($check_login($database_pdo, $placeholder['post_email_or_username'] , $_POST['password'])) {
-        header('location: ' . $baseUrl . '/shift.php');
-        return;
-    }
-    else {
-        $set_ban_time = include '../services/set_ban_time.php';
-
-        if($set_ban_time($database_pdo, LOGIN_FAIL_MAX))
-            $placeholder['message']['error'] = 'Du bist für ' . BAN_TIME_IN_MINUTES . ' Minuten gesperrt!';
-        else
-            $placeholder['message']['error'] = 'Anmeldung ist fehlgeschlagen!';
-
-        $user_ip_address = include '../modules/get_ip_address.php';
-
-        App\Tables\History::insert(
-            $database_pdo,
-            $placeholder['post_email_or_username'] ,
-            App\Tables\History::LOGIN_ERROR,
-            'Anmeldung mit der IP ' . $user_ip_address . ' ist fehlgeschlagen!'
-        );
-    }
-}
-
-$render_page = include '../includes/render_page.php';
-echo $render_page($placeholder);
-?>
+(new App(
+    new SessionPage(
+        new PageWithType(
+            (new LayoutPage(
+                new SimpleTemplate('../templates/layout.php'),
+                [
+                    'config' => $appConfig
+                ]
+            ))
+                ->withPage(
+                    (new PageWithRoutes(
+                        new TextPage('Not Found'),
+                    ))
+                        ->withRoute(
+                            '/',
+                            new UserListPage(
+                                new SimpleTemplate('../templates/pages/user-list.php'),
+                                $userPool
+                            )
+                        )
+                        ->withRoute(
+                            '/login',
+                            new LoginPage(
+                                new SimpleTemplate('../templates/pages/login.php'),
+                                $userPool,
+                                $session
+                            )
+                        )
+                        ->withRoute(
+                            '/user-list',
+                            new UserListPage(
+                                new SimpleTemplate('../templates/pages/user-list.php'),
+                                $userPool
+                            )
+                        )
+                        ->withRoute(
+                            '/logout',
+                            new LogoutPage($session)
+                        )
+                ),
+            'text/html;charset=UTF-8'
+        ),
+        $session,
+        '/login'
+    )
+))
+    ->start(
+        new NativeRequest(),
+        new NativeResponse()
+    );
