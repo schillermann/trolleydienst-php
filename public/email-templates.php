@@ -1,9 +1,8 @@
 <?php
 $placeholder = require '../includes/init_page.php';
-$baseUrl = include '../includes/get_base_uri.php';
 
 if(!isset($_GET['id_email_template'])) {
-	header('location: ' . $baseUrl . '/email.php');
+	header('location: /email.php');
 	return;
 }
 

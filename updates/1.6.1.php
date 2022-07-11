@@ -23,12 +23,12 @@
 
         $stmt = $connection->prepare($sql_insert_user);
         $is_error = !$stmt->execute(
-            array(
+            [
                 'id_shift' => $row['id_shift'],
                 'id_user' => $row['id_user'],
-                ':position' => $row['position'],
-                ':created' => $row['created']
-            )
+                'position' => $row['position'],
+                'created' => $row['created']
+            ]
         );
 
         if($is_error) {

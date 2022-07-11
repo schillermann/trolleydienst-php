@@ -4,14 +4,14 @@
 	$user_list_from_shift_postion = App\Tables\ShiftUserMaps::select_all_with_id_shift_and_position($connection, $id_shift, $position);
 
 	foreach ($user_list_from_shift_postion as $user) {
-		if($user['id_user'] == $id_user)
+		if($user['id'] == $id_user)
 			continue;
 
 		$get_template_email_user_promote = include '../services/get_email_template.php';
 		$email_template = $get_template_email_user_promote($connection, $id_email_template);
 
 		$replace_with = array(
-			'NAME' => $user['name'],
+			'NAME' => $user['first_name'] . ' ' . $user['last_name'],
 			'APPLICANT_NAME' => $user_name,
 			'SHIFT_DATE' => $shift_datetime->format(__('d/m/Y')),
 			'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME']
@@ -28,7 +28,7 @@
 				__(
 					'The information email for %s with the email address %s could not be sent!',
 					[
-						$user['name'],
+						$user['first_name'] . ' ' . $user['last_name'],
 						$user['email']
 					]
 				)

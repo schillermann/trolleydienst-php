@@ -1,8 +1,6 @@
 <?php
-$baseUrl = include '../includes/get_base_uri.php';
-
 if(!isset($_GET['id_shift_type'])) {
-    header('location: ' . $baseUrl . '/shifttype.php');
+    header('location: /shifttype.php');
     return;
 }
 $placeholder = require '../includes/init_page.php';
@@ -19,7 +17,7 @@ if (isset($_POST['save'])) {
         $placeholder['message']['error'] = __('The changes could not be saved!');
 } elseif (isset($_POST['delete'])) {
     if(App\Tables\ShiftTypes::delete($database_pdo, $id_shift_type)) {
-        header('location: ' . $baseUrl . '/shifttype.php');
+        header('location: /shifttype.php');
         return;
     }
 }

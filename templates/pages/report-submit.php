@@ -16,8 +16,8 @@
 				<label for="id_user"><?= __('Name') ?></label>
 				<select id="id_user" name="id_user">
 					<?php foreach($placeholder['user_list'] as $user): ?>
-						<option value="<?= $user['id_user'];?>" <?= ((int)$user['id_user'] === $selected_user_id)? 'selected':'';?>>
-							<?= $user['name'];?>
+						<option value="<?= $user['id'];?>" <?= ((int)$user['id'] === $selected_user_id)? 'selected':'';?>>
+							<?= $user['first_name'] . ' ' . $user['last_name'] ?>
 						</option>
 					<?php endforeach;?>
 				</select>

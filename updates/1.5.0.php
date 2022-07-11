@@ -29,19 +29,19 @@
             array(
                 'id_user' => $row['id_user'],
                 'username' => strtolower($row['name']),
-                ':name' => $row['name'],
-                ':email' => $row['email'],
-                ':password' => $row['password'],
-                ':phone' => $row['phone'],
-                ':mobile' => $row['mobile'],
-                ':congregation_name' => $row['congregation_name'],
-                ':language' => $row['language'],
-                ':note_user' => $row['note_user'],
-                ':note_admin' => $row['note_admin'],
-                ':is_active' => $row['is_active'],
-                ':is_admin' => $row['is_admin'],
-                ':last_login' => $row['last_login'],
-                ':created' => $row['created']
+                'name' => $row['name'],
+                'email' => $row['email'],
+                'password' => $row['password'],
+                'phone' => $row['phone'],
+                'mobile' => $row['mobile'],
+                'congregation_name' => $row['congregation_name'],
+                'language' => $row['language'],
+                'note_user' => $row['note_user'],
+                'note_admin' => $row['note_admin'],
+                'is_active' => $row['is_active'],
+                'is_admin' => $row['is_admin'],
+                'last_login' => $row['last_login'],
+                'created' => $row['created']
             )
         );
         

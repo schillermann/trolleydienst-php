@@ -5,16 +5,17 @@ class Profile {
     /**
      * Profile constructor.
      * @param int $id_user
-     * @param array $data With keys: name, email, phone, mobile, congregation_name, language, note_user
+     * @param array $data With keys: name, email, phone, mobile, congregation, language, note_user
      */
     function __construct(int $id_user, array $data) {
         $this->id_user = $id_user;
         $this->username = (isset($data['username']))? $data['username'] : '';
-        $this->name = (isset($data['name']))? $data['name'] : '';
+        $this->firstName = (isset($data['first_name']))? $data['first_name'] : '';
+        $this->lastName = (isset($data['last_name']))? $data['last_name'] : '';
         $this->email = (isset($data['email']))? $data['email'] : '';
         $this->phone = (isset($data['phone']))? $data['phone'] : '';
         $this->mobile = (isset($data['mobile']))? $data['mobile'] : '';
-        $this->congregation_name = (isset($data['congregation_name']))? $data['congregation_name'] : '';
+        $this->congregation = (isset($data['congregation']))? $data['congregation'] : '';
         $this->language = (isset($data['language']))? $data['language'] : '';
         $this->note_user = (isset($data['note_user']))? $data['note_user'] : '';
     }
@@ -27,8 +28,12 @@ class Profile {
         return $this->username;
     }
     
-    function get_name(): string {
-        return $this->name;
+    function get_firstName(): string {
+        return $this->firstName;
+    }
+
+    function get_lastName(): string {
+        return $this->lastName;
     }
 
     function get_email(): string {
@@ -43,8 +48,8 @@ class Profile {
         return $this->mobile;
     }
 
-    function get_congregation_name(): string {
-        return $this->congregation_name;
+    function get_congregation(): string {
+        return $this->congregation;
     }
 
     function get_language(): string {
@@ -55,5 +60,5 @@ class Profile {
         return $this->note_user;
     }
 
-    protected $id_user, $name, $email, $phone, $mobile, $congregation_name, $language, $note_user;
+    protected $id_user, $firstName, $lastName, $email, $phone, $mobile, $congregation, $language, $note_user;
 }

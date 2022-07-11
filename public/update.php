@@ -1,10 +1,9 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-$baseUrl = include '../includes/get_base_uri.php';
 include '../includes/language.php';
  
 if(!App\Tables\Database::exists_database()) {
-    header('location: ' . $baseUrl . '/install.php');
+    header('location: /install.php');
     return;
 }
 

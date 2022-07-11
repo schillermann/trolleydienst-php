@@ -124,8 +124,20 @@
     <?php endforeach ?>
 </div>
 <script>
-    function submitForm(submitForm) {
-        document.getElementById('loading-screen').style.display = 'block';
-        setTimeout(function() { submitForm.form.submit(); }, 200);
+function submitForm(submitForm) {
+    var applyButton = submitForm.closest('.button');
+    if (submitForm.classList.contains('enable')) {
+        if (window.confirm("<?= __("Are you sure you would like to cancel this shift?") ?>")) {
+            document.getElementById('loading-screen').style.display = 'block';
+            setTimeout(function() { submitForm.form.submit(); }, 200);
+        }
+    } else {
+        if (window.confirm("<?= __("Are you sure you would like to cover this shift?") ?>")) {
+            document.getElementById('loading-screen').style.display = 'block';
+            setTimeout(function() { submitForm.form.submit(); }, 200);
+        } else {
+            applyButton.value = 0;
+        }
     }
+}
 </script>

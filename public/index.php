@@ -1,22 +1,21 @@
 <?php
 session_start();
-$baseUrl = include '../includes/get_base_uri.php';
 
 if(isset($_GET['logout'])) {
     $_SESSION = array();
-    header('location: ' . $baseUrl);
+    header('location: /');
     return;
 }
 
 require __DIR__ . '/../vendor/autoload.php';
 
 if(!App\Tables\Database::exists_database()) {
-    header('location: ' . $baseUrl . '/install.php');
+    header('location: /install.php');
     return;
 }
 
 if(isset($_SESSION) && !empty($_SESSION)) {
-	header('location: ' . $baseUrl . '/shift.php');
+	header('location: /shift.php');
 	return;
 }
 
@@ -38,7 +37,7 @@ if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
     if($ban_time_in_minutes > 0) {
         $placeholder['message']['error'] = 'Du bist noch für ' . $ban_time_in_minutes . ' Minuten gesperrt!';
     } elseif($check_login($database_pdo, $placeholder['post_email_or_username'] , $_POST['password'])) {
-        header('location: ' . $baseUrl . '/shift.php');
+        header('location: /shift.php');
         return;
     }
     else {

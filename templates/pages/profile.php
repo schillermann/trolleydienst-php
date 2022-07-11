@@ -15,12 +15,16 @@
         <fieldset>
             <legend><?= __('Contact Details') ?></legend>
             <div>
-                <label for="username"><?= __('Username') ?> <small>(<?= __('Required') ?>)</small></label>
-                <input id="username" name="username" required value="<?= $placeholder['profile']['username'] ?>">
+                <label for="first_name"><?= __('First Name') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="first_name" name="first_name" required value="<?= $placeholder['profile']['first_name'] ?>">
             </div>
             <div>
-                <label for="name"><?= __('Name') ?> <small>(<?= __('Required') ?>)</small></label>
-                <input id="name" name="name" required value="<?= $placeholder['profile']['name'] ?>">
+                <label for="last_name"><?= __('Last Name') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="last_name" name="last_name" required value="<?= $placeholder['profile']['last_name'] ?>">
+            </div>
+            <div>
+                <label for="username"><?= __('Username') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="username" name="username" required value="<?= $placeholder['profile']['username'] ?>">
             </div>
             <div>
                 <label for="email"><?= __('Email') ?> <small>(<?= __('Required') ?>)</small></label>
@@ -35,8 +39,8 @@
                 <input id="mobile" type="tel" name="mobile" value="<?= $placeholder['profile']['mobile'] ?>">
             </div>
             <div>
-                <label for="congregation_name"><?= __('Congregation') ?></label>
-                <input id="congregation_name" name="congregation_name" value="<?= $placeholder['profile']['congregation_name'] ?>">
+                <label for="congregation"><?= __('Congregation') ?></label>
+                <input id="congregation" name="congregation" value="<?= $placeholder['profile']['congregation'] ?>">
             </div>
             <div>
                 <label for="language"><?= __('Language') ?></label>

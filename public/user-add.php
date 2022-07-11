@@ -17,12 +17,14 @@ if(isset($_POST['save'])) {
             $get_password = require '../modules/random_string.php';
             $password = $get_password(8);
             $email = include '../filters/post_email.php';
-            $name = include '../filters/post_name.php';
+            $firstname = include '../filters/post_firstname.php';
+            $lastname = include '../filters/post_lastname.php';
 
             $user = new App\Models\User(
                 0,
                 $username,
-                $name,
+                $firstname,
+                $lastname,
                 $email,
                 $password,
                 include '../filters/post_is_admin.php',

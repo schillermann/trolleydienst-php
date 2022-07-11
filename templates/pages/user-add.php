@@ -16,12 +16,16 @@
                 <input id="is_admin" type="checkbox" name="is_admin" <?php if (isset($_POST['is_admin'])):?>checked<?php endif;?>>
             </div>
             <div>
-                <label for="username"><?= __('Username') ?> <small>(<?= __('Required') ?>)</small></label>
-                <input id="username" name="username" required value="<?= (isset($_POST['username']))? $_POST['username'] : '';?>">
+                <label for="first_name"><?= __('First Name') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="first_name" name="first_name" required value="<?= (isset($_POST['first_name']))? $_POST['first_name'] : '';?>">
             </div>
             <div>
-                <label for="name"><?= __('Name') ?> <small>(<?= __('Required') ?>)</small></label>
-                <input id="name" name="name" required value="<?= (isset($_POST['name']))? $_POST['name'] : '';?>">
+                <label for="last_name"><?= __('Last Name') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="last_name" name="last_name" required value="<?= (isset($_POST['last_name']))? $_POST['last_name'] : '';?>">
+            </div>
+            <div>
+                <label for="username"><?= __('Username') ?> <small>(<?= __('Required') ?>)</small></label>
+                <input id="username" name="username" required value="<?= (isset($_POST['username']))? $_POST['username'] : '';?>">
             </div>
             <div>
                 <label for="email"><?= __('Email') ?> <small>(<?= __('Required') ?>)</small></label>

@@ -25,6 +25,7 @@
         }
 
         $history_type = App\Tables\History::SHIFT_PROMOTE_SUCCESS;
+
         $message = __(
             'The %s shift for %s shift %s from %s was accepted.',
             [

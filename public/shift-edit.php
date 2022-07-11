@@ -1,8 +1,6 @@
 <?php
-$baseUrl = include '../includes/get_base_uri.php';
-
 if(!isset($_GET['id_shift_type']) || !isset($_GET['id_shift'])) {
-    header('location: ' . $baseUrl . '/shift.php');
+    header('location: /shift.php');
     return;
 }
 $id_shift_type = (int)$_GET['id_shift_type'];
@@ -32,7 +30,7 @@ if (isset($_POST['save'])) {
 	$delete_shift = include '../services/delete_shift.php';
 
 	if($delete_shift($database_pdo, $id_shift)) {
-		header('location: ' . $baseUrl . '/shift.php?id_shift_type=' . $id_shift_type);
+		header('location: /shift.php?id_shift_type=' . $id_shift_type);
 		return;
 	} else {
 		$placeholder['message']['error'] = __('The shift could not be deleted!');

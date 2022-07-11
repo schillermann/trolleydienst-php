@@ -1,8 +1,6 @@
 <?php
-$baseUrl = include '../includes/get_base_uri.php';
-
 if(!isset($_GET['id_user'])) {
-    header('location: ' . $baseUrl . '/shift.php');
+    header('location: /shift.php');
     return;
 }
 

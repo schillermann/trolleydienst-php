@@ -3,7 +3,7 @@
 
     foreach (App\Tables\ShiftUserMaps::select_all($connection, $id_shift) as $users) {
         $shift_position = (int)$users['position'];
-        $id_user = $users['id_user'];
+        $id_user = $users['id'];
 
         $user_list[$shift_position][$id_user] = $users['name'];
     }

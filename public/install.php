@@ -4,13 +4,12 @@ require '../includes/language.php';
 define('LANGUAGE', include('../helpers/get_language.php'));
 define('APPLICATION_NAME', __('Public Witnessing'));
 define('CONGREGATION_NAME', __('Installation'));
-define('REQUIRE_INPUT_FIELDS', 9);
+define('REQUIRE_INPUT_FIELDS', 10);
 
-$baseUrl = include '../includes/get_base_uri.php';
 require __DIR__ . '/../vendor/autoload.php';
 
 if(App\Tables\Database::exists_database()) {
-    header('location: ' . $baseUrl);
+    header('location: /');
     return;
 }
 
@@ -27,7 +26,8 @@ if(isset($_POST['install'])) {
         $user = new App\Models\User(
             1,
             $input_list['username'],
-            $input_list['name'],
+            $input_list['first_name'],
+            $input_list['last_name'],
             $input_list['email'],
             $_POST['password'],
             true
@@ -55,7 +55,7 @@ if(isset($_POST['install'])) {
             $pdo->exec(include '../install/sql_import.php') !== false &&
             $write_config_file($config)
         ) {
-            header('location: ' . $baseUrl . '/?email=' . urlencode($input_list['email']));
+            header('location: /?email=' . urlencode($input_list['email']));
             return;
         }
 

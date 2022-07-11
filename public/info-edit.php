@@ -1,8 +1,6 @@
 <?php
-$baseUrl = include '../includes/get_base_uri.php';
-
 if(!isset($_GET['id_info'])) {
-    header('location: ' . $baseUrl . '/info.php');
+    header('location: /info.php');
     return;
 }
 
@@ -15,7 +13,7 @@ if(isset($_POST['delete'])) {
         $placeholder['message']['error'] = __('Files cannot be deleted in the demo version!');
     } else {
         if(App\Tables\Infos::delete($database_pdo, $id_info)) {
-            header('location: ' . $baseUrl . '/info.php');
+            header('location: /info.php');
             return;
         }
         $file_label = include '../filters/post_info_file_label.php';

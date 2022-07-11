@@ -21,10 +21,10 @@ class ShiftUserMaps {
 
     static function select_all(\PDO $connection, int $id_shift): array {
         $stmt = $connection->prepare(
-            'SELECT position, users.id_user, name
+            'SELECT position, user.id, first_name || \' \' || last_name AS name
             FROM ' . self::TABLE_NAME . '
-            LEFT JOIN users
-            ON ' . self::TABLE_NAME . '.id_user = users.id_user
+            LEFT JOIN user
+            ON ' . self::TABLE_NAME . '.id_user = user.id
             WHERE id_shift = :id_shift
             ORDER BY position'
         );
@@ -40,10 +40,10 @@ class ShiftUserMaps {
 
 	static function select_all_with_id_shift(\PDO $connection, int $id_shift): array {
 		$stmt = $connection->prepare(
-			'SELECT users.id_user, name, email
+			'SELECT user.id, first_name, last_name, email
             FROM ' . self::TABLE_NAME . '
-            LEFT JOIN users
-            ON ' . self::TABLE_NAME . '.id_user = users.id_user
+            LEFT JOIN user
+            ON ' . self::TABLE_NAME . '.id_user = user.id
             WHERE id_shift = :id_shift'
 		);
 
@@ -60,10 +60,10 @@ class ShiftUserMaps {
 
     static function select_all_with_id_shift_and_position(\PDO $connection, int $id_shift, int $position): array {
 		$stmt = $connection->prepare(
-			'SELECT users.id_user, name, email
+			'SELECT user.id, first_name, last_name, email
             FROM ' . self::TABLE_NAME . '
-            LEFT JOIN users
-            ON ' . self::TABLE_NAME . '.id_user = users.id_user
+            LEFT JOIN user
+            ON ' . self::TABLE_NAME . '.id_user = user.id
             WHERE id_shift = :id_shift
             AND position = :position'
 		);

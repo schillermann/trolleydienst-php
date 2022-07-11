@@ -6,28 +6,30 @@ class User {
     function __construct(
         int $id_user,
         string $username,
-        string $name,
+        string $firstName,
+        string $lastName,
         string $email,
         string $password,
-        bool $is_admin = false,
-        bool $is_active = true,
+        bool $administrative = false,
+        bool $active = true,
         string $phone = '',
         string $mobile = '',
-        string $congregation_name = '',
+        string $congregation = '',
         string $language = '',
         string $note_admin = '',
         string $note_user = ''
     ) {
         $this->id_user = $id_user;
         $this->username = $username;
-        $this->name = $name;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
         $this->email = $email;
         $this->password = $password;
-        $this->is_admin = $is_admin;
-        $this->is_active = $is_active;
+        $this->administrative = $administrative;
+        $this->active = $active;
         $this->phone = $phone;
         $this->mobile = $mobile;
-        $this->congregation_name = $congregation_name;
+        $this->congregation = $congregation;
         $this->language = $language;
         $this->note_admin = $note_admin;
         $this->note_user = $note_user;
@@ -41,8 +43,12 @@ class User {
         return $this->username;
     }
     
-    function get_name(): string {
-        return $this->name;
+    function get_firstName(): string {
+        return $this->firstName;
+    }
+
+    function get_lastName(): string {
+        return $this->lastName;
     }
 
     function get_email(): string {
@@ -53,12 +59,12 @@ class User {
         return $this->password;
     }
 
-    function is_active(): bool {
-        return $this->is_active;
+    function active(): bool {
+        return $this->active;
     }
 
-    function is_admin(): bool {
-        return $this->is_admin;
+    function administrative(): bool {
+        return $this->administrative;
     }
 
     function get_phone(): string {
@@ -69,8 +75,8 @@ class User {
         return $this->mobile;
     }
 
-    function get_congregation_name(): string {
-        return $this->congregation_name;
+    function get_congregation(): string {
+        return $this->congregation;
     }
 
     function get_language(): string {
@@ -85,6 +91,6 @@ class User {
         return $this->note_admin;
     }
 
-    protected $id_user, $name, $email, $password, $is_admin, $is_active, $phone, $mobile;
-    protected $congregation_name, $language, $note_user, $note_admin;
+    protected $id_user, $firstName, $lastName, $email, $password, $administrative, $active, $phone, $mobile;
+    protected $congregation, $language, $note_user, $note_admin;
 }

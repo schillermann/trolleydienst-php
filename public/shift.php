@@ -1,13 +1,12 @@
 <?php
 $placeholder = require '../includes/init_page.php';
-$baseUrl = include '../includes/get_base_uri.php';
 
 if(!isset($_GET['id_shift_type'])) {
     $id_shift_type = App\Tables\ShiftTypes::select_first_id_shift_type($database_pdo);
     if($id_shift_type)
-        header('location: ' . $baseUrl . '/shift.php?id_shift_type=' . $id_shift_type);
+        header('location: /shift.php?id_shift_type=' . $id_shift_type);
     else
-        header('location: ' . $baseUrl . '/info.php');
+        header('location: /info.php');
     return;
 }
 if (isset($_POST['promote_id_user'])) {
@@ -23,7 +22,7 @@ if (isset($_POST['promote_id_user'])) {
 
     $cancel_application = include '../services/cancel_application.php';
     if($cancel_application($database_pdo, (int)$_POST['id_shift'], (int)$_POST['position'], (int)$_POST['cancel_id_user']))
-        $placeholder['message']['success'] = __('Your application was withdrawen.');
+        $placeholder['message']['success'] = __('Your application was withdrawn.');
     else
         $placeholder['message']['error'] = __('Your application could not be withdrawn.');
 

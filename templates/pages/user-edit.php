@@ -12,20 +12,24 @@
         <fieldset>
             <legend> <?= __('Publisher') ?></legend>
             <div>
-                <label for="is_active"> <?= __('Active') ?></label>
-                <input id="is_active" type="checkbox" name="is_active" <?php if ($placeholder['user']['is_active']):?>checked<?php endif;?>>
+                <label for="active"> <?= __('Active') ?></label>
+                <input id="active" type="checkbox" name="active" <?php if ($placeholder['user']['active']):?>checked<?php endif;?>>
             </div>
             <div>
-                <label for="is_admin"> <?= __('Admin Rights') ?></label>
-                <input id="is_admin" type="checkbox" name="is_admin" <?php if ($placeholder['user']['is_admin']):?>checked<?php endif;?>>
+                <label for="administrative"> <?= __('Admin Rights') ?></label>
+                <input id="administrative" type="checkbox" name="administrative" <?php if ($placeholder['user']['administrative']):?>checked<?php endif;?>>
             </div>
             <div>
                 <label for="username"> <?= __('Username') ?> <small>( <?= __('Required') ?>)</small></label>
                 <input id="username" name="username" required value=" <?= $placeholder['user']['username'];?>">
             </div>
             <div>
-                <label for="name"> <?= __('Name') ?> <small>( <?= __('Required') ?>)</small></label>
-                <input id="name" name="name" required value=" <?= $placeholder['user']['name'];?>">
+                <label for="first_name"> <?= __('First Name') ?> <small>( <?= __('Required') ?>)</small></label>
+                <input id="first_name" name="first_name" required value=" <?= $placeholder['user']['first_name'];?>">
+            </div>
+            <div>
+                <label for="last_name"> <?= __('Last Name') ?> <small>( <?= __('Required') ?>)</small></label>
+                <input id="last_name" name="last_name" required value=" <?= $placeholder['user']['last_name'];?>">
             </div>
             <div>
                 <label for="email"> <?= __('Email') ?> <small>( <?= __('Required') ?>)</small></label>
@@ -40,8 +44,8 @@
                 <input id="phone" name="phone" value=" <?= $placeholder['user']['phone'];?>">
             </div>
             <div>
-                <label for="congregation_name"> <?= __('Congregation') ?></label>
-                <input id="congregation_name" name="congregation_name" value=" <?= $placeholder['user']['congregation_name'];?>">
+                <label for="congregation"> <?= __('Congregation') ?></label>
+                <input id="congregation" name="congregation" value=" <?= $placeholder['user']['congregation'];?>">
             </div>
             <div>
                 <label for="language"> <?= __('Language') ?></label>
@@ -82,9 +86,16 @@
             <button name="password_save" class="active">
                 <i class="fa fa-floppy-o"></i>  <?= __('Save Password') ?>
             </button>
+            <input type="hidden" name="first_name" value="<?php echo $placeholder['user']['first_name'];?>">
+            <input type="hidden" name="last_name" value="<?php echo $placeholder['user']['last_name'];?>">
+            <input type="hidden" name="username" value="<?php echo $placeholder['user']['username'];?>">
+            <input type="hidden" name="email" value="<?php echo $placeholder['user']['email'];?>">
+            <button name="resend_welcome_email" class="active">
+            	<i class="fa fa-paper-plane"></i> <?php echo __('Resend Welcome Email'); ?>
+            </button>
         </div>
     </form>
     <div id="footnote">
-        <p><strong> <?= __('Updated on') ?>:</strong>  <?= $placeholder['user']['updated'];?> - <strong> <?= __('Created on') ?>:</strong>  <?= $placeholder['user']['created'];?></p>
+        <p><strong> <?= __('Updated on') ?>:</strong>  <?= $placeholder['user']['updated_on'];?> - <strong> <?= __('Created on') ?>:</strong>  <?= $placeholder['user']['created_on'];?></p>
     </div>
 </div>

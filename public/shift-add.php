@@ -1,8 +1,6 @@
 <?php
-$baseUrl = include '../includes/get_base_uri.php';
-
 if(!isset($_GET['id_shift_type'])) {
-    header('location: ' . $baseUrl . '/info.php');
+    header('location: /info.php');
     return;
 }
 

@@ -10,8 +10,12 @@
         <fieldset>
             <legend> <?= __('Admin')  ?></legend>
             <div>
-                <label for="name"> <?= __('Name') ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="name" name="name" required value="<?= (isset($_POST['name']))? $_POST['name'] : '' ?>">
+                <label for="first_name"> <?= __('First Name') ?> <small>(<?= __('Required')  ?>)</small></label>
+                <input id="first_name" name="first_name" required value="<?= (isset($_POST['first_name']))? $_POST['first_name'] : '' ?>">
+            </div>
+            <div>
+                <label for="last_name"> <?= __('Last Name') ?> <small>(<?= __('Required')  ?>)</small></label>
+                <input id="last_name" name="last_name" required value="<?= (isset($_POST['last_name']))? $_POST['last_name'] : '' ?>">
             </div>
             <div>
                 <label for="username"> <?= __('Username')  ?> <small>(<?= __('Required')  ?>)</small></label>

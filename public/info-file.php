@@ -1,9 +1,8 @@
 <?php
 session_start();
-$baseUrl = include '../includes/get_base_uri.php';
 
 if(empty($_SESSION) || !isset($_GET['id_info'])) {
-	header('location: ' . $baseUrl);
+	header('location: /');
 	return;
 }
 $id_info = (int)$_GET['id_info'];
