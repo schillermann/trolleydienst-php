@@ -13,7 +13,7 @@ if(App\Tables\Database::exists_database()) {
     return;
 }
 
-$placeholder = array();
+$placeholder = [];
 
 if(isset($_POST['install'])) {
     $filter_post_input = include '../modules/filter_post_input.php';
