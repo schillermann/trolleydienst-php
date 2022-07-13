@@ -11,7 +11,16 @@
         'LOGIN_FAIL_MAX' => LOGIN_FAIL_MAX,
         'DEMO' => DEMO,
         'LANGUAGE' => include('../helpers/get_language.php'),
-        'TIMEZONE' => TIMEZONE
+        'TIMEZONE' => TIMEZONE,
+        'SMTP' => 'php',
+        'EMAIL_ADDRESS_BCC' => '',
+        'MAIL_SENDINBLUE_API_KEY' => '',
+        'SMTP_DEBUG' => false,
+        'SMTP_HOST' => '',
+        'SMTP_USERNAME' => '',
+        'SMTP_PASSWORD' => '',
+        'SMTP_PORT' => 587,
+        'SMTP_ENCRYPTION' => 'tls'
     ];
 
     $write_config_file = include '../modules/write_config_file.php';
