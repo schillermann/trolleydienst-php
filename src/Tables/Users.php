@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Tables;
 
-class Users {
+class Users
+{
 
     const TABLE_NAME = 'user';
 
-    static function create_table(\PDO $connection): bool {
+    static function create_table(\PDO $connection): bool
+    {
 
         $sql =
             'CREATE TABLE `' . self::TABLE_NAME . '` (
@@ -28,10 +31,11 @@ class Users {
                 `created_on` TEXT NOT NULL
 			)';
 
-        return ($connection->exec($sql) === false)? false : true;
+        return ($connection->exec($sql) === false) ? false : true;
     }
 
-    static function exists_username(\PDO $connection, string $username): bool {
+    static function exists_username(\PDO $connection, string $username): bool
+    {
         $stmt = $connection->prepare(
             'SELECT username FROM ' . self::TABLE_NAME . ' WHERE username = :username'
         );
@@ -42,42 +46,66 @@ class Users {
         return (bool)$stmt->rowCount();
     }
 
-    static function select_all(\PDO $connection): array {
+    static function select_all(\PDO $connection): array
+    {
         $stmt = $connection->query(
             'SELECT id, first_name, last_name, email, administrative, active, logged_on
             FROM ' . self::TABLE_NAME
         );
         $user_list = $stmt->fetchAll();
-        return ($user_list === false)? array() : $user_list;
+        return ($user_list === false) ? array() : $user_list;
     }
+    static function select_user_seach_name(\PDO $connection, $search_name = ""): array
+    {
+        $stmt = $connection->query(
+            'SELECT id_user, name, email, is_admin, is_active, last_login
+            FROM ' . self::TABLE_NAME
+        );
+        if (!empty($search_name)) {
+            $stmt = $connection->query(
+                'SELECT id_user, name, email, is_admin, is_active, last_login
+                FROM ' . self::TABLE_NAME . ' WHERE name LIKE :search_name'
+            );
+            if (!$stmt->execute(
+                array(':search_name' => '%' . $search_name . '%')
+            ))
 
-    static function select_all_email(\PDO $connection): array {
+                return array();
+        }
+        $user_list = $stmt->fetchAll();
+        return ($user_list === false) ? array() : $user_list;
+    }
+    static function select_all_email(\PDO $connection): array
+    {
 
         $stmt = $connection->query(
             'SELECT first_name, last_name, email FROM ' . self::TABLE_NAME . ' WHERE active = 1 '
         );
 
         $name_email_list = $stmt->fetchAll();
-        return ($name_email_list === false)? array() : $name_email_list;
+        return ($name_email_list === false) ? array() : $name_email_list;
     }
 
-    static function select_all_without_user(\PDO $connection, int $id_user): array {
+    static function select_all_without_user(\PDO $connection, int $id_user): array
+    {
         $stmt = $connection->prepare(
             'SELECT id, first_name || \' \' || last_name AS name
             FROM ' . self::TABLE_NAME . '
             WHERE id <> :id
             AND active = 1
-            ORDER BY first_name');
+            ORDER BY first_name'
+        );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id' => $id_user)
         ))
-        	return array();
+            return array();
         $user_list = $stmt->fetchAll();
-        return ($user_list === false)? array() : $user_list;
+        return ($user_list === false) ? array() : $user_list;
     }
 
-    static function select_user(\PDO $connection, int $id_user): array {
+    static function select_user(\PDO $connection, int $id_user): array
+    {
 
         $stmt = $connection->prepare(
             'SELECT username, first_name, last_name, email, phone, mobile, congregation,
@@ -86,15 +114,16 @@ class Users {
             WHERE id = :id'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id' => $id_user)
         ))
-        	return array();
+            return array();
         $user = $stmt->fetch();
-        return ($user === false)? array() : $user;
+        return ($user === false) ? array() : $user;
     }
 
-    static function select_name(\PDO $connection, int $id_user): string {
+    static function select_name(\PDO $connection, int $id_user): string
+    {
 
         $stmt = $connection->prepare(
             'SELECT first_name || \' \' || last_name
@@ -102,15 +131,16 @@ class Users {
             WHERE id = :id'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id' => $id_user)
         ))
-        	return array();
+            return array();
         $name = $stmt->fetchColumn();
-        return ($name)? $name : '';
+        return ($name) ? $name : '';
     }
 
-    static function select_email(\PDO $connection, int $id_user): string {
+    static function select_email(\PDO $connection, int $id_user): string
+    {
 
         $stmt = $connection->prepare(
             'SELECT email
@@ -118,15 +148,16 @@ class Users {
             WHERE id = :id'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id' => $id_user)
         ))
             return array();
         $email = $stmt->fetchColumn();
-        return ($email)? $email : '';
+        return ($email) ? $email : '';
     }
 
-    static function select_id_user(\PDO $connection, string $email, string $username): int {
+    static function select_id_user(\PDO $connection, string $email, string $username): int
+    {
         $stmt = $connection->prepare(
             'SELECT id
             FROM ' . self::TABLE_NAME . '
@@ -134,19 +165,20 @@ class Users {
             AND username = :username'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(
                 ':email' => $email,
                 ':username' => $username
             )
         ))
-        	return 0;
+            return 0;
         $user_id = $stmt->fetchColumn();
 
-        return ($user_id === false)? 0 : $user_id;
+        return ($user_id === false) ? 0 : $user_id;
     }
 
-    static function select_profile(\PDO $connection, int $id_user): array {
+    static function select_profile(\PDO $connection, int $id_user): array
+    {
 
         $stmt = $connection->prepare(
             'SELECT username, first_name, last_name, email, phone, mobile, congregation, language, note_user
@@ -154,15 +186,16 @@ class Users {
             WHERE id = :id'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id' => $id_user)
         ))
-        	return array();
+            return array();
         $profile = $stmt->fetch();
-        return ($profile === false)? array() : $profile;
+        return ($profile === false) ? array() : $profile;
     }
 
-    static function select_logindata(\PDO $connection, string $email_or_username, string $password): array {
+    static function select_logindata(\PDO $connection, string $email_or_username, string $password): array
+    {
         $stmt = $connection->prepare(
             'SELECT id, first_name, last_name, administrative
             FROM ' . self::TABLE_NAME . '
@@ -177,15 +210,16 @@ class Users {
             ':password' => md5($password)
         ];
 
-        if(!$stmt->execute($params)) {
+        if (!$stmt->execute($params)) {
             return [];
         }
 
         $logindata = $stmt->fetch();
-        return ($logindata === false)? [] : $logindata;
+        return ($logindata === false) ? [] : $logindata;
     }
 
-    static function update_login_time(\PDO $connection, int $id_user): bool {
+    static function update_login_time(\PDO $connection, int $id_user): bool
+    {
         $stmt = $connection->prepare(
             'UPDATE ' . self::TABLE_NAME . '
             SET logged_on = datetime("now", "localtime")
@@ -197,7 +231,8 @@ class Users {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function update_profile(\PDO $connection, \App\Models\Profile $profile): bool {
+    static function update_profile(\PDO $connection, \App\Models\Profile $profile): bool
+    {
         $stmt = $connection->prepare(
             'UPDATE ' . self::TABLE_NAME . '
             SET username = :username, first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, mobile = :mobile,
@@ -222,7 +257,8 @@ class Users {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function update_user(\PDO $connection, \App\Models\User $user): bool {
+    static function update_user(\PDO $connection, \App\Models\User $user): bool
+    {
         $stmt = $connection->prepare(
             'UPDATE ' . self::TABLE_NAME . '
             SET  username = :username, first_name = :first_name, last_name = :last_name, email = :email, active = :active, administrative = :administrative,
@@ -231,7 +267,7 @@ class Users {
             WHERE id = :id'
         );
 
-	    return $stmt->execute(
+        return $stmt->execute(
             [
                 ':username' => $user->get_username(),
                 ':first_name' => $user->get_firstName(),
@@ -249,14 +285,15 @@ class Users {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function update_password(\PDO $connection, int $id_user, string $password): bool {
+    static function update_password(\PDO $connection, int $id_user, string $password): bool
+    {
         $stmt = $connection->prepare(
             'UPDATE ' . self::TABLE_NAME . '
             SET password = :password,  updated_on = datetime("now", "localtime")
             WHERE id = :id'
         );
 
-		return $stmt->execute(
+        return $stmt->execute(
             array(
                 ':password' => md5($password),
                 ':id' => $id_user
@@ -264,7 +301,8 @@ class Users {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function insert(\PDO $connection, \App\Models\User $user): bool {
+    static function insert(\PDO $connection, \App\Models\User $user): bool
+    {
 
         $stmt = $connection->prepare(
             'INSERT INTO ' . self::TABLE_NAME . '
@@ -296,7 +334,8 @@ class Users {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function delete(\PDO $connection, int $id_user): bool {
+    static function delete(\PDO $connection, int $id_user): bool
+    {
         $stmt = $connection->prepare(
             'DELETE FROM ' . self::TABLE_NAME . ' WHERE id = :id'
         );

@@ -20,7 +20,8 @@
         'SMTP_USERNAME' => '',
         'SMTP_PASSWORD' => '',
         'SMTP_PORT' => 587,
-        'SMTP_ENCRYPTION' => 'tls'
+        'SMTP_ENCRYPTION' => 'tls',
+        'MAINTENANCE' => false,
     ];
 
     $write_config_file = include '../modules/write_config_file.php';
