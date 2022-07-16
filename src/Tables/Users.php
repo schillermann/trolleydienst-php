@@ -55,16 +55,16 @@ class Users
         $user_list = $stmt->fetchAll();
         return ($user_list === false) ? array() : $user_list;
     }
-    static function select_user_seach_name(\PDO $connection, $search_name = ""): array
+    static function select_user_search_name(\PDO $connection, $search_name = ""): array
     {
         $stmt = $connection->query(
-            'SELECT id_user, name, email, is_admin, is_active, last_login
+            'SELECT id, first_name, last_name, email, administrative, active, logged_on
             FROM ' . self::TABLE_NAME
         );
         if (!empty($search_name)) {
             $stmt = $connection->query(
-                'SELECT id_user, name, email, is_admin, is_active, last_login
-                FROM ' . self::TABLE_NAME . ' WHERE name LIKE :search_name'
+                'SELECT id, first_name, last_name, email, administrative, active, logged_on
+                FROM ' . self::TABLE_NAME . ' WHERE first_name LIKE :search_name OR last_name LIKE :search_name OR email LIKE :search_name'
             );
             if (!$stmt->execute(
                 array(':search_name' => '%' . $search_name . '%')

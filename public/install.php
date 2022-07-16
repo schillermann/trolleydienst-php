@@ -1,10 +1,10 @@
 <?php
 require '../includes/language.php';
 
-define('LANGUAGE', include('../helpers/get_language.php'));
-define('APPLICATION_NAME', __('Public Witnessing'));
-define('CONGREGATION_NAME', __('Installation'));
-define('REQUIRE_INPUT_FIELDS', 10);
+'LANGUAGE', include('../helpers/get_language.php'));
+'APPLICATION_NAME', __('Public Witnessing'));
+'CONGREGATION_NAME', __('Installation'));
+'REQUIRE_INPUT_FIELDS', 10);
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -46,7 +46,18 @@ if(isset($_POST['install'])) {
             'LOGIN_FAIL_MAX' => 5,
             'DEMO' => false,
             'LANGUAGE' => $input_list['language'],
-            'TIMEZONE' => 'Europe/Berlin'
+            'TIMEZONE' => 'Europe/Berlin',
+            'SMTP' => 'phpmail',
+			'EMAIL_ADDRESS_BCC' => '',
+			'MAIL_SENDINBLUE_API_KEY' => '',
+			'SMTP_DEBUG' => false,
+			'SMTP_HOST' => '',
+			'SMTP_USERNAME' => '',
+			'SMTP_PASSWORD' => '',
+			'SMTP_PORT' => 587,
+			'SMTP_ENCRYPTION' => 'tls',
+			'MAINTENANCE' => false
+
         );
 
         if(

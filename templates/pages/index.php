@@ -19,9 +19,9 @@
     <?php endif; ?>
     <?php if (MAINTENANCE) : ?>
         <div class="info-box">
-            <h1>Wir sind bald wieder da!</h1>
-            <p>Wir entschuldigen uns für die Unannehmlichkeiten, aber wir führen im Moment einige Wartungsarbeiten durch. Bei Bedarf könnt Ihr uns jederzeit kontaktieren, ansonsten sind wir in Kürze wieder online!</p>
-            <p>- Team Öffentliches Zeugnisgeben</p>
+            <h1><?= __('We will be back soon!'); ?></h1>
+            <p><?= __('We are performing some necessary maintenance and will be be back soon. We apologise for the inconvenience.'); ?></p>
+            <p>- <?= TEAM_NAME; ?></p>
         </div>
 
     <?php else :; ?>

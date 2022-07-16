@@ -231,5 +231,7 @@ return [
     'Hidden' => 'Versteckt',
     'Are you sure you would like to cover this shift?' => 'Bist du sicher, dass du diese Schicht annehmen möchtest?',
     'Are you sure you would like to cancel this shift?' => 'Bist du sicher, dass du diese Schicht abbrechen möchtest?',
-    'Resend Welcome Email' => 'Willkommens E-Mail erneut senden'
+    'Resend Welcome Email' => 'Willkommens E-Mail erneut senden',
+    'We will be back soon!' => 'Wir sind bald wieder da!',
+    'We are performing some necessary maintenance and will be be back soon. We apologise for the inconvenience.' => 'Wir entschuldigen uns für die Unannehmlichkeiten, aber wir führen im Moment einige Wartungsarbeiten durch. Bei Bedarf könnt Ihr uns jederzeit kontaktieren, ansonsten sind wir in Kürze wieder online!'
 ];
