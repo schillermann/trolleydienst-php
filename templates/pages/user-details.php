@@ -8,7 +8,7 @@
 </nav>
 <div class="container-center">
     <fieldset>
-        <legend><?= $placeholder['user']['name'] ?></legend>
+        <legend><?= $placeholder['user']['first_name'] . " " . $placeholder['user']['last_name'] ?></legend>
         <dl>
             <dt><?= __('Email') ?></dt>
                 <dd><a href="mailto:<?= $placeholder['user']['email'];?>?subject=Trolleydienst"><?= $placeholder['user']['email'] ?></a></dd>
