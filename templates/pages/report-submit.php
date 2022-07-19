@@ -79,8 +79,8 @@
 				<input id="talk" type="number" name="talk" value="<?= (isset($_POST['talk']))? (int)$_POST['talk'] : 0;?>">
 			</div>
 			<div>
-				<label for="note_user"><?= __('Notes') ?></label>
-				<textarea id="note_user" name="note_user" class="note"><?= (isset($_POST['note_user']))? $_POST['note_user'] : '';?></textarea>
+				<label for="publisher_note"><?= __('Notes') ?></label>
+				<textarea id="publisher_note" name="publisher_note" class="note"><?= (isset($_POST['publisher_note']))? $_POST['publisher_note'] : '';?></textarea>
 			</div>
 		</fieldset>
 		<div class="from-button">

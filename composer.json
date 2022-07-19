@@ -4,8 +4,8 @@
   "description": "Plan the public witnessing with table and cart very easy on your own server.",
   "license": "MIT",
   "require": {
-    "sendinblue/api-v3-sdk": "8.3.0",
-    "symfony/mailer": "^6.0"
+    "sendinblue/api-v3-sdk": "^8.3",
+    "symfony/mailer": "^5.4"
   },
   "autoload": {
     "psr-4": {

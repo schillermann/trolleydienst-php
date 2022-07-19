@@ -13,7 +13,7 @@ class Report {
 		int $tract,
 		int $address,
 		int $talk,
-		string $note_user,
+		string $user_note,
 		\DateTime $shift_from) {
 
 		$this->id_shift_type = $id_shift_type;
@@ -27,7 +27,7 @@ class Report {
 		$this->tract = $tract;
 		$this->address = $address;
 		$this->talk = $talk;
-		$this->note_user = $note_user;
+		$this->user_note = $user_note;
 	}
 
 	function get_id_shift_type(): int {
@@ -66,9 +66,9 @@ class Report {
 	function get_talk(): int {
 		return $this->talk;
 	}
-	function get_note_user(): string {
-		return $this->note_user;
+	function get_user_note(): string {
+		return $this->user_note;
 	}
 
-	protected $id_shift_type, $name, $route, $shift_from, $book, $brochure, $bible, $magazine, $tract, $address, $talk, $note_user;
+	protected $id_shift_type, $name, $route, $shift_from, $book, $brochure, $bible, $magazine, $tract, $address, $talk, $user_note;
 }

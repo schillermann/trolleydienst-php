@@ -11,30 +11,27 @@ if(isset($_POST['send']) && !empty($_POST['email_subject']) && !empty($_POST['em
         $placeholder['message']['error'] = __('Emails cannot be sent in the demo version!');
     } else {
 
-        $placeholder['user_list'] = App\Tables\Users::select_all_email($database_pdo);
+        $placeholder['user_list'] = App\Tables\Publisher::select_all_email($database_pdo);
 
-        if(empty($placeholder['user_list']))
-            $placeholder['message']['error'] = __('No recipient email address was found!');
-        else {
-            $placeholder['message']['success'] = __('The email has been sent to:');
+        if(!empty($placeholder['user_list'])) {
 
             foreach ($placeholder['user_list'] as $user) {
                 $replace_with = array(
-                    'NAME' => $user['name'],
+                    'NAME' => $user['first_name'] . ' ' . $user['last_name'],
                     'WEBSITE_LINK' => 'http://' . $_SERVER['SERVER_NAME'] . '?username=' . urlencode($user['username'])
                 );
                 $email_message = strtr($placeholder['email']['message'], $replace_with);
 
-                $send_mail_plain = include '../modules/send_mail_plain.php';
-                if($send_mail_plain($user['email'], $placeholder['email']['subject'], $email_message))
+                $send_email = require('../modules/send_email.php');
+                if($send_email($user['email'], $placeholder['email']['subject'], $email_message))
                     $placeholder['user_list'][] = $user;
             }
         }  
     }
 } else {
-    $get_email_template = include '../services/get_email_template.php';
+    $get_email_template = require('../services/get_email_template.php');
     $placeholder['email'] = $get_email_template($database_pdo);
 }
 
-$render_page = include '../includes/render_page.php';
+$render_page = require('../includes/render_page.php');
 echo $render_page($placeholder);

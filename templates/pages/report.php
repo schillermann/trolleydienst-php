@@ -118,13 +118,13 @@
                         </td>
                     </tr>
                     <?php endif;?>
-                    <?php if(!empty($report['note_user'])): ?>
+                    <?php if(!empty($report['publisher_note'])): ?>
                     <tr>
                         <td class="report-label">
                         <?= __('Notes') ?>
                         </td>
                         <td>
-                            <?= $report['note_user'];?>
+                            <?= $report['publisher_note'];?>
                         </td>
                     </tr>
                     <?php endif;?>

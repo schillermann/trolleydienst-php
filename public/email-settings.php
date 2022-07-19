@@ -9,10 +9,10 @@ $placeholder['team_name'] = TEAM_NAME;
 
 if (isset($_POST['save'])) {
 
-	$filter_post_input = include '../modules/filter_post_input.php';
+	$filter_post_input = require('../modules/filter_post_input.php');
 	$input_fields = $filter_post_input();
 
-    $write_config_file = include '../modules/write_config_file.php';
+    $write_config_file = require('../modules/write_config_file.php');
     $config = array(
         'EMAIL_ADDRESS_FROM' => $input_fields['email_address_from'],
         'EMAIL_ADDRESS_REPLY' => $input_fields['email_address_reply'],
@@ -36,5 +36,5 @@ if (isset($_POST['save'])) {
     }
 }
 
-$render_page = include '../includes/render_page.php';
+$render_page = require('../includes/render_page.php');
 echo $render_page($placeholder);

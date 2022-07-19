@@ -2,7 +2,7 @@
 
 function __(string $text, array $args = []) {
 	
-	$language = include '../helpers/get_language.php';
+	$language = require('../helpers/get_language.php');
 	$languageFile = '../language/' . $language . '.php';
 
 	if (!is_readable($languageFile)) {
@@ -12,7 +12,7 @@ function __(string $text, array $args = []) {
 		);
 	}
 
-	$translation = include($languageFile);
+	$translation = require($languageFile);
 
 	if ( array_key_exists($text, $translation) ) {
 		return vsprintf(

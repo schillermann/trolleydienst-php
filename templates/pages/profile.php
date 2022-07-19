@@ -47,8 +47,8 @@
                 <input id="language" name="language" value="<?= $placeholder['profile']['language'] ?>">
             </div>
             <div>
-                <label for="note_user"><?= __('Notes') ?></label>
-                <textarea id="note_user" name="note_user" class="note"><?= $placeholder['profile']['note_user'] ?></textarea>
+                <label for="publisher_note"><?= __('Notes') ?></label>
+                <textarea id="publisher_note" name="publisher_note" class="note"><?= $placeholder['profile']['publisher_note'] ?></textarea>
             </div>
 
         </fieldset>

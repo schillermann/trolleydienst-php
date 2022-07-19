@@ -5,8 +5,8 @@ if(empty($_SESSION)) {
     return;
 }
 
-include '../config.php';
-include '../includes/language.php';
+require('../config.php');
+require('../includes/language.php');
 require __DIR__ . '/../vendor/autoload.php';
 
 if(MAINTENANCE == true) {

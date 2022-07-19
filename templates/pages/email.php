@@ -1,30 +1,3 @@
-<?php if (isset($placeholder['message'])) : ?>
-    <div id="note-box" class="fade-in">
-		<?php if (isset($placeholder['message']['success'])): ?>
-            <p class="success">
-				<?= $placeholder['message']['success'] ?>
-            </p>
-            <div id="note-box-content">
-                <table>
-					<?php foreach ($placeholder['user_list'] as $user): ?>
-                        <tr>
-                            <td><?= $user['name'] ?></td>
-                            <td><?= $user['email'] ?></td>
-                        </tr>
-					<?php endforeach ?>
-                </table>
-            </div>
-		<?php else: ?>
-            <p class="error">
-				<?= $placeholder['message']['error'] ?>
-            </p>
-		<?php endif;?>
-        <button type="button" onclick="closeNoteBox()">
-            <i class="fa fa-times"></i> <?= __('Close') ?>
-        </button>
-    </div>
-<?php endif;?>
-
 <header>
     <h2><?= __('Send Email') ?></h2>
 </header>
@@ -37,6 +10,25 @@
     </a>
 </nav>
 <div class="container-center">
+
+    <?php if (isset($_POST['send'])) : ?>
+        <div class="info-box">
+            <?php if (empty($placeholder['user_list'])) : ?>
+                <p class="error"><?= __('No recipient email address was found!') ?></p>
+            <?php else: ?>
+                <p class="success"><?= __('The email has been sent to:') ?></p>
+                <table>
+					<?php foreach ($placeholder['user_list'] as $user): ?>
+                        <tr>
+                            <td><?= $user['first_name'] ?> <?= $user['last_name'] ?></td>
+                            <td><?= $user['email'] ?></td>
+                        </tr>
+					<?php endforeach ?>
+                </table>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+
     <form method="post">
         <fieldset>
             <legend><?= __('To all users') ?></legend>

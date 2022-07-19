@@ -1,10 +1,10 @@
 <?php
 require '../includes/language.php';
 
-'LANGUAGE', include('../helpers/get_language.php'));
-'APPLICATION_NAME', __('Public Witnessing'));
-'CONGREGATION_NAME', __('Installation'));
-'REQUIRE_INPUT_FIELDS', 10);
+define('LANGUAGE', require('../helpers/get_language.php'));
+define('APPLICATION_NAME', __('Public Witnessing'));
+define('CONGREGATION_NAME', __('Installation'));
+define('REQUIRE_INPUT_FIELDS', 10);
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -46,23 +46,21 @@ if(isset($_POST['install'])) {
             'LOGIN_FAIL_MAX' => 5,
             'DEMO' => false,
             'LANGUAGE' => $input_list['language'],
-            'TIMEZONE' => 'Europe/Berlin',
-            'SMTP' => 'phpmail',
-			'EMAIL_ADDRESS_BCC' => '',
-			'MAIL_SENDINBLUE_API_KEY' => '',
-			'SMTP_DEBUG' => false,
-			'SMTP_HOST' => '',
-			'SMTP_USERNAME' => '',
-			'SMTP_PASSWORD' => '',
-			'SMTP_PORT' => 587,
-			'SMTP_ENCRYPTION' => 'tls',
+            'TIMEZONE' => $input_list['timezone'],
+            'EMAIL_DISPATCH' => $input_list['delivery_method'],
+			'MAIL_SENDINBLUE_API_KEY' => $input_list['email_sendinblue_api_key'],
+			'SMTP_HOST' => $input_list['email_smtp_host'],
+			'SMTP_USERNAME' => $input_list['email_smtp_username'],
+			'SMTP_PASSWORD' => $input_list['email_smtp_password'],
+			'SMTP_PORT' => (int)$input_list['email_smtp_port'],
+			'SMTP_ENCRYPTION' => $input_list['email_smtp_encryption'],
 			'MAINTENANCE' => false
 
         );
 
         if(
             App\Tables\Database::create_tables($pdo) &&
-            App\Tables\Users::insert($pdo, $user) &&
+            App\Tables\Publisher::insert($pdo, $user) &&
             $pdo->exec(include '../install/sql_import.php') !== false &&
             $write_config_file($config)
         ) {

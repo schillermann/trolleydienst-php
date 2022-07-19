@@ -5,7 +5,7 @@ class Profile {
     /**
      * Profile constructor.
      * @param int $id_user
-     * @param array $data With keys: name, email, phone, mobile, congregation, language, note_user
+     * @param array $data With keys: name, email, phone, mobile, congregation, language, publisher_note
      */
     function __construct(int $id_user, array $data) {
         $this->id_user = $id_user;
@@ -17,7 +17,7 @@ class Profile {
         $this->mobile = (isset($data['mobile']))? $data['mobile'] : '';
         $this->congregation = (isset($data['congregation']))? $data['congregation'] : '';
         $this->language = (isset($data['language']))? $data['language'] : '';
-        $this->note_user = (isset($data['note_user']))? $data['note_user'] : '';
+        $this->publisher_note = (isset($data['publisher_note']))? $data['publisher_note'] : '';
     }
 
     function  get_id_user(): int {
@@ -56,9 +56,9 @@ class Profile {
         return $this->language;
     }
 
-    function get_note_user(): string {
-        return $this->note_user;
+    function get_publisher_note(): string {
+        return $this->publisher_note;
     }
 
-    protected $id_user, $firstName, $lastName, $email, $phone, $mobile, $congregation, $language, $note_user;
+    protected $id_user, $firstName, $lastName, $email, $phone, $mobile, $congregation, $language, $publisher_note;
 }

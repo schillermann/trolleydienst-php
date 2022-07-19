@@ -11,7 +11,7 @@ if(isset($_POST['save'])) {
     } else {
         $username = include '../filters/post_username.php';
 
-        if(App\Tables\Users::exists_username($database_pdo, $username)) {
+        if(App\Tables\Publisher::exists_username($database_pdo, $username)) {
             $placeholder['message']['error'] = __('This username is already in use!');
         } else {
             $get_password = require '../modules/random_string.php';
@@ -33,10 +33,10 @@ if(isset($_POST['save'])) {
                 include '../filters/post_mobile.php',
                 include '../filters/post_congregation_name.php',
                 include '../filters/post_language.php',
-                include '../filters/post_note_admin.php'
+                include '../filters/post_admin_note.php'
             );
 
-            if (!App\Tables\Users::insert($database_pdo, $user))
+            if (!App\Tables\Publisher::insert($database_pdo, $user))
                 $placeholder['message']['error'] = __('The publisher could not be created!');
             else {
                 $placeholder['message']['success'] = __('The publisher was created successfully.');
@@ -55,9 +55,9 @@ if(isset($_POST['save'])) {
                 );
                 $email_template_message = strtr($email_template['message'], $replace_with);
 
-                $send_mail_plain = include '../modules/send_mail_plain.php';
+                $send_email = require('../modules/send_email.php');
 
-                if($send_mail_plain($email, $email_template['subject'], $email_template_message))
+                if($send_email($email, $email_template['subject'], $email_template_message))
                     $placeholder['message']['success'] .= __('<br>An email with access data was sent to %s successfully.', [ $email ]);
             }
         }  

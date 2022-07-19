@@ -5,13 +5,13 @@ return function (\PDO $connection, int $id_shift, int $position,  int $id_user):
 
     $shift = App\Tables\Shifts::select($connection, $id_shift);
     $shift_type_name = App\Tables\ShiftTypes::select_name($connection, $shift['id_shift_type']);
-    $applicant_name = App\Tables\Users::select_name($connection, $id_user);
+    $applicant_name = App\Tables\Publisher::select_name($connection, $id_user);
     $shift_datetime = new \DateTime($shift['datetime_from']);
     $shift_datetime_format = $shift_datetime->format(__('d/m/Y'));
 
     if ($cancel_application_success) {
         if(!DEMO) {
-            $send_mail_cancel_application = include '../services/send_mail_applicant_action.php';
+            $send_mail_cancel_application = require('../services/send_mail_applicant_action.php');
             $send_mail_cancel_application($connection, $id_shift, $position, $id_user, $shift_datetime, App\Tables\EmailTemplates::APPLICATION_CANCEL);
         }
         

@@ -7,7 +7,7 @@ return function (string $filter_folder = '../filters'): array {
         $filter_file = $filter_folder . '/post_' . $input_field_name . '.php';
 
         if(file_exists($filter_file)) {
-            $return_value_list[$input_field_name] = include $filter_file;
+            $return_value_list[$input_field_name] = require($filter_file);
         }
     }
 

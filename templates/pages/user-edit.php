@@ -44,20 +44,20 @@
                 <input id="phone" name="phone" value=" <?= $placeholder['user']['phone'];?>">
             </div>
             <div>
-                <label for="congregation"> <?= __('Congregation') ?></label>
-                <input id="congregation" name="congregation" value=" <?= $placeholder['user']['congregation'];?>">
+                <label for="congregation_name"> <?= __('Congregation') ?></label>
+                <input id="congregation_name" name="congregation_name" value=" <?= $placeholder['user']['congregation'];?>">
             </div>
             <div>
                 <label for="language"> <?= __('Language') ?></label>
                 <input id="language" name="language" value=" <?= $placeholder['user']['language'];?>">
             </div>
             <div>
-                <label for="note_admin"> <?= __('Admin Notes') ?></label>
-                <textarea id="note_admin" name="note_admin" class="note"> <?= $placeholder['user']['note_admin'];?></textarea>
+                <label for="admin_note"> <?= __('Admin Notes') ?></label>
+                <textarea id="admin_note" name="admin_note" class="note"> <?= $placeholder['user']['admin_note'];?></textarea>
             </div>
             <div>
-                <label for="note_user"> <?= __('Publisher Notes') ?></label>
-                <textarea id="note_user" name="note_user" class="note" disabled> <?= $placeholder['user']['note_user'];?></textarea>
+                <label for="publisher_note"> <?= __('Publisher Notes') ?></label>
+                <textarea id="publisher_note" name="publisher_note" class="note" disabled> <?= $placeholder['user']['publisher_note'];?></textarea>
             </div>
         </fieldset>
         <div class="from-button">

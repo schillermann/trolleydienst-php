@@ -1,18 +1,18 @@
 <?php
-$placeholder = require '../includes/init_page.php';
+$placeholder = require('../includes/init_page.php');
 
 if(isset($_POST['save'])) {
 	App\Tables\Reports::delete_old_entries($database_pdo);
 
-	$date_from = include '../filters/post_date_from.php';
+	$date_from = require('../filters/post_date_from.php');
 
 	$merge_date_and_time = include '../modules/merge_date_and_time.php';
 	$shift_datetime_from = $merge_date_and_time($date_from, $_POST['time_from']);
 
 	$report = new App\Models\Report(
 		(int)$_POST['id_shift_type'],
-		App\Tables\Users::select_name($database_pdo, (int)$_POST['id_user']),
-		include '../filters/post_route.php',
+		App\Tables\Publisher::select_name($database_pdo, (int)$_POST['id_user']),
+		require('../filters/post_route.php'),
 		(int)$_POST['book'],
 		(int)$_POST['brochure'],
 		(int)$_POST['bible'],
@@ -20,7 +20,7 @@ if(isset($_POST['save'])) {
 		(int)$_POST['tract'],
 		(int)$_POST['address'],
 		(int)$_POST['talk'],
-        include '../filters/post_note_user.php',
+        require('../filters/post_publisher_note.php'),
 		$shift_datetime_from
 	);
 	if(App\Tables\Reports::insert($database_pdo, $report))
@@ -29,9 +29,9 @@ if(isset($_POST['save'])) {
 		$placeholder['message']['error'] = __('Your report could not be saved!');
 }
 
-$placeholder['user_list'] = App\Tables\Users::select_all($database_pdo);
+$placeholder['user_list'] = App\Tables\Publisher::select_all($database_pdo);
 $placeholder['route_list'] = App\Tables\Shifts::select_route_list($database_pdo, 1);
 $placeholder['shifttype_list'] = App\Tables\ShiftTypes::select_all($database_pdo);
 
-$render_page = include '../includes/render_page.php';
+$render_page = require('../includes/render_page.php');
 echo $render_page($placeholder);

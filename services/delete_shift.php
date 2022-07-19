@@ -9,7 +9,7 @@
 
 	foreach ($user_list_from_shift as $user) {
 
-		$get_template_email_user_promote = include '../services/get_email_template.php';
+		$get_template_email_user_promote = require('../services/get_email_template.php');
 		$email_template = $get_template_email_user_promote($connection, App\Tables\EmailTemplates::SHIFT_DELETE);
 
 		$replace_with = array(
@@ -19,8 +19,8 @@
 
 		$email_template_message = strtr($email_template['message'], $replace_with);
 
-		$send_mail_plain = include '../modules/send_mail_plain.php';
-		if(!$send_mail_plain($user['email'], $email_template['subject'], $email_template_message)) {
+		$send_email = require('../modules/send_email.php');
+		if(!$send_email($user['email'], $email_template['subject'], $email_template_message)) {
 			App\Tables\History::insert(
 				$connection,
 				$_SESSION['name'],

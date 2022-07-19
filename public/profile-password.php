@@ -6,7 +6,7 @@ if(isset($_POST['save']) && !empty($_POST['password'])) {
         $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
     } else {
         if($_POST['password'] == $_POST['password_repeat'])
-            if(App\Tables\Users::update_password($database_pdo, $_SESSION['id_user'], $_POST['password']))
+            if(App\Tables\Publisher::update_password($database_pdo, $_SESSION['id_user'], $_POST['password']))
                 $placeholder['message']['success'] = __('Your password has been changed successfully.');
             else
                 $placeholder['message']['error'] = __('Your password could not be changed!');

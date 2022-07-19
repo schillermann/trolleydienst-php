@@ -1,4 +1,3 @@
-<?php include '../templates/pagesnippets/note-box.php' ?>
 <header>
     <h2><?= __('Edit Shift') ?></h2>
 </header>
@@ -8,6 +7,9 @@
     </a>
 </nav>
 <div class="container-center">
+
+    <?php include '../templates/pagesnippets/note-box.php' ?>
+
     <form method="post">
         <fieldset>
             <legend><?= __('Shifts') ?></legend>

@@ -1,6 +1,6 @@
 <?php return function (\PDO $connection): bool {
 
-    if(!App\Tables\Users::create_table($connection)) {
+    if(!App\Tables\Publisher::create_table($connection)) {
         return false;
     }
 
@@ -8,7 +8,7 @@
         SELECT
             id_user, username, name, email, password,
             phone, mobile, congregation_name, language,
-            note_user, note_admin, is_active, is_admin,
+            publisher_note, admin_note, is_active, is_admin,
             last_login, updated, created
         FROM users
     SQL;
@@ -17,14 +17,14 @@
 
         $stmt = $connection->prepare(
             <<<'SQL'
-                INSERT INTO user (
+                INSERT INTO publisher (
                     id, username, first_name, last_name, email, password, phone,
-                    mobile, congregation, language, note_user, note_admin,
+                    mobile, congregation, language, publisher_note, admin_note,
                     active, administrative, logged_on, updated_on, created_on
                 )
                 VALUES (
                     :id, :username, :first_name, :last_name, :email, :password, :phone,
-                    :mobile, :congregation, :language, :note_user, :note_admin,
+                    :mobile, :congregation, :language, :publisher_note, :admin_note,
                     :active, :administrative, :logged_on, :updated_on, :created_on
                 )
             SQL
@@ -46,8 +46,8 @@
                 'mobile' => $row['mobile'],
                 'congregation' => $row['congregation_name'],
                 'language' => $row['language'],
-                'note_user' => $row['note_user'],
-                'note_admin' => $row['note_admin'],
+                'publisher_note' => $row['publisher_note'],
+                'admin_note' => $row['admin_note'],
                 'active' => $row['is_active'],
                 'administrative' => $row['is_admin'],
                 'logged_on' => $row['last_login'],
@@ -57,7 +57,7 @@
         );
 
         if($is_error) {
-            $connection->exec('DROP TABLE user');
+            $connection->exec('DROP TABLE publisher');
             return false;
         }
     }

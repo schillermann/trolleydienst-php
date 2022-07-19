@@ -21,7 +21,7 @@ class Reports
 				`tract`	INTEGER DEFAULT 0,
 				`address` INTEGER DEFAULT 0,
 				`talk` INTEGER DEFAULT 0,
-				`note_user` TEXT,
+				`user_note` TEXT,
 				`shift_datetime_from` TEXT NOT NULL,
 				`created` TEXT NOT NULL
             )';
@@ -35,7 +35,7 @@ class Reports
 
 		$stmt = $connection->prepare(
 			'SELECT id_report, name, route, shift_datetime_from, book,
-            brochure, bible, magazine, tract, address, talk, note_user, created
+            brochure, bible, magazine, tract, address, talk, user_note, created
             FROM ' . self::TABLE_NAME . '
             WHERE id_shift_type = :id_shift_type' . $where_name .
             'AND DATE(shift_datetime_from) >= DATE(:from)
@@ -61,11 +61,11 @@ class Reports
 			'INSERT INTO ' . self::TABLE_NAME . '
 			(
 			    id_shift_type, name, route, book, brochure, bible, magazine,
-			    tract, address, talk, note_user, shift_datetime_from, created
+			    tract, address, talk, user_note, shift_datetime_from, created
 			)
             VALUES (
                 :id_shift_type, :name, :route, :book, :brochure, :bible, :magazine,
-                :tract, :address, :talk, :note_user, :shift_datetime_from, datetime("now", "localtime")
+                :tract, :address, :talk, :user_note, :shift_datetime_from, datetime("now", "localtime")
             )'
 		);
 
@@ -81,7 +81,7 @@ class Reports
 				':tract' => $report->get_tract(),
 				':address' => $report->get_address(),
 				':talk' => $report->get_talk(),
-				':note_user' => $report->get_note_user(),
+				':user_note' => $report->get_user_note(),
 				':shift_datetime_from' => $report->get_shift_from()->format('Y-m-d H:i:s')
 			)
 		) && $stmt->rowCount() == 1;

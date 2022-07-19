@@ -2,7 +2,7 @@
 
     $shift = App\Tables\Shifts::select($connection, $id_shift);
     $shift_type_name = App\Tables\ShiftTypes::select_name($connection, $shift['id_shift_type']);
-    $user_name = App\Tables\Users::select_name($connection, $id_user);
+    $user_name = App\Tables\Publisher::select_name($connection, $id_user);
 
     $promote_user_success = App\Tables\ShiftUserMaps::insert($connection, $id_shift, $position, $id_user);
 

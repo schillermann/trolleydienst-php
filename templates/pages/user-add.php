@@ -48,8 +48,8 @@
                 <input id="language" name="language" value="<?= (isset($_POST['language']))? $_POST['language'] : '';?>">
             </div>
             <div>
-                <label for="note_admin"><?= __('Admin Notes') ?></label>
-                <textarea id="note_admin" name="note_admin" class="note"><?= (isset($_POST['note_admin']))? $_POST['note_admin'] : '';?></textarea>
+                <label for="admin_note"><?= __('Admin Notes') ?></label>
+                <textarea id="admin_note" name="admin_note" class="note"><?= (isset($_POST['admin_note']))? $_POST['admin_note'] : '';?></textarea>
             </div>
         </fieldset>
         <div class="from-button">

@@ -1,41 +1,3 @@
-<?php ob_start();?>
-<select name="promote_id_user" class="button promote" onchange="submitForm(this)">
-    <option value="0"><?= __('Apply') ?></option>
-    <?php foreach ($placeholder['user_promote_list'] as $id_user => $name): ?>
-        <option value="<?= $id_user ?>"><?= $name ?></option>
-    <?php endforeach;?>
-</select>
-<?php $applicants_list = ob_get_contents(); ob_end_clean() ?>
-
-<?php if (isset($placeholder['message'])) : ?>
-    <div id="note-box" class="fade-in">
-        <?php if (isset($placeholder['message']['success'])) : ?>
-            <p class="success">
-                <?= $placeholder['message']['success'] ?>
-            </p>
-        <?php elseif(isset($placeholder['message']['error'])): ?>
-            <p class="error">
-                <?= $placeholder['message']['error'] ?>
-            </p>
-        <?php endif ?>
-
-        <button onclick="closeNoteBox(); return false;">
-            <i class="fa fa-times"></i> <?= __('Close') ?>
-        </button>
-        <form method="post" class="form_inline">
-            <?php if(isset($_POST['promote_id_user'])): ?>
-                <button>
-                    <i class="fa fa-undo"></i> <?= __('Undo') ?>
-                </button>
-                <input type="hidden" name="id_shift" value="<?= (int)$_POST['id_shift'];?>">
-                <input type="hidden" name="position" value="<?= (int)$_POST['position'];?>">
-                <input type="hidden" name="cancel_id_user" value="<?= (int)$_POST['promote_id_user'];?>">
-            <?php endif ?>
-        </form>
-
-    </div>
-<?php endif ?>
-
 <header>
     <h2><?= $placeholder['shift_type']['name'];?> <?= __('Shifts') ?></h2>
     <?php if(!empty($placeholder['shift_type']['info'])): ?>
@@ -54,6 +16,8 @@
         </a>
     </nav>
 <?php endif ?>
+
+<?php include '../templates/pagesnippets/note-box.php' ?>
 
 <div class="table-container">
     <?php foreach ($placeholder['shift_day'] as $id_shift => $shift_list) : ?>
@@ -94,7 +58,7 @@
                             <?php $has_user_promoted = $id_user === $_SESSION['id_user'];?>
 
                             <?php if($has_user_promoted || $_SESSION['is_admin']): ?>
-                                <form method="post" class="form_inline" action="#id_shift_<?= $id_shift ?>">
+                                <form method="post" class="form_inline">
                                     <input type="hidden" name="position" value="<?= $position ?>">
                                     <input type="hidden" name="id_shift" value="<?= $id_shift ?>">
                                     <input type="hidden" name="cancel_id_user" value="<?= $id_user ?>">
@@ -110,10 +74,15 @@
                         <?php endforeach ?>
 
                         <?php for($free_place_counter = 0; $free_place_counter < $free_places; $free_place_counter++): ?>
-                            <form method="post" class="form_inline" action="#id_shift_<?= $id_shift ?>">
+                            <form method="post" class="form_inline">
                                 <input type="hidden" name="position" value="<?= $position ?>">
                                 <input type="hidden" name="id_shift" value="<?= $id_shift ?>">
-                                <?= $applicants_list;?>
+                                <select name="promote_id_user" class="button promote" onchange="submitForm(this)">
+                                <option value="0"><?= __('Apply') ?></option>
+                                <?php foreach ($placeholder['user_promote_list'] as $id_user => $name): ?>
+                                    <option value="<?= $id_user ?>"><?= $name ?></option>
+                                <?php endforeach;?>
+                            </select>
                             </form>
                         <?php endfor;?>
                     </td>

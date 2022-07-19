@@ -23,15 +23,15 @@ include '../config.php';
 include '../includes/language.php';
 
 $placeholder = array();
-$placeholder['email_or_username'] = include '../filters/get_username.php';
+$placeholder['email_or_username'] = require('../filters/get_username.php');
 
 if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
 
-    $check_login = include '../includes/check_login.php';
-    $placeholder['post_email_or_username']  = include '../filters/post_email_or_username.php';
+    $check_login = require('../includes/check_login.php');
+    $placeholder['post_email_or_username']  = require('../filters/post_email_or_username.php');
     $database_pdo = App\Tables\Database::get_connection();
 
-    $get_ban_time_in_minutes = include '../services/get_ban_time_in_minutes.php';
+    $get_ban_time_in_minutes = require('../services/get_ban_time_in_minutes.php');
     $ban_time_in_minutes = $get_ban_time_in_minutes($database_pdo, BAN_TIME_IN_MINUTES);
 
     if($ban_time_in_minutes > 0) {
@@ -41,14 +41,14 @@ if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
         return;
     }
     else {
-        $set_ban_time = include '../services/set_ban_time.php';
+        $set_ban_time = require('../services/set_ban_time.php');
 
         if($set_ban_time($database_pdo, LOGIN_FAIL_MAX))
             $placeholder['message']['error'] = __('You have been blocked for %d minutes!', [ BAN_TIME_IN_MINUTES ]);
         else
             $placeholder['message']['error'] = __('Login failed!');
 
-        $user_ip_address = include '../modules/get_ip_address.php';
+        $user_ip_address = require('../modules/get_ip_address.php');
 
         App\Tables\History::insert(
             $database_pdo,
@@ -59,6 +59,6 @@ if(isset($_POST['email_or_username']) && isset($_POST['password'])) {
     }
 }
 
-$render_page = include '../includes/render_page.php';
+$render_page = require('../includes/render_page.php');
 echo $render_page($placeholder);
 ?>

@@ -16,8 +16,8 @@ class User {
         string $mobile = '',
         string $congregation = '',
         string $language = '',
-        string $note_admin = '',
-        string $note_user = ''
+        string $admin_note = '',
+        string $publisher_note = ''
     ) {
         $this->id_user = $id_user;
         $this->username = $username;
@@ -31,8 +31,8 @@ class User {
         $this->mobile = $mobile;
         $this->congregation = $congregation;
         $this->language = $language;
-        $this->note_admin = $note_admin;
-        $this->note_user = $note_user;
+        $this->admin_note = $admin_note;
+        $this->publisher_note = $publisher_note;
     }
 
     function get_id_user(): int {
@@ -83,14 +83,14 @@ class User {
         return $this->language;
     }
 
-    function get_note_user(): string {
-        return $this->note_user;
+    function get_publisher_note(): string {
+        return $this->publisher_note;
     }
 
-    function get_note_admin(): string {
-        return $this->note_admin;
+    function get_admin_note(): string {
+        return $this->admin_note;
     }
 
     protected $id_user, $firstName, $lastName, $email, $password, $administrative, $active, $phone, $mobile;
-    protected $congregation, $language, $note_user, $note_admin;
+    protected $congregation, $language, $publisher_note, $admin_note;
 }

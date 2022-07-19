@@ -29,7 +29,7 @@ class Database {
 			Shifts::create_table($connection) &&
 			ShiftTypes::create_table($connection) &&
 			ShiftUserMaps::create_table($connection) &&
-            Users::create_table($connection) &&
+            Publisher::create_table($connection) &&
             Settings::create_table($connection) &&
             Settings::insert($connection, 'application_version', include '../includes/get_version.php') ;
     }

@@ -131,28 +131,10 @@ nav a {
     margin: 1em 0;
     padding: .5em 1em;
     animation: opac 0.8s; }
-#note-box {
-    border: 1px solid #dbd7d4;
-    background-color: #faf8f5;
-    padding: .5em 1em;
-    position: fixed;
-    top: 6px;
-    z-index: 1;
-    box-shadow: 0 0 5px 3px rgba(0,0,0,.05);
-    animation-name: note-box-slide;
-    animation-timing-function: ease;
-    animation-duration: 1s; }
-@keyframes note-box-slide {
-    0% { top: 200px; }
-    100% { top: 6px; }
-}
-#note-box-content {
-    max-height: 200px;
-    overflow: auto; }
-#note-box .error {
+.error {
     font-weight: 400;
-    color: #CC0000; }
-#note-box .success {
+    color: #bd5044; }
+.success {
     font-weight: 400;
     color: #1E8402; }
 /**

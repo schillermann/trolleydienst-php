@@ -1,29 +1,3 @@
-<?php if (isset($placeholder['message'])) : ?>
-    <div id="note-box" class="fade-in">
-		<?php if (isset($placeholder['message']['success'])) : ?>
-            <p class="success">
-                <?= __('The following shifts were created:') ?>
-            <ul>
-				<?php foreach ($placeholder['message']['success'] as $shiftday): ?>
-                    <li><?= $shiftday ?></li>
-				<?php endforeach;?>
-            </ul>
-            </p>
-		<?php elseif(isset($placeholder['message']['error'])): ?>
-            <p class="error">
-            <?= __('The following shifts could not be created:') ?>
-            <ul>
-				<?php foreach ($placeholder['message']['error'] as $shiftday): ?>
-                    <li><?= $shiftday ?></li>
-				<?php endforeach;?>
-            </ul>
-            </p>
-		<?php endif ?>
-        <button type="button" onclick="closeNoteBox()">
-            <i class="fa fa-times"></i> <?= __('Close') ?>
-        </button>
-    </div>
-<?php endif ?>
 <header>
     <h2><?= __('New Shifts') ?></h2>
 </header>
@@ -33,6 +7,27 @@
     </a>
 </nav>
 <div class="container-center">
+
+    <?php if (isset($placeholder['message'])) : ?>
+        <div class="info-box">
+            <?php if (isset($placeholder['message']['success'])) : ?>
+                <p class="success"><?= __('The following shifts were created:') ?></p>
+                <ul>
+                    <?php foreach ($placeholder['message']['success'] as $shiftday): ?>
+                        <li><?= $shiftday ?></li>
+                    <?php endforeach;?>
+                </ul>
+            <?php elseif(isset($placeholder['message']['error'])): ?>
+                <p class="error"><?= __('The following shifts could not be created:') ?></p>
+                <ul>
+                    <?php foreach ($placeholder['message']['error'] as $shiftday): ?>
+                        <li><?= $shiftday ?></li>
+                    <?php endforeach;?>
+                </ul>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+
     <form method="post">
         <fieldset>
             <legend><?= __('Shifts') ?></legend>
