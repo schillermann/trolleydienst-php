@@ -1,1 +1,1 @@
-<?php return filter_input(INPUT_POST, 'application_name', FILTER_SANITIZE_STRING);
+<?php return filter_input(INPUT_POST, 'application_name', FILTER_SANITIZE_SPECIAL_CHARS);
