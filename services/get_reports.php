@@ -20,7 +20,7 @@
 			'tract' => (int)$report['tract'],
 			'address' => (int)$report['address'],
 			'talk' => (int)$report['talk'],
-			'publisher_note' => $report['publisher_note'],
+			'publisher_note' => $report['user_note'],
             'created' => $created->format(__('d/m/Y') . ' H:i')
 		);
 	}
