@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE publisher (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     first_name TEXT NOT NULL,
@@ -9,8 +9,8 @@ CREATE TABLE user (
     mobile TEXT DEFAULT NULL,
     congregation TEXT DEFAULT NULL,
     language TEXT DEFAULT NULL,
-    note_user TEXT,
-    note_admin TEXT,
+    publisher_note TEXT,
+    admin_note TEXT,
     active INTEGER DEFAULT 1,
     administrative INTEGER DEFAULT 0,
     logged_on TEXT DEFAULT NULL,
