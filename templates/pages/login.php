@@ -1,9 +1,9 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 <div class="container-center">
-    <?php if ($params['error']) : ?>
+    <?php if ($error) : ?>
     <div class="info-box">
-        <p>
-            <?= $params['error'] ?>
+        <p class="error">
+            <?= $language->translation($error) ?>
         </p>
     </div>
     <?php endif; ?>
@@ -13,7 +13,7 @@
             <p>Bitte melde dich mit deinen Zugangsdaten an.</p>
             <div>
                 <label for="email_or_username">E-Mail oder Benutzername</label>
-                <input id="email_or_username" name="email_or_username" value="<?= 'email' ?>" required>
+                <input id="email_or_username" name="email_or_username" value="<?= $usernameOrEmail ?>" required>
             </div>
             <div>
                 <label for="password">Passwort</label>

@@ -4,21 +4,26 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\AppConfig;
 use App\Pages\LoginPage;
 use App\Pages\LogoutPage;
-use App\Pages\UserListPage;
-use App\UserPool;
+use App\Pages\NotFoundPage;
+use App\Pages\PublishersPage;
+use App\Pages\UserEditPage;
+use App\PublisherPool;
+use App\PublisherPoolInterface;
 use PhpPages\App;
+use PhpPages\Language\SimpleLanguage;
 use PhpPages\Page\LayoutPage;
 use PhpPages\Page\PageWithRoutes;
 use PhpPages\Page\PageWithType;
+use PhpPages\Page\RedirectPage;
 use PhpPages\Page\SessionPage;
-use PhpPages\Page\TextPage;
 use PhpPages\Request\NativeRequest;
 use PhpPages\Response\NativeResponse;
 use PhpPages\Session\NativeSession;
 use PhpPages\Template\SimpleTemplate;
 
 $appConfig = new AppConfig();
-$userPool = new UserPool(
+$language = new SimpleLanguage('../language/de.php');
+$publisherPool = new PublisherPool(
     new \PDO('sqlite:./../database.sqlite')
 );
 
@@ -29,35 +34,40 @@ $session->start();
     new SessionPage(
         new PageWithType(
             (new LayoutPage(
-                new SimpleTemplate('../templates/layout.php'),
-                [
-                    'config' => $appConfig
-                ]
+                new SimpleTemplate('../templates/layout.php')
             ))
+                ->withParam('config', $appConfig)
                 ->withPage(
                     (new PageWithRoutes(
-                        new TextPage('Not Found'),
+                        new NotFoundPage(),
                     ))
                         ->withRoute(
                             '/',
-                            new UserListPage(
-                                new SimpleTemplate('../templates/pages/user-list.php'),
-                                $userPool
-                            )
+                            new RedirectPage('/publishers')
                         )
                         ->withRoute(
                             '/login',
                             new LoginPage(
                                 new SimpleTemplate('../templates/pages/login.php'),
-                                $userPool,
+                                $language,
+                                $publisherPool,
                                 $session
                             )
                         )
                         ->withRoute(
-                            '/user-list',
-                            new UserListPage(
-                                new SimpleTemplate('../templates/pages/user-list.php'),
-                                $userPool
+                            '/publishers',
+                            new PublishersPage(
+                                new SimpleTemplate('../templates/pages/publishers.php'),
+                                $language,
+                                $publisherPool
+                            )
+                        )
+                        ->withRoute(
+                            '/user-edit',
+                            new UserEditPage(
+                                new SimpleTemplate('../templates/pages/user-edit.php'),
+                                $language,
+                                $publisherPool
                             )
                         )
                         ->withRoute(

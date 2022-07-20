@@ -2,7 +2,7 @@
 <html lang="de">
     <head>
         <meta charset="utf-8">
-        <title><?= $params['config']->congregation() ?></title>
+        <title><?= $config->congregation() ?></title>
         <meta name="description" content="Trolleydienst Verwaltung">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -29,7 +29,7 @@
             </div>
             <div>
                 <div id="site-header" class="wrapper-center">
-                    <h1 id="site-name"><?= $params['config']->congregation() ?></span></h1>
+                    <h1 id="site-name"><?= $config->congregation() ?></span></h1>
                 </div>
             </div>
         </header>

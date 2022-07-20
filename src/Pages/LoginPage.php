@@ -1,10 +1,11 @@
 <?php
 namespace App\Pages;
 
-use App\UserAnonymous;
-use App\UserFormData;
-use App\UserPoolInterface;
+use App\Anonymous;
+use App\PublisherFormData;
+use App\PublisherPoolInterface;
 use PhpPages\Form\SimpleFormData;
+use PhpPages\LanguageInterface;
 use PhpPages\OutputInterface;
 use PhpPages\Page\RedirectPage;
 use PhpPages\PageInterface;
@@ -14,29 +15,37 @@ use PhpPages\TemplateInterface;
 class LoginPage implements PageInterface
 {
     private TemplateInterface $template;
-    private UserPoolInterface $userPool;
+    private LanguageInterface $language;
+    private PublisherPoolInterface $publisherPool;
     private SessionInterface $session;
+    private string $usernameOrEmail;
     private string $error;
 
     function __construct(
         TemplateInterface $template,
-        UserPoolInterface $userPool,
-        SessionInterface $session
+        LanguageInterface $language,
+        PublisherPoolInterface $publisherPool,
+        SessionInterface $session,
+        string $usernameOrEmail = '',
+        string $error = ''
     ) {
         $this->template = $template;
-        $this->userPool = $userPool;
+        $this->language = $language;
+        $this->publisherPool = $publisherPool;
         $this->session = $session;
-        
-        $this->error = '';
+        $this->usernameOrEmail = $usernameOrEmail;
+        $this->error = $error;
     }
 
     function viaOutput(OutputInterface $output): OutputInterface
     {
         return $output->withMetadata(
                 'PhpPages-Body',
-                $this->template->content(
-                    [ 'error' => $this->error ]
-                )
+                $this->template
+                    ->withParam('language', $this->language)
+                    ->withParam('usernameOrEmail', $this->usernameOrEmail)
+                    ->withParam('error', $this->error)
+                    ->content()
             );
     }
 
@@ -49,18 +58,27 @@ class LoginPage implements PageInterface
 
         if ('PhpPages-Body' === $name && !empty($value)) {
 
-            $user = (new UserFormData(
-                new SimpleFormData($value),
-                $this->userPool
+            $data = new SimpleFormData($value);
+
+            $publisher = (new PublisherFormData(
+                $data,
+                $this->publisherPool
             ))->user();
 
-            if (UserAnonymous::USERNAME === $user->username()) {
-                $this->error = 'Email or username is wrong';
+            if ($publisher->username() === Anonymous::USERNAME) {
+                return new LoginPage(
+                    $this->template,
+                    $this->language,
+                    $this->publisherPool,
+                    $this->session,
+                    $data->param('email_or_username'),
+                    'Login failed. Please check that the <em>Caps Lock</em> key is not enabled and try again.'
+                );
             } else {
                 
                 $this->session->add(
-                    'userId',
-                    $user->id()
+                    'publisherId',
+                    $publisher->id()
                 );
                 
                 return new RedirectPage('/');
