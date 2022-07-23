@@ -6,6 +6,7 @@ use PhpPages\Form\SimpleFormData;
 use PhpPages\LanguageInterface;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
+use PhpPages\SessionInterface;
 use PhpPages\TemplateInterface;
 
 class PublishersPage implements PageInterface
@@ -13,8 +14,9 @@ class PublishersPage implements PageInterface
     private TemplateInterface $template;
     private LanguageInterface $language;
     private PublisherPoolInterface $publisherPool;
+    private SessionInterface $session;
     private string $sortColumn;
-    private string $sortOrder;
+    private bool $sortDesc;
     private string $searchPattern;
 
     const SORT_COLUMNS = [
@@ -26,38 +28,39 @@ class PublishersPage implements PageInterface
         'logged_on'
     ];
 
-    const SORT_ORDER = ['asc', 'desc'];
+    const SORT_COLUMN_DEFAULT = self::SORT_COLUMNS[0];
 
     function __construct(
         TemplateInterface $template,
         LanguageInterface $language,
         PublisherPoolInterface $publisherPool,
+        SessionInterface $session,
         string $sortColumn = '',
-        string $sortOrder = '',
+        bool $sortDesc = false,
         string $searchPattern = ''
     ) {
         $this->template = $template;
         $this->language = $language;
         $this->publisherPool = $publisherPool;
+        $this->session = $session;
         $this->sortColumn = $sortColumn;
-        $this->sortOrder = $sortOrder;
+        $this->sortDesc = $sortDesc;
         $this->searchPattern = $searchPattern;
     }
 
     function viaOutput(OutputInterface $output): OutputInterface
     {
-        $sortColumn = ($this->sortColumn)? $this->sortColumn : self::SORT_COLUMNS[0];
-        $sortOrder = ($this->sortOrder)? $this->sortOrder : self::SORT_ORDER[0];
+        $sortOrder = ($this->sortDesc)? 'desc' : 'asc';
 
         if ($this->searchPattern) {
             $users = $this->publisherPool->allByNameOrEmail(
                 $this->searchPattern,
-                $sortColumn,
+                $this->sortColumn,
                 $sortOrder
             );
         } else {
             $users = $this->publisherPool->all(
-                $sortColumn,
+                $this->sortColumn,
                 $sortOrder
             );
         }
@@ -69,8 +72,6 @@ class PublishersPage implements PageInterface
                     ->withParam('language', $this->language)
                     ->withParam('searchPattern', $this->searchPattern)
                     ->withParam('users', $users)
-                    ->withParam('sortColumn', $this->sortColumn)
-                    ->withParam('sortOrder', $this->sortOrder)
                     ->content()
             );
     }
@@ -78,32 +79,48 @@ class PublishersPage implements PageInterface
     function withMetadata(string $name, string $value): PageInterface
     {
         if ($name === 'PhpPages-Query') {
+
             if (empty($value)) {
+                if (empty($this->session->param('publishersPageSortColumn'))) {
+                    $this->session->add('publishersPageSortDesc', (string)false);
+                    $this->session->add('publishersPageSortColumn', self::SORT_COLUMN_DEFAULT);
+                }
+
                 return new PublishersPage(
                     $this->template,
                     $this->language,
                     $this->publisherPool,
-                    $this->sortColumn,
-                    $this->sortOrderDesc
+                    $this->session,
+                    $this->session->param('publishersPageSortColumn'),
+                    (bool)$this->session->param('publishersPageSortDesc'),
+                    $this->searchPattern
                 );
             }
 
             $query = new SimpleFormData($value);
+            $sortColumn = $query->param('sort');
 
-            if (!empty($query->param('sortcolumn')) && !in_array($query->param('sortcolumn'), self::SORT_COLUMNS)) {
+            if (!empty($sortColumn) && !in_array($sortColumn, self::SORT_COLUMNS)) {
                 throw new \InvalidArgumentException();
             }
-
-            if (!empty($query->param('sortorder')) && !in_array($query->param('sortorder'), self::SORT_ORDER)) {
-                throw new \InvalidArgumentException();
+            
+            if ($this->session->param('publishersPageSortColumn') === $sortColumn) {
+                $this->session->add(
+                    'publishersPageSortDesc',
+                    (string)!(bool)$this->session->param('publishersPageSortDesc')
+                );
+            } else {
+                $this->session->add('publishersPageSortDesc', (string)false);
+                $this->session->add('publishersPageSortColumn', $sortColumn);
             }
 
             return new PublishersPage(
                 $this->template,
                 $this->language,
                 $this->publisherPool,
-                $query->param('sortcolumn'),
-                $query->param('sortorder'),
+                $this->session,
+                $this->session->param('publishersPageSortColumn'),
+                $this->session->param('publishersPageSortDesc'),
                 $query->param('search')
             );
         }

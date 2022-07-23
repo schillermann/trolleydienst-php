@@ -59,7 +59,8 @@ $session->start();
                             new PublishersPage(
                                 new SimpleTemplate('../templates/pages/publishers.php'),
                                 $language,
-                                $publisherPool
+                                $publisherPool,
+                                $session
                             )
                         )
                         ->withRoute(

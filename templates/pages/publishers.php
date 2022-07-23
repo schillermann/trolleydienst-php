@@ -7,8 +7,6 @@
             <i class="fa fa-plus"></i> <?= $language->translation('Create Publisher') ?>
         </a>
         <input name="search" type="search" placeholder="<?= $language->translation('Search Publishers') ?>" value="<?= $searchPattern ?>">
-        <input type="hidden" name="sortcolumn" value="<?= $sortColumn?>"> 
-        <input type="hidden" name="sortorder" value="<?= $sortOrder?>"> 
         <button type="submit">
             <i class="fa fa-search"></i>
         </button>
@@ -18,34 +16,34 @@
     <table>
         <tr>
             <th>
-                <?= $language->translation('First Name') ?>
-                <a href="?sortcolumn=first_name&sortorder=asc&search=<?= $searchPattern?>"><i class='fa fa-sort-up'></a></i>
-                <a href="?sortcolumn=first_name&sortorder=desc&search=<?= $searchPattern?>"><i class='fa fa-sort-down'></a></i>
+                <a href="?sort=first_name">
+                    <?= $language->translation('First Name') ?> <i class='fa fa-sort'></i>
+                </a>
             </th>
             <th>
-                <?= $language->translation('Last Name') ?>
-                <a href="?sortcolumn=last_name&sortorder=asc&search=<?= $searchPattern?>"><i class='fa fa-sort-up'></a></i>
-                <a href="?sortcolumn=last_name&sortorder=desc&search=<?= $searchPattern?>"><i class='fa fa-sort-down'></a></i>
+                <a href="?sort=last_name">
+                    <?= $language->translation('Last Name') ?> <i class='fa fa-sort'></i>
+                </a>
             </th>
             <th>
-                <?= $language->translation('E-Mail') ?>
-                <a href="?sortcolumn=email&sortorder=asc&search=<?= $searchPattern?>"><i class='fa fa-sort-up'></a></i>
-                <a href="?sortcolumn=email&sortorder=desc&search=<?= $searchPattern?>"><i class='fa fa-sort-down'></a></i>
+                <a href="?sort=email">
+                    <?= $language->translation('E-Mail') ?> <i class='fa fa-sort'></i>
+                </a>
             </th>
             <th>
-                <?= $language->translation('Active') ?>
-                <a href="?sortcolumn=active&sortorder=asc&search=<?= $searchPattern?>"><i class='fa fa-sort-up'></a></i>
-                <a href="?sortcolumn=active&sortorder=desc&search=<?= $searchPattern?>"><i class='fa fa-sort-down'></a></i>
+                <a href="?sort=active">
+                    <?= $language->translation('Active') ?> <i class='fa fa-sort'></i>
+                </a>
             </th>
             <th>
-                <?= $language->translation('Admin') ?>
-                <a href="?sortcolumn=administrative&sortorder=asc&search=<?= $searchPattern?>"><i class='fa fa-sort-up'></a></i>
-                <a href="?sortcolumn=administrative&sortorder=desc&search=<?= $searchPattern?>"><i class='fa fa-sort-down'></a></i>
+                <a href="?sort=administrative">
+                    <?= $language->translation('Admin') ?> <i class='fa fa-sort'></i>
+                </a>
             </th>
             <th>
-                <?= $language->translation('Last Login') ?>
-                <a href="?sortcolumn=logged_on&sortorder=asc&search=<?= $searchPattern?>"><i class='fa fa-sort-up'></a></i>
-                <a href="?sortcolumn=logged_on&sortorder=desc&search=<?= $searchPattern?>"><i class='fa fa-sort-down'></a></i>
+                <a href="?sort=logged_on">
+                    <?= $language->translation('Last Login') ?> <i class='fa fa-sort'></i>
+                </a>
             </th>
             <th><?= $language->translation('Action') ?></th>
         </tr>
