@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schillermann/phppages.git",
-                "reference": "7811907ed94167fbac27392f543227c83a44f221"
+                "reference": "3dde58e6469eeba6d6917ea0528d23c06e2e5096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schillermann/phppages/zipball/7811907ed94167fbac27392f543227c83a44f221",
-                "reference": "7811907ed94167fbac27392f543227c83a44f221",
+                "url": "https://api.github.com/repos/schillermann/phppages/zipball/3dde58e6469eeba6d6917ea0528d23c06e2e5096",
+                "reference": "3dde58e6469eeba6d6917ea0528d23c06e2e5096",
                 "shasum": ""
             },
             "require-dev": {
@@ -49,7 +49,7 @@
                 "source": "https://github.com/schillermann/phppages/tree/main",
                 "issues": "https://github.com/schillermann/phppages/issues"
             },
-            "time": "2022-07-23T08:20:33+00:00"
+            "time": "2022-07-23T12:25:33+00:00"
         }
     ],
     "packages-dev": [],
