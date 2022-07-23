@@ -8,7 +8,7 @@
         </a>
         <input name="search" type="search" placeholder="<?= $language->translation('Search Publishers') ?>" value="<?= $searchPattern ?>">
         <button type="submit">
-            <i class="fa fa-search"></i>
+            <i class="fa fa-filter"></i>
         </button>
     </div>
 </form>

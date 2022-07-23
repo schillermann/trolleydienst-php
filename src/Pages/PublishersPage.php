@@ -80,38 +80,17 @@ class PublishersPage implements PageInterface
     {
         if ($name === 'PhpPages-Query') {
 
-            if (empty($value)) {
-                if (empty($this->session->param('publishersPageSortColumn'))) {
-                    $this->session->add('publishersPageSortDesc', (string)false);
-                    $this->session->add('publishersPageSortColumn', self::SORT_COLUMN_DEFAULT);
-                }
-
-                return new PublishersPage(
-                    $this->template,
-                    $this->language,
-                    $this->publisherPool,
-                    $this->session,
-                    $this->session->param('publishersPageSortColumn'),
-                    (bool)$this->session->param('publishersPageSortDesc'),
-                    $this->searchPattern
-                );
-            }
-
             $query = new SimpleFormData($value);
             $sortColumn = $query->param('sort');
 
-            if (!empty($sortColumn) && !in_array($sortColumn, self::SORT_COLUMNS)) {
-                throw new \InvalidArgumentException();
-            }
-            
-            if ($this->session->param('publishersPageSortColumn') === $sortColumn) {
-                $this->session->add(
-                    'publishersPageSortDesc',
-                    (string)!(bool)$this->session->param('publishersPageSortDesc')
-                );
+            if ($query->exists('search')) {
+                $this->session->add('publishersPageSearchPattern', $query->param('search'));
+            } else if ($sortColumn && $this->session->param('publishersPageSortColumn') === $sortColumn) {
+                $this->session->add('publishersPageSortDesc', (string)!$this->session->param('publishersPageSortDesc'));
             } else {
-                $this->session->add('publishersPageSortDesc', (string)false);
+                $sortColumn = $sortColumn? $sortColumn : self::SORT_COLUMN_DEFAULT;
                 $this->session->add('publishersPageSortColumn', $sortColumn);
+                $this->session->add('publishersPageSortDesc', (string)false);
             }
 
             return new PublishersPage(
@@ -120,8 +99,8 @@ class PublishersPage implements PageInterface
                 $this->publisherPool,
                 $this->session,
                 $this->session->param('publishersPageSortColumn'),
-                $this->session->param('publishersPageSortDesc'),
-                $query->param('search')
+                (bool)$this->session->param('publishersPageSortDesc'),
+                $this->session->param('publishersPageSearchPattern')
             );
         }
 

@@ -22,7 +22,7 @@ class LogoutPage implements PageInterface
 
     function withMetadata(string $name, string $value): PageInterface
     {
-        $this->session->clear();
+        $this->session->remove(LoginPage::PUBLISHER_ID);
         return new RedirectPage('/login');
     }
 }

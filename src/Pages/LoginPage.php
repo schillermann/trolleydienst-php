@@ -21,6 +21,8 @@ class LoginPage implements PageInterface
     private string $usernameOrEmail;
     private string $error;
 
+    const PUBLISHER_ID = 'publisherId';
+
     function __construct(
         TemplateInterface $template,
         LanguageInterface $language,
@@ -51,8 +53,7 @@ class LoginPage implements PageInterface
 
     function withMetadata(string $name, string $value): PageInterface
     {
-        
-        if (!$this->session->empty()) {
+        if ($this->session->param(self::PUBLISHER_ID)) {
             return new RedirectPage('/');
         }
 
@@ -77,7 +78,7 @@ class LoginPage implements PageInterface
             } else {
                 
                 $this->session->add(
-                    'publisherId',
+                    self::PUBLISHER_ID,
                     $publisher->id()
                 );
                 
