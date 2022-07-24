@@ -4,7 +4,7 @@ require '../includes/language.php';
 define('LANGUAGE', require('../helpers/get_language.php'));
 define('APPLICATION_NAME', __('Public Witnessing'));
 define('CONGREGATION_NAME', __('Installation'));
-define('REQUIRE_INPUT_FIELDS', 10);
+define('REQUIRE_INPUT_FIELDS', 9);
 
 require __DIR__ . '/../vendor/autoload.php';
 
