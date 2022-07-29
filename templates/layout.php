@@ -117,7 +117,7 @@ $active_page = include '../templates/helpers/active_page.php';
     </div>
     <script type="text/javascript" src="js/note_box.js"></script>
 </body>
-<script>
+<script type="text/javascript">
     function toggel() {
         document.getElementById('nav-main').classList.toggle('hidden');
     }
