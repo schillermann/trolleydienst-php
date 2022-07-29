@@ -79,9 +79,13 @@
                                 <input type="hidden" name="id_shift" value="<?= $id_shift ?>">
                                 <select name="promote_id_user" class="button promote" onchange="submitForm(this)">
                                 <option value="0"><?= __('Apply') ?></option>
-                                <?php foreach ($placeholder['user_promote_list'] as $id_user => $name): ?>
+                                <?php if($_SESSION['is_admin']) {
+                                	foreach ($placeholder['user_promote_list'] as $id_user => $name): ?>
                                     <option value="<?= $id_user ?>"><?= $name ?></option>
-                                <?php endforeach;?>
+                                <?php endforeach;
+	                                } else { ?>
+                        			<option value="<?= $_SESSION['id_user'] ?>"><?= $_SESSION['name'] ?></option>
+								<?php } ?>
                             </select>
                             </form>
                         <?php endfor;?>
