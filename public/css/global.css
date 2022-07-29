@@ -174,17 +174,6 @@ dd {
 }
 
 @media (max-width: 770px) {
-    #nav-main {
-        position: relative;
-    }
-
-    .wrapper-center {
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-        left: 0;
-    }
-
     .wrapper-center ul {
         display: flex;
         flex-direction: column;
@@ -192,11 +181,6 @@ dd {
 
     .hidden {
         display: none;
-        transition: all .5s ease-out;
-    }
-
-    #nav-main {
-        transition: all .5s ease-in;
     }
 
     #nav-main a {
@@ -204,19 +188,12 @@ dd {
     }
 
     .menu-button {
-        display: flex;
-        justify-content: flex-end;
         padding-right: 16px;
     }
 
     .menu-button i {
         font-size: 1.6rem;
         color: white;
-        transition: all 0.25s ease-in;
-    }
-
-    .menu-button i:hover {
-        color: #8e8d8c;
     }
 
     #site-header {
@@ -231,8 +208,6 @@ dd {
     .menu-button {
         display: none;
     }
-
-
 }
 
 /**
