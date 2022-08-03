@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 include '../config.php';
+include '../includes/language.php';
 $database_pdo = App\Tables\Database::get_connection();
 $placeholder = array();
 
@@ -36,7 +37,7 @@ if(isset($_POST['password_reset'])) {
 
                 $send_email = require('../modules/send_email.php');
 
-                if($send_email($email, $email_template['subject'], $email_template_message)) {
+                if($send_email($email, $email_template['subject'], $email_template_message) == '') {
                     $placeholder['message']['success'] = __('Your new password was sent to <b>%s</b> successfully.', [ $email ]);
                 } else {
                     $placeholder['message']['error'] =

@@ -191,7 +191,7 @@ return [
     'The file %s has been renamed.' => 'Die Datei wurde in %s umbenannt.',
     'The file %s could not be renamed!' => 'Die Datei konnte nicht in %s umbennant werden!',
     'Name and/or email does not exist!' => 'Name oder E-Mail existiert nicht!',
-    'Your new password was sent to <b>%s</b> successfully.' => 'Dein neues Passwort wurde an <b>%</b> versandt.',
+    'Your new password was sent to <b>%s</b> successfully.' => 'Dein neues Passwort wurde an <b>%s</b> versandt.',
     'The new password could not be sent!<br><br>Please check that the server is correctly configured to send mail from the %s email address.' => 'Dein Passwort konnte nicht per E-Mail versendet werden!<br><br>Bitte prüfe ob die E-Mail Adresse %s <br>bei deinem Webserver Provider, für den Versand angelegt ist.',
     'Your password could not be changed!' => 'Dein Passwort konnte nicht geändert werden!',
     'Passwords cannot be changed in the demo version!' => 'In der Demo Version darf das Passwort nicht geändert werden!',
