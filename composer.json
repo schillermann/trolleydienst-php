@@ -5,7 +5,14 @@
   "license": "MIT",
   "require": {
     "sendinblue/api-v3-sdk": "^8.3",
-    "symfony/mailer": "^5.4"
+    "symfony/mailer": "^5.4",
+    "symfony/deprecation-contracts": "v2.5.2",
+    "symfony/event-dispatcher": "v5.4.9",
+    "symfony/event-dispatcher-contracts": "v2.5.2",
+    "symfony/mime": "v5.4.11",
+    "symfony/service-contracts": "v2.5.2",
+    "psr/container": "1.1.2",
+    "psr/log": "1.1.4"
   },
   "autoload": {
     "psr-4": {
