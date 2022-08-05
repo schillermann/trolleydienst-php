@@ -12,7 +12,7 @@
         'DEMO' => DEMO,
         'LANGUAGE' => include('../helpers/get_language.php'),
         'TIMEZONE' => TIMEZONE,
-        'SMTP' => 'php',
+        'EMAIL_DISPATCH' => 'phpmail',
         'MAIL_SENDINBLUE_API_KEY' => '',
         'SMTP_HOST' => '',
         'SMTP_USERNAME' => '',

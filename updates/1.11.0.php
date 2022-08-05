@@ -8,7 +8,7 @@
         SELECT
             id_user, username, name, email, password,
             phone, mobile, congregation_name, language,
-            publisher_note, admin_note, is_active, is_admin,
+            note_user, note_admin, is_active, is_admin,
             last_login, updated, created
         FROM users
     SQL;
@@ -46,8 +46,8 @@
                 'mobile' => $row['mobile'],
                 'congregation' => $row['congregation_name'],
                 'language' => $row['language'],
-                'publisher_note' => $row['publisher_note'],
-                'admin_note' => $row['admin_note'],
+                'publisher_note' => $row['note_user'],
+                'admin_note' => $row['note_admin'],
                 'active' => $row['is_active'],
                 'administrative' => $row['is_admin'],
                 'logged_on' => $row['last_login'],

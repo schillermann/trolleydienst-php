@@ -11,7 +11,6 @@ return function (\PDO $database_pdo, string $email_or_username, string $password
 
     $_SESSION['id_user'] = (int)$user['id'];
     $_SESSION['name'] = $user['first_name'] . ' ' . $user['last_name'];
-    $_SESSION['email'] = $user['email'];
     $_SESSION['is_admin'] = (bool)$user['administrative'];
 
     App\Tables\Publisher::update_login_time($database_pdo, $_SESSION['id_user']);
