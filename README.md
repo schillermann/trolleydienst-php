@@ -8,7 +8,7 @@ Du kannst das Trolley Programm auf deinen Server installieren und nach belieben 
 
 ## :cloud: Download
 - [Alle Versionen](https://github.com/schillermann/trolleydienst-php/tags)
-- [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.11.0)
+- [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.11.1)
 
 
 ## :gem: Funktionen
