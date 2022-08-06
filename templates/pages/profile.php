@@ -39,8 +39,8 @@
                 <input id="mobile" type="tel" name="mobile" value="<?= $placeholder['profile']['mobile'] ?>">
             </div>
             <div>
-                <label for="congregation"><?= __('Congregation') ?></label>
-                <input id="congregation" name="congregation" value="<?= $placeholder['profile']['congregation'] ?>">
+                <label for="congregation_name"><?= __('Congregation') ?></label>
+                <input id="congregation_name" name="congregation_name" value="<?= $placeholder['profile']['congregation'] ?>">
             </div>
             <div>
                 <label for="language"><?= __('Language') ?></label>

@@ -15,7 +15,7 @@ class Profile {
         $this->email = (isset($data['email']))? $data['email'] : '';
         $this->phone = (isset($data['phone']))? $data['phone'] : '';
         $this->mobile = (isset($data['mobile']))? $data['mobile'] : '';
-        $this->congregation = (isset($data['congregation']))? $data['congregation'] : '';
+        $this->congregation = (isset($data['congregation_name']))? $data['congregation_name'] : '';
         $this->language = (isset($data['language']))? $data['language'] : '';
         $this->publisher_note = (isset($data['publisher_note']))? $data['publisher_note'] : '';
     }
