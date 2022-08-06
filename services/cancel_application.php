@@ -17,7 +17,7 @@ return function (\PDO $connection, int $id_shift, int $position,  int $id_user):
         
         $history_type = App\Tables\History::SHIFT_WITHDRAWN_SUCCESS;
         $message = __(
-            'The %s shift for %s shift from %s was cancelled.',
+            'The %s shift for %s shift %d from %s was cancelled.',
             [
                 $shift_type_name,
                 $shift_datetime_format,
@@ -28,7 +28,7 @@ return function (\PDO $connection, int $id_shift, int $position,  int $id_user):
     } else {
         $history_type = App\Tables\History::SHIFT_WITHDRAWN_ERROR;
         $message = __(
-            'The %s shift for %s shift from %s could not be cancelled.',
+            'The %s shift for %s shift %d from %s could not be cancelled.',
             [
                 $shift_type_name,
                 $shift_datetime_format,

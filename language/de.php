@@ -164,10 +164,6 @@ return [
     'Licence' => 'Licence',
     'Issues' => 'Issues',
     'Version' => 'Version',
-    'The %s shift from %s shift %d for %s could not be cancelled.' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s konnte nicht zurück gezogen werden!',
-    'The %s shift from %s shift %d for %s was cancelled.' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s wurde zurückgezogen.',
-    'The %s shift from %s shift %d for %s was accepted.' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s wurde angenommen.',
-    'The %s shift from %s shift %d for %s could not be accepted!' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s konnte nicht angenommen werden!',
     'The notification for the deleted shift on %s for %s with the email address %s failed to send!' => 'Die Info über die gelöschte Schicht vom %s konnte nicht an %s mit der E-Mail Adresse %s verschickt werden!',
     'The information email for %s with the email address %s could not be sent!' => 'Die Bewerber Info E-Mail konnte nicht an %s mit der E-Mail Adresse %s verschickt werden!',
     'The shift appointment on %s for %s could not be sent!' => 'Der Schicht Termin %s konnte nicht an %s verschickt werden!',
@@ -234,5 +230,9 @@ return [
     'Resend Welcome Email' => 'Willkommens E-Mail erneut senden',
     'We will be back soon!' => 'Wir sind bald wieder da!',
     'We are performing some necessary maintenance and will be be back soon. We apologise for the inconvenience.' => 'Wir entschuldigen uns für die Unannehmlichkeiten, aber wir führen im Moment einige Wartungsarbeiten durch. Bei Bedarf könnt Ihr uns jederzeit kontaktieren, ansonsten sind wir in Kürze wieder online!',
-    'E-Mail Delivery' => 'E-Mail Versand'
+    'E-Mail Delivery' => 'E-Mail Versand',
+    'The %s shift for %s shift %d from %s was accepted.' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s wurde angenommen.',
+    'The %s shift for %s shift %d für %s could not be accepted!' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s konnte nicht angenommen werden!',
+    'The %s shift for %s shift %d from %s was cancelled.' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s wurde zurückgezogen.',
+    'The %s shift for %s shift %d from %s could not be cancelled.' => 'Die %s Schicht Bewerbung vom %s Schicht %d für %s konnte nicht zurückgezogen werden!'
 ];

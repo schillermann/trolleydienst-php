@@ -27,7 +27,7 @@
         $history_type = App\Tables\History::SHIFT_PROMOTE_SUCCESS;
 
         $message = __(
-            'The %s shift for %s shift %s from %s was accepted.',
+            'The %s shift for %s shift %d from %s was accepted.',
             [
                 $shift_type_name,
                 $shift_datetime_format,
@@ -38,7 +38,7 @@
     } else {
         $history_type = App\Tables\History::SHIFT_PROMOTE_ERROR;
         $message = __(
-            'The %s shift for %s shift %s für %s could not be accepted!',
+            'The %s shift for %s shift %d für %s could not be accepted!',
             [
                 $shift_type_name,
                 $shift_datetime_format,

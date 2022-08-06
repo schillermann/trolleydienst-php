@@ -1,0 +1,1 @@
+<?php return (isset($_POST['active']))? true : false;

@@ -21,35 +21,35 @@
             </div>
             <div>
                 <label for="username"> <?= __('Username') ?> <small>( <?= __('Required') ?>)</small></label>
-                <input id="username" name="username" required value=" <?= $placeholder['user']['username'];?>">
+                <input id="username" name="username" required value="<?= $placeholder['user']['username'];?>">
             </div>
             <div>
                 <label for="first_name"> <?= __('First Name') ?> <small>( <?= __('Required') ?>)</small></label>
-                <input id="first_name" name="first_name" required value=" <?= $placeholder['user']['first_name'];?>">
+                <input id="first_name" name="first_name" required value="<?= $placeholder['user']['first_name'];?>">
             </div>
             <div>
                 <label for="last_name"> <?= __('Last Name') ?> <small>( <?= __('Required') ?>)</small></label>
-                <input id="last_name" name="last_name" required value=" <?= $placeholder['user']['last_name'];?>">
+                <input id="last_name" name="last_name" required value="<?= $placeholder['user']['last_name'];?>">
             </div>
             <div>
                 <label for="email"> <?= __('Email') ?> <small>( <?= __('Required') ?>)</small></label>
-                <input id="email" name="email" required value=" <?= $placeholder['user']['email'];?>">
+                <input id="email" name="email" required value="<?= $placeholder['user']['email'];?>">
             </div>
             <div>
                 <label for="mobile"> <?= __('Mobile Number') ?></label>
-                <input id="mobile" name="mobile" value=" <?= $placeholder['user']['mobile'];?>">
+                <input id="mobile" name="mobile" value="<?= $placeholder['user']['mobile'];?>">
             </div>
             <div>
                 <label for="phone"> <?= __('Phone Number') ?></label>
-                <input id="phone" name="phone" value=" <?= $placeholder['user']['phone'];?>">
+                <input id="phone" name="phone" value="<?= $placeholder['user']['phone'];?>">
             </div>
             <div>
                 <label for="congregation_name"> <?= __('Congregation') ?></label>
-                <input id="congregation_name" name="congregation_name" value=" <?= $placeholder['user']['congregation'];?>">
+                <input id="congregation_name" name="congregation_name" value="<?= $placeholder['user']['congregation'];?>">
             </div>
             <div>
                 <label for="language"> <?= __('Language') ?></label>
-                <input id="language" name="language" value=" <?= $placeholder['user']['language'];?>">
+                <input id="language" name="language" value="<?= $placeholder['user']['language'];?>">
             </div>
             <div>
                 <label for="admin_note"> <?= __('Admin Notes') ?></label>

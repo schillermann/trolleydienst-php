@@ -27,7 +27,7 @@ if(isset($_POST['save'])) {
                 $lastName,
                 $email,
                 $password,
-                include '../filters/post_is_admin.php',
+                include '../filters/post_administrative.php',
                 true,
                 include '../filters/post_phone.php',
                 include '../filters/post_mobile.php',
@@ -45,7 +45,7 @@ if(isset($_POST['save'])) {
                 $email_template = $get_template_email_user_add($database_pdo, App\Tables\EmailTemplates::USER_ADD);
 
                 $replace_with = array(
-                    'NAME' => $name,
+                    'NAME' => $firstName . ' ' . $lastName,
                     'USERNAME' => $username,
                     'EMAIL' => $email,
                     'PASSWORD' => $password,

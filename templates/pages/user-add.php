@@ -12,8 +12,8 @@
         <fieldset>
             <legend><?= __('Publisher') ?></legend>
             <div>
-                <label for="is_admin"><?= __('Admin Rights') ?></label>
-                <input id="is_admin" type="checkbox" name="is_admin" <?php if (isset($_POST['is_admin'])):?>checked<?php endif;?>>
+                <label for="administrative"><?= __('Admin Rights') ?></label>
+                <input id="administrative" type="checkbox" name="administrative" <?php if (isset($_POST['administrative'])):?>checked<?php endif;?>>
             </div>
             <div>
                 <label for="first_name"><?= __('First Name') ?> <small>(<?= __('Required') ?>)</small></label>
