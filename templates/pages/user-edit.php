@@ -53,7 +53,7 @@
             </div>
             <div>
                 <label for="admin_note"> <?= __('Admin Notes') ?></label>
-                <textarea id="admin_note" name="admin_note" class="note"> <?= $placeholder['user']['admin_note'];?></textarea>
+                <textarea id="admin_note" name="admin_note" class="note"><?= $placeholder['user']['admin_note'];?></textarea>
             </div>
             <div>
                 <label for="publisher_note"> <?= __('Publisher Notes') ?></label>
