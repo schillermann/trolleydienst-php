@@ -171,8 +171,8 @@
                 <input id="team_name" name="team_name" required value="<?= (isset($_POST['team_name']))? $_POST['team_name'] : __('Litcart Team') ?>">
             </div>
             <div>
-                <label for="congregation"> <?= __('Congregation')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="congregation" name="congregation" required placeholder=" <?= __('Example Congregation')  ?>" value=" <?= (isset($_POST['congregation']))? $_POST['congregation'] : '';?>">
+                <label for="congregation_name"> <?= __('Congregation')  ?> <small>(<?= __('Required')  ?>)</small></label>
+                <input id="congregation_name" name="congregation_name" required placeholder="<?= __('Example Congregation')  ?>" value="<?= (isset($_POST['congregation_name']))? $_POST['congregation_name'] : '';?>">
             </div>
 
         </fieldset>

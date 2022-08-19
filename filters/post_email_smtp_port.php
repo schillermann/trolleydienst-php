@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'email_smtp_port', FILTER_SANITIZE_NUMBER_INT);

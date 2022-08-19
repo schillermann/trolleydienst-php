@@ -21,7 +21,7 @@ if(isset($_POST['install'])) {
 
     if(empty($_POST['password']) || empty($_POST['password_repeat']) || $_POST['password'] != $_POST['password_repeat']) {
         $placeholder['message']['error'] = __('Passwords do not match!');
-    } else if(count($input_list) === REQUIRE_INPUT_FIELDS) {
+    } else if(count($input_list) >= REQUIRE_INPUT_FIELDS) {
 
         $user = new App\Models\User(
             1,
@@ -51,7 +51,7 @@ if(isset($_POST['install'])) {
 			'MAIL_SENDINBLUE_API_KEY' => $input_list['email_sendinblue_api_key'],
 			'SMTP_HOST' => $input_list['email_smtp_host'],
 			'SMTP_USERNAME' => $input_list['email_smtp_username'],
-			'SMTP_PASSWORD' => $input_list['email_smtp_password'],
+			'SMTP_PASSWORD' => $_POST['email_smtp_password'],
 			'SMTP_PORT' => (int)$input_list['email_smtp_port'],
 			'SMTP_ENCRYPTION' => $input_list['email_smtp_encryption'],
 			'MAINTENANCE' => false
