@@ -18,5 +18,11 @@
     "psr-4": {
         "App\\": "src/"
     }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.8"
+  },
+  "scripts": {
+      "analyse": "vendor\\bin\\phpstan analyse --level 9 filters helpers includes install language modules public services src templates updates"
   }
 }
