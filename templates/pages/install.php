@@ -72,11 +72,23 @@
             </div>
             <div>
                 <label for="email_smtp_port"> <?= __('Port')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_smtp_port" name="email_smtp_port" type="number" value="<?= (isset($_POST['email_smtp_port']))? $_POST['email_smtp_port'] : '' ?>">
+                <select name="email_smtp_port" id="email_smtp_port">
+                    <option value="25">25</option>
+                    <option value="587" selected>587</option>
+                    <option value="465">465</option>
+                    <option value="2525">2525</option>
+                </select>
             </div>
             <div>
                 <label for="email_smtp_encryption"> <?= __('Encryption')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_smtp_encryption" name="email_smtp_encryption" type="text" value="<?= (isset($_POST['email_smtp_encryption']))? $_POST['email_smtp_encryption'] : '' ?>">
+                <input id="email_smtp_encryption" name="email_smtp_encryption" list="email_smtp_encryption_list" type="text" placeholder="STARTTLS/TLS" value="<?= (isset($_POST['email_smtp_encryption']))? $_POST['email_smtp_encryption'] : '' ?>">
+                <datalist id="email_smtp_encryption_list">
+                    <option>STARTTLS</option>
+                    <option>STARTTLS/TLS</option>
+                    <option>SSL</option>
+                    <option>SSL/TLS</option>
+                    <option>TLS</option>
+                </datalist>
             </div>
         </fieldset>
 
