@@ -1,6 +1,6 @@
 <?php
-    include('../templates/pagesnippets/note-box.php');
-    $language = include('../helpers/get_language.php');
+include('../templates/pagesnippets/note-box.php');
+$language = include('../helpers/get_language.php');
 ?>
 <header>
     <h2> <?= __('Installation')  ?></h2>
@@ -11,19 +11,19 @@
             <legend> <?= __('Admin')  ?></legend>
             <div>
                 <label for="first_name"> <?= __('First Name') ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="first_name" name="first_name" type="text" required value="<?= (isset($_POST['first_name']))? $_POST['first_name'] : '' ?>">
+                <input id="first_name" name="first_name" type="text" required value="<?= (isset($_POST['first_name'])) ? $_POST['first_name'] : '' ?>">
             </div>
             <div>
                 <label for="last_name"> <?= __('Last Name') ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="last_name" name="last_name" type="text" required value="<?= (isset($_POST['last_name']))? $_POST['last_name'] : '' ?>">
+                <input id="last_name" name="last_name" type="text" required value="<?= (isset($_POST['last_name'])) ? $_POST['last_name'] : '' ?>">
             </div>
             <div>
                 <label for="username"> <?= __('Username')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="username" name="username" type="text" required value="<?= (isset($_POST['username']))? $_POST['username'] : '' ?>">
+                <input id="username" name="username" type="text" required value="<?= (isset($_POST['username'])) ? $_POST['username'] : '' ?>">
             </div>
             <div>
                 <label for="email"> <?= __('Email')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email" name="email" type="email" required oninput="insertEmail(this)" value="<?= (isset($_POST['email']))? $_POST['email'] : '' ?>" placeholder="my@email.org">
+                <input id="email" name="email" type="email" required oninput="insertEmail(this)" value="<?= (isset($_POST['email'])) ? $_POST['email'] : '' ?>" placeholder="my@email.org">
             </div>
             <div>
                 <label for="password"> <?= __('Password')  ?></label>
@@ -38,8 +38,8 @@
         <fieldset>
             <legend> <?= __('E-Mail')  ?></legend>
             <div>
-                <label for="delivery_method"> <?= __('E-Mail Delivery') ?></label>
-                <select name="delivery_method" id="delivery_method" onchange="selectEmailMethod(this)">
+                <label for="email_dispatch"> <?= __('E-Mail Delivery') ?></label>
+                <select name="email_dispatch" id="email_dispatch" onchange="selectEmailMethod(this)">
                     <option value="phpmail" selected>phpmail</option>
                     <option value="smtp">smtp</option>
                     <option value="sendinblue">sendinblue</option>
@@ -47,28 +47,28 @@
             </div>
             <div>
                 <label for="email_address_from"> <?= __('Sender Email Address')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_address_from" name="email_address_from" type="email" required placeholder="absender@email.de" value="<?= (isset($_POST['email_address_from']))? $_POST['email_address_from'] : 'no-reply@' . $_SERVER['SERVER_NAME'] ?>">
+                <input id="email_address_from" name="email_address_from" type="email" required placeholder="absender@email.de" value="<?= (isset($_POST['email_address_from'])) ? $_POST['email_address_from'] : 'no-reply@' . $_SERVER['SERVER_NAME'] ?>">
             </div>
             <div>
                 <label for="email_address_reply"> <?= __('Reply Email Address')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_address_reply" name="email_address_reply" type="email" required placeholder="antwort@email.de" value="<?= (isset($_POST['email_address_reply']))? $_POST['email_address_reply'] : '' ?>">
+                <input id="email_address_reply" name="email_address_reply" type="email" required placeholder="antwort@email.de" value="<?= (isset($_POST['email_address_reply'])) ? $_POST['email_address_reply'] : '' ?>">
             </div>
-            
+
         </fieldset>
 
         <fieldset id="smtp">
             <legend> <?= __('SMTP')  ?></legend>
             <div>
                 <label for="email_smtp_host"> <?= __('Host')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_smtp_host" name="email_smtp_host" type="text" value="<?= (isset($_POST['email_smtp_host']))? $_POST['email_smtp_host'] : '' ?>">
+                <input id="email_smtp_host" name="email_smtp_host" type="text" value="<?= (isset($_POST['email_smtp_host'])) ? $_POST['email_smtp_host'] : '' ?>">
             </div>
             <div>
                 <label for="email_smtp_username"> <?= __('Username')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_smtp_username" name="email_smtp_username" type="text" value="<?= (isset($_POST['email_smtp_username']))? $_POST['email_smtp_username'] : '' ?>">
+                <input id="email_smtp_username" name="email_smtp_username" type="text" value="<?= (isset($_POST['email_smtp_username'])) ? $_POST['email_smtp_username'] : '' ?>">
             </div>
             <div>
                 <label for="email_smtp_password"> <?= __('Password')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_smtp_password" name="email_smtp_password" type="password" value="<?= (isset($_POST['email_smtp_password']))? $_POST['email_smtp_password'] : '' ?>">
+                <input id="email_smtp_password" name="email_smtp_password" type="password" value="<?= (isset($_POST['email_smtp_password'])) ? $_POST['email_smtp_password'] : '' ?>">
             </div>
             <div>
                 <label for="email_smtp_port"> <?= __('Port')  ?> <small>(<?= __('Required')  ?>)</small></label>
@@ -81,7 +81,7 @@
             </div>
             <div>
                 <label for="email_smtp_encryption"> <?= __('Encryption')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_smtp_encryption" name="email_smtp_encryption" list="email_smtp_encryption_list" type="text" placeholder="STARTTLS/TLS" value="<?= (isset($_POST['email_smtp_encryption']))? $_POST['email_smtp_encryption'] : '' ?>">
+                <input id="email_smtp_encryption" name="email_smtp_encryption" list="email_smtp_encryption_list" type="text" placeholder="STARTTLS/TLS" value="<?= (isset($_POST['email_smtp_encryption'])) ? $_POST['email_smtp_encryption'] : '' ?>">
                 <datalist id="email_smtp_encryption_list">
                     <option>STARTTLS</option>
                     <option>STARTTLS/TLS</option>
@@ -96,7 +96,7 @@
             <legend> <?= __('Sendinblue')  ?></legend>
             <div>
                 <label for="email_sendinblue_api_key"> <?= __('API Key')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="email_sendinblue_api_key" name="email_sendinblue_api_key" type="text" value="<?= (isset($_POST['email_sendinblue_api_key']))? $_POST['email_sendinblue_api_key'] : '' ?>">
+                <input id="email_sendinblue_api_key" name="email_sendinblue_api_key" type="text" value="<?= (isset($_POST['email_sendinblue_api_key'])) ? $_POST['email_sendinblue_api_key'] : '' ?>">
             </div>
         </fieldset>
 
@@ -105,8 +105,8 @@
             <div>
                 <label for="language"> <?= __('Language') ?></label>
                 <select name="language" id="language">
-                    <option value="en" <?= ('en' === $language)? 'selected': ''?>><?= __('English') ?></option>
-                    <option value="de" <?= ('de' === $language)? 'selected': ''?>><?= __('German') ?></option>
+                    <option value="en" <?= ('en' === $language) ? 'selected' : '' ?>><?= __('English') ?></option>
+                    <option value="de" <?= ('de' === $language) ? 'selected' : '' ?>><?= __('German') ?></option>
                 </select>
             </div>
             <div>
@@ -176,22 +176,22 @@
             </div>
             <div>
                 <label for="application_name"> <?= __('Application Name')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="application_name" name="application_name" required value="<?= (isset($_POST['application_name']))? $_POST['application_name'] : __('Public Witnessing') ?>">
+                <input id="application_name" name="application_name" required value="<?= (isset($_POST['application_name'])) ? $_POST['application_name'] : __('Public Witnessing') ?>">
             </div>
             <div>
                 <label for="team_name"> <?= __('Team Name')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="team_name" name="team_name" required value="<?= (isset($_POST['team_name']))? $_POST['team_name'] : __('Litcart Team') ?>">
+                <input id="team_name" name="team_name" required value="<?= (isset($_POST['team_name'])) ? $_POST['team_name'] : __('Litcart Team') ?>">
             </div>
             <div>
                 <label for="congregation_name"> <?= __('Congregation')  ?> <small>(<?= __('Required')  ?>)</small></label>
-                <input id="congregation_name" name="congregation_name" required placeholder="<?= __('Example Congregation')  ?>" value="<?= (isset($_POST['congregation_name']))? $_POST['congregation_name'] : '';?>">
+                <input id="congregation_name" name="congregation_name" required placeholder="<?= __('Example Congregation')  ?>" value="<?= (isset($_POST['congregation_name'])) ? $_POST['congregation_name'] : ''; ?>">
             </div>
 
         </fieldset>
 
         <div class="from-button">
             <button name="install" class="active">
-                <i class="fa fa-download"></i>  <?= __('Install')  ?>
+                <i class="fa fa-download"></i> <?= __('Install')  ?>
             </button>
         </div>
     </form>
@@ -201,11 +201,11 @@
         document.getElementById('email_address_reply').value = email.value;
     }
 
-    var sendinblue = document.getElementById('sendinblue');
-    var smtp = document.getElementById('smtp');
+    const sendinblue = document.getElementById('sendinblue');
+    const smtp = document.getElementById('smtp');
     sendinblue.style.display = 'none';
     smtp.style.display = 'none';
-
+    
     function selectEmailMethod(method) {
 
         if (method.value === 'smtp') {
@@ -213,14 +213,18 @@
             smtp.style.display = 'block';
             return;
         }
-        
-        if (method.value === 'sendinblue'){
+
+        if (method.value === 'sendinblue') {
             sendinblue.style.display = 'block';
             smtp.style.display = 'none';
             return;
         }
-        
+
         sendinblue.style.display = 'none';
         smtp.style.display = 'none';
+    }
+
+    window.onload = function (event) {
+        selectEmailMethod(document.getElementById('email_dispatch'));
     }
 </script>

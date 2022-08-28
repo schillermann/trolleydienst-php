@@ -47,7 +47,7 @@ if(isset($_POST['install'])) {
             'DEMO' => false,
             'LANGUAGE' => $input_list['language'],
             'TIMEZONE' => $input_list['timezone'],
-            'EMAIL_DISPATCH' => $input_list['delivery_method'],
+            'EMAIL_DISPATCH' => $input_list['email_dispatch'],
 			'MAIL_SENDINBLUE_API_KEY' => $input_list['email_sendinblue_api_key'],
 			'SMTP_HOST' => $input_list['email_smtp_host'],
 			'SMTP_USERNAME' => $input_list['email_smtp_username'],

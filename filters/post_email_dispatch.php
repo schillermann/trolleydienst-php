@@ -1,0 +1,1 @@
+<?php return filter_input(INPUT_POST, 'email_dispatch', FILTER_SANITIZE_SPECIAL_CHARS);
