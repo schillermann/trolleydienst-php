@@ -189,6 +189,7 @@ dd {
 
     .menu-button {
         padding-right: 16px;
+        cursor: pointer;
     }
 
     .menu-button i {
