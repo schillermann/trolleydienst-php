@@ -20,7 +20,7 @@
 		$email_template_message = strtr($email_template['message'], $replace_with);
 
 		$send_email = require('../modules/send_email.php');
-		if(!$send_email($user['email'], $email_template['subject'], $email_template_message)) {
+		if(!empty($send_email($user['email'], $email_template['subject'], $email_template_message))) {
 			App\Tables\History::insert(
 				$connection,
 				$_SESSION['name'],
