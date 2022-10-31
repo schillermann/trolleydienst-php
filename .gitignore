@@ -1,3 +1,4 @@
 config.php
 database.sqlite
 vendor/
+.vscode
