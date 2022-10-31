@@ -502,6 +502,40 @@
     margin: 5px 5px;
     width: 115px;
    }
+  /**
+   * Show date filter
+   */
+   #nav_shift summary {
+    text-align: end;
+    font-size: 16px;
+    color: var(--main-color);
+    margin-bottom: 5px;
+    cursor: pointer;
+   }
+   #nav_shift form {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+   }
+   #nav_shift form * {
+    margin: 0 5px;
+   }
+   @media only screen and (max-width: 500px) {
+    #nav_shift form {
+        flex-flow: column wrap;
+        align-items: flex-end;
+    }
+    #nav_shift form * {
+        margin-bottom: 5px;
+        width: 120px;
+    }
+    #nav_shift form label {
+        display: none;
+       }
+    .fa {
+        display: inline;
+    }
+   }
    /**
     * Icons
     */

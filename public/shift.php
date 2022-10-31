@@ -44,5 +44,23 @@ $placeholder['id_shift_type'] = $id_shift_type;
 $get_shifts_with_users = include '../services/get_shifts_with_users.php';
 $placeholder['shift_day'] = $get_shifts_with_users($database_pdo, $id_shift_type);
 
+if (!empty($_POST['filter_shift_date_from']) && !empty($_POST['filter_shift_date_to'])) {
+    $placeholder['filter_shift_date_from'] = date_format(date_create($_POST['filter_shift_date_from']), 'Y-m-d');
+    $placeholder['filter_shift_date_to'] = date_format(date_create($_POST['filter_shift_date_to']), 'Y-m-d');
+} else 
+{
+    $now = new \DateTime('NOW');
+    $filter_shift_date_from = date_format($now, 'Y-m-d');;
+    $last_date_shift_day = end($placeholder['shift_day']);
+    $filter_shift_date_to = date_format(date_create($last_date_shift_day['date']), 'Y-m-d');
+
+    $placeholder['filter_shift_date_from'] = $filter_shift_date_from;
+    $placeholder['filter_shift_date_to'] = $filter_shift_date_to;
+}
+
+if(isset($_POST['filter_shift'])) {
+    $placeholder['shift_day'] = $get_shifts_with_users($database_pdo, $id_shift_type, true, $placeholder['filter_shift_date_from'], $placeholder['filter_shift_date_to']);
+}
+
 $render_page = include '../includes/render_page.php';
 echo $render_page($placeholder);

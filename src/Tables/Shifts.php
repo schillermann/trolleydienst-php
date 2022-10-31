@@ -54,7 +54,7 @@ class Shifts {
 		return ($datetime_from)? new \DateTime($datetime_from) : $datetime_null;
 	}
 
-    static function select_all(\PDO $connection, int $id_shift_type): array {
+    static function select_all(\PDO $connection, int $id_shift_type, bool $between, string $from, string $to): array {
 
         $stmt = $connection->prepare(
             'SELECT id_shift, route, datetime_from, number, minutes_per_shift, color_hex
@@ -63,6 +63,22 @@ class Shifts {
             AND id_shift_type = :id_shift_type
             ORDER BY datetime_from ASC'
         );
+
+        if ($between) {
+            $stmt = $connection->prepare(
+                'SELECT id_shift, route, datetime_from, number, minutes_per_shift, color_hex
+                FROM ' . self::TABLE_NAME . '
+                WHERE DATE(datetime_from)
+                BETWEEN DATE(:from) AND DATE(:to)
+                AND id_shift_type = :id_shift_type
+                ORDER BY datetime_from ASC'
+            );
+
+            $stmt->execute(array(
+            ':from' => $from,
+            ':to' => $to
+            ));
+        }
 
         if(!$stmt->execute(array(':id_shift_type' => $id_shift_type)))
         	return array();

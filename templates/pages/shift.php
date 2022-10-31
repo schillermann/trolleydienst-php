@@ -10,10 +10,22 @@
 </header>
 
 <?php if($_SESSION['is_admin']): ?>
-    <nav>
+    <nav id="nav_shift">
         <a href="./shift-add.php?id_shift_type=<?= $placeholder['id_shift_type']?>" class="button active">
             <i class="fa fa-plus"></i> <?= __('New Shifts') ?>
         </a>
+        <details id="filter_shift">
+        <summary><?= __('Show date filter') ?></summary>
+            <form method="post">
+                <label for="filter_shift_date_from"><?= __('Start Date'); echo(' ')?><?= __('from:'); ?></label>
+                <input id="filter_shift_date_from" name="filter_shift_date_from" type="date" value="<?= $placeholder['filter_shift_date_from'];?>">
+                <label for="filter_shift_date_to"><?= __('to:') ?></label>
+                <input id="filter_shift_date_to" name="filter_shift_date_to" type="date" value="<?= $placeholder['filter_shift_date_to'];?>">
+                <button name="filter_shift" class="active">
+                    <i class="fa fa-filter"></i> <?= __('Filter') ?>
+                </button>
+            </form>
+        </details>
     </nav>
 <?php endif ?>
 

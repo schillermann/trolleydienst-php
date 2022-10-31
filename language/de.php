@@ -123,6 +123,7 @@ return [
     'from:' => 'von:',
     'to:' => 'bis:',
     'Filter' => 'filtern',
+    'Show date filter' => 'Datumsfilter einblenden',
     'The following shifts were created:' => 'Folgende Schichten wurden angelegt:',
     'The following shifts could not be created:' => 'Folgende Schichten konnten nicht angelegt werden:',
     'New Shifts' => 'Neue Schichten',
