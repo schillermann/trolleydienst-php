@@ -350,6 +350,9 @@
     #login-form {
     padding-left: 0;
     }
+    .form-flex {
+        flex-flow: column wrap;
+    }
    }
    
    @media screen and (max-width: 400px) {
@@ -490,7 +493,15 @@
    .form_inline {
     display: inline-block;
    }
-   
+   .form-flex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+   }
+   .form-flex select,  .form-flex input, .form-flex button{
+    margin: 5px 5px;
+    width: 115px;
+   }
    /**
     * Icons
     */

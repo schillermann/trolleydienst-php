@@ -8,7 +8,7 @@
     </a>
 </nav>
 <div class="container-center">
-    <form method="post">
+    <form method="post" class="form-flex">
         <label for="id_shift_type"><?= __('Shift Type') ?></label>
         <select id="id_shift_type" name="id_shift_type">
             <?php foreach($placeholder['shifttype_list'] as $shifttype): ?>
