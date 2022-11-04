@@ -25,10 +25,10 @@
                 <dd><a href="tel:<?= $placeholder['user']['phone'] ?>"><?= $placeholder['user']['phone'] ?></a></dd>
             <?php endif;?>
             <dt><?= __('Congregation') ?></dt>
-            <?php if(empty($placeholder['user']['congregation_name'])): ?>
+            <?php if(empty($placeholder['user']['congregation'])): ?>
                 <dd><?= __('N/A') ?></dd>
             <?php else : ?>
-                <dd><?= $placeholder['user']['congregation_name'] ?></dd>
+                <dd><?= $placeholder['user']['congregation'] ?></dd>
             <?php endif ?>
             <dt><?= __('Language') ?></dt>
             <?php if(empty($placeholder['user']['language'])): ?>
