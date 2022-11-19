@@ -1,6 +1,4 @@
 <dialog id="promote_shift">
-    <!-- form img -->
-    <!-- form date und time -->
     <div>
         <div class="promote_shift_row">
             <?php include("./images/shift_dialog_icon.svg"); ?>
@@ -13,7 +11,6 @@
                                                 echo (' ' . __('Clock')) ?></span>
         </div>
 
-        <!-- form contact (if) $empty_apply_form ist not empty -->
         <?php if (!$empty_apply_form) : ?>
             <div class="promote_shift_row" id="promote_shift_contact">
                 <p><?= __('Get in touch with');
@@ -24,7 +21,6 @@
             </div>
         <?php endif ?>
 
-        <!-- form zum bewerben -> Button wird nur bei VK angezeigt -->
         <div class="promote_shift_row" id="promote_shift_button">
             <?php if ($empty_apply_form && !$_SESSION['is_admin']) : ?>
                 <form method="post">
@@ -36,7 +32,6 @@
                 </form>
             <?php endif ?>
 
-            <!-- form VK löschen wir angezeigt, wenn es DER Vk ist oder Admin -->
             <?php $has_user_promoted =  @$id_user === $_SESSION['id_user']; ?>
             <?php if (!$empty_apply_form && ($has_user_promoted || $_SESSION['is_admin'])) : ?>
                 <form method="post">
@@ -64,7 +59,5 @@
 
             <button data-status="close" onclick="closeDialog(this)"><i class="fa fa-times-circle"></i> <?= __('Close') ?></button>
         </div>
-
     </div>
-
 </dialog>

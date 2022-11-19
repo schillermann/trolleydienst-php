@@ -8,7 +8,7 @@
         </div>
     <?php endif; ?>
 </header>
-<!-- Datumsfilter -->
+
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
         <a href="./shift-add.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
@@ -29,7 +29,6 @@
         </details>
     </nav>
 <?php endif ?>
-<!-- Meldung wenn eine Bewerbung erfolgt ist oder eine Fehler aufgetreten ist -->
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
 <div class="table-container">
@@ -61,7 +60,6 @@
             <?php $position = 0 ?>
             <tbody>
                 <?php foreach ($shift_list['shifts'] as $shift_time => $user_list) : ?>
-                    <!-- $position == ist die 1 oder 2 Schicht -->
                     <?php $position++ ?>
                     <?php $free_places = (int)$placeholder['shift_type']['user_per_shift_max'] - count($user_list) ?>
                     <tr>
@@ -69,10 +67,6 @@
                             <?= $shift_time; ?>
                         </td>
                         <td>
-                            <pre><?= var_dump($shift_list['shifts']) ?></pre>
-
-                            <!-- Anzeige aller beworbenen VK -->
-                            <!-- Wenn Array user_list leer ist werden keine VK angezeigt -->
                             <?php foreach ($user_list as $id_user => $name) : ?>
                                 <span>
                                     <button class="enable" onclick="showDialog(this)" type="button">
@@ -82,8 +76,6 @@
                                 </span>
                             <?php endforeach ?>
 
-                            <!-- $free_places gibt die Anzahl der max. Schichtteilnehmer zurück -->
-                            <!-- Schleife durchfläuft die $free_place_counter und erstellt Platzhalter -->
                             <?php for ($free_place_counter = 0; $free_place_counter < $free_places; $free_place_counter++) : ?>
                                 <?php $empty_apply_form = true; ?>
                                 <span>
@@ -95,7 +87,6 @@
                                 <?php $empty_apply_form = false; ?>
                             <?php endfor; ?>
 
-                            <!-- Wenn alle Schichten belegt sind, kann der Admin weitere VK hinzufügen -->
                             <?php if ($_SESSION['is_admin'] && $free_places < 1) : ?>
                                 <?php $empty_apply_form = true; ?>
                                 <span>
