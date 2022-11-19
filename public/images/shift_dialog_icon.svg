@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="213mm" height="173mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 21300 17300"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ data-name="Layer 1">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#CBCBCB}
+    .fil1 {fill:#3F3D56}
+    .fil3 {fill:#6B1C48}
+    .fil2 {fill:white}
+   ]]>
+  </style>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <ellipse id="background" class="fil0" transform="matrix(1.27214 0.389312 -0.431057 1.14894 10627.6 10661.1)" rx="8093" ry="3770"/>
+ </g>
+ <g id="Ebene_x0020_1_0">
+  <metadata id="CorelCorpID_1Corel-Layer"/>
+  <g id="_2139553371552">
+   <g>
+    <path class="fil1" d="M5895 2281l-59 18 -497 -1611c-127,-409 -506,-688 -936,-688 -97,0 -195,15 -288,43l0 0 -3424 1051c-411,126 -691,504 -691,932 0,97 15,194 43,287l0 0 2730 8836c127,409 506,688 936,688 97,0 195,-15 288,-43l0 0 3424 -1051c411,-126 691,-504 691,-932 0,-97 -15,-194 -43,-287l0 0 -1878 -6079 59 -18 -355 -1146z"/>
+    <path class="fil2" d="M4228 274l-447 137c51,62 78,140 78,219 0,152 -99,286 -245,331l-1961 602c-33,10 -68,15 -103,15 -191,0 -347,-155 -347,-346 0,-10 1,-20 1,-30l-417 128c-307,94 -516,376 -516,696 0,72 11,145 33,214l2726 8823c94,306 377,514 698,514 73,0 146,-11 215,-32l0 0 3441 -1056c307,-94 516,-376 516,-696 0,-72 -11,-145 -32,-214l0 0 -2726 -8823c-95,-306 -378,-514 -699,-514 -73,0 -146,11 -215,32l0 0z"/>
+    <circle class="fil3" transform="matrix(0.705109 -0.702605 0.705109 0.702605 4076.36 5799.87)" r="1758"/>
+    <polygon class="fil2" points="4260,6634 3392,6047 3468,5936 4186,6421 4706,4803 4834,4844 "/>
+   </g>
+   <g>
+    <path class="fil1" d="M16091 17255l-8033 -2877c-303,-109 -505,-395 -505,-716 0,-88 16,-175 45,-257l4188 -11608c109,-302 397,-503 719,-503 87,0 175,15 257,44l8033 2878c303,109 505,395 505,716 0,87 -15,174 -45,257l-4187 11608c-110,302 -397,503 -719,503 -88,0 -175,-15 -258,-45l0 0z"/>
+    <path class="fil2" d="M16270 16804l-8061 -2888c-94,-33 -156,-121 -156,-220 0,-27 5,-54 14,-79l4215 -11686c34,-93 123,-155 222,-155 27,0 54,5 79,14l8062 2887c93,34 155,122 155,221 0,27 -4,54 -14,79l-4215 11686c-34,93 -122,155 -221,155 -28,0 -54,-5 -80,-14l0 0z"/>
+    <circle class="fil2" cx="16669" cy="2985" r="65"/>
+    <circle class="fil3" transform="matrix(0.705109 -0.702605 0.705109 0.702605 14433 9144.4)" r="2227"/>
+    <polygon class="fil2" points="13897,10085 13579,8800 13744,8759 14008,9823 15873,8736 15959,8883 "/>
+   </g>
+  </g>
+ </g>
+</svg>
