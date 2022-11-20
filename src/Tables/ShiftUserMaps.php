@@ -129,7 +129,9 @@ class ShiftUserMaps {
 				array(
 					':id_shift' => $id_shift
 				)
-			) && $stmt->rowCount() == 1;
+			) && $stmt->rowCount() == 0;
+            //https://www.php.net/manual/de/pdostatement.rowcount.php
+            //This method returns "0" (zero) with the SQLite driver at all times
 	}
 
     static function delete_old_entries(\PDO $connection): bool {
