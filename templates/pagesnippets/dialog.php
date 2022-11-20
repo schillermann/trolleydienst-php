@@ -1,7 +1,7 @@
 <dialog id="promote_shift">
     <div>
         <div class="promote_shift_row">
-            <?php include("./images/shift_dialog_icon.svg"); ?>
+            <?php echo file_get_contents('./images/shift_dialog_icon.svg'); ?>
         </div>
         <div class="promote_shift_row" id="promote_shift_details">
             <span><?= __('Shift');
@@ -43,7 +43,6 @@
             <?php endif ?>
 
             <?php if ($empty_apply_form && $_SESSION['is_admin']) : ?>
-                <?php $has_id_user = $id_user; ?>
                 <form method="post">
                     <input type="hidden" name="position" value="<?= $position ?>">
                     <input type="hidden" name="id_shift" value="<?= $id_shift ?>">

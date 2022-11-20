@@ -50,8 +50,14 @@ if (!empty($_POST['filter_shift_date_from']) && !empty($_POST['filter_shift_date
 } else 
 {
     $now = new \DateTime('NOW');
-    $filter_shift_date_from = date_format($now, 'Y-m-d');;
+    $now_plus_one_months = $now->add(new DateInterval('P1M'));
+    $filter_shift_date_from = date_format($now, 'Y-m-d');
+    
     $last_date_shift_day = end($placeholder['shift_day']);
+        if ( !$last_date_shift_day ) {
+            $last_date_shift_day['date'] = date_format($now_plus_one_months, 'Y-m-d');
+        }
+
     $filter_shift_date_to = date_format(date_create($last_date_shift_day['date']), 'Y-m-d');
 
     $placeholder['filter_shift_date_from'] = $filter_shift_date_from;
