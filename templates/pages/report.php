@@ -21,16 +21,17 @@
         <input id="report_from" name="report_from" type="date" value="<?= $placeholder['report_from'];?>">
         <label for="report_to"><?= __('to:') ?></label>
         <input id="report_to" name="report_to" type="date" value="<?= $placeholder['report_to'];?>">
-        <button name="filter" class="active">
-            <i class="fa fa-search"></i> <?= __('Filter') ?>
-        </button>
+            <button name="filter" class="active">
+                <i class="fa fa-search"></i> <?= __('Filter') ?>
+            </button>
+            <button type="submit" class="warning"><i class="fa fa-refresh"></i></button>
     </form>
-    <div class="table-container">
+    <div class="table-container table-with-border">
         <?php foreach ($placeholder['report_list'] as $id_report => $report): ?>
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2" style="background-color: #d5c8e4">
+                        <th colspan="2">
 			<?= $report['day'];?>, <?= $report['datetime'];?> - <?= $report['name'];?> - <?= $report['route'];?>
                         </th>
                     </tr>

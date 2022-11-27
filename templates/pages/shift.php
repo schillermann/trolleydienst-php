@@ -22,9 +22,13 @@
                 <input id="filter_shift_date_from" name="filter_shift_date_from" type="date" value="<?= $placeholder['filter_shift_date_from']; ?>">
                 <label for="filter_shift_date_to"><?= __('to:') ?></label>
                 <input id="filter_shift_date_to" name="filter_shift_date_to" type="date" value="<?= $placeholder['filter_shift_date_to']; ?>">
-                <button name="filter_shift" class="active">
-                    <i class="fa fa-filter"></i> <?= __('Filter') ?>
-                </button>
+                <span>
+                   <button name="filter_shift" class="active">
+                        <i class="fa fa-filter"></i> <?= __('Filter') ?>
+                    </button>
+                    <button class="warning" type="submit"><i class="fa fa-refresh"></i></button>
+                </span>
+                
             </form>
         </details>
     </nav>

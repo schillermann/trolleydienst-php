@@ -99,7 +99,7 @@ return [
     'Profile' => 'Benutzerdaten',
     'Save Password' => 'Passwort ändern',
     'Contact Details' => 'Kontaktdaten',
-    'Get in touch with' => 'Kontakt aufnehmen mit',
+    'Show contact from' => 'Kontakt anzeigen von',
     'Phone' => 'Telefon',
     'Mobile' => 'Handy',
     'Congregation' => 'Versammlung',

@@ -2,7 +2,7 @@
 $placeholder = require '../includes/init_page.php';
 $report_to = new \DateTime('NOW');
 $report_from = clone $report_to;
-$report_from->sub(new DateInterval('P1M'));
+$report_from->sub(new DateInterval('P6M'));
 $id_shift_type = (isset($_POST['id_shift_type']))? (int)$_POST['id_shift_type'] : App\Tables\ShiftTypes::select_first_id_shift_type($database_pdo);
 
 $placeholder['report_list'] = array();
