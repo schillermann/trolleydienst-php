@@ -3,7 +3,7 @@
     <h2><?= __('Submit Report') ?></h2>
 </header>
 <nav>
-    <a href="./report.php" class="button">
+    <a href="./report" class="button">
         <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>

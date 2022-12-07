@@ -3,11 +3,11 @@
 	<h2><?= __('Email Templates') ?></h2>
 </header>
 <nav id="nav-sub">
-	<a href="./email.php" class="button">
+	<a href="./newsletter" class="button">
 		<i class="fa fa-chevron-left"></i> <?= __('Back') ?>
 	</a>
 	<?php foreach ($placeholder['email_templates'] as $template): ?>
-		<a href="./email-templates.php?id_email_template=<?= $template['id_email_template'];?>" class="button <?= ($placeholder['id_email_template'] == $template['id_email_template'])? 'active': '';?>">
+		<a href="./email-templates?id_email_template=<?= $template['id_email_template'];?>" class="button <?= ($placeholder['id_email_template'] == $template['id_email_template'])? 'active': '';?>">
 			<?= $template['subject'];?>
 		</a>
 	<?php endforeach;?>

@@ -48,46 +48,46 @@ $active_page = include '../templates/helpers/active_page.php';
             <ul>
                 <?php if (!empty($_SESSION)) : ?>
                     <?php foreach ($placeholder['shift_types'] as $shift_type) : ?>
-                        <?php $shift_class = ($_SERVER['REQUEST_URI'] == '/shift.php?id_shift_type=' . $shift_type['id_shift_type']) ? 'active' : ''; ?>
+                        <?php $shift_class = ($_SERVER['REQUEST_URI'] == '/shift?id_shift_type=' . $shift_type['id_shift_type']) ? 'active' : ''; ?>
                         <li>
-                            <a href="shift.php?id_shift_type=<?= $shift_type['id_shift_type']; ?>" class="<?= $shift_class; ?>">
+                            <a href="shift?id_shift_type=<?= $shift_type['id_shift_type']; ?>" class="<?= $shift_class; ?>">
                                 <i class="fa fa-calendar"></i> <?= $shift_type['name']; ?>
                             </a>
                         </li>
                     <?php endforeach; ?>
                     <li>
-                        <a href="report.php" class="<?= $active_page('report.php', 'report-submit.php'); ?>">
+                        <a href="report" class="<?= $active_page('report', 'submit-report'); ?>">
                             <i class="fa fa-list-alt"></i> <?= __('Report') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="info.php" class="<?= $active_page('info.php', 'info-add.php', 'info-edit.php'); ?>">
+                        <a href="info" class="<?= $active_page('info', 'upload-file', 'edit-file'); ?>">
                             <i class="fa fa-info"></i> <?= __('Info') ?>
                         </a>
                     </li>
                     <li>
-                        <a href="profile.php" class="<?= $active_page('profile.php', 'profile-password.php'); ?>">
+                        <a href="publisher-profile" class="<?= $active_page('publisher-profile', 'change-publisher-password'); ?>">
                             <i class="fa fa-user"></i> <?= __('Profile') ?>
                         </a>
                     </li>
                     <?php if ($_SESSION['is_admin']) : ?>
                         <li>
-                            <a href="shifttype.php" class="<?= $active_page('shifttype.php', 'shifttype-add.php', 'shifttype-edit.php'); ?>">
+                            <a href="shift-type" class="<?= $active_page('shift-type', 'add-shift-type', 'adjust-shift-type'); ?>">
                                 <i class="fa fa-calendar"></i> <?= __('Shift Type') ?>
                             </a>
                         </li>
                         <li>
-                            <a href="user.php" class="<?= $active_page('user.php', 'user-add.php', 'user-edit.php', 'user-add-mail.php'); ?>">
+                            <a href="publishers" class="<?= $active_page('publishers', 'add-publisher', 'adjust-publisher'); ?>">
                                 <i class="fa fa-users"></i> <?= __('Publisher') ?>
                             </a>
                         </li>
                         <li>
-                            <a href="email.php" class="<?= $active_page('email.php', 'email-settings.php', 'email-templates.php'); ?>">
-                                <i class="fa fa-envelope-o"></i> <?= __('Email') ?>
+                            <a href="newsletter" class="<?= $active_page('newsletter', 'email-settings', 'email-templates'); ?>">
+                                <i class="fa fa-envelope-o"></i> <?= __('Newsletter') ?>
                             </a>
                         </li>
                         <li>
-                            <a href="history-shift.php" class="<?= $active_page('history-login.php', 'history-shift.php', 'history-system.php'); ?>">
+                            <a href="shift-history" class="<?= $active_page('login-history', 'shift-history', 'system-history'); ?>">
                                 <i class="fa fa-history"></i> <?= __('History') ?>
                             </a>
                         </li>

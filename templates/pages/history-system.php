@@ -2,13 +2,13 @@
     <h2><?= __('History') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./history-shift.php" class="button">
+    <a href="./shift-history" class="button">
         <i class="fa fa-calendar-o"></i> <?= __('Shift History') ?>
     </a>
-    <a href="./history-login.php" class="button">
+    <a href="./login-history" class="button">
         <i class="fa fa-sign-in"></i> <?= __('Login') ?>
     </a>
-    <a href="./history-system.php" class="button active">
+    <a href="./system-history" class="button active">
         <i class="fa fa-cog"></i> <?= __('System') ?>
     </a>
 </nav>

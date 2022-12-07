@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0dd11cd7ebd3891ca304c01f1904ad0c",
+    "content-hash": "02ef7130aca70a78c1d6919f297f173e",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -824,6 +824,51 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "schillermann/phppages",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schillermann/phppages.git",
+                "reference": "20d78946ab891f73337c24a0894e6117b403645e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schillermann/phppages/zipball/20d78946ab891f73337c24a0894e6117b403645e",
+                "reference": "20d78946ab891f73337c24a0894e6117b403645e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.8",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpPages\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "PhpPages\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "analyse": [
+                    "vendor\\bin\\phpstan analyse --level 9 src tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Pages Framework Object Oriented With PHP",
+            "support": {
+                "source": "https://github.com/schillermann/phppages/tree/main",
+                "issues": "https://github.com/schillermann/phppages/issues"
+            },
+            "time": "2022-12-07T20:12:04+00:00"
         },
         {
             "name": "sendinblue/api-v3-sdk",
@@ -1838,10 +1883,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "schillermann/phppages": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }

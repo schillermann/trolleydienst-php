@@ -38,7 +38,7 @@
                     <input id="password" type="password" name="password" autocomplete="off" required>
                 </div>
                 <div id="divForgotLink" class="login">
-                    <a href="./password-forgot.php" class="xsmall"><?= __('Forgot password') ?></a>
+                    <a href="./reset-password" class="xsmall"><?= __('Forgot password') ?></a>
                 </div>
             </fieldset>
             <div class="from-button">

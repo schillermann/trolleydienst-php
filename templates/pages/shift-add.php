@@ -2,7 +2,7 @@
     <h2><?= __('New Shifts') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./shift.php?id_shift_type=<?= $placeholder['id_shift_type']?>" class="button">
+    <a href="./shift?id_shift_type=<?= $placeholder['id_shift_type']?>" class="button">
         <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>

@@ -4,7 +4,7 @@
     <h2><?= __('Shift Type List') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./shifttype-add.php" class="button active">
+    <a href="./add-shift-type" class="button active">
         <i class="fa fa-plus"></i> <?= __('New Shift Type') ?>
     </a>
 </nav>
@@ -21,7 +21,7 @@
             <td><?= $shift_type['name'] ?></td>
             <td><?= $shift_type['user_per_shift_max'] ?></td>
             <td><?= $parse_text_to_html($shift_type['info']);?></td>
-            <td><a class="button" href="./shifttype-edit.php?id_shift_type=<?= (int)$shift_type['id_shift_type'];?>"><i class="fa fa-pencil fa-6"></i> <?= __('Edit') ?></a></td>
+            <td><a class="button" href="./adjust-shift-type?id_shift_type=<?= (int)$shift_type['id_shift_type'];?>"><i class="fa fa-pencil fa-6"></i> <?= __('Edit') ?></a></td>
         </tr>
         <?php endforeach ?>
     </table>

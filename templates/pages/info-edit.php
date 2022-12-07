@@ -3,7 +3,7 @@
     <h2><?= __('Edit File') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./info.php" class="button">
+    <a href="./info" class="button">
         <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>

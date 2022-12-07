@@ -3,10 +3,10 @@
     <h2><?= __('Profile') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./profile.php" class="button active">
+    <a href="./publisher-profile" class="button active">
         <i class="fa fa-user"></i> <?= __('Profile') ?>
     </a>
-    <a href="./profile-password.php" class="button">
+    <a href="./change-publisher-password" class="button">
         <i class="fa fa-lock"></i> <?= __('Password') ?>
     </a>
 </nav>

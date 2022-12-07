@@ -3,7 +3,7 @@
     <h2><?= __('Email Settings') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./email.php" class="button">
+    <a href="./newsletter" class="button">
         <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>

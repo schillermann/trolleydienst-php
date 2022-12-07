@@ -3,7 +3,7 @@
     <h2><?= __('Upload File') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./info.php" class="button"><i class="fa fa-chevron-left"></i> <?= __('Back') ?></a>
+    <a href="./info" class="button"><i class="fa fa-chevron-left"></i> <?= __('Back') ?></a>
 </nav>
 <div class="container-center">
     <div class="info-box">

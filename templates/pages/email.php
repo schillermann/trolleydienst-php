@@ -1,11 +1,11 @@
 <header>
-    <h2><?= __('Send Email') ?></h2>
+    <h2><?= __('Send Newsletter') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./email-settings.php" class="button">
+    <a href="./email-settings" class="button">
         <i class="fa fa-cog"></i> <?= __('Settings') ?>
     </a>
-    <a href="./email-templates.php?id_email_template=1" class="button">
+    <a href="./email-templates?id_email_template=1" class="button">
         <i class="fa fa-cog"></i> <?= __('Templates') ?>
     </a>
 </nav>

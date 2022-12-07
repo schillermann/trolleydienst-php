@@ -3,7 +3,7 @@
     <h2><?= __('Edit Shift Type') ?></h2>
 </header>
 <nav>
-    <a href="./shifttype.php" class="button">
+    <a href="./shift-type" class="button">
         <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>

@@ -3,7 +3,7 @@
     <h2><?= __('New Pubisher') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./user.php" class="button">
+    <a href="./publishers" class="button">
         <i class="fa fa-chevron-left"></i> <?= __('Back') ?>
     </a>
 </nav>

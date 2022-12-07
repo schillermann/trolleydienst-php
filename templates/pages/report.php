@@ -3,7 +3,7 @@
     <h2><?= __('Reports') ?></h2>
 </header>
 <nav id="nav-sub">
-    <a href="./report-submit.php" class="button active">
+    <a href="./submit-report" class="button active">
         <i class="fa fa-plus"></i> <?= __('Submit Report') ?>
     </a>
 </nav>
@@ -39,7 +39,7 @@
                     <tr>
                         <td colspan="2">
                             <p>
-                                <a href="./report.php?id_report=<?= $id_report;?>" class="button warning">
+                                <a href="./report?id_report=<?= $id_report;?>" class="button warning">
                                     <i class="fa fa-trash-o"></i> <?= __('Delete') ?>
                                 </a>
                                 <span><strong><?= __('Created on') ?>:</strong> <?= $report['created'];?></span>
