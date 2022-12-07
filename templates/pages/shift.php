@@ -11,7 +11,7 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <a href="./add-shift?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
+        <a href="./shift-add.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
             <i class="fa fa-plus"></i> <?= __('New Shifts') ?>
         </a>
         <details id="filter_shift">
@@ -22,9 +22,13 @@
                 <input id="filter_shift_date_from" name="filter_shift_date_from" type="date" value="<?= $placeholder['filter_shift_date_from']; ?>">
                 <label for="filter_shift_date_to"><?= __('to:') ?></label>
                 <input id="filter_shift_date_to" name="filter_shift_date_to" type="date" value="<?= $placeholder['filter_shift_date_to']; ?>">
-                <button name="filter_shift" class="active">
-                    <i class="fa fa-filter"></i> <?= __('Filter') ?>
-                </button>
+                <span>
+                   <button name="filter_shift" class="active">
+                        <i class="fa fa-filter"></i> <?= __('Filter') ?>
+                    </button>
+                    <button class="warning" type="submit"><i class="fa fa-refresh"></i></button>
+                </span>
+                
             </form>
         </details>
     </nav>
@@ -48,7 +52,7 @@
                     <td colspan="2" style="background-color: <?= $shift_list['color_hex']; ?>">
                         <p>
                             <?php if ($_SESSION['is_admin']) : ?>
-                                <a href="./adjust-shift?id_shift_type=<?= $placeholder['id_shift_type'] ?>&id_shift=<?= $id_shift; ?>" class="button">
+                                <a href="./shift-edit.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>&id_shift=<?= $id_shift; ?>" class="button">
                                     <i class="fa fa-pencil"></i> <?= __('Edit') ?>
                                 </a>
                             <?php endif ?>

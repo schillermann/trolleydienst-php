@@ -59,7 +59,10 @@ class ShiftPage implements PageInterface
         } else 
         {
             $now = new \DateTime('NOW');
-            $now_plus_one_months = $now->add(new \DateInterval('P1M'));
+
+            $now_plus_one_months = clone $now;
+            $now_plus_one_months->add(new \DateInterval('P1M'));
+        
             $filter_shift_date_from = date_format($now, 'Y-m-d');
             
             $last_date_shift_day = end($placeholder['shift_day']);
