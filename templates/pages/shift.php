@@ -11,26 +11,9 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <a href="./shift-add.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
+        <a href="./add-shift?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
             <i class="fa fa-plus"></i> <?= __('New Shifts') ?>
         </a>
-        <details id="filter_shift">
-            <summary><?= __('Show date filter') ?></summary>
-            <form method="post">
-                <label for="filter_shift_date_from"><?= __('Start Date');
-                                                    echo (' ') ?><?= __('from:'); ?></label>
-                <input id="filter_shift_date_from" name="filter_shift_date_from" type="date" value="<?= $placeholder['filter_shift_date_from']; ?>">
-                <label for="filter_shift_date_to"><?= __('to:') ?></label>
-                <input id="filter_shift_date_to" name="filter_shift_date_to" type="date" value="<?= $placeholder['filter_shift_date_to']; ?>">
-                <span>
-                   <button name="filter_shift" class="active">
-                        <i class="fa fa-filter"></i> <?= __('Filter') ?>
-                    </button>
-                    <button class="warning" type="submit"><i class="fa fa-refresh"></i></button>
-                </span>
-                
-            </form>
-        </details>
     </nav>
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
@@ -109,8 +92,30 @@
     <?php endforeach ?>
 </div>
 <script>
-    function submitForm(submitForm) {
-        submitForm.closest('form').submit();
+    async function submitForm(dropDownPublisherList) {
+        const form = dropDownPublisherList.form
+
+        const body = {
+            shiftDayId: form.querySelector("input[name='id_shift']").value,
+            shiftId: form.querySelector("input[name='position']").value,
+            publisherId: dropDownPublisherList.value
+        }
+
+        const apiUrl = '/api/shift/register-publisher'
+        const response = await fetch(
+            apiUrl,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            }
+        )
+
+        if (response.status === 201) {
+            alert('WUrde angelegt')
+        } else {
+            alert('Error')
+        }
     }
     function showDialog(dialog) {
         const form = dialog.closest('span').children[1];

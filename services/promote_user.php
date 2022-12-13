@@ -1,7 +1,7 @@
 <?php return function (\PDO $connection, int $id_shift, int $position, int $id_user): bool {
 
     $shift = App\Tables\Shifts::select($connection, $id_shift);
-    $shift_type_name = App\Tables\ShiftTypes::select_name($connection, $shift['id_shift_type']);
+    $shift_type_name = App\Shift\ShiftTypeTable::select_name($connection, $shift['id_shift_type']);
     $user_name = App\Tables\Publisher::select_name($connection, $id_user);
 
     $promote_user_success = App\Tables\ShiftUserMaps::insert($connection, $id_shift, $position, $id_user);

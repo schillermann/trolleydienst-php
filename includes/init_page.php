@@ -17,5 +17,5 @@ if(MAINTENANCE == true) {
 
 $database_pdo = App\Tables\Database::get_connection();
 $placeholder = array();
-$placeholder['shift_types'] = App\Tables\ShiftTypes::select_all($database_pdo);
+$placeholder['shift_types'] = App\Shift\ShiftTypeTable::select_all($database_pdo);
 return $placeholder;

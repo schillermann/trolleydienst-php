@@ -1,7 +1,7 @@
 <?php
-namespace App\Tables;
+namespace App\Shift;
 
-class ShiftTypes {
+class ShiftTypeTable {
     const TABLE_NAME = 'shift_types';
 
     static function create_table(\PDO $connection): bool

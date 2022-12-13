@@ -20,8 +20,10 @@ use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
+use App\Shift\RegisterPublisherApi;
+use App\Shift\ShiftCalendar;
+use App\Shift\ShiftPage;
 use App\ShiftHistoryPage;
-use App\ShiftPage;
 use App\ShiftTypePage;
 use App\SubmitReportPage;
 use App\SystemHistoryPage;
@@ -30,7 +32,6 @@ use App\UploadFilePage;
 use App\UserDetailsPage;
 use PhpPages\App;
 use PhpPages\OutputInterface;
-use PhpPages\Page\TextPage;
 use PhpPages\PageInterface;
 use PhpPages\Request\NativeRequest;
 use PhpPages\Response\NativeResponse;
@@ -39,6 +40,18 @@ require __DIR__ . '/../vendor/autoload.php';
 
 (new App(
     new class implements PageInterface {
+
+        private string $httpMethod;
+        private \PDO $pdo;
+
+        public function __construct(string $httpMethod = '')
+        {
+            $this->httpMethod = $httpMethod;
+
+            $this->pdo = new \PDO('sqlite:./../database.sqlite');
+            $this->pdo->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        }
+
         public function viaOutput(OutputInterface $output): OutputInterface
         {
             return $output->withMetadata(
@@ -46,13 +59,26 @@ require __DIR__ . '/../vendor/autoload.php';
                 'HTTP/1.1 404 Not Found'
             );
         }
-
+    
         public function withMetadata(string $name, string $value): PageInterface
         {
+            if ($name === PageInterface::METHOD) {
+                return new self($value);
+            }
+
             if ($name !== PageInterface::PATH) {
                 return $this;
             }
 
+            if ($this->httpMethod === 'POST') {
+                switch($value) {
+                    case '/api/shift/register-publisher':
+                        return new RegisterPublisherApi(
+                            new ShiftCalendar($this->pdo)
+                        );
+                }
+            }
+    
             switch($value) {
                 case '/':
                     return new LoginPage();
@@ -110,9 +136,9 @@ require __DIR__ . '/../vendor/autoload.php';
                     return new UpdatePage();
                 case '/install':
                     return new InstallPage();
-                default:
-                    return new TextPage('Page not found');
             }
+    
+            return $this;
         }
     }
 ))

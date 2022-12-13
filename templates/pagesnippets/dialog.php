@@ -7,8 +7,7 @@
             <span><?= __('Shift');
                     echo (':') ?></span>
             <span><i class="fa fa-calendar-o"></i><?= $shift_list['day'] ?>, <?= $shift_list['date'] ?></span>
-            <span><i class="fa fa-clock-o"></i><?= $shift_time;
-                                                echo (' ' . __('Clock')) ?></span>
+            <span><i class="fa fa-clock-o"></i><?= $shift_time . (' ' . __('Clock')) ?></span>
         </div>
 
         <?php if (!$empty_apply_form) : ?>

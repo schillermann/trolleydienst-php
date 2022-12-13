@@ -44,7 +44,7 @@
                 <input id="time_from" type="time" name="time_from" required onchange="calculateShiftTimeTo()" value="<?= (isset($_POST['time_from']))? $_POST['time_from'] : '';?>">
             </div>
             <div>
-                <label for="number"><?= __('Publishers per Shift') ?> <small>(<?= __('Required') ?>)</small></label>
+                <label for="number"><?= __('Number of shifts') ?> <small>(<?= __('Required') ?>)</small></label>
                 <input id="number" type="number" name="number" required onchange="calculateShiftTimeTo()" value="<?= (isset($_POST['number']))? (int)$_POST['number'] : 2;?>">
             </div>
             <div>

@@ -133,7 +133,7 @@ return [
     'Start Date' => 'Datum',
     'From' => 'Von',
     'To' => 'Bis',
-    'Publishers per Shift' => 'Schichtanzahl',
+    'Number of shifts' => 'Schichtanzahl',
     'Shift Length in Hours' => 'Schichtlänge in Stunden',
     'End Date' => 'Terminserie bis zum',
     'Colour' => 'Farbe',
