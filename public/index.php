@@ -82,7 +82,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
             if ($this->httpMethod === 'GET') {
                 switch($value) {
-                    case '/api/shift/list-shift-days':
+                    case '/api/shift/list-shifts':
                         return new ShiftDaysListedQuery(
                             new ShiftCalendar($this->pdo)
                         );

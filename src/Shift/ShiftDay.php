@@ -7,24 +7,24 @@ class ShiftDay implements ShiftDayInterface
     private int $id;
     private int $shiftTypeId;
     private string $routeName;
-    private \DateTimeImmutable $startTime;
+    private \DateTimeInterface $startTime;
     private int $numberOfShifts;
     private int $minutesPerShift;
     private string $color;
-    private \DateTimeImmutable $updatedAt;
-    private \DateTimeImmutable $createdAt;
+    private \DateTimeInterface $updatedAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct(
         \PDO $pdo,
         int $id,
-        int $shiftTypeId = 0,
-        string $routeName = '',
-        \DateTimeImmutable $startTime = new \DateTimeImmutable('0000-01-01'),
-        int $numberOfShifts = 0,
-        int $minutesPerShift = 0,
-        string $color = '',
-        \DateTimeImmutable $updatedAt = new \DateTimeImmutable('0000-01-01'),
-        \DateTimeImmutable $createdAt = new \DateTimeImmutable('0000-01-01')
+        int $shiftTypeId,
+        string $routeName,
+        \DateTimeInterface $startTime,
+        int $numberOfShifts,
+        int $minutesPerShift,
+        string $color,
+        \DateTimeInterface $updatedAt,
+        \DateTimeInterface $createdAt
     )
     {
         $this->pdo = $pdo;
@@ -41,25 +41,54 @@ class ShiftDay implements ShiftDayInterface
 
     public function array(): array
     {
+        $shifts = [];
+        foreach ($this->shifts() as $shift) {
+            $shifts[] = $shift->array();
+        }
+
         return [
             'id' => $this->id,
             'shiftTypeId' => $this->shiftTypeId,
             'routeName' => $this->routeName,
-            'startTime' => $this->startTime->format(\DateTime::ATOM),
-            'numberOfShifts' => $this->numberOfShifts,
-            'minutesPerShift' => $this->minutesPerShift,
+            'date' => $this->startTime->format('Y-m-d'),
             'color' => $this->color,
             'updatedAt' => $this->updatedAt->format(\DateTime::ATOM),
-            'createdAt' => $this->createdAt->format(\DateTime::ATOM)
+            'createdAt' => $this->createdAt->format(\DateTime::ATOM),
+            'shifts' => $shifts
         ];
     }
 
     public function shift(int $shiftId): ShiftInterface
     {
+        $startTime = $this->startTime->sub(new \DateInterval('PT' . $this->minutesPerShift * ($shiftId - 1) . 'M'));
+        $endTime = $this->startTime->sub(new \DateInterval('PT' . $this->minutesPerShift * $shiftId . 'M'));
+
         return new Shift(
             $this->pdo,
+            $shiftId,
             $this->id,
-            $shiftId
+            $startTime,
+            $endTime
         );
+    }
+
+    public function shifts(): \Generator
+    {
+        $startTime = $this->startTime->sub(new \DateInterval('PT' . $this->minutesPerShift . 'M'));
+        $endTime = clone $this->startTime;
+        
+        for ($shiftId = 1; $shiftId <= $this->numberOfShifts; $shiftId++) {
+
+            $startTime = $startTime->add(new \DateInterval('PT' . $this->minutesPerShift . 'M'));
+            $endTime = $endTime->add(new \DateInterval('PT' . $this->minutesPerShift . 'M'));
+
+            yield new Shift(
+                $this->pdo,
+                $shiftId,
+                $this->id,
+                $startTime,
+                $endTime
+            );
+        }
     }
 }

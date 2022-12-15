@@ -12,7 +12,11 @@ class ShiftCalendar implements ShiftCalendarInterface
 
     public function dayCount(\DateTimeInterface $from, int $shiftTypeId): int
     {
-        $stmt = $this->pdo->prepare('SELECT count(*) FROM shifts WHERE datetime_from > :from AND id_shift_type = :shiftTypeId');
+        $stmt = $this->pdo->prepare(<<<SQL
+            SELECT count(*)
+            FROM shifts
+            WHERE datetime_from > :from AND id_shift_type = :shiftTypeId
+        SQL);
         $stmt->execute([
             'from' => $from->format('Y-m-d'),
             'shiftTypeId' => $shiftTypeId,
@@ -23,7 +27,13 @@ class ShiftCalendar implements ShiftCalendarInterface
 
     public function daysFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM shifts WHERE datetime_from > :from AND id_shift_type = :shiftTypeId ORDER BY datetime_from ASC LIMIT :offset, :limit');
+        $stmt = $this->pdo->prepare(<<<SQL
+            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
+            FROM shifts
+            WHERE datetime_from > :from AND id_shift_type = :shiftTypeId
+            ORDER BY datetime_from ASC
+            LIMIT :offset, :limit
+        SQL);
 
         $stmt->execute([
             'from' => $from->format('Y-m-d'),
@@ -51,16 +61,29 @@ class ShiftCalendar implements ShiftCalendarInterface
 
     public function day(int $id): ShiftDayInterface
     {
-        $stmt = $this->pdo->prepare('SELECT id_shift FROM shifts WHERE id_shift = :id');
+        $stmt = $this->pdo->prepare(<<<SQL
+            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
+            FROM shifts
+            WHERE id_shift = :id
+        SQL);
+
         $stmt->execute([
             'id' => $id
         ]);
 
-        $day = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $shiftDay = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         return new ShiftDay(
             $this->pdo,
-            $day['id_shift']
+            $shiftDay['id_shift'],
+            $shiftDay['id_shift_type'],
+            $shiftDay['route'],
+            new \DateTimeImmutable($shiftDay['datetime_from']),
+            $shiftDay['number'],
+            $shiftDay['minutes_per_shift'],
+            $shiftDay['color_hex'],
+            new \DateTimeImmutable($shiftDay['updated']),
+            new \DateTimeImmutable($shiftDay['created'])
         );
     }
 }
