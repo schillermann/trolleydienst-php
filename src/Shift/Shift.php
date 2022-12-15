@@ -3,11 +3,11 @@ namespace App\Shift;
 
 class Shift implements ShiftInterface
 {
-    private \Pdo $pdo;
+    private \PDO $pdo;
     private int $shiftDayId;
     private int $shiftId;
 
-    public function __construct(\Pdo $pdo, int $shiftDayId, int $shiftId)
+    public function __construct(\PDO $pdo, int $shiftDayId, int $shiftId)
     {
         $this->pdo = $pdo;
         $this->shiftDayId = $shiftDayId;

@@ -20,7 +20,8 @@ use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
-use App\Shift\RegisterPublisherApi;
+use App\Shift\Api\RegisterPublisherCommand;
+use App\Shift\Api\ShiftDaysListedQuery;
 use App\Shift\ShiftCalendar;
 use App\Shift\ShiftPage;
 use App\ShiftHistoryPage;
@@ -73,7 +74,16 @@ require __DIR__ . '/../vendor/autoload.php';
             if ($this->httpMethod === 'POST') {
                 switch($value) {
                     case '/api/shift/register-publisher':
-                        return new RegisterPublisherApi(
+                        return new RegisterPublisherCommand(
+                            new ShiftCalendar($this->pdo)
+                        );
+                }
+            }
+
+            if ($this->httpMethod === 'GET') {
+                switch($value) {
+                    case '/api/shift/list-shift-days':
+                        return new ShiftDaysListedQuery(
                             new ShiftCalendar($this->pdo)
                         );
                 }

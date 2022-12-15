@@ -1,10 +1,11 @@
 <?php
-namespace App\Shift;
+namespace App\Shift\Api;
 
+use App\Shift\ShiftCalendarInterface;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class RegisterPublisherApi implements PageInterface
+class RegisterPublisherCommand implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
     private int $shiftDayId;
