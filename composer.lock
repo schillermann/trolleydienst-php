@@ -831,12 +831,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schillermann/phppages.git",
-                "reference": "20d78946ab891f73337c24a0894e6117b403645e"
+                "reference": "242c874e54489e940c1edd6db38ebd8134a8886a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schillermann/phppages/zipball/20d78946ab891f73337c24a0894e6117b403645e",
-                "reference": "20d78946ab891f73337c24a0894e6117b403645e",
+                "url": "https://api.github.com/repos/schillermann/phppages/zipball/242c874e54489e940c1edd6db38ebd8134a8886a",
+                "reference": "242c874e54489e940c1edd6db38ebd8134a8886a",
                 "shasum": ""
             },
             "require-dev": {
@@ -868,7 +868,7 @@
                 "source": "https://github.com/schillermann/phppages/tree/main",
                 "issues": "https://github.com/schillermann/phppages/issues"
             },
-            "time": "2022-12-07T20:12:04+00:00"
+            "time": "2022-12-16T18:09:02+00:00"
         },
         {
             "name": "sendinblue/api-v3-sdk",
