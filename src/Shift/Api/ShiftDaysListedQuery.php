@@ -9,21 +9,21 @@ use PhpPages\PageInterface;
 class ShiftDaysListedQuery implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
-    private \DateTimeInterface $startTime;
+    private \DateTimeInterface $dateFrom;
     private int $shiftTypeId;
     private int $pageNumber;
     private int $pageItems;
 
     public function __construct(
         ShiftCalendarInterface $shiftCalendar,
-        \DateTimeInterface $startTime = new \DateTimeImmutable('0000-01-01'),
+        \DateTimeInterface $dateFrom = new \DateTimeImmutable('0000-01-01'),
         int $shiftTypeId = 0,
         int $pageNumber = 0,
         int $pageItems = 10
     )
     {
         $this->shiftCalendar = $shiftCalendar;
-        $this->startTime = $startTime;
+        $this->dateFrom = $dateFrom;
         $this->shiftTypeId = $shiftTypeId;
         $this->pageNumber = $pageNumber;
         $this->pageItems = $pageItems;
@@ -32,7 +32,7 @@ class ShiftDaysListedQuery implements PageInterface
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $daysFrom = $this->shiftCalendar->daysFrom(
-            $this->startTime,
+            $this->dateFrom,
             $this->shiftTypeId,
             $this->pageNumber,
             $this->pageItems
@@ -44,7 +44,7 @@ class ShiftDaysListedQuery implements PageInterface
             $shiftDayList[] = $day->array();
         }
 
-        $daysTotal = $this->shiftCalendar->dayCount($this->startTime, $this->shiftTypeId);
+        $daysTotal = $this->shiftCalendar->dayCount($this->dateFrom, $this->shiftTypeId);
         $daysFrom = (($this->pageNumber - 1) * $this->pageItems) + 1;
         $daysTo = $this->pageNumber * $this->pageItems;
         if ($daysTo > $daysTotal) {
@@ -77,7 +77,7 @@ class ShiftDaysListedQuery implements PageInterface
 
             return new self(
                 $this->shiftCalendar,
-                new \DateTimeImmutable($query->param('start-time')),
+                new \DateTimeImmutable($query->param('start-date')),
                 (int) $query->param('shift-type-id'),
                 (int) $query->paramWithDefault('page-number', '1'),
                 (int) $query->paramWithDefault('page-items', '10'),

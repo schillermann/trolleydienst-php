@@ -21,7 +21,7 @@
     </table>
 </template>
 
-<template id="shift">
+<template id="shift-row">
     <tr>
         <td class="shift-time">08:00 - 10:00</td>
         <td class="shift-publishers">
@@ -35,10 +35,18 @@
     </tr>
 </template>
 
-<template id="publisher">
+<template id="publisher-button">
     <span>
         <button class="enable" onclick="showDialog(this)" type="button">
             <i class="fa fa-check-circle-o"></i>{FIRSTNAME} {LASTNAME}
+        </button>
+    </span>
+</template>
+
+<template id="booking-button">
+    <span>
+        <button class="button promote" onclick="showDialog(this)" type="button">
+            <i class="fa fa-hand-o-right">{AVAILABLE}
         </button>
     </span>
 </template>
@@ -66,7 +74,13 @@
 <div class="table-container">
     
 </div>
-<script>
+<script type="module">
+    import ShiftCalendar from "./js/shift/shift-calendar.js"
+    import ShiftTable from "./js/shift/shift-table.js"
+    import ShiftRow from "./js/shift/shift-row.js"
+    import PublisherButton from "./js/shift/publisher-button.js"
+    import ShiftApi from "./js/shift/shift-api.js"
+
     async function submitForm(dropDownPublisherList) {
         const form = dropDownPublisherList.form
 
@@ -110,60 +124,24 @@
     //       console.log('Load new stuff...')
     //     }
     // })
-   
-    function shiftDay(templateShiftDay, templateShift, templatePublisher, data) {
-        const documentShiftDay = templateShiftDay.content.cloneNode(true)
-
-        const date = new Date(data.date)
-
-        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-
-        const tableHead = documentShiftDay.querySelector('thead tr th')
-        tableHead.textContent = tableHead.textContent.replace(/{DAY}/i, weekdays[date.getDay()])
-        tableHead.textContent = tableHead.textContent.replace(/{DATE}/i, date.toLocaleDateString())
-        tableHead.textContent = tableHead.textContent.replace(/{ROUTE_NAME}/i, data.routeName)
-
-        for (const t of data.shifts) {
-            documentShiftDay.querySelector("tbody").appendChild(shift(templateShift, templatePublisher, t))
-        }
-
-        const tableContainer = document.querySelector(".table-container")
-        tableContainer.appendChild(documentShiftDay)
-    }
-
-    function shift(templateShift, templatePublisher, data) {
-        const documentShift = templateShift.content.cloneNode(true)
-        const elementPublishers = documentShift.querySelector(".shift-publishers")
-
-        for (const t of data.publishers) {
-            elementPublishers.prepend(publisher(templatePublisher, t))
-        }
-        
-        return documentShift
-    }
-
-    function publisher(templatePublisher, data) {
-        const documentPublishers = templatePublisher.content.cloneNode(true)
-
-        const button = documentPublishers.querySelector("button")
-        button.textContent = button.textContent.replace(/{FIRSTNAME}/i, data.firstname)
-        button.textContent = button.textContent.replace(/{LASTNAME}/i, data.lastname)
-
-        return documentPublishers
-    }
 
     (async () => {
-        const response = await fetch('/api/shift/list-shifts?start-time=2022-12-12&shift-type-id=1&page-number=1&page-items=10');
-        const shiftDays = await response.json();
+        const shiftCalendar = new ShiftCalendar(
+            document.querySelector(".table-container"),
+            new ShiftTable(
+                document.querySelector("template#shift-day"),
+                new ShiftRow(
+                    document.querySelector("template#shift-row"),
+                    new PublisherButton(
+                        document.querySelector("template#publisher-button")
+                    )
+                )
+            ),
+            new ShiftApi("/api/shift/list-shifts", new Date("2022-12-17"), 1, 10)
+        )
 
-        const templateShiftDay = document.querySelector("template#shift-day")
-        const templateShift = document.querySelector("template#shift")
-        const templatePublisher = document.querySelector("template#publisher")
-
-
-        for (const data of shiftDays) {
-            shiftDay(templateShiftDay, templateShift, templatePublisher, data)
-        }
+        await shiftCalendar.load()
+        
     })();
 
     

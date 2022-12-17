@@ -32,6 +32,7 @@ class Shift implements ShiftInterface
         }
 
         return [
+            'id' => $this->id,
             'from' => $this->startTime->format(\DateTime::ATOM),
             'to' => $this->endTime->format(\DateTime::ATOM),
             'publishers' => $publishers

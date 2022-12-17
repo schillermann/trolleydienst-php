@@ -12,7 +12,7 @@ class ReportPage implements PageInterface
         $report_to = new \DateTime('NOW');
         $report_from = clone $report_to;
         $report_from->sub(new \DateInterval('P6M'));
-        $id_shift_type = (isset($_POST['id_shift_type']))? (int)$_POST['id_shift_type'] : Tables\ShiftTypes::select_first_id_shift_type($database_pdo);
+        $id_shift_type = (isset($_POST['id_shift_type']))? (int)$_POST['id_shift_type'] : Shift\ShiftTypeTable::select_first_id_shift_type($database_pdo);
 
         $placeholder['report_list'] = array();
         $placeholder['shifttype_list'] = array();
@@ -37,7 +37,7 @@ class ReportPage implements PageInterface
             $get_reports = include '../services/get_reports.php';
             $name = ($_SESSION['is_admin'])? '' : $_SESSION['name'];
             $placeholder['report_list'] = $get_reports($database_pdo, $report_from, $report_to, $id_shift_type, $name);
-            $placeholder['shifttype_list'] = Tables\ShiftTypes::select_all($database_pdo);
+            $placeholder['shifttype_list'] = Shift\ShiftTypeTable::select_all($database_pdo);
         }
 
         $render_page = include '../includes/render_page.php';
