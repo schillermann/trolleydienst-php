@@ -1,3 +1,48 @@
+<template id="shift-day">
+    <table id="id_shift_1">
+        <thead>
+            <tr>
+                <th colspan="2" style="background-color: red">{DAY}, {DATE} - {ROUTE_NAME}</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2" style="background-color: red">
+                    <p>
+                         <!-- if admin -->
+                        <a href="./shift-edit.php?id_shift_type=1&id_shift=1" class="button">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    </p>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</template>
+
+<template id="shift">
+    <tr>
+        <td class="shift-time">08:00 - 10:00</td>
+        <td class="shift-publishers">
+            <span>
+                <button class="enable user-plus" name="user-plus" type="button" onclick="showDialog(this)" style="float: right;">
+                    <i class="fa fa-user-plus"></i>
+                </button>
+            </span>
+
+        </td>
+    </tr>
+</template>
+
+<template id="publisher">
+    <span>
+        <button class="enable" onclick="showDialog(this)" type="button">
+            <i class="fa fa-check-circle-o"></i>{FIRSTNAME} {LASTNAME}
+        </button>
+    </span>
+</template>
+
 <header>
     <h2><?= $placeholder['shift_type']['name']; ?> <?= __('Shifts') ?></h2>
     <?php if (!empty($placeholder['shift_type']['info'])) : ?>
@@ -19,77 +64,7 @@
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
 <div class="table-container">
-    <?php foreach ($placeholder['shift_day'] as $id_shift => $shift_list) : ?>
-        <table id="id_shift_<?= $id_shift ?>">
-            <thead>
-                <tr>
-                    <th colspan="2" style="background-color: <?= $shift_list['color_hex']; ?>">
-                        <?= $shift_list['day'] ?>,
-                        <?= $shift_list['date'] ?> -
-                        <?= $shift_list['route'] ?>
-                    </th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <td colspan="2" style="background-color: <?= $shift_list['color_hex']; ?>">
-                        <p>
-                            <?php if ($_SESSION['is_admin']) : ?>
-                                <a href="./shift-edit.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>&id_shift=<?= $id_shift; ?>" class="button">
-                                    <i class="fa fa-pencil"></i> <?= __('Edit') ?>
-                                </a>
-                            <?php endif ?>
-                        </p>
-                    </td>
-                </tr>
-            </tfoot>
-            <?php $empty_apply_form = false; ?>
-            <?php $position = 0 ?>
-            <tbody>
-                <?php foreach ($shift_list['shifts'] as $shift_time => $user_list) : ?>
-                    <?php $position++ ?>
-                    <?php $free_places = (int)$placeholder['shift_type']['user_per_shift_max'] - count($user_list) ?>
-                    <tr>
-                        <td class="shift-time">
-                            <?= $shift_time; ?>
-                        </td>
-                        <td>
-                            <?php foreach ($user_list as $id_user => $name) : ?>
-                                <span>
-                                    <button class="enable" onclick="showDialog(this)" type="button">
-                                        <i class="fa fa-check-circle-o"></i> <?= $name ?>
-                                    </button>
-                                    <?php include '../templates/pagesnippets/dialog.php' ?>
-                                </span>
-                            <?php endforeach ?>
-
-                            <?php for ($free_place_counter = 0; $free_place_counter < $free_places; $free_place_counter++) : ?>
-                                <?php $empty_apply_form = true; ?>
-                                <span>
-                                    <button class="button promote" onclick="showDialog(this)" type="button">
-                                        <i class="fa fa-hand-o-right"></i> <?= __('Available') ?>
-                                    </button>
-                                    <?php include '../templates/pagesnippets/dialog.php' ?>
-                                </span>
-                                <?php $empty_apply_form = false; ?>
-                            <?php endfor; ?>
-
-                            <?php if ($_SESSION['is_admin'] && $free_places < 1) : ?>
-                                <?php $empty_apply_form = true; ?>
-                                <span>
-                                    <button class="enable user-plus" name="user-plus" type="button" onclick="showDialog(this)" style="float: right;">
-                                        <i class="fa fa-user-plus"></i>
-                                    </button>
-                                    <?php include '../templates/pagesnippets/dialog.php' ?>
-                                </span>
-                                <?php $empty_apply_form = false; ?>
-                            <?php endif ?>
-                        </td>
-                    </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    <?php endforeach ?>
+    
 </div>
 <script>
     async function submitForm(dropDownPublisherList) {
@@ -117,6 +92,7 @@
             alert('Error')
         }
     }
+
     function showDialog(dialog) {
         const form = dialog.closest('span').children[1];
         form.showModal();
@@ -126,4 +102,71 @@
         const form = dialog.closest('span').children[1];
         form.close();
     }
+
+    // window.addEventListener('scroll', () => {
+    //     console.log(window.scrollY) //scrolled from top
+    //     console.log(window.innerHeight) //visible part of screen
+    //     if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight){
+    //       console.log('Load new stuff...')
+    //     }
+    // })
+   
+    function shiftDay(templateShiftDay, templateShift, templatePublisher, data) {
+        const documentShiftDay = templateShiftDay.content.cloneNode(true)
+
+        const date = new Date(data.date)
+
+        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+        const tableHead = documentShiftDay.querySelector('thead tr th')
+        tableHead.textContent = tableHead.textContent.replace(/{DAY}/i, weekdays[date.getDay()])
+        tableHead.textContent = tableHead.textContent.replace(/{DATE}/i, date.toLocaleDateString())
+        tableHead.textContent = tableHead.textContent.replace(/{ROUTE_NAME}/i, data.routeName)
+
+        for (const t of data.shifts) {
+            documentShiftDay.querySelector("tbody").appendChild(shift(templateShift, templatePublisher, t))
+        }
+
+        const tableContainer = document.querySelector(".table-container")
+        tableContainer.appendChild(documentShiftDay)
+    }
+
+    function shift(templateShift, templatePublisher, data) {
+        const documentShift = templateShift.content.cloneNode(true)
+        const elementPublishers = documentShift.querySelector(".shift-publishers")
+
+        for (const t of data.publishers) {
+            elementPublishers.prepend(publisher(templatePublisher, t))
+        }
+        
+        return documentShift
+    }
+
+    function publisher(templatePublisher, data) {
+        const documentPublishers = templatePublisher.content.cloneNode(true)
+
+        const button = documentPublishers.querySelector("button")
+        button.textContent = button.textContent.replace(/{FIRSTNAME}/i, data.firstname)
+        button.textContent = button.textContent.replace(/{LASTNAME}/i, data.lastname)
+
+        return documentPublishers
+    }
+
+    (async () => {
+        const response = await fetch('/api/shift/list-shifts?start-time=2022-12-12&shift-type-id=1&page-number=1&page-items=10');
+        const shiftDays = await response.json();
+
+        const templateShiftDay = document.querySelector("template#shift-day")
+        const templateShift = document.querySelector("template#shift")
+        const templatePublisher = document.querySelector("template#publisher")
+
+
+        for (const data of shiftDays) {
+            shiftDay(templateShiftDay, templateShift, templatePublisher, data)
+        }
+    })();
+
+    
+
+    
 </script>
