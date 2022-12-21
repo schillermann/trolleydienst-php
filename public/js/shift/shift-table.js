@@ -1,13 +1,16 @@
 "use strict"
 
 export default class ShiftTable {
+    #template
+    #shiftRow
+
     /**
      * @param {Element} template
-     * @param {ShiftRow} shiftRow
+     * @param {import("./shift-row").default} shiftRow
      */
-    constructor(template, shiftRow, shiftApi) {
-        this.template = template
-        this.shiftRow = shiftRow
+    constructor(template, shiftRow) {
+        this.#template = template
+        this.#shiftRow = shiftRow
     }
 
     /**
@@ -16,8 +19,8 @@ export default class ShiftTable {
      * @param {Object[]} shifts
      * @returns {Node}
      */
-    async node(date, routeName, shifts) {
-        const cloneNode = this.template.content.cloneNode(true)
+    async node(date, routeName, publisherLimit, shifts) {
+        const cloneNode = this.#template.content.cloneNode(true)
 
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
@@ -28,7 +31,7 @@ export default class ShiftTable {
 
         for (const shift of shifts) {
             cloneNode.querySelector("tbody").appendChild(
-                this.shiftRow.node(shift)
+                this.#shiftRow.node(shift.publishers, publisherLimit)
             )
         }
 

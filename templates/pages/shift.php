@@ -1,4 +1,4 @@
-<template id="shift-day">
+<template id="shift-table">
     <table id="id_shift_1">
         <thead>
             <tr>
@@ -24,21 +24,14 @@
 <template id="shift-row">
     <tr>
         <td class="shift-time">08:00 - 10:00</td>
-        <td class="shift-publishers">
-            <span>
-                <button class="enable user-plus" name="user-plus" type="button" onclick="showDialog(this)" style="float: right;">
-                    <i class="fa fa-user-plus"></i>
-                </button>
-            </span>
-
-        </td>
+        <td class="shift-publishers"></td>
     </tr>
 </template>
 
 <template id="publisher-button">
     <span>
         <button class="enable" onclick="showDialog(this)" type="button">
-            <i class="fa fa-check-circle-o"></i>{FIRSTNAME} {LASTNAME}
+            <i class="fa fa-check-circle-o"></i> {FIRSTNAME} {LASTNAME}
         </button>
     </span>
 </template>
@@ -46,7 +39,15 @@
 <template id="booking-button">
     <span>
         <button class="button promote" onclick="showDialog(this)" type="button">
-            <i class="fa fa-hand-o-right">{AVAILABLE}
+            <i class="fa fa-hand-o-right"></i> <?= __('Available') ?>
+        </button>
+    </span>
+</template>
+
+<template id="addition-publisher-button">
+    <span>
+        <button class="enable user-plus" name="user-plus" type="button" onclick="showDialog(this)" style="float: right;">
+            <i class="fa fa-user-plus"></i>
         </button>
     </span>
 </template>
@@ -74,13 +75,9 @@
 <div class="table-container">
     
 </div>
-<script type="module">
-    import ShiftCalendar from "./js/shift/shift-calendar.js"
-    import ShiftTable from "./js/shift/shift-table.js"
-    import ShiftRow from "./js/shift/shift-row.js"
-    import PublisherButton from "./js/shift/publisher-button.js"
-    import ShiftApi from "./js/shift/shift-api.js"
 
+<script type="module" src="./js/shift/index.js"></script>
+<script>
     async function submitForm(dropDownPublisherList) {
         const form = dropDownPublisherList.form
 
@@ -124,27 +121,5 @@
     //       console.log('Load new stuff...')
     //     }
     // })
-
-    (async () => {
-        const shiftCalendar = new ShiftCalendar(
-            document.querySelector(".table-container"),
-            new ShiftTable(
-                document.querySelector("template#shift-day"),
-                new ShiftRow(
-                    document.querySelector("template#shift-row"),
-                    new PublisherButton(
-                        document.querySelector("template#publisher-button")
-                    )
-                )
-            ),
-            new ShiftApi("/api/shift/list-shifts", new Date("2022-12-17"), 1, 10)
-        )
-
-        await shiftCalendar.load()
-        
-    })();
-
-    
-
     
 </script>

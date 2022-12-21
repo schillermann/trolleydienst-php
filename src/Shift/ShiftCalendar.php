@@ -27,6 +27,14 @@ class ShiftCalendar implements ShiftCalendarInterface
 
     public function daysFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator
     {
+        $stmtPublisherLimit = $this->pdo->prepare(<<<SQL
+            SELECT user_per_shift_max FROM shift_types WHERE id_shift_type = :id
+        SQL);
+        $stmtPublisherLimit->execute([
+            'id' => $shiftTypeId
+        ]);
+        $publisherLimit = $stmtPublisherLimit->fetchColumn();
+
         $stmt = $this->pdo->prepare(<<<SQL
             SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
             FROM shifts
@@ -52,6 +60,7 @@ class ShiftCalendar implements ShiftCalendarInterface
                 new \DateTimeImmutable($shiftDay['datetime_from']),
                 $shiftDay['number'],
                 $shiftDay['minutes_per_shift'],
+                $publisherLimit,
                 $shiftDay['color_hex'],
                 new \DateTimeImmutable($shiftDay['updated']),
                 new \DateTimeImmutable($shiftDay['created'])

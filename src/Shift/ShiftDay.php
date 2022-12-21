@@ -10,6 +10,7 @@ class ShiftDay implements ShiftDayInterface
     private \DateTimeInterface $startTime;
     private int $numberOfShifts;
     private int $minutesPerShift;
+    private int $publisherLimit;
     private string $color;
     private \DateTimeInterface $updatedAt;
     private \DateTimeInterface $createdAt;
@@ -22,6 +23,7 @@ class ShiftDay implements ShiftDayInterface
         \DateTimeInterface $startTime,
         int $numberOfShifts,
         int $minutesPerShift,
+        int $publisherLimit,
         string $color,
         \DateTimeInterface $updatedAt,
         \DateTimeInterface $createdAt
@@ -34,6 +36,7 @@ class ShiftDay implements ShiftDayInterface
         $this->startTime = $startTime;
         $this->numberOfShifts = $numberOfShifts;
         $this->minutesPerShift = $minutesPerShift;
+        $this->publisherLimit = $publisherLimit;
         $this->color = $color;
         $this->updatedAt = $updatedAt;
         $this->createdAt = $createdAt;
@@ -50,6 +53,7 @@ class ShiftDay implements ShiftDayInterface
             'id' => $this->id,
             'shiftTypeId' => $this->shiftTypeId,
             'routeName' => $this->routeName,
+            'publisherLimit' => $this->publisherLimit,
             'date' => $this->startTime->format('Y-m-d'),
             'color' => $this->color,
             'updatedAt' => $this->updatedAt->format(\DateTime::ATOM),

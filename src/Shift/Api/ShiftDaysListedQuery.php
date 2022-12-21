@@ -78,7 +78,7 @@ class ShiftDaysListedQuery implements PageInterface
             return new self(
                 $this->shiftCalendar,
                 new \DateTimeImmutable($query->param('start-date')),
-                (int) $query->param('shift-type-id'),
+                (int) $query->paramWithDefault('shift-type-id', '1'),
                 (int) $query->paramWithDefault('page-number', '1'),
                 (int) $query->paramWithDefault('page-items', '10'),
             );

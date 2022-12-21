@@ -1,6 +1,6 @@
 "use strict"
 
-export default class BookingButton {
+export default class AdditionPublisherButton {
    #template
 
     /**

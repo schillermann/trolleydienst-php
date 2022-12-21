@@ -10,7 +10,7 @@ class ShiftTypePage implements PageInterface
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
-        $placeholder['shift_type_list'] = Tables\ShiftTypes::select_all($database_pdo);
+        $placeholder['shift_type_list'] = Shift\ShiftTypeTable::select_all($database_pdo);
 
         $render_page = include '../includes/render_page.php';
 

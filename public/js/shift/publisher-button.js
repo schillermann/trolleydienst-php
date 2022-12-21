@@ -1,11 +1,13 @@
 "use strict"
 
 export default class PublisherButton {
+    #template
+
     /**
      * @param {Element} template
      */
     constructor(template) {
-        this.template = template
+        this.#template = template
     }
 
     /**
@@ -14,11 +16,11 @@ export default class PublisherButton {
      * @returns {Node}
      */
     node(firstname, lastname) {
-        const cloneNode = this.template.content.cloneNode(true)
+        const cloneNode = this.#template.content.cloneNode(true)
 
         const button = cloneNode.querySelector("button")
-        button.textContent = button.textContent.replace(/{FIRSTNAME}/i, firstname)
-        button.textContent = button.textContent.replace(/{LASTNAME}/i, lastname)
+        button.innerHTML = button.innerHTML.replace(/{FIRSTNAME}/i, firstname)
+        button.innerHTML = button.innerHTML.replace(/{LASTNAME}/i, lastname)
 
         return cloneNode
     }
