@@ -1,25 +1,52 @@
 "use strict"
 
 export default class ShiftCalendar {
-    #tableContainer
     #shiftTable
-    #shiftApi
+    #startDate
+    #shiftTypeId
+    #pageItems
+
+    #endpoint
+    #days
+    #pageNumber
+    #numberOfDaysFrom
+    #numberOfDaysTo
+    #numberOfDaysTotal
 
     /**
-     * @param {Element} tableContainer
      * @param {import("./shift-table").default} shiftTable
-     * @param {import("./shift-api").default} shiftApi
      */
-    constructor(tableContainer, shiftTable, shiftApi) {
-        this.#tableContainer = tableContainer
+    constructor(shiftTable, startDate, shiftTypeId, pageItems) {
         this.#shiftTable = shiftTable
-        this.#shiftApi = shiftApi
+        this.#startDate = startDate
+        this.#shiftTypeId = shiftTypeId
+        this.#pageItems = pageItems
+
+        this.#endpoint = "/api/shift/list-shifts"
+        this.#pageNumber = 0
+        this.#numberOfDaysFrom = 0
+        this.#numberOfDaysTo = 0
+        this.#numberOfDaysTotal = 0
     }
 
-    async load() {
-        const shiftDays = await this.#shiftApi.shiftDays()
-        for (const shiftDay of shiftDays) {
-            this.#tableContainer.appendChild(
+    days() {
+        return this.#days
+    }
+
+    async loadNextDays() {
+        this.#pageNumber++
+        this.#days = []
+
+        const response = await fetch(
+            this.#endpoint +
+            "?start-date=" + this.#startDate.toISOString().split('T')[0] +
+            "&shift-type-id=" + this.#shiftTypeId +
+            "&page-number=" + this.#pageNumber +
+            "&page-items=" + this.#pageItems
+        )
+
+        for (const shiftDay of await response.json()) {
+            this.#days.push(
                 await this.#shiftTable.node(
                     new Date(shiftDay.date),
                     shiftDay.routeName,
@@ -28,5 +55,23 @@ export default class ShiftCalendar {
                 )
             )
         }
+
+        if (this.#days.length === 0) {
+            this.#pageNumber--
+            return
+        }
+
+        const range = response.headers.get("Content-Range")
+        const rangeSplit = range.split(/( |-|\/)+/)
+        this.#numberOfDaysFrom = rangeSplit[2]
+        this.#numberOfDaysTo = rangeSplit[4]
+        this.#numberOfDaysTotal = rangeSplit[6]
+    }
+
+    /**
+     * @returns {string}
+     */
+    numberOfDays() {
+        return `${this.#numberOfDaysFrom}-${this.#numberOfDaysTo} / ${this.#numberOfDaysTotal}`
     }
 }

@@ -425,41 +425,13 @@
  /**
  * Login Form
  */
- #login-form-wrapper {
-  display: flex;
-  align-items: flex-end;
- }
- 
- #login-form {
-  display: flex;
-  flex-direction: column;
- }
  .xsmall {
   color: var(--main-color);
  }
  
  @media screen and (max-width: 600px) {
-  #login-form-wrapper img {
-  display: none;
-  justify-content: flex-start;
-  }
- 
-  #login-form-wrapper {
-  display: block;
-  padding-left: 0;
-  }
- 
-  #login-form {
-  padding-left: 0;
-  }
   .form-flex {
       flex-flow: column wrap;
-  }
- }
- 
- @media screen and (max-width: 400px) {
-  #login-form-wrapper div {
-  padding-left: 0;
   }
  }
  
@@ -939,3 +911,41 @@
   width: 250px;
   }
  }
+
+ .loading {
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  transition: opacity .3s ease-in;
+ }
+
+.loading.show {
+	opacity: 1;
+}
+
+ .dot {
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  margin: 2px;
+  background-color: #bbb;
+  animation: jump .5s ease-in infinite;
+ }
+
+ .dot:nth-of-type(2) {
+	animation-delay: 0.1s;
+}
+
+.dot:nth-of-type(3) {
+	animation-delay: 0.2s;
+}
+
+@keyframes jump {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	
+	50% {
+		transform: translateY(-10px);
+	}
+}
