@@ -14,7 +14,7 @@
   --check-color: #9CCC68;
   --error-color: #b93f3f;
 
-  --withe: #FFFFFF;
+  --white: #FFFFFF;
   --black: #111;
  }
  @media (prefers-color-scheme: dark) {
@@ -31,7 +31,7 @@
       --check-color:hsla(89,50%,60%,1); 
       --error-color:hsla(0,49%,49%,1); 
       
-      --withe:rgb(170, 170, 170); 
+      --white:rgb(170, 170, 170); 
       --black:hsla(0,0%,7%,1);
      }
 
@@ -100,7 +100,7 @@
     #nav-footer li,
     #site-name,
     button[data-status="close"] {
-      color: var(--withe) !important;
+      color: var(--white) !important;
     }
  }
  /**
@@ -307,7 +307,7 @@
  
   .menu-button i {
   font-size: 1.6rem;
-  color: var(--withe);
+  color: var(--white);
   }
  
   #site-header {
@@ -346,7 +346,7 @@
   display: inline-block;
   margin: 10px;
   font-size: 20px;
-  color: var(--withe);
+  color: var(--white);
  }
  
  /**
@@ -599,7 +599,7 @@
   max-width: 450px;
   margin: auto;
   border: none;
-  background-color: var(--withe);
+  background-color: var(--white);
   box-shadow: 5px 5px 10000px var(--grey-75);
   border-radius: 10px;
   padding: 20px;
@@ -648,7 +648,7 @@
   fill: var(--main-color) !important;
  }
  #promote_shift svg .fil2 {
-  fill: var(--withe);
+  fill: var(--white);
  }
 
  #promote_shift_details {
@@ -707,7 +707,7 @@
 
  button[data-status="delete"] {
   background-color: var(--error-color);
-  color: var(--withe);
+  color: var(--white);
  }
 
  button[data-status="delete"]:hover {
@@ -771,7 +771,7 @@
   */
  .active {
   background-color: var(--main-color);
-  color: var(--withe);
+  color: var(--white);
  }
  .active:hover {
   background-color: var(--second-color);
@@ -779,7 +779,7 @@
  
  .warning {
   background-color: var(--error-color);
-  color: var(--withe);
+  color: var(--white);
  }
  .warning:hover {
   background-color: var(--grey-50);
@@ -866,7 +866,7 @@
  @media only screen and (min-width: 770px) {
   #site-header {
   text-align: left;
-  background-color: var(--withe);
+  background-color: var(--white);
   }
  
   #nav-main ul {
@@ -912,6 +912,8 @@
   }
  }
 
+ /* Loading */
+
  .loading {
   opacity: 0;
   display: flex;
@@ -948,4 +950,18 @@
 	50% {
 		transform: translateY(-10px);
 	}
+}
+
+/* Dialog Box */
+dialog {
+  text-align: center;
+  box-shadow: 4px 4px 11px #585858;
+  border: 0;
+}
+dialog img {
+  margin: 40px;
+}
+dialog::backdrop {
+  background-color: gray;
+  opacity: .5;
 }

@@ -15,11 +15,12 @@ export default class ShiftTable {
 
     /**
      * @param {Date} date
+     * @param {number} shiftDayId
      * @param {string} routeName
      * @param {Object[]} shifts
      * @returns {Node}
      */
-    async node(date, routeName, publisherLimit, shifts) {
+    async node(date, shiftDayId, routeName, publisherLimit, shifts) {
         const cloneNode = this.#template.content.cloneNode(true)
 
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -31,7 +32,7 @@ export default class ShiftTable {
 
         for (const shift of shifts) {
             cloneNode.querySelector("tbody").appendChild(
-                this.#shiftRow.node(shift.publishers, publisherLimit)
+                this.#shiftRow.node(shiftDayId, shift.id, publisherLimit, shift.publishers)
             )
         }
 

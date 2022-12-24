@@ -5,7 +5,7 @@ use App\Shift\ShiftCalendarInterface;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class RegisterPublisherCommand implements PageInterface
+class RegisterPublisherForShiftCommand implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
     private int $shiftDayId;

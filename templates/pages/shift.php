@@ -1,5 +1,5 @@
 <template id="shift-table">
-    <table id="id_shift_1">
+    <table>
         <thead>
             <tr>
                 <th colspan="2" style="background-color: red">{DAY}, {DATE} - {ROUTE_NAME}</th>
@@ -30,17 +30,18 @@
 
 <template id="publisher-button">
     <span>
-        <button class="enable" onclick="showDialog(this)" type="button">
+        <button class="enable" onclick="d()" type="button">
             <i class="fa fa-check-circle-o"></i> {FIRSTNAME} {LASTNAME}
         </button>
     </span>
 </template>
 
-<template id="booking-button">
+<template id="apply-button">
     <span>
-        <button class="button promote" onclick="showDialog(this)" type="button">
+        <button class="button promote" onclick="openShiftApplyDialog(this)" type="button">
             <i class="fa fa-hand-o-right"></i> <?= __('Available') ?>
         </button>
+        
     </span>
 </template>
 
@@ -72,54 +73,34 @@
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
-<div class="table-container">
-    
+<dialog id="shift-apply-dialog">
+    <header>
+        <h2><?= __('Apply') ?></h2>
+    </header>
+    <div>
+        <img src="images/gadgets.svg">
+    </div>
+    <div>
+        <select name="publishers" style="width: 100%">
+            <option value=""><?= __('Choose publisher') ?></option>
+            <?php foreach ($placeholder['user_promote_list'] as $id_user => $name) : ?>
+                <option value="<?= $id_user ?>"><?= $name ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button class="button" id="shift-apply-button" onclick="applyShift(this)" style="width: 100%"><?= __('Apply') ?></button>
+        <button class="button" style="width: 100%" onclick="f()"><?= __('Cancel') ?></button>
+    </div>
+</dialog>
+<script src="./js/shift-apply-dialog.js"></script>
+
+<div class="table-container"></div>
+<div class="number-of-pages">
+    <p style="text-align: center"></p>
+</div>
+<div class="loading">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
 </div>
 
-<script type="module" src="./js/shift/index.js"></script>
-<script>
-    async function submitForm(dropDownPublisherList) {
-        const form = dropDownPublisherList.form
-
-        const body = {
-            shiftDayId: form.querySelector("input[name='id_shift']").value,
-            shiftId: form.querySelector("input[name='position']").value,
-            publisherId: dropDownPublisherList.value
-        }
-
-        const apiUrl = '/api/shift/register-publisher'
-        const response = await fetch(
-            apiUrl,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            }
-        )
-
-        if (response.status === 201) {
-            alert('WUrde angelegt')
-        } else {
-            alert('Error')
-        }
-    }
-
-    function showDialog(dialog) {
-        const form = dialog.closest('span').children[1];
-        form.showModal();
-    }
-
-    function closeDialog(dialog) {
-        const form = dialog.closest('span').children[1];
-        form.close();
-    }
-
-    // window.addEventListener('scroll', () => {
-    //     console.log(window.scrollY) //scrolled from top
-    //     console.log(window.innerHeight) //visible part of screen
-    //     if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight){
-    //       console.log('Load new stuff...')
-    //     }
-    // })
-    
-</script>
+<script type="module" src="./js/list-shifts.js"></script>

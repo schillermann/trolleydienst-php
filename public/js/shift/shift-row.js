@@ -3,28 +3,30 @@
 export default class ShiftRow {
     #template
     #publisherButton
-    #bookingButton
+    #applyButton
     #additionPublisherButton
 
     /**
      * @param {Element} template
      * @param {import("./publisher-button").default} publisherButton
-     * @param {import("./booking-button").default} bookingButton
+     * @param {import("./booking-button").default} applyButton
      * @param {import("./addition-publisher-button").default} additionPublisherButton
      */
-    constructor(template, publisherButton, bookingButton, additionPublisherButton) {
+    constructor(template, publisherButton, applyButton, additionPublisherButton) {
         this.#template = template
         this.#publisherButton = publisherButton
-        this.#bookingButton = bookingButton
+        this.#applyButton = applyButton
         this.#additionPublisherButton = additionPublisherButton
     }
 
     /**
-     * @param {[]} publishers
+     * @param {number} shiftDayId
+     * @param {number} shiftId
      * @param {number} publisherLimit
+     * @param {[]} publishers
      * @returns {Node}
      */
-    node(publishers, publisherLimit) {
+    node(shiftDayId, shiftId, publisherLimit, publishers) {
         const cloneNode =  this.#template.content.cloneNode(true)
         const row = cloneNode.querySelector(".shift-publishers")
 
@@ -33,7 +35,7 @@ export default class ShiftRow {
         }
 
         for (let i = publishers.length; i < publisherLimit; i++) {
-            row.appendChild(this.#bookingButton.node())
+            row.appendChild(this.#applyButton.node(shiftDayId, shiftId))
         }
 
         row.appendChild(this.#additionPublisherButton.node())

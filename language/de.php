@@ -140,7 +140,7 @@ return [
     'What is the name of this location?' => 'Wie heißt die Route?',
     'Edit Shift' => 'Schichten bearbeiten',
     'Close' => 'schließen',
-    'Apply' => 'bewerben',
+    'Apply' => 'Bewerben',
     'Available' => 'frei',
     'Undo' => 'rückgängig',
     'New Shift Type' => 'Neuer Schichttyp',

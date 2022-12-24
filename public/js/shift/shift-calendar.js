@@ -49,6 +49,7 @@ export default class ShiftCalendar {
             this.#days.push(
                 await this.#shiftTable.node(
                     new Date(shiftDay.date),
+                    shiftDay.id,
                     shiftDay.routeName,
                     shiftDay.publisherLimit,
                     shiftDay.shifts
