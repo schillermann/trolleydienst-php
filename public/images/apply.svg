@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="215.9mm" height="180mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 21590 18000"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:white;stroke-width:169.33;stroke-linecap:round}
+    .fil4 {fill:none}
+    .fil1 {fill:#3F3D56}
+    .fil3 {fill:#6B1C48}
+    .fil0 {fill:#CBCBCB}
+    .fil2 {fill:white}
+   ]]>
+  </style>
+ </defs>
+ <g id="background">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <ellipse id="background_0" class="fil0" transform="matrix(1.27214 0.389312 -0.431057 1.14894 10772.6 11011.1)" rx="8093" ry="3770"/>
+ </g>
+ <g id="device">
+  <metadata id="CorelCorpID_1Corel-Layer"/>
+  <g id="Smartphone">
+   <path class="fil1" d="M6040 2631l-59 18 -497 -1611c-127,-409 -506,-688 -936,-688 -97,0 -195,15 -288,43l0 0 -3424 1051c-411,126 -691,504 -691,932 0,97 15,194 43,287l0 0 2730 8836c127,409 506,688 936,688 97,0 195,-15 288,-43l0 0 3424 -1051c411,-126 691,-504 691,-932 0,-97 -15,-194 -43,-287l0 0 -1878 -6079 59 -18 -355 -1146z"/>
+   <path class="fil2" d="M4373 624l-447 137c51,62 78,140 78,219 0,152 -99,286 -245,331l-1961 602c-33,10 -68,15 -103,15 -191,0 -347,-155 -347,-346 0,-10 1,-20 1,-30l-417 128c-307,94 -516,376 -516,696 0,72 11,145 33,214l2726 8823c94,306 377,514 698,514 73,0 146,-11 215,-32l0 0 3441 -1056c307,-94 516,-376 516,-696 0,-72 -11,-145 -32,-214l0 0 -2726 -8823c-95,-306 -378,-514 -699,-514 -73,0 -146,11 -215,32l0 0z"/>
+  </g>
+  <g id="Tablet">
+   <path class="fil1" d="M16236 17605l-8033 -2877c-303,-109 -505,-395 -505,-716 0,-88 16,-175 45,-257l4188 -11608c109,-302 397,-503 719,-503 87,0 175,15 257,44l8033 2878c303,109 505,395 505,716 0,87 -15,174 -45,257l-4187 11608c-110,302 -397,503 -719,503 -88,0 -175,-15 -258,-45l0 0z"/>
+   <path class="fil2" d="M16415 17154l-8061 -2888c-94,-33 -156,-121 -156,-220 0,-27 5,-54 14,-79l4215 -11686c34,-93 123,-155 222,-155 27,0 54,5 79,14l8062 2887c93,34 155,122 155,221 0,27 -4,54 -14,79l-4215 11686c-34,93 -122,155 -221,155 -28,0 -54,-5 -80,-14l0 0z"/>
+   <circle class="fil2" cx="16814" cy="3335" r="65"/>
+  </g>
+ </g>
+ <g id="circel">
+  <metadata id="CorelCorpID_2Corel-Layer"/>
+  <g id="Smartphone_1">
+   <circle class="fil3" transform="matrix(0.705109 -0.702605 0.705109 0.702605 4221.36 6149.87)" r="1758"/>
+   <polyline class="fil4 str0" points="3575,6342 4377,6890 4915,5174 "/>
+  </g>
+  <g id="tablet">
+   <circle class="fil3" transform="matrix(0.705109 -0.702605 0.705109 0.702605 14578 9494.4)" r="2227"/>
+   <polyline class="fil4 str0" points="13765,9026 14110,10268 16063,9129 "/>
+  </g>
+ </g>
+</svg>
