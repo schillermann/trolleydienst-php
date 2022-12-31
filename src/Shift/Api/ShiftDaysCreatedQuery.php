@@ -6,7 +6,7 @@ use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftDaysListedQuery implements PageInterface
+class ShiftDaysCreatedQuery implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
     private \DateTimeInterface $dateFrom;

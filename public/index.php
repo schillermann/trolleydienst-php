@@ -20,8 +20,11 @@ use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
+use App\Shift\Api\PublishersEnabledQuery;
 use App\Shift\Api\RegisterPublisherForShiftCommand;
-use App\Shift\Api\ShiftDaysListedQuery;
+use App\Shift\Api\ShiftDaysCreatedQuery;
+use App\Shift\Api\WithdrawShiftApplicationCommand;
+use App\Shift\Publishers;
 use App\Shift\ShiftCalendar;
 use App\Shift\ShiftPage;
 use App\ShiftHistoryPage;
@@ -77,14 +80,22 @@ require __DIR__ . '/../vendor/autoload.php';
                         return new RegisterPublisherForShiftCommand(
                             new ShiftCalendar($this->pdo)
                         );
+                    case '/api/shift/withdraw-shift-application':
+                        return new WithdrawShiftApplicationCommand(
+                            new ShiftCalendar($this->pdo)
+                        );
                 }
             }
 
             if ($this->httpMethod === 'GET') {
                 switch($value) {
-                    case '/api/shift/list-shifts':
-                        return new ShiftDaysListedQuery(
+                    case '/api/shift/shift-days-created':
+                        return new ShiftDaysCreatedQuery(
                             new ShiftCalendar($this->pdo)
+                        );
+                    case '/api/shift/publishers-enabled':
+                        return new PublishersEnabledQuery(
+                            new Publishers($this->pdo)
                         );
                 }
             }

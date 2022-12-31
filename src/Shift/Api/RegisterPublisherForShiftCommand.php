@@ -32,7 +32,7 @@ class RegisterPublisherForShiftCommand implements PageInterface
             );
         }
         
-        $shift->registerPublisher($this->publisherId);
+        $shift->register($this->publisherId);
         $publisher = $shift->publisher($this->publisherId);
 
         if (!$publisher->id()) {
