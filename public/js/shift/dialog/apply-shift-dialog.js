@@ -2,14 +2,11 @@
 
 import ApplyButton from "./apply-button.js"
 import CancelButton from "./cancel-button.js"
+import PublishersSelect from "./publishers-select.js"
 
 const template = document.createElement('template');
 template.innerHTML = `
-    <style>
-        button {
-            width: 100%;
-        }
-    </style>
+    <style></style>
     <dialog>
         <header>
             <h2>{APPLY}</h2>
@@ -18,14 +15,14 @@ template.innerHTML = `
             <img src="images/gadgets.svg">
         </div>
         <div>
-            <select style="width: 100%"></select>
+            <publishers-select></publishers-select>
             <apply-button label="Apply"></apply-button>
             <cancel-button label="Cancel"></cancel-button>
         </div>
     </dialog>
 `;
 
-export default class DialogApplyShift extends HTMLElement {
+export default class ApplyShiftDialog extends HTMLElement {
     constructor() {
         super();
 
@@ -51,21 +48,10 @@ export default class DialogApplyShift extends HTMLElement {
         }
     }
 
-    async connectedCallback() {
-        const response = await fetch(
-            "/api/shift/publishers-enabled"
-        )
-
-        for (const applicant of await response.json()) {
-            const select = this._shadowRoot.querySelector("select")
-            const option = document.createElement('option');
-            option.value = applicant.id;
-            option.innerHTML = applicant.name;
-            select.appendChild(option);
-        }
-
-        window.customElements.define('apply-button', ApplyButton)
-        window.customElements.define('cancel-button', CancelButton)
+    connectedCallback() {
+        customElements.get('apply-button') || window.customElements.define('apply-button', ApplyButton)
+        customElements.get('cancel-button') || window.customElements.define('cancel-button', CancelButton) 
+        customElements.get('publishers-select') || window.customElements.define('publishers-select', PublishersSelect)
         
         this._shadowRoot.addEventListener(
             "apply-click",
