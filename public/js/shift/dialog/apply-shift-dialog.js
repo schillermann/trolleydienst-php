@@ -2,6 +2,7 @@
 
 import ApplyButton from "./apply-button.js"
 import CancelButton from "./cancel-button.js"
+import Dictionary from "../../dictionary.js"
 import PublishersSelect from "./publishers-select.js"
 
 const template = document.createElement('template');
@@ -9,15 +10,15 @@ template.innerHTML = `
     <style></style>
     <dialog>
         <header>
-            <h2>{APPLY}</h2>
+            <h2>Shift Application</h2>
         </header>
         <div>
             <img src="images/gadgets.svg">
         </div>
         <div>
             <publishers-select></publishers-select>
-            <apply-button label="Apply"></apply-button>
-            <cancel-button label="Cancel"></cancel-button>
+            <apply-button></apply-button>
+            <cancel-button></cancel-button>
         </div>
     </dialog>
 `;
@@ -28,6 +29,12 @@ export default class ApplyShiftDialog extends HTMLElement {
 
         this._shadowRoot = this.attachShadow({ mode: 'open' })
         this._shadowRoot.appendChild(template.content.cloneNode(true))
+
+        this.dictionary = new Dictionary({
+            "Shift Application": {
+                de: "Schicht Bewerbung"   
+            }
+        })
     }
 
     closeDialog(event) {
@@ -79,7 +86,7 @@ export default class ApplyShiftDialog extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["open", "title", "label-button-cancel"];
+        return ["open", "language-code"];
     }
     
     attributeChangedCallback(name, oldVal, newVal) {
@@ -90,6 +97,15 @@ export default class ApplyShiftDialog extends HTMLElement {
                 return
             }
             dialog.close()
+            return
+        }
+
+        if (name === "language-code") {
+            this._shadowRoot.querySelector("apply-button").setAttribute("language-code", newVal)
+            this._shadowRoot.querySelector("cancel-button").setAttribute("language-code", newVal)
+
+            const title = this._shadowRoot.querySelector("dialog header h2")
+            title.textContent = this.dictionary.englishTo(newVal, title.textContent)
             return
         }
     }

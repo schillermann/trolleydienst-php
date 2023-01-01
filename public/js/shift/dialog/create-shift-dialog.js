@@ -2,6 +2,7 @@
 
 import CancelButton from "./cancel-button.js"
 import CreateButton from "./create-button.js"
+import Dictionary from "../../dictionary.js"
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -12,7 +13,7 @@ template.innerHTML = `
     </style>
     <dialog>
         <header>
-            <h2>{New Shift}</h2>
+            <h2>Schicht Anlegen</h2>
         </header>
         <div>
             <div>
@@ -50,8 +51,8 @@ template.innerHTML = `
         </div>
         <div>
             <div>
-                <create-button label="Create"></create-button>
-                <cancel-button label="Cancel"></cancel-button>
+                <create-button></create-button>
+                <cancel-button></cancel-button>
             </div>
         </div>
     </dialog>
@@ -63,6 +64,12 @@ export default class CreateShiftDialog extends HTMLElement {
 
         this._shadowRoot = this.attachShadow({ mode: 'open' })
         this._shadowRoot.appendChild(template.content.cloneNode(true))
+
+        this.dictionary = new Dictionary({
+            "Create Shift": {
+                de: "Schicht Anlegen"   
+            }
+        })
     }
 
     closeDialog(event) {
@@ -99,6 +106,15 @@ export default class CreateShiftDialog extends HTMLElement {
                 return
             }
             dialog.close()
+            return
+        }
+
+        if (name === "language-code") {
+            this._shadowRoot.querySelector("create-button").setAttribute("language-code", newVal)
+            this._shadowRoot.querySelector("cancel-button").setAttribute("language-code", newVal)
+
+            const title = this._shadowRoot.querySelector("dialog header h2")
+            title.textContent = this.dictionary.englishTo(newVal, title.textContent)
             return
         }
     }

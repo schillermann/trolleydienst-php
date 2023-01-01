@@ -1,5 +1,7 @@
 "use strict"
 
+import Dictionary from "../../dictionary.js"
+
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
@@ -18,6 +20,11 @@ export default class CancelButton extends HTMLElement {
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
 
+        this.dictionary = new Dictionary({
+            "Apply": {
+                de: "Bewerben"   
+            }
+        })
     }
 
     /**
@@ -57,7 +64,7 @@ export default class CancelButton extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["label"];
+        return ["language-code"];
     }
     
     /**
@@ -67,10 +74,11 @@ export default class CancelButton extends HTMLElement {
      * @returns {void}
      */
     attributeChangedCallback(name, oldVal, newVal) {
-        if (name !== "label") {
+        if (name !== "language-code") {
             return
         }
 
-        this._shadowRoot.querySelector("button").textContent = newVal
+        const button = this._shadowRoot.querySelector("button")
+        button.textContent = this.dictionary.englishTo(newVal, button.textContent)
     }
 }
