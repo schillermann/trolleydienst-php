@@ -9,7 +9,7 @@ template.innerHTML = `
             width: 100%;
         }
     </style>
-    <button>Cancel</button>
+    <button>{Cancel}</button>
 `;
 
 export default class CancelButton extends HTMLElement {
@@ -78,7 +78,6 @@ export default class CancelButton extends HTMLElement {
             return
         }
 
-        const button = this._shadowRoot.querySelector("button")
-        button.textContent = this.dictionary.englishTo(newVal, button.textContent)
+        this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(newVal, this._shadowRoot.innerHTML)
     }
 }

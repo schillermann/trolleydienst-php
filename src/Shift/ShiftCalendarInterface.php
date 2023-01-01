@@ -3,9 +3,11 @@ namespace App\Shift;
 
 interface ShiftCalendarInterface
 {
-    public function dayCount(\DateTimeInterface $from, int $shiftTypeId): int;
+    function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, ColorInterface $color): void;
 
-    public function daysFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator;
+    function dayCount(\DateTimeInterface $from, int $shiftTypeId): int;
 
-    public function day(int $id): ShiftDayInterface;
+    function daysFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator;
+
+    function day(int $id): ShiftDayInterface;
 }

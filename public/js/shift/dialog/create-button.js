@@ -9,7 +9,7 @@ template.innerHTML = `
             width: 100%;
         }
     </style>
-    <button>Create</button>
+    <button>{Create}</button>
 `;
 
 export default class CreateButton extends HTMLElement {
@@ -64,7 +64,7 @@ export default class CreateButton extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["label"];
+        return ["language-code"];
     }
     
     /**
@@ -78,7 +78,6 @@ export default class CreateButton extends HTMLElement {
             return
         }
 
-        const button = this._shadowRoot.querySelector("button")
-        button.textContent = this.dictionary.englishTo(newVal, button.textContent)
+        this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(newVal, this._shadowRoot.innerHTML)
     }
 }

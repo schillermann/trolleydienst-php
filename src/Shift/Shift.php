@@ -85,10 +85,8 @@ class Shift implements ShiftInterface
             'shiftId' => $this->id
         ]);
 
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-
-        foreach ($stmt as $publisher) {
-            return yield new Publisher(
+        foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $publisher) {
+            yield new Publisher(
                 $publisher['id_user'],
                 $publisher['first_name'],
                 $publisher['last_name']
@@ -96,7 +94,7 @@ class Shift implements ShiftInterface
         }
     }
 
-    public function registerPublisher(int $publisherId): void
+    public function register(int $publisherId): void
     {
         $stmt = $this->pdo->prepare(<<<SQL
             INSERT INTO shift_user_maps (id_shift, position, id_user, created)
@@ -113,5 +111,19 @@ class Shift implements ShiftInterface
     public function startTime(): \DateTimeInterface
     {
         return $this->startTime;
+    }
+
+    public function withdraw(int $publisherId): void
+    {
+        $stmt = $this->pdo->prepare(<<<SQL
+            DELETE FROM shift_user_maps
+            WHERE id_shift = :shiftDayId AND position = :shiftId AND id_user = :publisherId
+        SQL);
+
+        $stmt->execute([
+            'shiftDayId' => $this->shiftDayId,
+            'shiftId' => $this->id,
+            'publisherId' => $publisherId
+        ]);
     }
 }

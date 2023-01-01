@@ -13,39 +13,39 @@ template.innerHTML = `
     </style>
     <dialog>
         <header>
-            <h2>Schicht Anlegen</h2>
+            <h2>{Create Shift}</h2>
         </header>
         <div>
             <div>
-                <label for="route">Schichten <small>(Pflichtfeld)</small></label>
-                <input id="route" name="route" required="" placeholder="Wie heißt die Route?">
+                <label for="route">{Route} <small>({Required})</small></label>
+                <input id="route" name="route" required placeholder="{Wie heißt die Route?}">
             </div>
             <div>
-                <label for="date_from">Datum <small>(Pflichtfeld)</small></label>
+                <label for="date_from">{Date} <small>({Required})</small></label>
                 <input id="date_from" type="date" name="date_from" required>
             </div>
             <div>
-                <label for="time_from">Von <small>(Pflichtfeld)</small></label>
-                <input id="time_from" type="time" name="time_from" required="" onchange="calculateShiftTimeTo()">
+                <label for="time_from">{From} <small>({Required})</small></label>
+                <input id="time_from" type="time" name="time_from" required onchange="calculateShiftTimeTo()">
             </div>
             <div>
-                <label for="number">Schichtanzahl <small>(Pflichtfeld)</small></label>
-                <input id="number" type="number" name="number" required="" onchange="calculateShiftTimeTo()" value="2">
+                <label for="number">{Shifts} <small>({Required})</small></label>
+                <input id="number" type="number" name="number" required onchange="calculateShiftTimeTo()" value="2">
             </div>
             <div>
-                <label for="hours_per_shift">Schichtlänge in Stunden <small>(Pflichtfeld)</small></label>
+                <label for="hours_per_shift">{Shift Length in Hours} <small>({Required})</small></label>
                 <input id="hours_per_shift" type="number" name="hours_per_shift" required="" value="2" onchange="calculateShiftTimeTo()">
             </div>
             <div>
-                <label for="time_to">Bis</label>
+                <label for="time_to">{To}</label>
                 <input id="time_to" type="time" name="time_to" disabled>
             </div>
             <div>
-                <label for="shiftday_series_until">Terminserie bis zum</label>
+                <label for="shiftday_series_until">{End Date}</label>
                 <input id="shiftday_series_until" type="date" name="shiftday_series_until">
             </div>
             <div>
-                <label for="color_hex">Farbe</label>
+                <label for="color_hex">{Colour}</label>
                 <input id="color_hex" type="color" name="color_hex" value="#d5c8e4" maxlength="7" required>
             </div>
         </div>
@@ -68,12 +68,63 @@ export default class CreateShiftDialog extends HTMLElement {
         this.dictionary = new Dictionary({
             "Create Shift": {
                 de: "Schicht Anlegen"   
+            },
+            "Required": {
+                de: "Pflichtfeld"
+            },
+            "Route": {
+                de: "Route"
+            },
+            "Date": {
+                de: "Datum"
+            },
+            "From" : {
+                de: "Von"
+            },
+            "Shifts" : {
+                de: "Schichten"
+            },
+            "Shift Length in Hours": {
+                de: "Schichtlänge in Stunden"
+            },
+            "What is the name of this location?": {
+                de: "Wie heißt die Route?"
+            },
+            "To": {
+                de: "Bis"
+            },
+            "End Date": {
+                de: "Terminserie bis zum"
+            },
+            "Colour": {
+                de: "Farbe"
             }
         })
     }
 
     closeDialog(event) {
         event.currentTarget.querySelector("dialog").close()
+    }
+
+    async createShift(event) {
+        const response = await fetch(
+            "/api/shift/create-shifts",
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    "startDate": event.currentTarget.querySelector("input#date_from").value + " " + event.currentTarget.querySelector("input#time_from").value,
+                    "shiftTypeId": 1,
+                    "routeName": event.currentTarget.querySelector("input#route").value,
+                    "numberOfShifts": event.currentTarget.querySelector("input#number").value,
+                    "minutesPerShift": event.currentTarget.querySelector("input#hours_per_shift").value * 60,
+                    "color": event.currentTarget.querySelector("input#color_hex").value
+                })
+            }
+        )
+
+        if (response.status === 201) {
+            event.target._shadowRoot.querySelector("dialog").close()
+        }
     }
 
     async connectedCallback() {
@@ -85,6 +136,12 @@ export default class CreateShiftDialog extends HTMLElement {
             this.closeDialog,
             true
         )
+
+        this._shadowRoot.addEventListener(
+            "create-click",
+            this.createShift,
+            true
+        )
     }
 
     disconnectedCallback() {
@@ -92,10 +149,15 @@ export default class CreateShiftDialog extends HTMLElement {
             "click",
             this.closeDialog
         )
+
+        this._shadowRoot.removeEventListener(
+            "click",
+            this.createShift
+        )
     }
 
     static get observedAttributes() {
-        return ["open"];
+        return ["open", "language-code"];
     }
     
     attributeChangedCallback(name, oldVal, newVal) {
@@ -113,8 +175,7 @@ export default class CreateShiftDialog extends HTMLElement {
             this._shadowRoot.querySelector("create-button").setAttribute("language-code", newVal)
             this._shadowRoot.querySelector("cancel-button").setAttribute("language-code", newVal)
 
-            const title = this._shadowRoot.querySelector("dialog header h2")
-            title.textContent = this.dictionary.englishTo(newVal, title.textContent)
+            this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(newVal, this._shadowRoot.innerHTML)
             return
         }
     }

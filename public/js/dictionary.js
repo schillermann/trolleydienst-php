@@ -19,15 +19,21 @@ export default class Dictionary {
 
     /**
      * 
-     * @param {("en"|"de")} languageCode 
-     * @param {string} text 
-     * @returns {string}
+     * @param {("en"|"de")} languageCode
+     * @param {string} innerHTML
+     * @param {string} text
+     * @returns {string} innerHTML
      */
-    englishTo(languageCode, text) {
-        if (this.#translation[text] === undefined || this.#translation[text][languageCode] === undefined) {
-            return text
+    innerHTMLEnglishTo(languageCode, innerHTML) {
+        const matches = innerHTML.match(/(?<=\{).*?(?=\})/g)
+        for (const text of matches) {
+            if (this.#translation[text] === undefined || this.#translation[text][languageCode] === undefined) {
+                innerHTML = innerHTML.replace("{" + text +  "}", text)
+                continue
+            }
+    
+            innerHTML = innerHTML.replace("{" + text +  "}", this.#translation[text][languageCode])
         }
-
-        return this.#translation[text][languageCode]
+        return innerHTML
     }
 }

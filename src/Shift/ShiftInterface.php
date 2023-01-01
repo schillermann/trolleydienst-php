@@ -11,7 +11,9 @@ interface ShiftInterface
     
     public function publishers(): \Generator;
 
-    public function registerPublisher(int $publisherId): void;
+    public function register(int $publisherId): void;
 
     public function startTime(): \DateTimeInterface;
+
+    public function withdraw(int $publisherId): void;
 }

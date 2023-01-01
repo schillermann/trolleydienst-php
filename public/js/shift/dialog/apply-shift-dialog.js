@@ -10,7 +10,7 @@ template.innerHTML = `
     <style></style>
     <dialog>
         <header>
-            <h2>Shift Application</h2>
+            <h2>{Shift Application}</h2>
         </header>
         <div>
             <img src="images/gadgets.svg">
@@ -46,12 +46,12 @@ export default class ApplyShiftDialog extends HTMLElement {
             "/api/shift/register-publisher-for-shift",
             {
                 method: 'POST',
-                body: JSON.stringify(credentials)
+                body: JSON.stringify({}) // TODO: set body data 
             }
         )
 
         if (response.status === 201) {
-            event.currentTarget.querySelector("dialog").close()
+            event.target._shadowRoot.querySelector("dialog").close()
         }
     }
 
@@ -59,7 +59,7 @@ export default class ApplyShiftDialog extends HTMLElement {
         customElements.get('apply-button') || window.customElements.define('apply-button', ApplyButton)
         customElements.get('cancel-button') || window.customElements.define('cancel-button', CancelButton) 
         customElements.get('publishers-select') || window.customElements.define('publishers-select', PublishersSelect)
-        
+
         this._shadowRoot.addEventListener(
             "apply-click",
             this.sendShiftApplication,
@@ -104,8 +104,7 @@ export default class ApplyShiftDialog extends HTMLElement {
             this._shadowRoot.querySelector("apply-button").setAttribute("language-code", newVal)
             this._shadowRoot.querySelector("cancel-button").setAttribute("language-code", newVal)
 
-            const title = this._shadowRoot.querySelector("dialog header h2")
-            title.textContent = this.dictionary.englishTo(newVal, title.textContent)
+            this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(newVal, this._shadowRoot.innerHTML)
             return
         }
     }

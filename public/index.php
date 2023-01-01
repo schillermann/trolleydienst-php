@@ -20,6 +20,7 @@ use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
+use App\Shift\Api\CreateShiftsCommand;
 use App\Shift\Api\PublishersEnabledQuery;
 use App\Shift\Api\RegisterPublisherForShiftCommand;
 use App\Shift\Api\ShiftDaysCreatedQuery;
@@ -82,6 +83,10 @@ require __DIR__ . '/../vendor/autoload.php';
                         );
                     case '/api/shift/withdraw-shift-application':
                         return new WithdrawShiftApplicationCommand(
+                            new ShiftCalendar($this->pdo)
+                        );
+                    case '/api/shift/create-shifts':
+                        return new CreateShiftsCommand(
                             new ShiftCalendar($this->pdo)
                         );
                 }
