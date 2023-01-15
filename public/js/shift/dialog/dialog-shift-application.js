@@ -6,7 +6,7 @@ import Dictionary from "../../dictionary.js"
 import PublishersSelect from "./publishers-select.js"
 
 const template = document.createElement('template');
-template.innerHTML = `
+template.innerHTML = /*html*/`
     <style></style>
     <dialog>
         <header>
@@ -23,7 +23,7 @@ template.innerHTML = `
     </dialog>
 `;
 
-export default class ApplyShiftDialog extends HTMLElement {
+export default class DialogShiftApplication extends HTMLElement {
     constructor() {
         super();
 

@@ -22,7 +22,7 @@ export default class ShiftCalendar {
         this.#shiftTypeId = shiftTypeId
         this.#pageItems = pageItems
 
-        this.#endpoint = "/api/shift/list-shifts"
+        this.#endpoint = "/api/shift/shift-days-created"
         this.#pageNumber = 0
         this.#numberOfDaysFrom = 0
         this.#numberOfDaysTo = 0

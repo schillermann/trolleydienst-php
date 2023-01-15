@@ -58,7 +58,7 @@ class ShiftDaysCreatedQuery implements PageInterface
             )
             ->withMetadata(
                 'Content-Range',
-                "count ${daysFrom}-${daysTo}/${daysTotal}"
+                "count $daysFrom-$daysTo/$daysTotal"
             )
             ->withMetadata(
                 'Content-Type',
