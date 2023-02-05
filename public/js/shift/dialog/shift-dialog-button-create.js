@@ -9,10 +9,10 @@ template.innerHTML = `
             width: 100%;
         }
     </style>
-    <button>{Apply}</button>
+    <button>{Create}</button>
 `;
 
-export default class CancelButton extends HTMLElement {
+export default class ShiftDialogButtonCreate extends HTMLElement {
     constructor() {
         super();
 
@@ -21,8 +21,8 @@ export default class CancelButton extends HTMLElement {
         this._shadowRoot.appendChild(template.content.cloneNode(true));
 
         this.dictionary = new Dictionary({
-            "Apply": {
-                de: "Bewerben"   
+            "Create": {
+                de: "Anlegen"   
             }
         })
     }
@@ -34,7 +34,7 @@ export default class CancelButton extends HTMLElement {
     fireClickEvent(event) {
         this.dispatchEvent(
             new Event(
-                'apply-click', {
+                'create-click', {
                     bubbles: true,
                     composed: true
                 }

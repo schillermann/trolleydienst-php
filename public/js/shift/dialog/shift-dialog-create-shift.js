@@ -1,11 +1,11 @@
 "use strict"
 
-import CancelButton from "./cancel-button.js"
-import CreateButton from "./create-button.js"
+import ShiftDialogButtonCancel from "./shift-dialog-button-cancel.js"
+import ShiftDialogButtonCreate from "./shift-dialog-button-create.js"
 import Dictionary from "../../dictionary.js"
 
 const template = document.createElement('template');
-template.innerHTML = `
+template.innerHTML = /*html*/`
     <style>
         input {
             width: 100%;
@@ -51,14 +51,15 @@ template.innerHTML = `
         </div>
         <div>
             <div>
-                <create-button></create-button>
-                <cancel-button></cancel-button>
+                <input type="hidden" id="shift_type_id" name="shift_type_id" />
+                <shift-dialog-button-create></shift-dialog-button-create>
+                <shift-dialog-button-cancel></shift-dialog-button-cancel>
             </div>
         </div>
     </dialog>
 `;
 
-export default class CreateShiftDialog extends HTMLElement {
+export default class ShiftDialogCreateShift extends HTMLElement {
     constructor() {
         super();
 
@@ -113,7 +114,7 @@ export default class CreateShiftDialog extends HTMLElement {
                 method: 'POST',
                 body: JSON.stringify({
                     "startDate": event.currentTarget.querySelector("input#date_from").value + " " + event.currentTarget.querySelector("input#time_from").value,
-                    "shiftTypeId": 1,
+                    "shiftTypeId": event.currentTarget.querySelector("input#shift_type_id").value,
                     "routeName": event.currentTarget.querySelector("input#route").value,
                     "numberOfShifts": event.currentTarget.querySelector("input#number").value,
                     "minutesPerShift": event.currentTarget.querySelector("input#hours_per_shift").value * 60,
@@ -128,8 +129,8 @@ export default class CreateShiftDialog extends HTMLElement {
     }
 
     async connectedCallback() {
-        customElements.get('create-button') || window.customElements.define('create-button', CreateButton)
-        customElements.get('cancel-button') || window.customElements.define('cancel-button', CancelButton)
+        customElements.get('shift-dialog-button-create') || window.customElements.define('shift-dialog-button-create', ShiftDialogButtonCreate)
+        customElements.get('shift-dialog-button-cancel') || window.customElements.define('shift-dialog-button-cancel', ShiftDialogButtonCancel)
 
         this._shadowRoot.addEventListener(
             "cancel-click",
@@ -139,7 +140,7 @@ export default class CreateShiftDialog extends HTMLElement {
 
         this._shadowRoot.addEventListener(
             "create-click",
-            this.createShift,
+            (event) => { this.createShift(event) },
             true
         )
     }
@@ -157,7 +158,7 @@ export default class CreateShiftDialog extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["open", "language-code"];
+        return ["open", "language-code", "shift-type-id"];
     }
     
     attributeChangedCallback(name, oldVal, newVal) {
@@ -172,11 +173,15 @@ export default class CreateShiftDialog extends HTMLElement {
         }
 
         if (name === "language-code") {
-            this._shadowRoot.querySelector("create-button").setAttribute("language-code", newVal)
-            this._shadowRoot.querySelector("cancel-button").setAttribute("language-code", newVal)
+            this._shadowRoot.querySelector("shift-dialog-button-create").setAttribute("language-code", newVal)
+            this._shadowRoot.querySelector("shift-dialog-button-cancel").setAttribute("language-code", newVal)
 
             this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(newVal, this._shadowRoot.innerHTML)
             return
+        }
+
+        if (name === "shift-type-id") {
+            this._shadowRoot.querySelector("input#shift_type_id").value = newVal
         }
     }
 }

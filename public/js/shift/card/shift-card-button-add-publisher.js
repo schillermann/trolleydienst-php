@@ -1,7 +1,7 @@
 "use strict"
 
 const template = document.createElement('template');
-template.innerHTML = `
+template.innerHTML = /*html*/`
     <style>
         @import url("css/font-awesome.min.css");
 

@@ -4,10 +4,7 @@ import ShiftCard from "./shift-card.js"
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <div id="calendar">
-        <shift-card></shift-card>
-        <shift-card></shift-card>
-    </div>
+    <div id="calendar"></div>
 `;
 
 export default class ShiftCardCalendar extends HTMLElement {
