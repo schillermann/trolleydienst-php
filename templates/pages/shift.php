@@ -11,7 +11,7 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <a href="./shift-add.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
+        <a href="./add-shift?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
             <i class="fa fa-plus"></i> <?= __('New Shifts') ?>
         </a>
         <details id="filter_shift">
