@@ -5,125 +5,100 @@ class Shift implements ShiftInterface
 {
     private \PDO $pdo;
     private int $id;
-    private int $shiftDayId;
+    private int $shiftTypeId;
+    private string $routeName;
     private \DateTimeInterface $startTime;
-    private \DateTimeInterface $endTime;
+    private int $numberOfShifts;
+    private int $minutesPerShift;
+    private int $publisherLimit;
+    private string $color;
+    private \DateTimeInterface $updatedAt;
+    private \DateTimeInterface $createdAt;
 
     public function __construct(
         \PDO $pdo,
         int $id,
-        int $shiftDayId,
+        int $shiftTypeId,
+        string $routeName,
         \DateTimeInterface $startTime,
-        \DateTimeInterface $endTime
+        int $numberOfShifts,
+        int $minutesPerShift,
+        int $publisherLimit,
+        string $color,
+        \DateTimeInterface $updatedAt,
+        \DateTimeInterface $createdAt
     )
     {
         $this->pdo = $pdo;
-        $this->id = $id;   
-        $this->shiftDayId = $shiftDayId;
+        $this->id = $id;
+        $this->shiftTypeId = $shiftTypeId;
+        $this->routeName = $routeName;
         $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->numberOfShifts = $numberOfShifts;
+        $this->minutesPerShift = $minutesPerShift;
+        $this->publisherLimit = $publisherLimit;
+        $this->color = $color;
+        $this->updatedAt = $updatedAt;
+        $this->createdAt = $createdAt;
     }
 
     public function array(): array
     {
-        $publishers = [];
-        foreach ($this->publishers() as $publisher) {
-            $publishers[] = $publisher->array();
+        $shiftPositions = [];
+        foreach ($this->shiftPositions() as $shiftPosition) {
+            $shiftPositions[] = $shiftPosition->array();
         }
 
         return [
             'id' => $this->id,
-            'from' => $this->startTime->format(\DateTime::ATOM),
-            'to' => $this->endTime->format(\DateTime::ATOM),
-            'publishers' => $publishers
+            'typeId' => $this->shiftTypeId,
+            'routeName' => $this->routeName,
+            'publisherLimit' => $this->publisherLimit,
+            'date' => $this->startTime->format('Y-m-d'),
+            'color' => $this->color,
+            'updatedAt' => $this->updatedAt->format(\DateTime::ATOM),
+            'createdAt' => $this->createdAt->format(\DateTime::ATOM),
+            'positions' => $shiftPositions
         ];
     }
 
-    public function endTime(): \DateTimeInterface
+    public function shiftPosition(int $shiftId): ShiftPositionInterface
     {
-        return $this->endTime;
+        $secondsPerShift = $this->minutesPerShift * 60;
+        $timestampStartTime = $this->startTime->getTimestamp() + ($secondsPerShift * ($shiftId - 1));
+        $timestampEndTime = $this->startTime->getTimestamp() + ($secondsPerShift * $shiftId);
+
+        $startTime = (new \DateTimeImmutable())->setTimestamp($timestampStartTime);
+        $endTime = (new \DateTimeImmutable())->setTimestamp($timestampEndTime);
+
+        return new ShiftPosition(
+            $this->pdo,
+            $shiftId,
+            $this->id,
+            $startTime,
+            $endTime
+        );
     }
 
-    public function publisher(int $publisherId): PublisherInterface
+    public function shiftPositions(): \Generator
     {
-        $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_user, first_name, last_name
-            FROM shift_user_maps
-            LEFT JOIN publisher ON shift_user_maps.id_user = publisher.id
-            WHERE id_shift = :shiftDayId AND position = :shiftId AND id_user = :publisherId
-        SQL);
+        $secondsPerShift = $this->minutesPerShift * 60;
+        
+        for ($shiftId = 1; $shiftId <= $this->numberOfShifts; $shiftId++) {
 
-        $stmt->execute([
-            'shiftDayId' => $this->shiftDayId,
-            'shiftId' => $this->id,
-            'publisherId' => $publisherId
-        ]);
+            $timestampStartTime = $this->startTime->getTimestamp() + ($secondsPerShift * ($shiftId - 1));
+            $timestampEndTime = $this->startTime->getTimestamp() + ($secondsPerShift * $shiftId);
+    
+            $startTime = (new \DateTimeImmutable())->setTimestamp($timestampStartTime);
+            $endTime = (new \DateTimeImmutable())->setTimestamp($timestampEndTime);
 
-        $publisher = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if ($publisher) {
-            return new Publisher(
-                $publisher['id_user'],
-                $publisher['first_name'],
-                $publisher['last_name']
+            yield new ShiftPosition(
+                $this->pdo,
+                $shiftId,
+                $this->id,
+                $startTime,
+                $endTime
             );
         }
-
-        return new PublisherUnknown();
-    }
-
-    public function publishers(): \Generator
-    {
-        $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_user, first_name, last_name
-            FROM shift_user_maps
-            LEFT JOIN publisher ON shift_user_maps.id_user = publisher.id
-            WHERE id_shift = :shiftDayId AND position = :shiftId
-        SQL);
-
-        $stmt->execute([
-            'shiftDayId' => $this->shiftDayId,
-            'shiftId' => $this->id
-        ]);
-
-        foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $publisher) {
-            yield new Publisher(
-                $publisher['id_user'],
-                $publisher['first_name'],
-                $publisher['last_name']
-            );
-        }
-    }
-
-    public function register(int $publisherId): void
-    {
-        $stmt = $this->pdo->prepare(<<<SQL
-            INSERT INTO shift_user_maps (id_shift, position, id_user, created)
-            VALUES (:shiftDayId, :shiftId, :publisherId, datetime("now", "localtime"))
-        SQL);
-
-        $stmt->execute([
-            'shiftDayId' => $this->shiftDayId,
-            'shiftId' => $this->id,
-            'publisherId' => $publisherId
-        ]);
-    }
-
-    public function startTime(): \DateTimeInterface
-    {
-        return $this->startTime;
-    }
-
-    public function withdraw(int $publisherId): void
-    {
-        $stmt = $this->pdo->prepare(<<<SQL
-            DELETE FROM shift_user_maps
-            WHERE id_shift = :shiftDayId AND position = :shiftId AND id_user = :publisherId
-        SQL);
-
-        $stmt->execute([
-            'shiftDayId' => $this->shiftDayId,
-            'shiftId' => $this->id,
-            'publisherId' => $publisherId
-        ]);
     }
 }

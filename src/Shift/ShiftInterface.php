@@ -3,17 +3,9 @@ namespace App\Shift;
 
 interface ShiftInterface
 {
-    public function array(): array;
+    function array(): array;
 
-    public function endTime(): \DateTimeInterface;
+    function shiftPosition(int $id): ShiftPositionInterface;
 
-    public function publisher(int $publisherId): PublisherInterface;
-    
-    public function publishers(): \Generator;
-
-    public function register(int $publisherId): void;
-
-    public function startTime(): \DateTimeInterface;
-
-    public function withdraw(int $publisherId): void;
+    function shiftPositions(): \Generator;
 }

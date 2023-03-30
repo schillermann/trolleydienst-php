@@ -1,58 +1,3 @@
-<template id="shift-table">
-    <table>
-        <thead>
-            <tr>
-                <th colspan="2" style="background-color: red">{DAY}, {DATE} - {ROUTE_NAME}</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-            <tr>
-                <td colspan="2" style="background-color: red">
-                    <p>
-                         <!-- if admin -->
-                        <a href="./shift-edit.php?id_shift_type=1&id_shift=1" class="button">
-                            <i class="fa fa-pencil"></i> Edit
-                        </a>
-                    </p>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-</template>
-
-<template id="shift-row">
-    <tr>
-        <td class="shift-time">08:00 - 10:00</td>
-        <td class="shift-publishers"></td>
-    </tr>
-</template>
-
-<template id="publisher-button">
-    <span>
-        <button class="enable" onclick="d()" type="button">
-            <i class="fa fa-check-circle-o"></i> {FIRSTNAME} {LASTNAME}
-        </button>
-    </span>
-</template>
-
-<template id="apply-button">
-    <span>
-        <button class="button promote" onclick="openShiftApplyDialog(this)" type="button">
-            <i class="fa fa-hand-o-right"></i> <?= __('Available') ?>
-        </button>
-        
-    </span>
-</template>
-
-<template id="addition-publisher-button">
-    <span>
-        <button class="enable user-plus" name="user-plus" type="button" onclick="showDialog(this)" style="float: right;">
-            <i class="fa fa-user-plus"></i>
-        </button>
-    </span>
-</template>
-
 <header>
     <h2><?= $placeholder['shift_type']['name']; ?> <?= __('Shifts') ?></h2>
     <?php if (!empty($placeholder['shift_type']['info'])) : ?>
@@ -66,34 +11,57 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <a href="./add-shift?id_shift_type=<?= $placeholder['id_shift_type'] ?>" class="button active">
-            <i class="fa fa-plus"></i> <?= __('New Shifts') ?>
-        </a>
+        <shift-button-new-shift></shift-button-new-shift>
     </nav>
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
-<dialog id="shift-apply-dialog">
+<shift-dialog-application open="false" language-code="en" publisher-id="1"></shift-dialog-application>
+<shift-dialog-new-shift open="false" language-code="en" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-new-shift>
+
+<script type="module" src="./js/submit-application-dialog.js"></script>
+
+<dialog id="contact-publisher-dialog">
     <header>
-        <h2><?= __('Apply') ?></h2>
+        <h2><?= __('Contact Publisher') ?></h2>
     </header>
     <div>
         <img src="images/gadgets.svg">
     </div>
     <div>
-        <select name="publishers" style="width: 100%">
-            <option value=""><?= __('Choose publisher') ?></option>
-            <?php foreach ($placeholder['user_promote_list'] as $id_user => $name) : ?>
-                <option value="<?= $id_user ?>"><?= $name ?></option>
-            <?php endforeach; ?>
-        </select>
-        <button class="button" id="shift-apply-button" onclick="applyShift(this)" style="width: 100%"><?= __('Apply') ?></button>
-        <button class="button" style="width: 100%" onclick="f()"><?= __('Cancel') ?></button>
+        <dl>
+            <dt><?= __('Mobile Number') ?></dt>
+            <dd><a href="tel:123-456-7890">123-456-7890</a></dd>
+
+            <dt><?= __('Phone Number') ?></dt>
+            <dd><a href="tel:123-456-7890">123-456-7890</a></dd>
+
+            <dt><?= __('Email') ?></dt>
+            <dd><a href="mailto:email@example.com">mail@gmx.de</a></dd>
+        </dl>
+    </div>
+    <div>
+        <button class="button close-button" style="width: 100%"><?= __('OK') ?></button>
     </div>
 </dialog>
-<script src="./js/shift-apply-dialog.js"></script>
 
-<div class="table-container"></div>
+<dialog id="withdraw-application-dialog">
+    <header>
+        <h2><?= __('Withdraw Application') ?></h2>
+    </header>
+    <div>
+        <img src="images/gadgets.svg">
+    </div>
+    <div>
+        <p><?= __('Möchtest du die Bewerbung wirklick zurückziehen?') ?></p>
+        <button class="button" id="withdraw-application-button" style="width: 100%" onclick="withdrawApplication(this)"><?= __('Yes') ?></button>
+        <button class="button close-button" style="width: 100%"><?= __('No') ?></button>
+    </div>
+</dialog>
+<script src="./js/withdraw-application-dialog.js"></script>
+
+<shift-card-calendar language-code="en" shift-type-id="1"></shift-card-calendar>
+
 <div class="number-of-pages">
     <p style="text-align: center"></p>
 </div>
@@ -103,4 +71,45 @@
     <span class="dot"></span>
 </div>
 
-<script type="module" src="./js/list-shifts.js"></script>
+<script type="module">
+    import ShiftButtonNewShift from "./js/shift/shift-button-new-shift.js"
+    import ShiftCardCalendar from "./js/shift/card/shift-card-calendar.js"
+    import ShiftDialogApplication from "./js/shift/dialog/shift-dialog-application.js"
+    import ShiftDialogNewShift from "./js/shift/dialog/shift-dialog-new-shift.js"
+
+    customElements.get('shift-button-new-shift') || window.customElements.define('shift-button-new-shift', ShiftButtonNewShift)
+    customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
+    customElements.get('shift-dialog-application') || window.customElements.define('shift-dialog-application', ShiftDialogApplication)
+    customElements.get('shift-dialog-new-shift') || window.customElements.define('shift-dialog-new-shift', ShiftDialogNewShift)
+
+    window.addEventListener(
+        "open-shift-dialog-application",
+        function(event) {
+            const dialog = document.querySelector("shift-dialog-application")
+            dialog.setAttribute("open", "true")
+            dialog.setAttribute("shift-id", event.detail.shiftId)
+            dialog.setAttribute("shift-position", event.detail.shiftPosition)
+        }
+    )
+
+    window.addEventListener(
+        "open-shift-dialog-publisher",
+        function(event) {
+            const dialog = document.querySelector("shift-dialog-publisher")
+            dialog.setAttribute("open", "true")
+            dialog.setAttribute("shift-id", event.detail.shiftId)
+            dialog.setAttribute("shift-type-id", event.detail.shiftTypeId)
+            dialog.setAttribute("shift-position", event.detail.shiftPosition)
+            dialog.setAttribute("publisher-id", event.detail.publisherId)
+        }
+    )
+
+    window.addEventListener(
+        "new-shift-click",
+        function(event) {
+            const dialog = document.querySelector("shift-dialog-new-shift")
+            dialog.setAttribute("open", "true")
+        },
+        true
+    )
+</script>

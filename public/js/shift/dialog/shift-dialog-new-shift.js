@@ -59,7 +59,7 @@ template.innerHTML = /*html*/`
     </dialog>
 `;
 
-export default class ShiftDialogCreateShift extends HTMLElement {
+export default class ShiftDialogNewShift extends HTMLElement {
     constructor() {
         super();
 

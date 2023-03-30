@@ -1,56 +1,50 @@
 "use strict"
 
-import Dictionary from "../dictionary.js"
+import Dictionary from "../../dictionary.js"
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
     <style>
         @import url("css/font-awesome.min.css");
 
-        @media (prefers-color-scheme: dark) {
-            button {
-                color: rgb(191, 191, 191);
-                background-color: rgb(31, 31, 31);
-            }
-        }
         button {
-            background-color: var(--main-color);
-            color: var(--white);
             transition: box-shadow .28s;
-            display: inline-block;
-            text-decoration: none;
             padding: 6px 12px;
             line-height: 1.42857143;
             font-size: 1rem;
-            text-align: center;
             vertical-align: middle;
             touch-action: manipulation;
             cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
-            background-image: none;
             border: 1px solid rgba(189, 183, 181, 0.5);
+            color: var(--black);
             margin-bottom: 4px;
+            background-color: var(--grey-25);
             border-radius: 5px;
+            width: 180px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
+        
         button:hover {
             background-color: var(--second-color);
             border-color: var(--second-color);
+            background-color: var(--grey-25);
         }
 
+        @media (prefers-color-scheme: dark) {
+            button {
+                color: var(--white);
+            }
+        }
     </style>
-    <button type="button">
-        <i class="fa fa-plus"></i> New Shift
+    <button class="button promote apply-shift-button" type="button">
+        <i class="fa fa-hand-o-right"></i> {Available}
     </button>
 `;
 
-export default class ShiftButtonCreate extends HTMLElement {
+export default class ShiftCardButtonAvailable extends HTMLElement {
     constructor() {
         super();
 
@@ -59,8 +53,8 @@ export default class ShiftButtonCreate extends HTMLElement {
         this._shadowRoot.appendChild(template.content.cloneNode(true));
 
         this.dictionary = new Dictionary({
-            "New Shift": {
-                de: "Neue Schicht"   
+            "Available": {
+                de: "Frei"   
             }
         })
     }
@@ -69,12 +63,17 @@ export default class ShiftButtonCreate extends HTMLElement {
      * @param {Event} event
      * @returns {void}
      */
-    fireClickEvent(event) {
+    onClick(event) {
         this.dispatchEvent(
-            new Event(
-                'create-new-shift-click', {
+            new CustomEvent(
+                'open-shift-dialog-application', {
                     bubbles: true,
-                    composed: true
+                    composed: true,
+                    detail: {
+                        shiftId: this.getAttribute("shift-id"),
+                        shiftTypeId: this.getAttribute("shift-type-id"),
+                        shiftPosition: this.getAttribute("shift-position")
+                    }
                 }
             )
         )
@@ -86,26 +85,16 @@ export default class ShiftButtonCreate extends HTMLElement {
     connectedCallback() {
         this._shadowRoot.querySelector("button").addEventListener(
             "click",
-            this.fireClickEvent,
-            true
-        )
-    }
-
-    /**
-     * @returns {void}
-     */
-    disconnectedCallback() {
-        this._shadowRoot.querySelector("button").removeEventListener(
-            "click",
-            this.fireClickEvent
+            this.onClick.bind(this)
         )
     }
 
     static get observedAttributes() {
         return ["language-code"];
     }
-    
+
     /**
+     * 
      * @param {string} name 
      * @param {string} oldVal 
      * @param {string} newVal 

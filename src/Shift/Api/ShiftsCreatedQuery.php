@@ -6,7 +6,7 @@ use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftDaysCreatedQuery implements PageInterface
+class ShiftsCreatedQuery implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
     private \DateTimeInterface $dateFrom;
@@ -31,24 +31,24 @@ class ShiftDaysCreatedQuery implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $daysFrom = $this->shiftCalendar->daysFrom(
+        $shiftsFrom = $this->shiftCalendar->shiftsFrom(
             $this->dateFrom,
             $this->shiftTypeId,
             $this->pageNumber,
             $this->pageItems
         );
 
-        $shiftDayList = [];
+        $shifts = [];
 
-        foreach ($daysFrom as $day) {
-            $shiftDayList[] = $day->array();
+        foreach ($shiftsFrom as $shift) {
+            $shifts[] = $shift->array();
         }
 
-        $daysTotal = $this->shiftCalendar->dayCount($this->dateFrom, $this->shiftTypeId);
-        $daysFrom = (($this->pageNumber - 1) * $this->pageItems) + 1;
+        $shiftsTotal = $this->shiftCalendar->shiftCount($this->dateFrom, $this->shiftTypeId);
+        $shiftsFrom = (($this->pageNumber - 1) * $this->pageItems) + 1;
         $daysTo = $this->pageNumber * $this->pageItems;
-        if ($daysTo > $daysTotal) {
-            $daysTo = $daysTotal;
+        if ($daysTo > $shiftsTotal) {
+            $daysTo = $shiftsTotal;
         }
 
         return $output
@@ -58,7 +58,7 @@ class ShiftDaysCreatedQuery implements PageInterface
             )
             ->withMetadata(
                 'Content-Range',
-                "count $daysFrom-$daysTo/$daysTotal"
+                "count $shiftsFrom-$daysTo/$shiftsTotal"
             )
             ->withMetadata(
                 'Content-Type',
@@ -66,7 +66,7 @@ class ShiftDaysCreatedQuery implements PageInterface
             )
             ->withMetadata(
                 PageInterface::BODY,
-                json_encode($shiftDayList)
+                json_encode($shifts)
             );
     }
 
@@ -78,9 +78,9 @@ class ShiftDaysCreatedQuery implements PageInterface
             return new self(
                 $this->shiftCalendar,
                 new \DateTimeImmutable($query->param('start-date')),
-                (int) $query->paramWithDefault('shift-type-id', '1'),
-                (int) $query->paramWithDefault('page-number', '1'),
-                (int) $query->paramWithDefault('page-items', '10'),
+                $query->param('shift-type-id'),
+                $query->paramWithDefault('page-number', '1'),
+                $query->paramWithDefault('page-items', '10'),
             );
         }
 

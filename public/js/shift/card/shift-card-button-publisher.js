@@ -1,7 +1,5 @@
 "use strict"
 
-import Dictionary from "../../dictionary.js"
-
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
     <style>
@@ -19,14 +17,14 @@ template.innerHTML = /*html*/`
             border: 1px solid rgba(189, 183, 181, 0.5);
             color: var(--black);
             margin-bottom: 4px;
-            background-color: var(--grey-25);
             border-radius: 5px;
             width: 180px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            background-color: var(--check-color);
         }
-        
+
         button:hover {
             background-color: var(--second-color);
             border-color: var(--second-color);
@@ -39,38 +37,28 @@ template.innerHTML = /*html*/`
             }
         }
     </style>
-    <button class="button promote apply-shift-button" type="button">
-        <i class="fa fa-hand-o-right"></i> {Available}
+    <button type="button">
+        <i class="fa fa-check-circle-o"></i>
+        <slot />
     </button>
 `;
 
-export default class ShiftCardButtonApply extends HTMLElement {
+export default class ShiftCardButtonPublisher extends HTMLElement {
     constructor() {
         super();
 
         /** @type {ShadowRoot} */
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
-
-        this.dictionary = new Dictionary({
-            "Available": {
-                de: "Frei"   
-            }
-        })
     }
 
     /**
-     * @param {Event} event
      * @returns {void}
      */
-    fireApplyShiftEvent(event) {
-        this.dispatchEvent(
-            new Event(
-                'apply-shift-click', {
-                    bubbles: true,
-                    composed: true
-                }
-            )
+    disconnectedCallback() {
+        this._shadowRoot.querySelector("button").removeEventListener(
+            "click",
+            this.onClick
         )
     }
 
@@ -80,20 +68,28 @@ export default class ShiftCardButtonApply extends HTMLElement {
     connectedCallback() {
         this._shadowRoot.querySelector("button").addEventListener(
             "click",
-            this.fireApplyShiftEvent,
-            true
+            this.onClick.bind(this)
         )
     }
 
-    static get observedAttributes() {
-        return ["language-code"];
-    }
-
-    attributeChangedCallback(name, oldVal, newVal) {
-        if (name !== "language-code") {
-            return
-        }
-
-        this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(newVal, this._shadowRoot.innerHTML)
-    }
+    /**
+     * @param {PointerEvent} event
+     * @returns {void}
+     */
+    onClick(event) {
+        this.dispatchEvent(
+            new CustomEvent(
+                'open-shift-dialog-publisher', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        shiftId: this.getAttribute("shift-id"),
+                        shiftTypeId: this.getAttribute("shift-type-id"),
+                        shiftPosition: this.getAttribute("shift-position"),
+                        publisherId: this.getAttribute("publisher-id"),
+                    }
+                }
+            )
+        )
+      }
 }

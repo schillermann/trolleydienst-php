@@ -8,23 +8,25 @@ use PhpPages\PageInterface;
 class RegisterPublisherForShiftCommand implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
-    private int $shiftDayId;
+    private int $shiftTypeId;
     private int $shiftId;
+    private int $shiftPosition;
     private int $publisherId;
 
-    public function __construct(ShiftCalendarInterface $shiftCalendar, int $shiftDayId = 0, int $shiftId = 0, int $publisherId = 0)
+    public function __construct(ShiftCalendarInterface $shiftCalendar, int $shiftTypeId = 0, int $shiftId = 0, int $shiftPosition = 0, int $publisherId = 0)
     {
         $this->shiftCalendar = $shiftCalendar;
-        $this->shiftDayId = $shiftDayId;
+        $this->shiftTypeId = $shiftTypeId;
         $this->shiftId = $shiftId;
+        $this->shiftPosition = $shiftPosition;
         $this->publisherId = $publisherId;
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $shiftDay = $this->shiftCalendar->day($this->shiftDayId);
-        $shift = $shiftDay->shift($this->shiftId);
-        $publisher = $shift->publisher($this->publisherId);
+        $shift = $this->shiftCalendar->shift($this->shiftId, $this->shiftTypeId);
+        $shiftPosition = $shift->shiftPosition($this->shiftPosition);
+        $publisher = $shiftPosition->publisher($this->publisherId);
         if ($publisher->id()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
@@ -32,8 +34,8 @@ class RegisterPublisherForShiftCommand implements PageInterface
             );
         }
         
-        $shift->register($this->publisherId);
-        $publisher = $shift->publisher($this->publisherId);
+        $shiftPosition->register($this->publisherId);
+        $publisher = $shiftPosition->publisher($this->publisherId);
 
         if (!$publisher->id()) {
             return $output->withMetadata(
@@ -55,8 +57,9 @@ class RegisterPublisherForShiftCommand implements PageInterface
 
             return new self(
                 $this->shiftCalendar,
-                $body['shiftDayId'],
+                $body['shiftTypeId'],
                 $body['shiftId'],
+                $body['shiftPositionId'],
                 $body['publisherId']
             );
         }

@@ -5,9 +5,9 @@ interface ShiftCalendarInterface
 {
     function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, ColorInterface $color): void;
 
-    function dayCount(\DateTimeInterface $from, int $shiftTypeId): int;
+    function shiftCount(\DateTimeInterface $from, int $shiftTypeId): int;
 
-    function daysFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator;
+    function shiftsFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator;
 
-    function day(int $id): ShiftDayInterface;
+    function shift(int $id, int $shiftTypeId): ShiftInterface;
 }

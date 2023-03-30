@@ -23,7 +23,9 @@ use App\ResetPasswordPage;
 use App\Shift\Api\CreateShiftsCommand;
 use App\Shift\Api\PublishersEnabledQuery;
 use App\Shift\Api\RegisterPublisherForShiftCommand;
-use App\Shift\Api\ShiftDaysCreatedQuery;
+use App\Shift\Api\ShiftCreatedQuery;
+use App\Shift\Api\ShiftPositionsCreatedQuery;
+use App\Shift\Api\ShiftsCreatedQuery;
 use App\Shift\Api\WithdrawShiftApplicationCommand;
 use App\Shift\Publishers;
 use App\Shift\ShiftCalendar;
@@ -94,14 +96,16 @@ require __DIR__ . '/../vendor/autoload.php';
 
             if ($this->httpMethod === 'GET') {
                 switch($value) {
-                    case '/api/shift/shift-days-created':
-                        return new ShiftDaysCreatedQuery(
+                    case '/api/shift/shifts-created':
+                        return new ShiftsCreatedQuery(
                             new ShiftCalendar($this->pdo)
                         );
                     case '/api/shift/publishers-enabled':
                         return new PublishersEnabledQuery(
                             new Publishers($this->pdo)
                         );
+                    case '/api/shift/shift-created':
+                        return new ShiftCreatedQuery($this->pdo);
                 }
             }
 

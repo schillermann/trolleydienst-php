@@ -45,6 +45,7 @@ export default class ShiftDialogApplication extends HTMLElement {
     }
 
     async sendShiftApplication(event) {
+        // TODO: Endpoint gibt Fehler zurueck
         const response = await fetch(
             "/api/shift/register-publisher-for-shift",
             {

@@ -27,7 +27,7 @@ class ShiftCalendar implements ShiftCalendarInterface
         ]);
     }
 
-    public function dayCount(\DateTimeInterface $from, int $shiftTypeId): int
+    public function shiftCount(\DateTimeInterface $from, int $shiftTypeId): int
     {
         $stmt = $this->pdo->prepare(<<<SQL
             SELECT count(*)
@@ -42,7 +42,7 @@ class ShiftCalendar implements ShiftCalendarInterface
         return $stmt->fetchColumn();
     }
 
-    public function daysFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator
+    public function shiftsFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator
     {
         $stmtPublisherLimit = $this->pdo->prepare(<<<SQL
             SELECT user_per_shift_max FROM shift_types WHERE id_shift_type = :id
@@ -68,57 +68,73 @@ class ShiftCalendar implements ShiftCalendarInterface
         ]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        foreach ($stmt as $shiftDay) {
-            yield new ShiftDay(
+        foreach ($stmt as $shift) {
+            yield new Shift(
                 $this->pdo,
-                $shiftDay['id_shift'],
-                $shiftDay['id_shift_type'],
-                $shiftDay['route'],
-                new \DateTimeImmutable($shiftDay['datetime_from']),
-                $shiftDay['number'],
-                $shiftDay['minutes_per_shift'],
+                $shift['id_shift'],
+                $shift['id_shift_type'],
+                $shift['route'],
+                new \DateTimeImmutable($shift['datetime_from']),
+                $shift['number'],
+                $shift['minutes_per_shift'],
                 $publisherLimit,
-                $shiftDay['color_hex'],
-                new \DateTimeImmutable($shiftDay['updated']),
-                new \DateTimeImmutable($shiftDay['created'])
+                $shift['color_hex'],
+                new \DateTimeImmutable($shift['updated']),
+                new \DateTimeImmutable($shift['created'])
             );
         }
     }
 
-    public function day(int $id): ShiftDayInterface
+    public function shift(int $id, int $shiftTypeId): ShiftInterface
     {
         $stmt = $this->pdo->prepare(<<<SQL
             SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
             FROM shifts
-            WHERE id_shift = :id
+            WHERE id_shift_type = :shiftTypeId AND id_shift = :shiftId
         SQL);
 
         $stmt->execute([
-            'id' => $id
+            'shiftTypeId' => $shiftTypeId,
+            'shiftId' => $id
         ]);
 
-        $shiftDay = $stmt->fetch(\PDO::FETCH_ASSOC);
-
+        $shift = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if ($shift === false) {
+            return new Shift(
+                $this->pdo,
+                0,
+                0,
+                "",
+                new \DateTimeImmutable(),
+                0,
+                0,
+                0,
+                "",
+                new \DateTimeImmutable(),
+                new \DateTimeImmutable()
+            );
+        }
+        
         $stmtPublisherLimit = $this->pdo->prepare(<<<SQL
-            SELECT user_per_shift_max FROM shift_types WHERE id_shift_type = :id
+            SELECT user_per_shift_max FROM shift_types WHERE id_shift_type = :shiftTypeId
         SQL);
         $stmtPublisherLimit->execute([
-            'id' => $shiftDay['id_shift_type']
+            'shiftTypeId' => $shift['id_shift_type']
         ]);
         $publisherLimit = $stmtPublisherLimit->fetchColumn();
 
-        return new ShiftDay(
+        return new Shift(
             $this->pdo,
-            $shiftDay['id_shift'],
-            $shiftDay['id_shift_type'],
-            $shiftDay['route'],
-            new \DateTimeImmutable($shiftDay['datetime_from']),
-            $shiftDay['number'],
-            $shiftDay['minutes_per_shift'],
+            $shift['id_shift'],
+            $shift['id_shift_type'],
+            $shift['route'],
+            new \DateTimeImmutable($shift['datetime_from']),
+            $shift['number'],
+            $shift['minutes_per_shift'],
             $publisherLimit,
-            $shiftDay['color_hex'],
-            new \DateTimeImmutable($shiftDay['updated']),
-            new \DateTimeImmutable($shiftDay['created'])
+            $shift['color_hex'],
+            new \DateTimeImmutable($shift['updated']),
+            new \DateTimeImmutable($shift['created'])
         );
     }
 }

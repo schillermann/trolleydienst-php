@@ -2,22 +2,16 @@
 
 import ShiftCard from "./shift-card.js"
 
-const template = document.createElement('template');
-template.innerHTML = /*html*/`
-    <div id="calendar"></div>
-`;
-
 export default class ShiftCardCalendar extends HTMLElement {
     constructor() {
         super();
 
         /** @type {ShadowRoot} */
         this._shadowRoot = this.attachShadow({ mode: 'open' });
-        this._shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
     async connectedCallback() {
-        const apiUrl = '/api/shift/shift-days-created'
+        const apiUrl = '/api/shift/shifts-created?shift-type-id=' + this.getAttribute('shift-type-id')
         const response = await fetch(
             apiUrl,
             {
@@ -31,10 +25,16 @@ export default class ShiftCardCalendar extends HTMLElement {
             return
         }
 
-        const calendar = this._shadowRoot.getElementById("calendar")
-
-        for (const shiftDay of await response.json()) {
-            const shiftCard = document.createElement("shift-card")
+        for (const shift of await response.json()) {
+            const shiftCard = document.createElement('shift-card')
+            shiftCard.setAttribute('date', shift.date);
+            shiftCard.setAttribute('shift-id', shift.id);
+            shiftCard.setAttribute('shift-type-id', shift.typeId);
+            shiftCard.setAttribute('color', shift.color);
+            shiftCard.setAttribute('publisher-limit', shift.publisherLimit);
+            shiftCard.setAttribute('route-name', shift.routeName);
+            shiftCard.setAttribute('language-code', this.getAttribute('language-code'))
+            
             this._shadowRoot.appendChild(shiftCard)
         }
 

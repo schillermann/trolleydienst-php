@@ -8,23 +8,25 @@ use PhpPages\PageInterface;
 class WithdrawShiftApplicationCommand implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
-    private int $shiftDayId;
+    private int $shiftTypeId;
     private int $shiftId;
+    private int $shiftPositionId;
     private int $publisherId;
 
-    public function __construct(ShiftCalendarInterface $shiftCalendar, int $shiftDayId = 0, int $shiftId = 0, int $publisherId = 0)
+    public function __construct(ShiftCalendarInterface $shiftCalendar, int $shiftTypeId = 0, int $shiftId = 0, int $shiftPositionId = 0, int $publisherId = 0)
     {
         $this->shiftCalendar = $shiftCalendar;
-        $this->shiftDayId = $shiftDayId;
+        $this->shiftTypeId = $shiftTypeId;
         $this->shiftId = $shiftId;
+        $this->shiftPositionId = $shiftPositionId;
         $this->publisherId = $publisherId;
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $shiftDay = $this->shiftCalendar->day($this->shiftDayId);
-        $shift = $shiftDay->shift($this->shiftId);
-        $shift->withdraw($this->publisherId);
+        $shift = $this->shiftCalendar->shift($this->shiftId, $this->shiftTypeId);
+        $shiftPosition = $shift->shiftPosition($this->shiftPositionId);
+        $shiftPosition->withdraw($this->publisherId);
 
         return $output->withMetadata(
             PageInterface::STATUS,
@@ -39,8 +41,8 @@ class WithdrawShiftApplicationCommand implements PageInterface
 
             return new self(
                 $this->shiftCalendar,
-                $body['shiftDayId'],
                 $body['shiftId'],
+                $body['shiftPositionId'],
                 $body['publisherId']
             );
         }
