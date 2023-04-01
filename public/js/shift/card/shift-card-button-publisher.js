@@ -83,10 +83,10 @@ export default class ShiftCardButtonPublisher extends HTMLElement {
                     bubbles: true,
                     composed: true,
                     detail: {
-                        shiftId: this.getAttribute("shift-id"),
-                        shiftTypeId: this.getAttribute("shift-type-id"),
-                        shiftPosition: this.getAttribute("shift-position"),
-                        publisherId: this.getAttribute("publisher-id"),
+                        shiftId: parseInt(this.getAttribute("shift-id")),
+                        shiftTypeId: parseInt(this.getAttribute("shift-type-id")),
+                        shiftPosition: parseInt(this.getAttribute("shift-position")),
+                        publisherId: parseInt(this.getAttribute("publisher-id")),
                     }
                 }
             )

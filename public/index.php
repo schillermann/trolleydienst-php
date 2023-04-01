@@ -6,6 +6,7 @@ use App\AddShiftTypePage;
 use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
+use App\Api\MeQuery;
 use App\ChangePublisherPassword;
 use App\EditFilePage;
 use App\EmailSettingsPage;
@@ -37,11 +38,14 @@ use App\SystemHistoryPage;
 use App\UpdatePage;
 use App\UploadFilePage;
 use App\UserDetailsPage;
+use App\UserSession;
 use PhpPages\App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 use PhpPages\Request\NativeRequest;
 use PhpPages\Response\NativeResponse;
+use PhpPages\Session\NativeSession;
+use PhpPages\SessionInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -50,6 +54,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
         private string $httpMethod;
         private \PDO $pdo;
+        private SessionInterface $session;
 
         public function __construct(string $httpMethod = '')
         {
@@ -57,6 +62,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
             $this->pdo = new \PDO('sqlite:./../database.sqlite');
             $this->pdo->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            $this->session = new NativeSession();
         }
 
         public function viaOutput(OutputInterface $output): OutputInterface
@@ -76,6 +83,8 @@ require __DIR__ . '/../vendor/autoload.php';
             if ($name !== PageInterface::PATH) {
                 return $this;
             }
+
+            $this->session->start();
 
             if ($this->httpMethod === 'POST') {
                 switch($value) {
@@ -106,6 +115,8 @@ require __DIR__ . '/../vendor/autoload.php';
                         );
                     case '/api/shift/shift-created':
                         return new ShiftCreatedQuery($this->pdo);
+                    case '/api/me':
+                        return new MeQuery(new UserSession($this->session));
                 }
             }
 

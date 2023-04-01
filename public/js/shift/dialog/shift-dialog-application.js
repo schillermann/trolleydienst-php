@@ -79,13 +79,13 @@ export default class ShiftDialogApplication extends HTMLElement {
         )
 
         this._shadowRoot.addEventListener(
-            "apply-click",
+            "apply-shift",
             this.sendShiftApplication,
             true
         )
 
         this._shadowRoot.addEventListener(
-            "cancel-click",
+            "cancel-action",
             this.closeDialog,
             true
         )

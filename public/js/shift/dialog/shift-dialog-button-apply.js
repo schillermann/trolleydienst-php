@@ -3,7 +3,7 @@
 import Dictionary from "../../dictionary.js"
 
 const template = document.createElement('template');
-template.innerHTML = `
+template.innerHTML = /*html*/`
     <style>
         button {
             width: 100%;
@@ -12,7 +12,7 @@ template.innerHTML = `
     <button>{Apply}</button>
 `;
 
-export default class ShiftDialogButtonCancel extends HTMLElement {
+export default class ShiftDialogButtonApply extends HTMLElement {
     constructor() {
         super();
 
@@ -34,7 +34,7 @@ export default class ShiftDialogButtonCancel extends HTMLElement {
     fireClickEvent(event) {
         this.dispatchEvent(
             new Event(
-                'apply-click', {
+                'apply-shift', {
                     bubbles: true,
                     composed: true
                 }

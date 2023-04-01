@@ -50,11 +50,9 @@ template.innerHTML = /*html*/`
             </div>
         </div>
         <div>
-            <div>
-                <input type="hidden" id="shift_type_id" name="shift_type_id" />
-                <shift-dialog-button-create></shift-dialog-button-create>
-                <shift-dialog-button-cancel></shift-dialog-button-cancel>
-            </div>
+            <input type="hidden" id="shift_type_id" name="shift_type_id" />
+            <shift-dialog-button-create></shift-dialog-button-create>
+            <shift-dialog-button-cancel></shift-dialog-button-cancel>
         </div>
     </dialog>
 `;
@@ -133,7 +131,7 @@ export default class ShiftDialogNewShift extends HTMLElement {
         customElements.get('shift-dialog-button-cancel') || window.customElements.define('shift-dialog-button-cancel', ShiftDialogButtonCancel)
 
         this._shadowRoot.addEventListener(
-            "cancel-click",
+            "cancel-action",
             this.closeDialog,
             true
         )

@@ -16,51 +16,11 @@
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
-<shift-dialog-application open="false" language-code="en" publisher-id="1"></shift-dialog-application>
-<shift-dialog-new-shift open="false" language-code="en" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-new-shift>
-
-<script type="module" src="./js/submit-application-dialog.js"></script>
-
-<dialog id="contact-publisher-dialog">
-    <header>
-        <h2><?= __('Contact Publisher') ?></h2>
-    </header>
-    <div>
-        <img src="images/gadgets.svg">
-    </div>
-    <div>
-        <dl>
-            <dt><?= __('Mobile Number') ?></dt>
-            <dd><a href="tel:123-456-7890">123-456-7890</a></dd>
-
-            <dt><?= __('Phone Number') ?></dt>
-            <dd><a href="tel:123-456-7890">123-456-7890</a></dd>
-
-            <dt><?= __('Email') ?></dt>
-            <dd><a href="mailto:email@example.com">mail@gmx.de</a></dd>
-        </dl>
-    </div>
-    <div>
-        <button class="button close-button" style="width: 100%"><?= __('OK') ?></button>
-    </div>
-</dialog>
-
-<dialog id="withdraw-application-dialog">
-    <header>
-        <h2><?= __('Withdraw Application') ?></h2>
-    </header>
-    <div>
-        <img src="images/gadgets.svg">
-    </div>
-    <div>
-        <p><?= __('Möchtest du die Bewerbung wirklick zurückziehen?') ?></p>
-        <button class="button" id="withdraw-application-button" style="width: 100%" onclick="withdrawApplication(this)"><?= __('Yes') ?></button>
-        <button class="button close-button" style="width: 100%"><?= __('No') ?></button>
-    </div>
-</dialog>
-<script src="./js/withdraw-application-dialog.js"></script>
-
+<shift-dialog-application language-code="en" open="false" publisher-id="1"></shift-dialog-application>
+<shift-dialog-new-shift language-code="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-new-shift>
 <shift-card-calendar language-code="en" shift-type-id="1"></shift-card-calendar>
+<shift-dialog-publisher language-code="en"></shift-dialog-publisher>
+<shift-dialog-publisher-partner language-code="en"></shift-dialog-publisher-partner>
 
 <div class="number-of-pages">
     <p style="text-align: center"></p>
@@ -76,11 +36,15 @@
     import ShiftCardCalendar from "./js/shift/card/shift-card-calendar.js"
     import ShiftDialogApplication from "./js/shift/dialog/shift-dialog-application.js"
     import ShiftDialogNewShift from "./js/shift/dialog/shift-dialog-new-shift.js"
+    import ShiftDialogPublisher from "./js/shift/dialog/shift-dialog-publisher.js"
+    import ShiftDialogPublisherPartner from "./js/shift/dialog/shift-dialog-publisher-partner.js"
 
     customElements.get('shift-button-new-shift') || window.customElements.define('shift-button-new-shift', ShiftButtonNewShift)
     customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
     customElements.get('shift-dialog-application') || window.customElements.define('shift-dialog-application', ShiftDialogApplication)
     customElements.get('shift-dialog-new-shift') || window.customElements.define('shift-dialog-new-shift', ShiftDialogNewShift)
+    customElements.get('shift-dialog-publisher') || window.customElements.define('shift-dialog-publisher', ShiftDialogPublisher)
+    customElements.get('shift-dialog-publisher-partner') || window.customElements.define('shift-dialog-publisher-partner', ShiftDialogPublisherPartner)
 
     window.addEventListener(
         "open-shift-dialog-application",
@@ -94,8 +58,34 @@
 
     window.addEventListener(
         "open-shift-dialog-publisher",
-        function(event) {
-            const dialog = document.querySelector("shift-dialog-publisher")
+        async function(event) {
+            const apiUrl = '/api/me'
+            const response = await fetch(
+                apiUrl,
+                {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            )
+
+            if (response.status !== 200) {
+                console.error('Can not read the details of the logged in publisher')
+                return
+            }
+
+            const loggedInPublisher = await response.json()
+
+            if (loggedInPublisher.id === event.detail.publisherId) {
+                const dialog = document.querySelector("shift-dialog-publisher")
+                dialog.setAttribute("open", "true")
+                dialog.setAttribute("shift-id", event.detail.shiftId)
+                dialog.setAttribute("shift-type-id", event.detail.shiftTypeId)
+                dialog.setAttribute("shift-position", event.detail.shiftPosition)
+                dialog.setAttribute("publisher-id", event.detail.publisherId)
+                return
+            }
+
+            const dialog = document.querySelector("shift-dialog-publisher-partner")
             dialog.setAttribute("open", "true")
             dialog.setAttribute("shift-id", event.detail.shiftId)
             dialog.setAttribute("shift-type-id", event.detail.shiftTypeId)

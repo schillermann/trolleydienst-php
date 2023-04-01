@@ -8,8 +8,6 @@ class LoginPage implements PageInterface
 {
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        session_start();
-
         if(isset($_GET['logout'])) {
             $_SESSION = array();
             header('location: /');

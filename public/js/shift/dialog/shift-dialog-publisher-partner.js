@@ -14,7 +14,7 @@ template.innerHTML = /*html*/`
             <h2>{Shift}</h2>
         </header>
         <div>
-            <p>Publisher</p>
+            <p>Publisher Partner</p>
         </div>
         <div>
             <shift-dialog-button-close language-code="en"></shift-dialog-button-close>
@@ -22,7 +22,7 @@ template.innerHTML = /*html*/`
     </dialog>
 `;
 
-export default class ShiftDialogPublisher extends HTMLElement {
+export default class ShiftDialogPublisherPartner extends HTMLElement {
     constructor() {
         super();
 
@@ -30,10 +30,6 @@ export default class ShiftDialogPublisher extends HTMLElement {
         this._shadowRoot.appendChild(template.content.cloneNode(true))
     }
 
-    /**
-     * @param {Event} event
-     * @returns {void}
-     */
     closeDialog(event) {
         event.currentTarget.querySelector("dialog").close()
     }
@@ -45,6 +41,13 @@ export default class ShiftDialogPublisher extends HTMLElement {
             "close-dialog",
             this.closeDialog,
             true
+        )
+    }
+
+    disconnectedCallback() {
+        this._shadowRoot.removeEventListener(
+            "click",
+            this.closeDialog
         )
     }
 

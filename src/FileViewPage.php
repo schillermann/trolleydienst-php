@@ -8,8 +8,6 @@ class FileViewPage implements PageInterface
 {
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        session_start();
-
         if(empty($_SESSION) || !isset($_GET['id_info'])) {
             header('location: /');
             exit;

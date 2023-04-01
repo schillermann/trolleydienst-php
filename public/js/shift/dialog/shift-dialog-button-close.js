@@ -9,10 +9,10 @@ template.innerHTML = /*html*/`
             width: 100%;
         }
     </style>
-    <button>{Cancel}</button>
+    <button>{Close}</button>
 `;
 
-export default class ShiftDialogButtonCancel extends HTMLElement {
+export default class ShiftDialogButtonClose extends HTMLElement {
     constructor() {
         super();
 
@@ -21,8 +21,8 @@ export default class ShiftDialogButtonCancel extends HTMLElement {
         this._shadowRoot.appendChild(template.content.cloneNode(true));
 
         this.dictionary = new Dictionary({
-            "Cancel": {
-                de: "Abbrechen"   
+            "Close": {
+                de: "Schliessen"   
             }
         })
     }
@@ -34,7 +34,7 @@ export default class ShiftDialogButtonCancel extends HTMLElement {
     fireClickEvent(event) {
         this.dispatchEvent(
             new Event(
-                'cancel-action', {
+                'close-dialog', {
                     bubbles: true,
                     composed: true
                 }
