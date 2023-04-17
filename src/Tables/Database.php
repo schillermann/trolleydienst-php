@@ -1,6 +1,8 @@
 <?php
 namespace App\Tables;
 
+use App\Shift\ShiftTypeTable;
+
 class Database {
     const FILENAME = '../database.sqlite';
 

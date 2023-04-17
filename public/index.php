@@ -50,8 +50,7 @@ use PhpPages\SessionInterface;
 require __DIR__ . '/../vendor/autoload.php';
 
 (new App(
-    new class implements PageInterface {
-
+    new class () implements PageInterface {
         private string $httpMethod;
         private \PDO $pdo;
         private SessionInterface $session;
@@ -61,19 +60,20 @@ require __DIR__ . '/../vendor/autoload.php';
             $this->httpMethod = $httpMethod;
 
             $this->pdo = new \PDO('sqlite:./../database.sqlite');
-            $this->pdo->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
             $this->session = new NativeSession();
         }
 
         public function viaOutput(OutputInterface $output): OutputInterface
         {
+            include('../config.php');
             return $output->withMetadata(
                 PageInterface::STATUS,
                 'HTTP/1.1 404 Not Found'
             );
         }
-    
+
         public function withMetadata(string $name, string $value): PageInterface
         {
             if ($name === PageInterface::METHOD) {
@@ -178,7 +178,7 @@ require __DIR__ . '/../vendor/autoload.php';
                 case '/install':
                     return new InstallPage();
             }
-    
+
             return $this;
         }
     }

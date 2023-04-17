@@ -21,10 +21,12 @@
     }
   },
   "require-dev": {
-    "phpstan/phpstan": "^1.8"
+    "phpstan/phpstan": "^1.8",
+    "friendsofphp/php-cs-fixer": "^3.13"
   },
   "scripts": {
-      "analyse": "vendor\\bin\\phpstan analyse --level 9 filters helpers includes install language modules public services src templates updates"
+      "analyse": "vendor/bin/phpstan analyse --level 9 filters helpers includes install language modules public services src templates updates",
+      "style": "vendor/bin/php-cs-fixer fix src"
   },
   "repositories": [
     {
