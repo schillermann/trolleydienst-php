@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift;
 
 class Publishers implements PublishersInterface
@@ -25,7 +26,7 @@ class Publishers implements PublishersInterface
                 $applicant["first_name"],
                 $applicant["last_name"]
             );
-        }   
+        }
     }
 
     public function allActivate(): \Generator
@@ -44,6 +45,6 @@ class Publishers implements PublishersInterface
                 $applicant["first_name"],
                 $applicant["last_name"]
             );
-        }   
+        }
     }
 }

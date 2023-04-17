@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Shift;
 
 interface ShiftInterface
 {
-    function array(): array;
+    public function array(): array;
 
-    function shiftPosition(int $id): ShiftPositionInterface;
+    public function shiftPosition(int $id): ShiftPositionInterface;
 
-    function shiftPositions(): \Generator;
+    public function shiftPositions(): \Generator;
 }

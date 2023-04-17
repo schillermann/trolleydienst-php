@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift;
 
 class Publisher implements PublisherInterface
@@ -11,7 +12,7 @@ class Publisher implements PublisherInterface
     {
         $this->id = $id;
         $this->firstname = $firstname;
-        $this->lastname = $lastname;    
+        $this->lastname = $lastname;
     }
 
     public function array(): array

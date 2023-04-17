@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift\Api;
 
 use App\Shift\ShiftCalendar;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift;
 
 class ShiftPosition implements ShiftPositionInterface
@@ -15,10 +16,9 @@ class ShiftPosition implements ShiftPositionInterface
         int $shiftId,
         \DateTimeInterface $startTime,
         \DateTimeInterface $endTime
-    )
-    {
+    ) {
         $this->pdo = $pdo;
-        $this->shiftPosition = $shiftPosition;   
+        $this->shiftPosition = $shiftPosition;
         $this->shiftId = $shiftId;
         $this->startTime = $startTime;
         $this->endTime = $endTime;

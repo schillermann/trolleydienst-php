@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Shift;
 
-class ShiftTypeTable {
-    const TABLE_NAME = 'shift_types';
+class ShiftTypeTable
+{
+    public const TABLE_NAME = 'shift_types';
 
-    static function create_table(\PDO $connection): bool
+    public static function create_table(\PDO $connection): bool
     {
         $sql =
             'CREATE TABLE ' . self::TABLE_NAME . ' (
@@ -16,68 +18,76 @@ class ShiftTypeTable {
             `created` TEXT NOT NULL
             )';
 
-        return ($connection->exec($sql) === false)? false : true;
+        return ($connection->exec($sql) === false) ? false : true;
     }
 
-    static function select(\PDO $connection, int $id_shift_type): array {
+    public static function select(\PDO $connection, int $id_shift_type): array
+    {
         $stmt = $connection->prepare(
             'SELECT name, info, user_per_shift_max, updated, created
           FROM ' . self::TABLE_NAME . '
           WHERE id_shift_type = :id_shift_type'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id_shift_type' => $id_shift_type)
-        ))
-        	return array();
+        )) {
+            return array();
+        }
 
         $result = $stmt->fetch();
-        return ($result)? $result : array();
+        return ($result) ? $result : array();
     }
 
-    static function select_name(\PDO $connection, int $id_shift_type): string {
+    public static function select_name(\PDO $connection, int $id_shift_type): string
+    {
         $stmt = $connection->prepare(
             'SELECT name
           FROM ' . self::TABLE_NAME . '
           WHERE id_shift_type = :id_shift_type'
         );
 
-        if(!$stmt->execute(
+        if (!$stmt->execute(
             array(':id_shift_type' => $id_shift_type)
-        ))
-        	return '';
+        )) {
+            return '';
+        }
 
         $result = $stmt->fetchColumn();
-        return ($result)? $result : '';
+        return ($result) ? $result : '';
     }
 
-    static function select_first_id_shift_type(\PDO $connection): int {
+    public static function select_first_id_shift_type(\PDO $connection): int
+    {
         $stmt = $connection->prepare(
             'SELECT id_shift_type
           FROM ' . self::TABLE_NAME . ' LIMIT 1'
         );
 
-        if(!$stmt->execute())
-        	return 0;
+        if (!$stmt->execute()) {
+            return 0;
+        }
 
         $result = $stmt->fetchColumn();
-        return ($result)? $result : 0;
+        return ($result) ? $result : 0;
     }
 
-    static function select_all(\PDO $connection): array {
+    public static function select_all(\PDO $connection): array
+    {
         $stmt = $connection->prepare(
             'SELECT id_shift_type, name, info, user_per_shift_max FROM ' . self::TABLE_NAME
         );
 
-        if(!$stmt->execute())
-        	return array();
+        if (!$stmt->execute()) {
+            return array();
+        }
 
         $result = $stmt->fetchAll();
-        return ($result)? $result : array();
+        return ($result) ? $result : array();
     }
 
-    static function insert(\PDO $connection, string $name, string $info, int $user_per_shift_max = 2): bool {
-
+    public static function insert(\PDO $connection, string $name, string $info, int $user_per_shift_max = 2): bool
+    {
         $stmt = $connection->prepare(
             'INSERT INTO ' . self::TABLE_NAME . '
             (name, info, user_per_shift_max, info, updated, created)
@@ -93,7 +103,8 @@ class ShiftTypeTable {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function update(\PDO $connection, int $id_shift_type, string $name, string $info, int $user_per_shift_max = 2): bool {
+    public static function update(\PDO $connection, int $id_shift_type, string $name, string $info, int $user_per_shift_max = 2): bool
+    {
         $stmt = $connection->prepare(
             'UPDATE ' . self::TABLE_NAME . '
             SET name = :name, info = :info, user_per_shift_max = :user_per_shift_max, updated = datetime("now", "localtime")
@@ -110,7 +121,8 @@ class ShiftTypeTable {
         ) && $stmt->rowCount() == 1;
     }
 
-    static function delete(\PDO $connection, int $id_shift_type): bool {
+    public static function delete(\PDO $connection, int $id_shift_type): bool
+    {
         $stmt = $connection->prepare(
             'DELETE FROM ' . self::TABLE_NAME . ' WHERE id_shift_type = :id_shift_type'
         );

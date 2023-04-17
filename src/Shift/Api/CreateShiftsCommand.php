@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift\Api;
 
 use App\Shift\Color;
@@ -25,8 +26,7 @@ class CreateShiftsCommand implements PageInterface
         int $numberOfShifts = 0,
         int $minutesPerShift = 0,
         ColorInterface $color = new Color("#000000")
-    )
-    {
+    ) {
         $this->shiftCalendar = $shiftCalendar;
         $this->start = $start;
         $this->shiftTypeId = $shiftTypeId;
@@ -69,5 +69,5 @@ class CreateShiftsCommand implements PageInterface
         }
 
         return $this;
-    }   
+    }
 }

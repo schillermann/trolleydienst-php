@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift;
 
 class Shift implements ShiftInterface
@@ -27,8 +28,7 @@ class Shift implements ShiftInterface
         string $color,
         \DateTimeInterface $updatedAt,
         \DateTimeInterface $createdAt
-    )
-    {
+    ) {
         $this->pdo = $pdo;
         $this->id = $id;
         $this->shiftTypeId = $shiftTypeId;
@@ -83,12 +83,11 @@ class Shift implements ShiftInterface
     public function shiftPositions(): \Generator
     {
         $secondsPerShift = $this->minutesPerShift * 60;
-        
-        for ($shiftId = 1; $shiftId <= $this->numberOfShifts; $shiftId++) {
 
+        for ($shiftId = 1; $shiftId <= $this->numberOfShifts; $shiftId++) {
             $timestampStartTime = $this->startTime->getTimestamp() + ($secondsPerShift * ($shiftId - 1));
             $timestampEndTime = $this->startTime->getTimestamp() + ($secondsPerShift * $shiftId);
-    
+
             $startTime = (new \DateTimeImmutable())->setTimestamp($timestampStartTime);
             $endTime = (new \DateTimeImmutable())->setTimestamp($timestampEndTime);
 

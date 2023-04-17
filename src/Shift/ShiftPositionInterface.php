@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift;
 
 interface ShiftPositionInterface
@@ -8,7 +9,7 @@ interface ShiftPositionInterface
     public function endTime(): \DateTimeInterface;
 
     public function publisher(int $publisherId): PublisherInterface;
-    
+
     public function publishers(): \Generator;
 
     public function register(int $publisherId): void;

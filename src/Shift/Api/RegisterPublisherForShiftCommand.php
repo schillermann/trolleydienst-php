@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift\Api;
 
 use App\Shift\ShiftCalendarInterface;
@@ -33,7 +34,7 @@ class RegisterPublisherForShiftCommand implements PageInterface
                 'HTTP/1.1 409 Conflict'
             );
         }
-        
+
         $shiftPosition->register($this->publisherId);
         $publisher = $shiftPosition->publisher($this->publisherId);
 

@@ -1,7 +1,8 @@
 <?php
+
 namespace App\Shift;
 
 interface ColorInterface
 {
-    function __toString(): string;
+    public function __toString(): string;
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift\Api;
 
 use App\Shift\PublishersInterface;
@@ -41,6 +42,6 @@ class PublishersEnabledQuery implements PageInterface
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-        return $this;   
+        return $this;
     }
 }

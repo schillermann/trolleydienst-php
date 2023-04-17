@@ -1,13 +1,14 @@
 <?php
+
 namespace App\Shift;
 
 interface ShiftCalendarInterface
 {
-    function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, ColorInterface $color): void;
+    public function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, ColorInterface $color): void;
 
-    function shiftCount(\DateTimeInterface $from, int $shiftTypeId): int;
+    public function shiftCount(\DateTimeInterface $from, int $shiftTypeId): int;
 
-    function shiftsFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator;
+    public function shiftsFrom(\DateTimeInterface $from, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator;
 
-    function shift(int $id, int $shiftTypeId): ShiftInterface;
+    public function shift(int $id, int $shiftTypeId): ShiftInterface;
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift\Api;
 
 use App\Shift\ShiftCalendarInterface;
@@ -20,8 +21,7 @@ class ShiftsCreatedQuery implements PageInterface
         int $shiftTypeId = 0,
         int $pageNumber = 0,
         int $pageItems = 10
-    )
-    {
+    ) {
         $this->shiftCalendar = $shiftCalendar;
         $this->dateFrom = $dateFrom;
         $this->shiftTypeId = $shiftTypeId;

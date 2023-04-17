@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Shift;
 
 class ShiftCalendar implements ShiftCalendarInterface
@@ -10,7 +11,7 @@ class ShiftCalendar implements ShiftCalendarInterface
         $this->pdo = $pdo;
     }
 
-    function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, ColorInterface $color): void
+    public function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, ColorInterface $color): void
     {
         $stmt = $this->pdo->prepare(<<<SQL
             INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created)
@@ -114,7 +115,7 @@ class ShiftCalendar implements ShiftCalendarInterface
                 new \DateTimeImmutable()
             );
         }
-        
+
         $stmtPublisherLimit = $this->pdo->prepare(<<<SQL
             SELECT user_per_shift_max FROM shift_types WHERE id_shift_type = :shiftTypeId
         SQL);
