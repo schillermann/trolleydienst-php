@@ -11,9 +11,9 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <nav-sub-button-create id="create-shift-button">
+        <sub-nav-button-create id="create-shift-button">
           Create Shift
-        </nav-sub-button-create>
+        </sub-nav-button-create>
     </nav>
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
@@ -34,14 +34,14 @@
 </div>
 
 <script type="module">
-    import NavSubButtonCreate from "./js/nav/sub/button-create.js"
+    import SubNavButtonCreate from "./js/sub-nav/button-create.js"
     import ShiftCardCalendar from "./js/shift/card/shift-card-calendar.js"
     import ShiftDialogApplication from "./js/shift/dialog/application.js"
     import ShiftDialogCreateShift from "./js/shift/dialog/create-shift.js"
     import ShiftDialogPublisher from "./js/shift/dialog/publisher.js"
     import ShiftDialogPublisherPartner from "./js/shift/dialog/shift-dialog-publisher-partner.js"
 
-    customElements.get("nav-sub-button-create") || window.customElements.define("nav-sub-button-create", NavSubButtonCreate)
+    customElements.get("sub-nav-button-create") || window.customElements.define("sub-nav-button-create", SubNavButtonCreate)
     customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
     customElements.get('shift-dialog-application') || window.customElements.define('shift-dialog-application', ShiftDialogApplication)
     customElements.get('shift-dialog-create-shift') || window.customElements.define('shift-dialog-create-shift', ShiftDialogCreateShift)

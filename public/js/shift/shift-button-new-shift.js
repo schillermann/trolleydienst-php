@@ -59,8 +59,8 @@ export default class ShiftButtonNewShift extends HTMLElement {
         this._shadowRoot.appendChild(template.content.cloneNode(true));
 
         this.dictionary = new Dictionary({
-            "New Shift": {
-                de: "Neue Schicht"   
+            "Create Shift": {
+                de: "Schicht erstellen"   
             }
         })
     }
@@ -72,7 +72,7 @@ export default class ShiftButtonNewShift extends HTMLElement {
     fireClickEvent(event) {
         this.dispatchEvent(
             new Event(
-                'new-shift-click', {
+                'create-shift-click', {
                     bubbles: true,
                     composed: true
                 }
