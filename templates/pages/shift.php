@@ -11,13 +11,15 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <shift-button-new-shift></shift-button-new-shift>
+        <nav-sub-button-create id="create-shift-button">
+          Create Shift
+        </nav-sub-button-create>
     </nav>
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
 <shift-dialog-application language-code="en" open="false" publisher-id="1"></shift-dialog-application>
-<shift-dialog-new-shift language-code="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-new-shift>
+<shift-dialog-create-shift language-code="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-create-shift>
 <shift-card-calendar language-code="en" shift-type-id="1"></shift-card-calendar>
 <shift-dialog-publisher language-code="en"></shift-dialog-publisher>
 <shift-dialog-publisher-partner language-code="en"></shift-dialog-publisher-partner>
@@ -32,17 +34,17 @@
 </div>
 
 <script type="module">
-    import ShiftButtonNewShift from "./js/shift/shift-button-new-shift.js"
+    import NavSubButtonCreate from "./js/nav/sub/button-create.js"
     import ShiftCardCalendar from "./js/shift/card/shift-card-calendar.js"
-    import ShiftDialogApplication from "./js/shift/dialog/shift-dialog-application.js"
-    import ShiftDialogNewShift from "./js/shift/dialog/shift-dialog-new-shift.js"
-    import ShiftDialogPublisher from "./js/shift/dialog/shift-dialog-publisher.js"
+    import ShiftDialogApplication from "./js/shift/dialog/application.js"
+    import ShiftDialogCreateShift from "./js/shift/dialog/create-shift.js"
+    import ShiftDialogPublisher from "./js/shift/dialog/publisher.js"
     import ShiftDialogPublisherPartner from "./js/shift/dialog/shift-dialog-publisher-partner.js"
 
-    customElements.get('shift-button-new-shift') || window.customElements.define('shift-button-new-shift', ShiftButtonNewShift)
+    customElements.get("nav-sub-button-create") || window.customElements.define("nav-sub-button-create", NavSubButtonCreate)
     customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
     customElements.get('shift-dialog-application') || window.customElements.define('shift-dialog-application', ShiftDialogApplication)
-    customElements.get('shift-dialog-new-shift') || window.customElements.define('shift-dialog-new-shift', ShiftDialogNewShift)
+    customElements.get('shift-dialog-create-shift') || window.customElements.define('shift-dialog-create-shift', ShiftDialogCreateShift)
     customElements.get('shift-dialog-publisher') || window.customElements.define('shift-dialog-publisher', ShiftDialogPublisher)
     customElements.get('shift-dialog-publisher-partner') || window.customElements.define('shift-dialog-publisher-partner', ShiftDialogPublisherPartner)
 
@@ -94,10 +96,10 @@
         }
     )
 
-    window.addEventListener(
-        "new-shift-click",
+    document.getElementById("create-shift-button").addEventListener(
+        "click",
         function(event) {
-            const dialog = document.querySelector("shift-dialog-new-shift")
+            const dialog = document.querySelector("shift-dialog-create-shift")
             dialog.setAttribute("open", "true")
         },
         true

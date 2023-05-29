@@ -1,6 +1,6 @@
 "use strict"
 
-import ShiftDialogButtonClose from "./shift-dialog-button-close.js"
+import DialogButton from "../../dialog/button.js"
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
@@ -17,7 +17,7 @@ template.innerHTML = /*html*/`
             <p>Publisher Partner</p>
         </div>
         <div>
-            <shift-dialog-button-close language-code="en"></shift-dialog-button-close>
+            <dialog-button>{Close}</dialog-button>
         </div>
     </dialog>
 `;
@@ -35,10 +35,10 @@ export default class ShiftDialogPublisherPartner extends HTMLElement {
     }
 
     connectedCallback() {
-        customElements.get('shift-dialog-button-close') || window.customElements.define('shift-dialog-button-close', ShiftDialogButtonClose)
+        customElements.get('dialog-button') || window.customElements.define('dialog-button', DialogButton)
 
         this._shadowRoot.addEventListener(
-            "close-dialog",
+            "click",
             this.closeDialog,
             true
         )

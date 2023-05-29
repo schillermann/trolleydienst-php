@@ -58,33 +58,4 @@ export default class ButtonCreate extends HTMLElement {
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
     }
-
-    /**
-     * @param {Event} event
-     * @returns {void}
-     */
-    onClick(event) {
-      alert("bla")
-    }
-
-    /**
-     * @returns {void}
-     */
-    connectedCallback() {
-        this._shadowRoot.querySelector("button").addEventListener(
-            "click",
-            this.onClick,
-            true
-        )
-    }
-
-    /**
-     * @returns {void}
-     */
-    disconnectedCallback() {
-        this._shadowRoot.querySelector("button").removeEventListener(
-            "click",
-            this.onClick
-        )
-    }
 }
