@@ -25,7 +25,6 @@ use App\Shift\Api\CreateShiftsCommand;
 use App\Shift\Api\PublishersEnabledQuery;
 use App\Shift\Api\RegisterPublisherForShiftCommand;
 use App\Shift\Api\ShiftCreatedQuery;
-use App\Shift\Api\ShiftPositionsCreatedQuery;
 use App\Shift\Api\ShiftsCreatedQuery;
 use App\Shift\Api\WithdrawShiftApplicationCommand;
 use App\Shift\Publishers;
