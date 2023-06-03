@@ -89,5 +89,9 @@ composer run analyse
 ```
 Fixes PHP files based on [PSR1](https://www.php-fig.org/psr/psr-1/)/[PSR2](https://www.php-fig.org/psr/psr-2/) coding standard.
 ```sh
-composer run style
+composer run format
+```
+Formatting JavaScript files
+```sh
+npm run format
 ```
