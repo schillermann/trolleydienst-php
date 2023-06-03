@@ -1,4 +1,4 @@
-[ [Deutsch](#trolleydienst-planer) ] [ [English](#trolley-service-planner) ]
+[Deutsch](#trolleydienst-planer) | [English](#trolley-service-planner) | [ Development ](#development)
 
 # Trolleydienst Planer
 Plane den Trolleydienst für deine Versammlung kinderleicht.
@@ -81,3 +81,13 @@ Minimum server requirements: **PHP7** and **Sqlite**
 2. Upload the latest version to your server and overwrite the old files. You can also delete all files before uploading the latest version, except for config.php and database.sqlite.
 3. After all files have been uploaded to your server, load the update.php page to update your database.
 4. After a successful update, please delete the update.php file from your server for security reasons.
+
+# Development
+Static analysis of PHP files.
+```sh
+composer run analyse
+```
+Fixes PHP files based on [PSR1](https://www.php-fig.org/psr/psr-1/)/[PSR2](https://www.php-fig.org/psr/psr-2/) coding standard.
+```sh
+composer run style
+```
