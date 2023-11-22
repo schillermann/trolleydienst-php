@@ -7,10 +7,10 @@ template.innerHTML = /*html*/ `
       width: 100%;
     }
   </style>
-  <input type="button" value"Label">
+  <input type="submit" value="Label">
 `;
 
-export default class DialogButton extends HTMLElement {
+export default class DialogButtonSubmit extends HTMLElement {
   static observedAttributes = ["label"];
 
   constructor() {
