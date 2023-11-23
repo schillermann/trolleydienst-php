@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shift\Api;
+namespace App\Api;
 
 use App\Shift\Color;
 use App\Shift\ColorInterface;
@@ -8,7 +8,7 @@ use App\Shift\ShiftCalendarInterface;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class CreateShiftsCommand implements PageInterface
+class ShiftsPost implements PageInterface
 {
     private ShiftCalendarInterface $shiftCalendar;
     private \DateTimeInterface $start;
