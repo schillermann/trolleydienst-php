@@ -7,9 +7,9 @@ use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
 use App\Api\MeQuery;
-use App\Api\ShiftGet;
+use App\Api\ShiftEndpoint;
 use App\Api\ShiftsPost;
-use App\Api\ShiftsPublishersPost;
+use App\Api\ShiftPositionPublisherEndpoint;
 use App\ChangePublisherPassword;
 use App\Database\ShiftsSqlite;
 use App\EditFilePage;
@@ -80,9 +80,18 @@ require __DIR__ . '/../vendor/autoload.php';
     {
       if ($name === PageInterface::PATH) {
         if (preg_match('|/api/shifts/([0-9]+)|', $value, $matches) === 1) {
-          return new ShiftGet(
+          return new ShiftEndpoint(
             new ShiftsSqlite($this->pdo),
             (int)$matches[1]
+          );
+        }
+
+        if (preg_match('|/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)|', $value, $matches) === 1) {
+          return new ShiftPositionPublisherEndpoint(
+            new ShiftsSqlite($this->pdo),
+            (int)$matches[1],
+            (int)$matches[2],
+            (int)$matches[3],
           );
         }
       }
@@ -96,15 +105,6 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       $this->session->start();
-
-      if (preg_match('|/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)|', $value, $matches) === 1) {
-        return new ShiftsPublishersPost(
-          new ShiftsSqlite($this->pdo),
-          (int)$matches[1],
-          (int)$matches[2],
-          (int)$matches[3],
-        );
-      }
 
       if ($this->httpMethod === 'POST') {
         switch ($value) {
