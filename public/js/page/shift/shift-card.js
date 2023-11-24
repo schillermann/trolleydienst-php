@@ -48,11 +48,7 @@ export class ShiftCard extends HTMLElement {
         ShiftCardButtonEdit,
       );
 
-    const apiUrl =
-      "/api/shift/shift-created?shift-type-id=" +
-      this.getAttribute("shift-type-id") +
-      "&shift-id=" +
-      this.getAttribute("shift-id");
+    const apiUrl = "/api/shifts/" + this.getAttribute("shift-id");
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -67,7 +63,7 @@ export class ShiftCard extends HTMLElement {
     const shiftPositionSection =
       this._shadowRoot.getElementById("shift-position");
 
-    for (const shiftPosition of shift.positions) {
+    for (let positionId = 1; positionId <= shift.positions; positionId++) {
       const shiftPositionElement = document.createElement(
         "shift-card-position",
       );
@@ -79,12 +75,10 @@ export class ShiftCard extends HTMLElement {
         "shift-type-id",
         this.getAttribute("shift-type-id"),
       );
-      shiftPositionElement.setAttribute(
-        "shift-position",
-        shiftPosition.position,
-      );
-      shiftPositionElement.setAttribute("from", shiftPosition.from);
-      shiftPositionElement.setAttribute("to", shiftPosition.to);
+      shiftPositionElement.setAttribute("shift-position-id", positionId);
+      // TODO: calculate time from to
+      shiftPositionElement.setAttribute("from", "2023-12-20");
+      shiftPositionElement.setAttribute("to", "2023-12-21");
       shiftPositionElement.setAttribute(
         "language-code",
         this.getAttribute("language-code"),
@@ -94,19 +88,6 @@ export class ShiftCard extends HTMLElement {
         this.getAttribute("publisher-limit"),
       );
 
-      let publishers = [];
-      for (const publisher of shiftPosition.publishers) {
-        publishers.push(
-          publisher.id +
-            "[" +
-            publisher.firstname +
-            " " +
-            publisher.lastname +
-            "]",
-        );
-      }
-
-      shiftPositionElement.setAttribute("publishers", publishers.join(" "));
       shiftPositionSection.appendChild(shiftPositionElement);
 
       customElements.get("shift-card-position") ||

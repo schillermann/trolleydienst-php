@@ -11,20 +11,6 @@ class ShiftsSqlite
     $this->pdo = $pdo;
   }
 
-  function addPublisher(int $shiftId, int $shiftPositionId, int $publisherId): void
-  {
-    $stmt = $this->pdo->prepare(<<<SQL
-            INSERT INTO shift_user_maps (id_shift, position, id_user, created)
-            VALUES (:shiftId, :shiftPosition, :publisherId, datetime("now", "localtime"))
-        SQL);
-
-    $stmt->execute([
-      'shiftId' => $shiftId,
-      'shiftPosition' => $shiftPositionId,
-      'publisherId' => $publisherId
-    ]);
-  }
-
   function shift(int $shiftId)
   {
     $stmt = $this->pdo->prepare(<<<SQL
@@ -32,11 +18,9 @@ class ShiftsSqlite
             FROM shifts
             WHERE id_shift = :shiftId
         SQL);
-
     $stmt->execute([
       'shiftId' => $shiftId
     ]);
-
     $shift = $stmt->fetch(\PDO::FETCH_ASSOC);
 
     if ($shift === false) {
@@ -47,5 +31,46 @@ class ShiftsSqlite
       $shift['id_shift'],
       $shift,
     );
+  }
+
+  public function shiftsFrom(\DateTimeInterface $start, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator
+  {
+    $stmt = $this->pdo->prepare(<<<SQL
+            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
+            FROM shifts
+            WHERE datetime_from > :from AND id_shift_type = :shiftTypeId
+            ORDER BY datetime_from ASC
+            LIMIT :offset, :limit
+        SQL);
+
+    $stmt->execute([
+      'from' => $start->format('Y-m-d'),
+      'shiftTypeId' => $shiftTypeId,
+      'offset' => ($pageNumber - 1) * $pageItems,
+      'limit' => $pageItems,
+    ]);
+    $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+    foreach ($stmt as $shift) {
+      yield new ShiftSqlite(
+        $shift['id_shift'],
+        $shift,
+      );
+    }
+  }
+
+  public function shiftsTotalNumber(\DateTimeInterface $start, int $shiftTypeId): int
+  {
+    $stmt = $this->pdo->prepare(<<<SQL
+            SELECT count(*)
+            FROM shifts
+            WHERE datetime_from > :from AND id_shift_type = :shiftTypeId
+        SQL);
+    $stmt->execute([
+      'from' => $start->format('Y-m-d'),
+      'shiftTypeId' => $shiftTypeId,
+    ]);
+
+    return $stmt->fetchColumn();
   }
 }

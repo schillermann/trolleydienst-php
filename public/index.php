@@ -7,11 +7,18 @@ use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
 use App\Api\MeQuery;
-use App\Api\ShiftEndpoint;
-use App\Api\ShiftsPost;
-use App\Api\ShiftPositionPublisherEndpoint;
+use App\Api\PublishersGet;
+use App\Api\ShiftGet;
+use App\Api\ShiftsGet;
+use App\Api\ShiftPositionPublisherGet;
+use App\Api\ShiftPositionPublisherPost;
+use App\Api\ShiftPositionPublishersGet;
+use App\Api\ShiftTypeGet;
 use App\ChangePublisherPassword;
+use App\Database\ApplicationsSqlite;
+use App\Database\PublishersSqlite;
 use App\Database\ShiftsSqlite;
+use App\Database\ShiftTypesSqlite;
 use App\EditFilePage;
 use App\EmailSettingsPage;
 use App\EmailTemplatesPage;
@@ -26,8 +33,6 @@ use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
 use App\Shift\Api\PublishersEnabledQuery;
-use App\Shift\Api\ShiftCreatedQuery;
-use App\Shift\Api\ShiftsCreatedQuery;
 use App\Shift\Api\WithdrawShiftApplicationCommand;
 use App\Shift\Publishers;
 use App\Shift\ShiftCalendar;
@@ -78,24 +83,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-      if ($name === PageInterface::PATH) {
-        if (preg_match('|/api/shifts/([0-9]+)|', $value, $matches) === 1) {
-          return new ShiftEndpoint(
-            new ShiftsSqlite($this->pdo),
-            (int)$matches[1]
-          );
-        }
-
-        if (preg_match('|/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)|', $value, $matches) === 1) {
-          return new ShiftPositionPublisherEndpoint(
-            new ShiftsSqlite($this->pdo),
-            (int)$matches[1],
-            (int)$matches[2],
-            (int)$matches[3],
-          );
-        }
-      }
-
       if ($name === PageInterface::METHOD) {
         return new self($value);
       }
@@ -107,30 +94,72 @@ require __DIR__ . '/../vendor/autoload.php';
       $this->session->start();
 
       if ($this->httpMethod === 'POST') {
+        if (preg_match('|^/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
+          return new ShiftPositionPublisherPost(
+            new ApplicationsSqlite($this->pdo),
+            new ShiftsSqlite($this->pdo),
+            new PublishersSqlite($this->pdo),
+            (int)$matches[1],
+            (int)$matches[2],
+            (int)$matches[3],
+          );
+        }
         switch ($value) {
           case '/api/shift/withdraw-shift-application':
             return new WithdrawShiftApplicationCommand(
-              new ShiftCalendar($this->pdo)
-            );
-          case '/api/shifts':
-            return new ShiftsPost(
               new ShiftCalendar($this->pdo)
             );
         }
       }
 
       if ($this->httpMethod === 'GET') {
+        if ('/api/shifts' === $value) {
+          return new ShiftsGet(
+            new ShiftsSqlite($this->pdo)
+          );
+        }
+
+        if (preg_match('|^/api/shifts/([0-9]+)$|', $value, $matches) === 1) {
+          return new ShiftGet(
+            new ShiftsSqlite($this->pdo),
+            (int)$matches[1]
+          );
+        }
+
+        if (preg_match('|^/api/shift-types/([0-9]+)$|', $value, $matches) === 1) {
+          return new ShiftTypeGet(
+            new ShiftTypesSqlite($this->pdo),
+            (int)$matches[1]
+          );
+        }
+
+        if ('/api/publishers' === $value) {
+          return new PublishersGet(new PublishersSqlite($this->pdo));
+        }
+
+        if (preg_match('|^/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
+          return new ShiftPositionPublisherGet(
+            new ShiftsSqlite($this->pdo),
+            new PublishersSqlite($this->pdo),
+            (int)$matches[1],
+            (int)$matches[2],
+            (int)$matches[3],
+          );
+        }
+
+        if (preg_match('|^/api/shifts/([0-9]+)/positions/([0-9]+)/publishers$|', $value, $matches) === 1) {
+          return new ShiftPositionPublishersGet(
+            new ApplicationsSqlite($this->pdo),
+            new PublishersSqlite($this->pdo),
+            (int)$matches[1],
+            (int)$matches[2],
+          );
+        }
         switch ($value) {
-          case '/api/shift/shifts-created':
-            return new ShiftsCreatedQuery(
-              new ShiftCalendar($this->pdo)
-            );
           case '/api/shift/publishers-enabled':
             return new PublishersEnabledQuery(
               new Publishers($this->pdo)
             );
-          case '/api/shift/shift-created':
-            return new ShiftCreatedQuery($this->pdo);
           case '/api/me':
             return new MeQuery(new UserSession($this->session));
         }

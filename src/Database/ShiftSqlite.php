@@ -17,7 +17,7 @@ class ShiftSqlite
   {
     return $this->id;
   }
-  function type(): int
+  function typeId(): int
   {
     return (int)$this->columns['id_shift_type'];
   }

@@ -43,7 +43,7 @@ export class ShiftCardPosition extends HTMLElement {
     this.createPublisherButtons();
   }
 
-  createPublisherButtons() {
+  async createPublisherButtons() {
     const publishersRegex = /[0-9]+\[[A-Za-z ]+\]/g;
     const publisherIdRegex = /^\d+/;
     const publisherNameRegex = /(?<=\[).+?(?=\])/;
@@ -51,9 +51,24 @@ export class ShiftCardPosition extends HTMLElement {
     // TODO: Add buttons to tag who is empty
     const dd = this._shadowRoot.querySelector("dd");
     let numberOfPublisherNameButtons = 0;
-    for (const publisher of this.getAttribute("publishers").matchAll(
-      publishersRegex,
-    )) {
+
+    const apiUrl =
+      "/api/shifts/" +
+      this.getAttribute("shift-id") +
+      "/positions/" +
+      this.getAttribute("shift-position-id") +
+      "/publishers";
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status !== 200) {
+      console.error("Cannot read publishers from api [url: " + apiUrl + "]");
+      return;
+    }
+
+    for (const publisher of await response.json()) {
       const shiftCardButtonPublisher = document.createElement(
         "shift-card-button-publisher",
       );
@@ -66,19 +81,17 @@ export class ShiftCardPosition extends HTMLElement {
         this.getAttribute("shift-type-id"),
       );
       shiftCardButtonPublisher.setAttribute(
-        "shift-position",
-        this.getAttribute("shift-position"),
+        "shift-position-id",
+        this.getAttribute("shift-position-id"),
       );
       shiftCardButtonPublisher.setAttribute(
         "publisher-id",
-        publisher.join().match(publisherIdRegex).join(),
+        publisher.publisher.id,
       );
       shiftCardButtonPublisher.setAttribute("language-code", "en");
 
-      shiftCardButtonPublisher.innerText = publisher
-        .join()
-        .match(publisherNameRegex)
-        .join();
+      shiftCardButtonPublisher.innerText =
+        publisher.publisher.firstname + " " + publisher.publisher.lastname;
 
       dd.appendChild(shiftCardButtonPublisher);
       customElements.get("shift-card-button-publisher") ||
@@ -106,8 +119,8 @@ export class ShiftCardPosition extends HTMLElement {
         this.getAttribute("shift-type-id"),
       );
       shiftCardButtonAvailable.setAttribute(
-        "shift-position",
-        this.getAttribute("shift-position"),
+        "shift-position-id",
+        this.getAttribute("shift-position-id"),
       );
       shiftCardButtonAvailable.setAttribute("language-code", "en");
       dd.appendChild(shiftCardButtonAvailable);

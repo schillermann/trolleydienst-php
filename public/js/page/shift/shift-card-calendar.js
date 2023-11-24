@@ -11,26 +11,42 @@ export class ShiftCardCalendar extends HTMLElement {
   }
 
   async connectedCallback() {
-    const apiUrl =
-      "/api/shift/shifts-created?shift-type-id=" +
-      this.getAttribute("shift-type-id");
-    const response = await fetch(apiUrl, {
+    const shiftApiUrl =
+      "/api/shifts?shift-type-id=" + this.getAttribute("shift-type-id");
+    const shiftResponse = await fetch(shiftApiUrl, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
 
-    if (response.status !== 200) {
-      console.error("Cannot read shifts from api");
+    if (shiftResponse.status !== 200) {
+      console.error("Cannot read shifts from api [url: " + shiftApiUrl + "]");
       return;
     }
 
-    for (const shift of await response.json()) {
+    const shiftTypeApiUrl =
+      "/api/shift-types/" + this.getAttribute("shift-type-id");
+    const shiftTypeResponse = await fetch(shiftTypeApiUrl, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (shiftTypeResponse.status !== 200) {
+      console.error(
+        "Cannot read shift type from api [url: " + shiftTypeApiUrl + "]",
+      );
+      return;
+    }
+    const shiftType = await shiftTypeResponse.json();
+    for (const shift of await shiftResponse.json()) {
       const shiftCard = document.createElement("shift-card");
-      shiftCard.setAttribute("date", shift.date);
+      shiftCard.setAttribute("date", shift.start);
       shiftCard.setAttribute("shift-id", shift.id);
       shiftCard.setAttribute("shift-type-id", shift.typeId);
-      shiftCard.setAttribute("color", shift.color);
-      shiftCard.setAttribute("publisher-limit", shift.publisherLimit);
+      shiftCard.setAttribute("color", shift.colorHex);
+      shiftCard.setAttribute(
+        "publisher-limit",
+        shiftType.publisherLimitPerShift,
+      );
       shiftCard.setAttribute("route-name", shift.routeName);
       shiftCard.setAttribute(
         "language-code",

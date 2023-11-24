@@ -6,27 +6,19 @@ use App\Database\ShiftsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftEndpoint implements PageInterface
+class ShiftGet implements PageInterface
 {
   private ShiftsSqlite $shifts;
   private int $shiftId;
-  private string $method;
-  function __construct(ShiftsSqlite $shifts, int $shiftId, string $method = '')
+
+  function __construct(ShiftsSqlite $shifts, int $shiftId)
   {
     $this->shifts = $shifts;
     $this->shiftId = $shiftId;
-    $this->method = $method;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    if ($this->method !== 'GET') {
-      return $output->withMetadata(
-        PageInterface::STATUS,
-        'HTTP/1.1 405 Method Not Allowed'
-      );
-    }
-
     $shift = $this->shifts->shift($this->shiftId);
 
     if ($shift->id() === 0) {
@@ -46,7 +38,7 @@ class ShiftEndpoint implements PageInterface
         json_encode(
           [
             'id' => $shift->id(),
-            'type' => $shift->type(),
+            'typeId' => $shift->typeId(),
             'routeName' => $shift->routeName(),
             'start' => $shift->start()->format(\DateTimeInterface::ATOM),
             'positions' => $shift->positions(),
@@ -63,9 +55,6 @@ class ShiftEndpoint implements PageInterface
 
   public function withMetadata(string $name, string $value): PageInterface
   {
-    if ($name === PageInterface::METHOD) {
-      return new self($this->shifts, $this->shiftId, $value);
-    }
     return $this;
   }
 }
