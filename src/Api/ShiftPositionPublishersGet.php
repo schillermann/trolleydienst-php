@@ -38,28 +38,20 @@ class ShiftPositionPublishersGet implements PageInterface
     foreach ($applications as $application) {
       $publisher = $this->publishers->publisher($application->publisherId());
       $body[] = [
-        'application' => [
-          'shiftId' => $application->shiftId(),
-          'publisherId' => $application->publisherId(),
-          'positionId' => $application->positionId(),
-          'createdAt' => $application->createdAt()->format(\DateTimeInterface::ATOM)
-        ],
-        'publisher' => [
-          'id' => $publisher->id(),
-          'username' => $publisher->username(),
-          'firstname' => $publisher->firstname(),
-          'lastname' => $publisher->lastname(),
-          'email' => $publisher->email(),
-          'phone' => $publisher->phone(),
-          'mobile' => $publisher->mobile(),
-          'congregation' => $publisher->congregation(),
-          'language' => $publisher->language(),
-          'active' => $publisher->active(),
-          'administrative' => $publisher->administrative(),
-          'loggedInAt' => $publisher->loggedInAt()->format(\DateTimeInterface::ATOM),
-          'updatedAt' => $publisher->updatedAt()->format(\DateTimeInterface::ATOM),
-          'createdAt' => $publisher->createdAt()->format(\DateTimeInterface::ATOM)
-        ]
+        'id' => $publisher->id(),
+        'username' => $publisher->username(),
+        'firstname' => $publisher->firstname(),
+        'lastname' => $publisher->lastname(),
+        'email' => $publisher->email(),
+        'phone' => $publisher->phone(),
+        'mobile' => $publisher->mobile(),
+        'congregation' => $publisher->congregation(),
+        'language' => $publisher->language(),
+        'active' => $publisher->active(),
+        'administrative' => $publisher->administrative(),
+        'loggedInAt' => $publisher->loggedInAt()->format(\DateTimeInterface::ATOM),
+        'updatedAt' => $publisher->updatedAt()->format(\DateTimeInterface::ATOM),
+        'createdAt' => $publisher->createdAt()->format(\DateTimeInterface::ATOM)
       ];
     }
 

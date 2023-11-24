@@ -44,10 +44,6 @@ export class ShiftCardPosition extends HTMLElement {
   }
 
   async createPublisherButtons() {
-    const publishersRegex = /[0-9]+\[[A-Za-z ]+\]/g;
-    const publisherIdRegex = /^\d+/;
-    const publisherNameRegex = /(?<=\[).+?(?=\])/;
-
     // TODO: Add buttons to tag who is empty
     const dd = this._shadowRoot.querySelector("dd");
     let numberOfPublisherNameButtons = 0;
@@ -84,14 +80,11 @@ export class ShiftCardPosition extends HTMLElement {
         "shift-position-id",
         this.getAttribute("shift-position-id"),
       );
-      shiftCardButtonPublisher.setAttribute(
-        "publisher-id",
-        publisher.publisher.id,
-      );
+      shiftCardButtonPublisher.setAttribute("publisher-id", publisher.id);
       shiftCardButtonPublisher.setAttribute("language-code", "en");
 
       shiftCardButtonPublisher.innerText =
-        publisher.publisher.firstname + " " + publisher.publisher.lastname;
+        publisher.firstname + " " + publisher.lastname;
 
       dd.appendChild(shiftCardButtonPublisher);
       customElements.get("shift-card-button-publisher") ||
