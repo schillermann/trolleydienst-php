@@ -7,6 +7,7 @@ use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
 use App\Api\MeQuery;
+use App\Api\PublisherGet;
 use App\Api\PublishersGet;
 use App\Api\ShiftGet;
 use App\Api\ShiftsGet;
@@ -155,6 +156,14 @@ require __DIR__ . '/../vendor/autoload.php';
             (int)$matches[2],
           );
         }
+
+        if (preg_match('|^/api/publishers/([0-9]+)$|', $value, $matches) === 1) {
+          return new PublisherGet(
+            new PublishersSqlite($this->pdo),
+            (int)$matches[1]
+          );
+        }
+
         switch ($value) {
           case '/api/shift/publishers-enabled':
             return new PublishersEnabledQuery(

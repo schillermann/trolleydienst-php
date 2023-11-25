@@ -39,7 +39,7 @@
     import { ShiftDialogApplication } from "./js/page/shift/shift-dialog-application.js"
     import { ShiftDialogCreation } from "./js/page/shift/shift-dialog-creation.js"
     import ShiftDialogPublisher from "./js/shift/dialog/publisher.js"
-    import ShiftDialogPublisherPartner from "./js/shift/dialog/shift-dialog-publisher-partner.js"
+    import ShiftDialogPublisherPartner from "./js/page/shift/shift-dialog-publisher-partner.js"
 
     customElements.get("sub-nav-button-create") || window.customElements.define("sub-nav-button-create", SubNavButtonCreate)
     customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
@@ -89,9 +89,6 @@
 
             const dialog = document.querySelector("shift-dialog-publisher-partner")
             dialog.setAttribute("open", "true")
-            dialog.setAttribute("shift-id", event.detail.shiftId)
-            dialog.setAttribute("shift-type-id", event.detail.shiftTypeId)
-            dialog.setAttribute("shift-position", event.detail.shiftPosition)
             dialog.setAttribute("publisher-id", event.detail.publisherId)
         }
     )
