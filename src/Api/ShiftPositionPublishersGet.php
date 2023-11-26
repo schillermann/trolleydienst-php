@@ -12,25 +12,25 @@ class ShiftPositionPublishersGet implements PageInterface
   private ApplicationsSqlite $applications;
   private PublishersSqlite $publishers;
   private int $shiftId;
-  private int $positionId;
+  private int $shiftPositionId;
 
   public function __construct(
     ApplicationsSqlite $applications,
     PublishersSqlite $publishers,
     int $shiftId,
-    int $positionId
+    int $shiftPositionId
   ) {
     $this->applications = $applications;
     $this->publishers = $publishers;
     $this->shiftId = $shiftId;
-    $this->positionId = $positionId;
+    $this->shiftPositionId = $shiftPositionId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
     $applications = $this->applications->applications(
       $this->shiftId,
-      $this->positionId
+      $this->shiftPositionId
     );
 
     $body = [];

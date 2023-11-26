@@ -16,14 +16,14 @@ template.innerHTML = /*html*/ `
       <address>
         <dl>
           <dt>{Email}:</dt>
-          <dd id="email"></dd>
+          <dd><a id="email"></a></dd>
           <dt>{Phone}:</dt>
-          <dd ="phone"></dd>
+          <dd><a id="phone"></a></dd>
           <dt>{Mobile}:</dt>
-          <dd id="mobile"></dd>
+          <dd><a id="mobile"></a></dd>
         </dl>
       </address>
-      <h4>{Info}</h4>
+      <h4>{Info From Publisher}</h4>
       <p id="info"></p>
     </div>
     <div>
@@ -32,7 +32,7 @@ template.innerHTML = /*html*/ `
   </dialog>
 `;
 
-export default class ShiftDialogPublisherPartner extends HTMLElement {
+export default class ShiftDialogPublisherContact extends HTMLElement {
   static observedAttributes = ["open", "language-code", "publisher-id"];
 
   constructor() {
@@ -54,8 +54,8 @@ export default class ShiftDialogPublisherPartner extends HTMLElement {
       Mobile: {
         de: "Mobil",
       },
-      Info: {
-        de: "Info",
+      "Info From Publisher": {
+        de: "Info vom Verkündiger",
       },
       Close: {
         de: "Schließen",
@@ -100,12 +100,19 @@ export default class ShiftDialogPublisherPartner extends HTMLElement {
       return;
     }
     const publisher = await response.json();
-    this._shadowRoot.getElementById("email").textContent = publisher.email;
+    const email = this._shadowRoot.getElementById("email");
+    email.href = "mailto:" + publisher.email;
+    email.textContent = publisher.email;
+
     if (publisher.phone) {
-      this._shadowRoot.getElementById("phone").textContent = publisher.phone;
+      const phone = this._shadowRoot.getElementById("phone");
+      phone.href = "tel:" + publisher.phone;
+      phone.textContent = publisher.phone;
     }
     if (publisher.mobile) {
-      this._shadowRoot.getElementById("mobile").textContent = publisher.mobile;
+      const mobile = this._shadowRoot.getElementById("mobile");
+      mobile.href = publisher.mobile;
+      mobile.textContent = publisher.mobile;
     }
     if (publisher.publisherNote) {
       this._shadowRoot.getElementById("info").textContent =

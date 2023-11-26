@@ -45,7 +45,15 @@ class ShiftPositionPublisherPost implements PageInterface
         'HTTP/1.1 404 Not Found'
       );
     }
-
+    $applications = $this->applications->applications($this->shiftId, $this->shiftPositionId);
+    foreach ($applications as $application) {
+      if ($application->publisherId() === $this->publisherId) {
+        return $output->withMetadata(
+          PageInterface::STATUS,
+          'HTTP/1.1 409 Conflict'
+        );
+      }
+    }
     $this->applications->add($this->shiftId, $this->shiftPositionId, $this->publisherId);
 
     return $output->withMetadata(

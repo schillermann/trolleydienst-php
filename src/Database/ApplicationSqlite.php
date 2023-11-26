@@ -6,30 +6,30 @@ class ApplicationSqlite
 {
   private int $shiftId;
   private int $publisherId;
-  private int $positionId;
+  private int $shiftPositionId;
   private array $columns;
 
-  function __construct(int $shiftId, int $publisherId, int $positionId, array $columns = [])
+  function __construct(int $shiftId, int $publisherId, int $shiftPositionId, array $columns = [])
   {
     $this->shiftId = $shiftId;
     $this->publisherId = $publisherId;
-    $this->positionId = $positionId;
+    $this->shiftPositionId = $shiftPositionId;
     $this->columns = $columns;
   }
-  function shiftId(): int
+  function createdAt(): \DateTimeImmutable
   {
-    return $this->shiftId;
+    return new \DateTimeImmutable($this->columns['created']);
   }
   function publisherId(): int
   {
     return $this->publisherId;
   }
-  function positionId(): int
+  function shiftId(): int
   {
-    return $this->positionId;
+    return $this->shiftId;
   }
-  function createdAt(): \DateTimeImmutable
+  function shiftPositionId(): int
   {
-    return new \DateTimeImmutable($this->columns['created']);
+    return $this->shiftPositionId;
   }
 }

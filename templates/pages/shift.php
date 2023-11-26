@@ -22,7 +22,7 @@
 <shift-dialog-creation language-code="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-creation>
 <shift-card-calendar language-code="en" shift-type-id="1"></shift-card-calendar>
 <shift-dialog-publisher language-code="en"></shift-dialog-publisher>
-<shift-dialog-publisher-partner language-code="en"></shift-dialog-publisher-partner>
+<shift-dialog-publisher-contact language-code="en"></shift-dialog-publisher-contact>
 
 <div class="number-of-pages">
     <p style="text-align: center"></p>
@@ -39,14 +39,14 @@
     import { ShiftDialogApplication } from "./js/page/shift/shift-dialog-application.js"
     import { ShiftDialogCreation } from "./js/page/shift/shift-dialog-creation.js"
     import ShiftDialogPublisher from "./js/shift/dialog/publisher.js"
-    import ShiftDialogPublisherPartner from "./js/page/shift/shift-dialog-publisher-partner.js"
+    import ShiftDialogPublisherContact from "./js/page/shift/shift-dialog-publisher-contact.js"
 
     customElements.get("sub-nav-button-create") || window.customElements.define("sub-nav-button-create", SubNavButtonCreate)
     customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
     customElements.get('shift-dialog-application') || window.customElements.define('shift-dialog-application', ShiftDialogApplication)
     customElements.get('shift-dialog-creation') || window.customElements.define('shift-dialog-creation', ShiftDialogCreation)
     customElements.get('shift-dialog-publisher') || window.customElements.define('shift-dialog-publisher', ShiftDialogPublisher)
-    customElements.get('shift-dialog-publisher-partner') || window.customElements.define('shift-dialog-publisher-partner', ShiftDialogPublisherPartner)
+    customElements.get('shift-dialog-publisher-contact') || window.customElements.define('shift-dialog-publisher-contact', ShiftDialogPublisherContact)
 
     window.addEventListener(
         "open-shift-dialog-application",
@@ -87,7 +87,7 @@
                 return
             }
 
-            const dialog = document.querySelector("shift-dialog-publisher-partner")
+            const dialog = document.querySelector("shift-dialog-publisher-contact")
             dialog.setAttribute("open", "true")
             dialog.setAttribute("publisher-id", event.detail.publisherId)
         }
