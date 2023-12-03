@@ -2,48 +2,47 @@
 
 namespace App\Api;
 
-use App\Shift\Color;
-use App\Shift\ColorInterface;
-use App\Shift\ShiftCalendarInterface;
+use App\Database\ShiftsSqlite;
+use App\Shift\HexColorCode; 
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftsPost implements PageInterface
 {
-    private ShiftCalendarInterface $shiftCalendar;
+    private ShiftsSqlite $shifts;
     private \DateTimeInterface $start;
     private int $shiftTypeId = 0;
     private string $routeName = "";
     private int $numberOfShifts = 0;
     private int $minutesPerShift = 0;
-    private ColorInterface $color;
+    private HexColorCode $hexColorCode;
 
     public function __construct(
-        ShiftCalendarInterface $shiftCalendar,
+        ShiftsSqlite $shifts,
         \DateTimeInterface $start = new \DateTimeImmutable('0000-01-01'),
         int $shiftTypeId = 0,
         string $routeName = "",
         int $numberOfShifts = 0,
         int $minutesPerShift = 0,
-        ColorInterface $color = new Color("#000000")
+        HexColorCode $hexColorCode = new HexColorCode("#000000")
     ) {
-        $this->shiftCalendar = $shiftCalendar;
+        $this->shifts = $shifts;
         $this->start = $start;
         $this->shiftTypeId = $shiftTypeId;
         $this->routeName = $routeName;
         $this->numberOfShifts = $numberOfShifts;
         $this->minutesPerShift = $minutesPerShift;
-        $this->color = $color;
+        $this->hexColorCode = $hexColorCode;
     }
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $this->shiftCalendar->add(
+        $this->shifts->add(
             $this->start,
             $this->shiftTypeId,
             $this->routeName,
             $this->numberOfShifts,
             $this->minutesPerShift,
-            $this->color
+            $this->hexColorCode
         );
 
         return $output->withMetadata(
@@ -58,13 +57,13 @@ class ShiftsPost implements PageInterface
             $body = json_decode($value, true, 2);
 
             return new self(
-                $this->shiftCalendar,
+                $this->shifts,
                 new \Datetime($body['startDate']),
                 $body['shiftTypeId'],
                 $body['routeName'],
                 $body['numberOfShifts'],
                 $body['minutesPerShift'],
-                new Color($body['color'])
+                new HexColorCode($body['color'])
             );
         }
 

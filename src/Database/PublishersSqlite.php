@@ -33,12 +33,19 @@ class PublishersSqlite
     );
   }
 
-  function publishers(): \Generator
+  function publishers(int $offset, int $limit): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
             SELECT id, username, first_name, last_name, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative, logged_on, updated_on, created_on
             FROM publisher
+            LIMIT :offset, :limit
         SQL);
+
+    $stmt->execute([
+      'offset' => $offset,
+      'limit' => $limit
+    ]);
+
 
     $stmt->execute();
 

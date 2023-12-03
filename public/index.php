@@ -11,6 +11,7 @@ use App\Api\PublisherGet;
 use App\Api\PublishersGet;
 use App\Api\ShiftGet;
 use App\Api\ShiftsGet;
+use App\Api\ShiftsPost;
 use App\Api\ShiftPositionPublisherGet;
 use App\Api\ShiftPositionPublisherPost;
 use App\Api\ShiftPositionPublishersGet;
@@ -103,6 +104,11 @@ require __DIR__ . '/../vendor/autoload.php';
             (int)$matches[1],
             (int)$matches[2],
             (int)$matches[3],
+          );
+        }
+        if ('/api/shifts' === $value) {
+          return new ShiftsPost(
+            new ShiftsSqlite($this->pdo)
           );
         }
         switch ($value) {

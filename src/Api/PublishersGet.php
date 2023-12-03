@@ -10,8 +10,6 @@ use PhpPages\PageInterface;
 class PublishersGet implements PageInterface
 {
   private PublishersSqlite $publishers;
-  private \DateTimeInterface $dateFrom;
-  private int $shiftTypeId;
   private int $pageNumber;
   private int $pageItems;
 
@@ -28,7 +26,7 @@ class PublishersGet implements PageInterface
   public function viaOutput(OutputInterface $output): OutputInterface
   {
     $publishers = $this->publishers->publishers(
-      $this->pageNumber,
+      ($this->pageNumber - 1) * $this->pageItems,
       $this->pageItems
     );
 

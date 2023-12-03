@@ -2,6 +2,8 @@
 
 namespace App\Database;
 
+use App\Shift\HexColorCode;
+
 class ShiftsSqlite
 {
   private \PDO $pdo;
@@ -9,6 +11,23 @@ class ShiftsSqlite
   function __construct(\PDO $pdo)
   {
     $this->pdo = $pdo;
+  }
+
+  public function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, HexColorCode $hexColorCode): void
+  {
+    $stmt = $this->pdo->prepare(<<<SQL
+            INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created)
+            VALUES (:shiftTypeId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
+        SQL);
+
+    $stmt->execute([
+      'shiftTypeId' => $shiftTypeId,
+      'routeName' =>  $routeName,
+      'start' => $start->format('Y-m-d H:i'),
+      'numberOfShifts' => $numberOfShifts,
+      'minutesPerShift' => $minutesPerShift,
+      "color" => $hexColorCode->string()
+    ]);
   }
 
   function shift(int $shiftId)
