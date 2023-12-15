@@ -52,7 +52,7 @@
                     <td colspan="2" style="background-color: <?= $shift_list['color_hex']; ?>">
                         <p>
                             <?php if ($_SESSION['is_admin']) : ?>
-                                <a href="./shift-edit.php?id_shift_type=<?= $placeholder['id_shift_type'] ?>&id_shift=<?= $id_shift; ?>" class="button">
+                                <a href="./adjust-shift?id_shift_type=<?= $placeholder['id_shift_type'] ?>&id_shift=<?= $id_shift; ?>" class="button">
                                     <i class="fa fa-pencil"></i> <?= __('Edit') ?>
                                 </a>
                             <?php endif ?>
