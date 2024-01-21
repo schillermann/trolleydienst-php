@@ -11,8 +11,10 @@ $active_page = include '../templates/helpers/active_page.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link href="css/global.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/coloris.min.css" />
-    <script src="js/coloris.min.js"></script>
+    <?php if(@$_SESSION['is_admin']): ?>
+        <link rel="stylesheet" href="css/coloris.min.css" />
+        <script src="js/coloris.min.js"></script>
+    <?php endif ?>
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-ipad-retina.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-iphone-retina.png" />
