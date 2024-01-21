@@ -930,12 +930,12 @@
   float: left;
   }
  
-  fieldset div {
+  fieldset > div {
   padding: 9px 3px 0px 35px;
   }
  
-  fieldset div input,
-  fieldset div select {
+  fieldset > div input,
+  fieldset > div select {
   width: 250px;
   }
  }
