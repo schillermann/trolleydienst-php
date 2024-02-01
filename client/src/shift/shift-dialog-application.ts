@@ -1,9 +1,9 @@
 "use strict";
 
-import { DialogButtonPrimary } from "../../dialog-button-primary.js";
-import { DialogButton } from "../../dialog-button.js";
-import { Dictionary } from "../../dictionary.js";
-import ShiftDialogSelectmenuPublishers from "./shift-dialog-selectmenu-publishers.js";
+import { DialogButtonPrimary } from "../dialog/dialog-button-primary";
+import { DialogButton } from "../dialog/dialog-button";
+import { Dictionary } from "../dictionary";
+import { ShiftDialogSelectmenuPublishers } from "./shift-dialog-selectmenu-publishers";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -29,7 +29,8 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftDialogApplication extends HTMLElement {
-  #selectedPublisherId;
+  dictionary: Dictionary;
+  selectedPublisherId: number;
 
   static observedAttributes = [
     "open",
@@ -40,8 +41,9 @@ export class ShiftDialogApplication extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
 
     this.dictionary = new Dictionary({
       "Shift Application": {
@@ -56,25 +58,17 @@ export class ShiftDialogApplication extends HTMLElement {
     });
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  closeDialog(event) {
+  closeDialog(event: Event): void {
     this.setAttribute("open", "false");
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  async sendShiftApplication(event) {
+  async sendShiftApplication(event: Event) {
     const response = await fetch("/api/shift/register-publisher-for-shift", {
       method: "POST",
       body: JSON.stringify({
         shiftDayId: this.getAttribute("shift_day_id"),
         shiftId: this.getAttribute("shift_id"),
-        publisherId: this.#selectedPublisherId,
+        publisherId: this.selectedPublisherId,
       }),
     });
 
@@ -83,12 +77,8 @@ export class ShiftDialogApplication extends HTMLElement {
     }
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  setSelectedPublisherId(event) {
-    this.#selectedPublisherId = event.detail.publisherId;
+  setSelectedPublisherId(event: CustomEvent): void {
+    this.selectedPublisherId = event.detail.publisherId;
   }
 
   connectedCallback() {
@@ -105,36 +95,36 @@ export class ShiftDialogApplication extends HTMLElement {
         ShiftDialogSelectmenuPublishers,
       );
 
-    this._shadowRoot.addEventListener(
+    this.shadowRoot.addEventListener(
       "selectmenu-change",
       this.setSelectedPublisherId.bind(this),
     );
 
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-apply")
       .addEventListener("click", this.sendShiftApplication.bind(this));
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-cancel")
       .addEventListener("click", this.closeDialog.bind(this));
   }
 
   disconnectedCallback() {
-    this._shadowRoot.removeEventListener(
+    this.shadowRoot.removeEventListener(
       "selectmenu-change",
       this.setSelectedPublisherId,
     );
 
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-apply")
       .removeEventListener("click", this.closeDialog);
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-cancel")
       .removeEventListener("click", this.sendShiftApplication);
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
+  attributeChangedCallback(name: string, oldVal: string, newVal: string) {
     if (name === "open") {
-      const dialog = this._shadowRoot.querySelector("dialog");
+      const dialog = this.shadowRoot.querySelector("dialog");
       if (newVal === "true") {
         dialog.showModal();
         return;
@@ -144,15 +134,15 @@ export class ShiftDialogApplication extends HTMLElement {
     }
 
     if (name === "language-code") {
-      this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
+      this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
-        this._shadowRoot.innerHTML,
+        this.shadowRoot.innerHTML,
       );
       return;
     }
 
     if (name === "logged-in-publisher-id") {
-      this._shadowRoot
+      this.shadowRoot
         .querySelector("shift-dialog-selectmenu-publishers")
         .setAttribute("selected-publisher-id", newVal);
       return;

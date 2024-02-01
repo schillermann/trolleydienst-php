@@ -1,6 +1,6 @@
 "use strict";
 
-import { Dictionary } from "../../dictionary.js";
+import { Dictionary } from "../dictionary";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -44,12 +44,14 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftCardButtonEdit extends HTMLElement {
+  dictionary: Dictionary;
+  
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
 
     this.dictionary = new Dictionary({
       Edit: {
@@ -62,7 +64,7 @@ export class ShiftCardButtonEdit extends HTMLElement {
    * @param {Event} event
    * @returns {void}
    */
-  fireClickEvent(event) {
+  fireClickEvent(event: Event) {
     this.dispatchEvent(
       new Event("edit-shift-click", {
         bubbles: true,
@@ -75,7 +77,7 @@ export class ShiftCardButtonEdit extends HTMLElement {
    * @returns {void}
    */
   connectedCallback() {
-    this._shadowRoot
+    this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
   }
@@ -84,14 +86,14 @@ export class ShiftCardButtonEdit extends HTMLElement {
     return ["language-code"];
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
+  attributeChangedCallback(name: string, oldVal: string, newVal: string) {
     if (name !== "language-code") {
       return;
     }
 
-    this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
+    this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
       newVal,
-      this._shadowRoot.innerHTML,
+      this.shadowRoot.innerHTML,
     );
   }
 }

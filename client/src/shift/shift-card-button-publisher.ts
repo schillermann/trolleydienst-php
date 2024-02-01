@@ -47,34 +47,24 @@ export class ShiftCardButtonPublisher extends HTMLElement {
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
   }
 
-  /**
-   * @returns {void}
-   */
-  disconnectedCallback() {
-    this._shadowRoot
+  disconnectedCallback(): void {
+    this.shadowRoot
       .querySelector("button")
       .removeEventListener("click", this.onClick);
   }
 
-  /**
-   * @returns {void}
-   */
-  connectedCallback() {
-    this._shadowRoot
+  connectedCallback(): void {
+    this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.onClick.bind(this));
   }
 
-  /**
-   * @param {PointerEvent} event
-   * @returns {void}
-   */
-  onClick(event) {
+  onClick(event: PointerEvent): void {
     this.dispatchEvent(
       new CustomEvent("open-shift-dialog-publisher", {
         bubbles: true,

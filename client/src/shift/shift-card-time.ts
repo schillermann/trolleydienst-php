@@ -8,28 +8,17 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftCardTime extends HTMLElement {
+  static observedAttributes = ["date-from", "date-to"]
+
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
   }
 
-  /**
-   * @returns {Array}
-   */
-  static get observedAttributes() {
-    return ["date-from", "date-to"];
-  }
-
-  /**
-   * @param {string} name attribute name
-   * @param {string} oldVal
-   * @param {string} newVal
-   * @returns
-   */
-  attributeChangedCallback(name, oldVal, newVal) {
+  attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     if (name === "date-from") {
       const dateFrom = new Date(newVal);
       if (dateFrom.toString() === "Invalid Date") {
@@ -37,9 +26,9 @@ export class ShiftCardTime extends HTMLElement {
       }
       const hours = dateFrom.getHours();
       const minutes = new String("0" + dateFrom.getMinutes()).slice(-2);
-      this._shadowRoot.querySelector(
+      (this.shadowRoot.querySelector(
         "#date-from",
-      ).innerText = `${hours}:${minutes}`;
+      ) as HTMLSpanElement).innerText = `${hours}:${minutes}`;
       return;
     }
 
@@ -51,9 +40,9 @@ export class ShiftCardTime extends HTMLElement {
       const hours = dateTo.getHours();
       const minutes = new String("0" + dateTo.getMinutes()).slice(-2);
 
-      this._shadowRoot.querySelector(
+      (this.shadowRoot.querySelector(
         "#date-to",
-      ).innerText = `${hours}:${minutes}`;
+      ) as HTMLSpanElement).innerText = `${hours}:${minutes}`;
     }
   }
 }

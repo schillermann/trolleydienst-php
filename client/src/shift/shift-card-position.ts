@@ -1,9 +1,9 @@
 "use strict";
 
-import { ShiftCardTime } from "./shift-card-time.js";
-import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher.js";
-import { ShiftCardButtonAvailable } from "./shift-card-button-available.js";
-import { ShiftCardButtonPublisher } from "./shift-card-button-publisher.js";
+import { ShiftCardTime } from "./shift-card-time";
+import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher";
+import { ShiftCardButtonAvailable } from "./shift-card-button-available";
+import { ShiftCardButtonPublisher } from "./shift-card-button-publisher";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -21,13 +21,13 @@ export class ShiftCardPosition extends HTMLElement {
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
   }
 
   connectedCallback() {
-    const shiftCardTime = this._shadowRoot.querySelector("shift-card-time");
+    const shiftCardTime = this.shadowRoot.querySelector("shift-card-time");
     // TODO: Add right time
     shiftCardTime.setAttribute("date-from", new Date().toString());
     shiftCardTime.setAttribute("date-to", new Date().toString());
@@ -45,7 +45,7 @@ export class ShiftCardPosition extends HTMLElement {
 
   async createPublisherButtons() {
     // TODO: Add buttons to tag who is empty
-    const dd = this._shadowRoot.querySelector("dd");
+    const dd = this.shadowRoot.querySelector("dd");
     let numberOfPublisherNameButtons = 0;
 
     const apiUrl =
@@ -97,7 +97,7 @@ export class ShiftCardPosition extends HTMLElement {
 
     for (
       let numberOfAvailableButtons = numberOfPublisherNameButtons;
-      numberOfAvailableButtons < this.getAttribute("publisher-limit");
+      numberOfAvailableButtons < Number(this.getAttribute("publisher-limit"));
       numberOfAvailableButtons++
     ) {
       const shiftCardButtonAvailable = document.createElement(

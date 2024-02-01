@@ -1,13 +1,12 @@
 "use strict";
 
-import { ShiftCard } from "./shift-card.js";
+import { ShiftCard } from "./shift-card";
 
 export class ShiftCardCalendar extends HTMLElement {
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "closed" });
   }
 
   async connectedCallback() {
@@ -53,7 +52,7 @@ export class ShiftCardCalendar extends HTMLElement {
         this.getAttribute("language-code"),
       );
 
-      this._shadowRoot.appendChild(shiftCard);
+      this.shadowRoot.appendChild(shiftCard);
     }
 
     customElements.get("shift-card") ||

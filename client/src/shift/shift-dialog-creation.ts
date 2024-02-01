@@ -1,11 +1,11 @@
 "use strict";
 
-import { DialogButton } from "../../dialog-button.js";
-import { DialogButtonPrimary } from "../../dialog-button-primary.js";
-import { Dictionary } from "../../dictionary.js";
+import { DialogButton } from "../dialog/dialog-button";
+import { DialogButtonPrimary } from "../dialog/dialog-button-primary";
+import { Dictionary } from "../dictionary";
 
 const template = document.createElement("template");
-template.innerHTML = `
+template.innerHTML = /*html*/`
   <style>
     input {
       width: 100%;
@@ -59,16 +59,18 @@ template.innerHTML = `
 `;
 
 export class ShiftDialogCreation extends HTMLElement {
-  #shiftTypeId;
+  dictionary: Dictionary
+  shiftTypeId: number;
 
   static observedAttributes = ["open", "language-code", "shift-type-id"];
 
   constructor() {
     super();
 
-    this.#shiftTypeId = 0;
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shiftTypeId = 0;
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
 
     this.dictionary = new Dictionary({
       "Create Shift": {
@@ -113,43 +115,31 @@ export class ShiftDialogCreation extends HTMLElement {
     });
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  onClickButtonCancel(event) {
+  onClickButtonCancel(event: Event): void {
     this.setAttribute("open", "false");
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  onClickButtonCreate(event) {
-    this.requestSubmit();
+  onClickButtonCreate(event: Event): void {
+    (this as unknown as HTMLFormElement).requestSubmit();
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  async onSubmitForm(event) {
+  async onSubmitForm(event: Event): Promise<void> {
     event.preventDefault();
     const response = await fetch("/api/shifts", {
       method: "POST",
       body: JSON.stringify({
         startDate:
-          this._shadowRoot.getElementById("date_from").value +
+          (this.shadowRoot.getElementById("date_from") as HTMLInputElement).value +
           " " +
-          this._shadowRoot.getElementById("time_from").value,
-        shiftTypeId: this.#shiftTypeId,
-        routeName: this._shadowRoot.getElementById("route").value,
+          (this.shadowRoot.getElementById("time_from") as HTMLInputElement).value,
+        shiftTypeId: this.shiftTypeId,
+        routeName: (this.shadowRoot.getElementById("route") as HTMLInputElement).value,
         numberOfShifts: Number(
-          this._shadowRoot.getElementById("number_of_shifts").value,
+          (this.shadowRoot.getElementById("number_of_shifts") as HTMLInputElement).value,
         ),
         minutesPerShift:
-          this._shadowRoot.getElementById("hours_per_shift").value * 60,
-        color: this._shadowRoot.getElementById("color_hex").value,
+          Number((this.shadowRoot.getElementById("hours_per_shift") as HTMLInputElement).value) * 60,
+        color: (this.shadowRoot.getElementById("color_hex") as HTMLInputElement).value,
       }),
     });
 
@@ -158,23 +148,19 @@ export class ShiftDialogCreation extends HTMLElement {
     }
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  calculateShiftTimeTo(event) {
-    const numberOfShifts = this._shadowRoot.getElementById("number_of_shifts");
-    const hoursPerShift = this._shadowRoot.getElementById("hours_per_shift");
-    const timeFrom = this._shadowRoot.getElementById("time_from");
-    const timeTo = this._shadowRoot.getElementById("time_to");
+  calculateShiftTimeTo(event: Event): void {
+    const numberOfShifts = this.shadowRoot.getElementById("number_of_shifts") as HTMLInputElement;
+    const hoursPerShift = this.shadowRoot.getElementById("hours_per_shift") as HTMLInputElement;
+    const timeFrom = this.shadowRoot.getElementById("time_from") as HTMLInputElement;
+    const timeTo = this.shadowRoot.getElementById("time_to") as HTMLInputElement;
 
     const timeRangeInMinutes =
-      numberOfShifts.value * (hoursPerShift.value * 60);
+      Number(numberOfShifts.value) * (Number(hoursPerShift.value) * 60);
     const timeFromSplit = timeFrom.value.split(":");
 
     const dateFrom = new Date();
-    dateFrom.setHours(timeFromSplit[0]);
-    dateFrom.setMinutes(timeFromSplit[1]);
+    dateFrom.setHours(Number(timeFromSplit[0]));
+    dateFrom.setMinutes(Number(timeFromSplit[1]));
 
     const dateTo = new Date(dateFrom.getTime() + timeRangeInMinutes * 60000);
     timeTo.value =
@@ -187,60 +173,60 @@ export class ShiftDialogCreation extends HTMLElement {
         "dialog-button-primary",
         DialogButtonPrimary,
       );
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-create")
       .addEventListener(
         "click",
-        this.onClickButtonCreate.bind(this._shadowRoot.querySelector("form")),
+        this.onClickButtonCreate.bind(this.shadowRoot.querySelector("form")),
       );
 
     customElements.get("dialog-button") ||
       window.customElements.define("dialog-button", DialogButton);
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-cancel")
       .addEventListener("click", this.onClickButtonCancel.bind(this));
 
-    this._shadowRoot
+    this.shadowRoot
       .querySelector("form")
       .addEventListener("submit", this.onSubmitForm.bind(this));
 
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("time_from")
       .addEventListener("change", this.calculateShiftTimeTo.bind(this));
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("number_of_shifts")
       .addEventListener("change", this.calculateShiftTimeTo.bind(this));
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("hours_per_shift")
       .addEventListener("change", this.calculateShiftTimeTo.bind(this));
   }
 
   disconnectedCallback() {
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-create")
       .removeEventListener("click", this.onClickButtonCreate);
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("button-cancel")
       .removeEventListener("click", this.onClickButtonCancel);
 
-    this._shadowRoot
+    this.shadowRoot
       .querySelector("form")
       .removeEventListener("submit", this.onSubmitForm);
 
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("time_from")
       .removeEventListener("change", this.calculateShiftTimeTo);
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("number_of_shifts")
       .removeEventListener("change", this.calculateShiftTimeTo);
-    this._shadowRoot
+    this.shadowRoot
       .getElementById("hours_per_shift")
       .removeEventListener("change", this.calculateShiftTimeTo);
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
+  attributeChangedCallback(name: string, oldVal: string, newVal: string) {
     if (name === "open") {
-      const dialog = this._shadowRoot.querySelector("dialog");
+      const dialog = this.shadowRoot.querySelector("dialog");
       if (newVal === "true") {
         dialog.showModal();
         return;
@@ -250,15 +236,15 @@ export class ShiftDialogCreation extends HTMLElement {
     }
 
     if (name === "language-code") {
-      this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
+      this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
-        this._shadowRoot.innerHTML,
+        this.shadowRoot.innerHTML,
       );
       return;
     }
 
     if (name === "shift-type-id") {
-      this.#shiftTypeId = Number(newVal);
+      this.shiftTypeId = Number(newVal);
     }
   }
 }

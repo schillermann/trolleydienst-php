@@ -36,16 +36,12 @@ export class ShiftCardButtonAddPublisher extends HTMLElement {
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
   }
 
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  fireClickEvent(event) {
+  fireClickEvent(event: Event): void {
     this.dispatchEvent(
       new Event("add-click", {
         bubbles: true,
@@ -54,11 +50,8 @@ export class ShiftCardButtonAddPublisher extends HTMLElement {
     );
   }
 
-  /**
-   * @returns {void}
-   */
-  connectedCallback() {
-    this._shadowRoot
+  connectedCallback(): void {
+    this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
   }

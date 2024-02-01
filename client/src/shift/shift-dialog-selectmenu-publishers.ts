@@ -11,43 +11,38 @@ template.innerHTML = /*html*/ `
   <select></select>
 `;
 
-export default class ShiftDialogSelectmenuPublishers extends HTMLElement {
+export class ShiftDialogSelectmenuPublishers extends HTMLElement {
   static observedAttributes = ["selected-publisher-id"];
 
   constructor() {
     super();
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.attachShadow({ mode: "closed" }).appendChild(
+      template.content.cloneNode(true)
+    );
   }
 
-  onChangeMenu(event) {
+  onChangeMenu(event: Event) {
     this.dispatchEvent(
       new CustomEvent("selectmenu-change", {
         bubbles: true,
         composed: true,
         detail: {
+          // @ts-ignore
           publisherId: event.target.value,
         },
       }),
     );
   }
 
-  /**
-   * @returns {void}
-   */
-  connectedCallback() {
-    this._shadowRoot
+  connectedCallback(): void {
+    this.shadowRoot
       .querySelector("select")
       .addEventListener("change", this.onChangeMenu);
   }
 
-  /**
-   * @returns {void}
-   */
-  disconnectedCallback() {
-    this._shadowRoot
+  disconnectedCallback(): void {
+    this.shadowRoot
       .querySelector("select")
       .removeEventListener("change", this.onChangeMenu);
   }
@@ -58,7 +53,7 @@ export default class ShiftDialogSelectmenuPublishers extends HTMLElement {
    * @param {string} newVal
    * @returns {void}
    */
-  async attributeChangedCallback(name, oldVal, newVal) {
+  async attributeChangedCallback(name: string, oldVal: string, newVal: string) {
     if (name !== "selected-publisher-id") {
       return;
     }
@@ -66,7 +61,7 @@ export default class ShiftDialogSelectmenuPublishers extends HTMLElement {
     const response = await fetch("/api/shift/publishers-enabled");
 
     for (const publisher of await response.json()) {
-      const select = this._shadowRoot.querySelector("select");
+      const select = this.shadowRoot.querySelector("select");
       const option = document.createElement("option");
       option.value = publisher.id;
       option.innerHTML = publisher.name;
