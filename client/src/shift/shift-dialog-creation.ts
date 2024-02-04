@@ -1,8 +1,8 @@
 "use strict";
 
-import { DialogButton } from "../dialog/dialog-button";
-import { DialogButtonPrimary } from "../dialog/dialog-button-primary";
-import { Dictionary } from "../dictionary";
+import { DialogButton } from "../dialog/dialog-button.js";
+import { DialogButtonPrimary } from "../dialog/dialog-button-primary.js";
+import { Dictionary } from "../dictionary.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/`

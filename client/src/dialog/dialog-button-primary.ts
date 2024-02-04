@@ -1,6 +1,6 @@
 "use strict";
 
-import { FrontierElement } from "../forntier-element";
+import { FrontierElement } from "../forntier-element.js";
 
 export class DialogButtonPrimary extends FrontierElement {
   constructor() {

@@ -1,6 +1,6 @@
 "use strict";
 
-import { ShiftCard } from "./shift-card";
+import { ShiftCard } from "./shift-card.js";
 
 export class ShiftCardCalendar extends HTMLElement {
   constructor() {

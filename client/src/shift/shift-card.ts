@@ -1,8 +1,8 @@
 "use strict";
 
-import { ShiftCardPosition } from "./shift-card-position";
-import { ShiftCardTitle } from "./shift-card-title";
-import { ShiftCardButtonEdit } from "./shift-card-button-edit";
+import { ShiftCardPosition } from "./shift-card-position.js";
+import { ShiftCardTitle } from "./shift-card-title.js";
+import { ShiftCardButtonEdit } from "./shift-card-button-edit.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `

@@ -1,9 +1,9 @@
 "use strict";
 
-import { ShiftCardTime } from "./shift-card-time";
-import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher";
-import { ShiftCardButtonAvailable } from "./shift-card-button-available";
-import { ShiftCardButtonPublisher } from "./shift-card-button-publisher";
+import { ShiftCardTime } from "./shift-card-time.js";
+import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher.js";
+import { ShiftCardButtonAvailable } from "./shift-card-button-available.js";
+import { ShiftCardButtonPublisher } from "./shift-card-button-publisher.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `

@@ -1,14 +1,8 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "target": "ES5",
-    "module": "ES2015",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
+    "target": "es2016",
+    "module": "es6",
+    "outDir": "./public/dist",
+    "strict": true,
   }
 }

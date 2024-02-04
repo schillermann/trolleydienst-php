@@ -1,6 +1,6 @@
 "use strict";
 
-import { Dictionary } from "../dictionary";
+import { Dictionary } from "../dictionary.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
