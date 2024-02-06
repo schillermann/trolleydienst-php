@@ -1,10 +1,8 @@
 {
   "scripts": {
-    "format": "npx prettier --write client/src/",
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "format": "npx prettier --write public/js/"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "prettier": "2.8.8"
   }
 }

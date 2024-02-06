@@ -1,7 +1,7 @@
 "use strict";
 
-import { DialogButton } from "../dialog/dialog-button.js";
-import { Dictionary } from "../dictionary.js";
+import { DialogButton } from "../../dialog-button.js";
+import { Dictionary } from "../../dictionary.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -32,16 +32,14 @@ template.innerHTML = /*html*/ `
   </dialog>
 `;
 
-export class ShiftDialogPublisherContact extends HTMLElement {
-  dictionary: Dictionary;
+export default class ShiftDialogPublisherContact extends HTMLElement {
   static observedAttributes = ["open", "language-code", "publisher-id"];
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: "closed" }).appendChild(
-      template.content.cloneNode(true)
-    );
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.dictionary = new Dictionary({
       "Publisher Contact": {
@@ -65,24 +63,32 @@ export class ShiftDialogPublisherContact extends HTMLElement {
     });
   }
 
-  closeDialog(event: Event): void {
+  /**
+   * @param {Event} event
+   * @returns {void}
+   */
+  closeDialog(event) {
     this.setAttribute("open", "false");
   }
 
-  connectedCallback(): void {
+  connectedCallback() {
     customElements.get("dialog-button") ||
       window.customElements.define("dialog-button", DialogButton);
 
-    this.shadowRoot
+    this._shadowRoot
       .getElementById("button-close")
       .addEventListener("click", this.closeDialog.bind(this));
   }
 
-  disconnectedCallback(): void {
-    this.shadowRoot.removeEventListener("click", this.closeDialog);
+  disconnectedCallback() {
+    this._shadowRoot.removeEventListener("click", this.closeDialog);
   }
 
-  async setContactInfo(publisherId: number): Promise<void> {
+  /**
+   * @param {number} publisherId
+   * @returns {Promise<void>}
+   */
+  async setContactInfo(publisherId) {
     const apiUrl = "/api/publishers/" + publisherId;
     const response = await fetch(apiUrl, {
       method: "GET",
@@ -94,37 +100,43 @@ export class ShiftDialogPublisherContact extends HTMLElement {
       return;
     }
     const publisher = await response.json();
-    const email = this.shadowRoot.getElementById("email") as HTMLAnchorElement;
+    const email = this._shadowRoot.getElementById("email");
     email.href = "mailto:" + publisher.email;
     email.textContent = publisher.email;
 
     if (publisher.phone) {
-      const phone = this.shadowRoot.getElementById("phone") as HTMLAnchorElement;
+      const phone = this._shadowRoot.getElementById("phone");
       phone.href = "tel:" + publisher.phone;
       phone.textContent = publisher.phone;
     }
     if (publisher.mobile) {
-      const mobile = this.shadowRoot.getElementById("mobile") as HTMLAnchorElement;
+      const mobile = this._shadowRoot.getElementById("mobile");
       mobile.href = publisher.mobile;
       mobile.textContent = publisher.mobile;
     }
     if (publisher.publisherNote) {
-      this.shadowRoot.getElementById("info").textContent =
+      this._shadowRoot.getElementById("info").textContent =
         publisher.publisherNote;
     }
   }
 
-  async attributeChangedCallback(name: string, oldVal: string, newVal: string): Promise<void> {
+  /**
+   * @param {string} name
+   * @param {string} oldVal
+   * @param {string} newVal
+   * @returns {Promise<void>}
+   */
+  async attributeChangedCallback(name, oldVal, newVal) {
     if (name === "language-code") {
-      this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
+      this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
-        this.shadowRoot.innerHTML,
+        this._shadowRoot.innerHTML,
       );
       return;
     }
 
     if (name === "open") {
-      const dialog = this.shadowRoot.querySelector("dialog");
+      const dialog = this._shadowRoot.querySelector("dialog");
       if (newVal === "true") {
         dialog.showModal();
         return;
@@ -134,7 +146,7 @@ export class ShiftDialogPublisherContact extends HTMLElement {
     }
 
     if (name === "publisher-id") {
-      await this.setContactInfo(Number(this.getAttribute("publisher-id")));
+      await this.setContactInfo(this.getAttribute("publisher-id"));
     }
   }
 }

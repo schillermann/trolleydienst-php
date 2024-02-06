@@ -1,6 +1,6 @@
 "use strict";
 
-import { Dictionary } from "../dictionary.js";
+import { Dictionary } from "../../dictionary.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -45,15 +45,14 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftCardButtonAvailable extends HTMLElement {
-  dictionary: Dictionary;
   static observedAttributes = ["language-code"];
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: "closed" }).appendChild(
-      template.content.cloneNode(true)
-    );
+    /** @type {ShadowRoot} */
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.dictionary = new Dictionary({
       Available: {
@@ -62,7 +61,11 @@ export class ShiftCardButtonAvailable extends HTMLElement {
     });
   }
 
-  onClick(event: Event):void {
+  /**
+   * @param {Event} event
+   * @returns {void}
+   */
+  onClick(event) {
     this.dispatchEvent(
       new CustomEvent("open-shift-dialog-application", {
         bubbles: true,
@@ -76,20 +79,29 @@ export class ShiftCardButtonAvailable extends HTMLElement {
     );
   }
 
-  connectedCallback():void {
-    this.shadowRoot
+  /**
+   * @returns {void}
+   */
+  connectedCallback() {
+    this._shadowRoot
       .querySelector("button")
       .addEventListener("click", this.onClick.bind(this));
   }
 
-  attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
+  /**
+   * @param {string} name
+   * @param {string} oldVal
+   * @param {string} newVal
+   * @returns {void}
+   */
+  attributeChangedCallback(name, oldVal, newVal) {
     if (name !== "language-code") {
       return;
     }
 
-    this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
+    this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
       newVal,
-      this.shadowRoot.innerHTML,
+      this._shadowRoot.innerHTML,
     );
   }
 }

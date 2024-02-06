@@ -6,7 +6,8 @@ export class ShiftCardCalendar extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "closed" });
+    /** @type {ShadowRoot} */
+    this._shadowRoot = this.attachShadow({ mode: "open" });
   }
 
   async connectedCallback() {
@@ -52,7 +53,7 @@ export class ShiftCardCalendar extends HTMLElement {
         this.getAttribute("language-code"),
       );
 
-      this.shadowRoot.appendChild(shiftCard);
+      this._shadowRoot.appendChild(shiftCard);
     }
 
     customElements.get("shift-card") ||

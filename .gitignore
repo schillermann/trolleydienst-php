@@ -1,6 +1,5 @@
 node_modules/
 vendor/
-public/dist/
 .php-cs-fixer.cache
 .vscode
 config.php

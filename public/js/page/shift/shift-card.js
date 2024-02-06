@@ -27,13 +27,14 @@ export class ShiftCard extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: "closed" }).appendChild(
-      template.content.cloneNode(true)
-    );
+    /** @type {ShadowRoot} */
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   async connectedCallback() {
-    const shiftCardTitle = this.shadowRoot.querySelector("shift-card-title");
+    /** @type {Element} */
+    const shiftCardTitle = this._shadowRoot.querySelector("shift-card-title");
     shiftCardTitle.setAttribute("date", this.getAttribute("date"));
     shiftCardTitle.setAttribute("route-name", this.getAttribute("route-name"));
 
@@ -60,7 +61,7 @@ export class ShiftCard extends HTMLElement {
 
     const shift = await response.json();
     const shiftPositionSection =
-      this.shadowRoot.getElementById("shift-position");
+      this._shadowRoot.getElementById("shift-position");
 
     for (let positionId = 1; positionId <= shift.positions; positionId++) {
       const shiftPositionElement = document.createElement(
@@ -74,7 +75,7 @@ export class ShiftCard extends HTMLElement {
         "shift-type-id",
         this.getAttribute("shift-type-id"),
       );
-      shiftPositionElement.setAttribute("shift-position-id", positionId.toString());
+      shiftPositionElement.setAttribute("shift-position-id", positionId);
       // TODO: calculate time from to
       shiftPositionElement.setAttribute("from", "2023-12-20");
       shiftPositionElement.setAttribute("to", "2023-12-21");
