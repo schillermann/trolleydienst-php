@@ -11,9 +11,9 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <sub-nav-button-create id="create-shift-button">
+        <shift-nav-button-new-shift language-code="en" id="create-shift-button">
           Create Shift
-        </sub-nav-button-create>
+        </shift-nav-button-new-shift>
     </nav>
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>

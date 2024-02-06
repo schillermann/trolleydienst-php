@@ -1,8 +1,10 @@
 
 "use strict"
 
+import { Dictionary } from '../dictionary.js'
+
 const template = document.createElement('template');
-template.innerHTML = `
+template.innerHTML = /*html*/ `
     <style>
         @import url("css/font-awesome.min.css");
 
@@ -46,16 +48,36 @@ template.innerHTML = `
     </style>
     <button type="button">
         <i class="fa fa-plus"></i>
-        <slot />
+        { Create Shift}
     </button>
 `;
 
-export class SubNavButtonCreate extends HTMLElement {
+export class ShiftNavButtonNewShift extends HTMLElement {
+    static observedAttributes = ["language-code"];
+    
     constructor() {
         super();
 
         /** @type {ShadowRoot} */
         this._shadowRoot = this.attachShadow({ mode: 'open' });
         this._shadowRoot.appendChild(template.content.cloneNode(true));
+
+        this.dictionary = new Dictionary({
+            "New Shift": {
+              de: "Neue Schicht",
+            },
+          });
     }
+
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    if (name !== "language-code") {
+      return;
+    }
+
+    this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
+      newVal,
+      this._shadowRoot.innerHTML,
+    );
+  }
 }

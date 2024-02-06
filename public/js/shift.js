@@ -1,7 +1,6 @@
-import { ShiftCardCalendar, ShiftDialogApplication, ShiftDialogCreation, ShiftDialogPublisherContact } from "./shift/index.js"
-import { SubNavButtonCreate } from './button/index.js'
+import { ShiftNavButtonNewShift, ShiftCardCalendar, ShiftDialogApplication, ShiftDialogCreation, ShiftDialogPublisherContact } from "./shift/index.js"
 
-customElements.get("sub-nav-button-create") || window.customElements.define("sub-nav-button-create", SubNavButtonCreate)
+customElements.get("shift-nav-button-new-shift") || window.customElements.define("shift-nav-button-new-shift", ShiftNavButtonNewShift)
 customElements.get('shift-card-calendar') || window.customElements.define('shift-card-calendar', ShiftCardCalendar)
 customElements.get('shift-dialog-application') || window.customElements.define('shift-dialog-application', ShiftDialogApplication)
 customElements.get('shift-dialog-creation') || window.customElements.define('shift-dialog-creation', ShiftDialogCreation)
