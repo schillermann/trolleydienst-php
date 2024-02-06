@@ -25,7 +25,7 @@ template.innerHTML = /*html*/ `
     </dialog>
 `;
 
-export default class ShiftDialogPublisher extends HTMLElement {
+export class ShiftDialogPublisher extends HTMLElement {
   constructor() {
     super();
 

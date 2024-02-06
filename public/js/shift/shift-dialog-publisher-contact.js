@@ -1,7 +1,7 @@
 "use strict";
 
-import { DialogButton } from "../../dialog-button.js";
-import { Dictionary } from "../../dictionary.js";
+import { DialogButton } from "./../button/index.js";
+import { Dictionary } from "../dictionary.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -32,7 +32,7 @@ template.innerHTML = /*html*/ `
   </dialog>
 `;
 
-export default class ShiftDialogPublisherContact extends HTMLElement {
+export class ShiftDialogPublisherContact extends HTMLElement {
   static observedAttributes = ["open", "language-code", "publisher-id"];
 
   constructor() {

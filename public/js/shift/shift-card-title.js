@@ -13,19 +13,14 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftCardTitle extends HTMLElement {
+  static observedAttributes = ["date", "route-name"];
+
   constructor() {
     super();
 
     /** @type {ShadowRoot} */
     this._shadowRoot = this.attachShadow({ mode: "open" });
     this._shadowRoot.appendChild(template.content.cloneNode(true));
-  }
-
-  /**
-   * @returns {Array}
-   */
-  static get observedAttributes() {
-    return ["date", "route-name"];
   }
 
   /**

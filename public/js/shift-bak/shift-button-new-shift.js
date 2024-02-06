@@ -50,7 +50,7 @@ template.innerHTML = /*html*/ `
     </button>
 `;
 
-export default class ShiftButtonNewShift extends HTMLElement {
+export class ShiftButtonNewShift extends HTMLElement {
   constructor() {
     super();
 

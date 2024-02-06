@@ -1,9 +1,8 @@
 "use strict";
 
-import { DialogButtonPrimary } from "../../dialog-button-primary.js";
-import { DialogButton } from "../../dialog-button.js";
-import { Dictionary } from "../../dictionary.js";
-import ShiftDialogSelectmenuPublishers from "./shift-dialog-selectmenu-publishers.js";
+import { DialogButtonPrimary, DialogButton } from "../button/index.js";
+import { Dictionary } from "../dictionary.js";
+import { ShiftDialogSelectmenuPublishers } from "./shift-dialog-selectmenu-publishers.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `

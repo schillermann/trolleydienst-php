@@ -50,7 +50,7 @@ template.innerHTML = `
     </button>
 `;
 
-export default class ButtonCreate extends HTMLElement {
+export class SubNavButtonCreate extends HTMLElement {
     constructor() {
         super();
 

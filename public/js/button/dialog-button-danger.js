@@ -14,7 +14,7 @@ template.innerHTML = /*html*/ `
   </button>
 `;
 
-export class DialogButton extends HTMLElement {
+export class DialogButtonDanger extends HTMLElement {
   constructor() {
     super();
 

@@ -11,7 +11,7 @@ template.innerHTML = /*html*/ `
   <select></select>
 `;
 
-export default class ShiftDialogSelectmenuPublishers extends HTMLElement {
+export class ShiftDialogSelectmenuPublishers extends HTMLElement {
   static observedAttributes = ["selected-publisher-id"];
 
   constructor() {

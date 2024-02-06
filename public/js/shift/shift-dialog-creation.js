@@ -1,11 +1,10 @@
 "use strict";
 
-import { DialogButton } from "../../dialog-button.js";
-import { DialogButtonPrimary } from "../../dialog-button-primary.js";
-import { Dictionary } from "../../dictionary.js";
+import { DialogButton, DialogButtonPrimary } from "./../button/index.js";
+import { Dictionary } from "../dictionary.js";
 
 const template = document.createElement("template");
-template.innerHTML = `
+template.innerHTML = /*html*/ `
   <style>
     input {
       width: 100%;

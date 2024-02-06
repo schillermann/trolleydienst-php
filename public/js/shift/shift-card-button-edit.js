@@ -1,6 +1,6 @@
 "use strict";
 
-import { Dictionary } from "../../dictionary.js";
+import { Dictionary } from "../dictionary.js";
 
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
@@ -44,6 +44,8 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftCardButtonEdit extends HTMLElement {
+  static observedAttributes = ["language-code"];
+
   constructor() {
     super();
 
@@ -78,10 +80,6 @@ export class ShiftCardButtonEdit extends HTMLElement {
     this._shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
-  }
-
-  static get observedAttributes() {
-    return ["language-code"];
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
