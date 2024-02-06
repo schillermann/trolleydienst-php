@@ -1,64 +1,12 @@
 "use strict";
 
-import { Dictionary } from "../dictionary.js";
+import { FrontierElement } from '../forntier-element.js'
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-  <style>
-    @import url("css/font-awesome.min.css");
-
-    button {
-      transition: box-shadow .28s;
-      padding: 6px 12px;
-      line-height: 1.42857143;
-      font-size: 1rem;
-      vertical-align: middle;
-      touch-action: manipulation;
-      cursor: pointer;
-      user-select: none;
-      border: 1px solid rgba(189, 183, 181, 0.5);
-      color: var(--black);
-      margin-bottom: 4px;
-      background-color: var(--grey-25);
-      border-radius: 5px;
-      width: 180px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    
-    button:hover {
-      background-color: var(--second-color);
-      border-color: var(--second-color);
-      background-color: var(--grey-25);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      button {
-        color: var(--white);
-      }
-    }
-  </style>
-  <button class="button promote apply-shift-button" type="button">
-      <i class="fa fa-hand-o-right"></i> {Available}
-  </button>
-`;
-
-export class ShiftCardButtonAvailable extends HTMLElement {
+export class ShiftCardButtonAvailable extends FrontierElement {
   static observedAttributes = ["language-code"];
 
   constructor() {
     super();
-
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
-
-    this.dictionary = new Dictionary({
-      Available: {
-        de: "Frei",
-      },
-    });
   }
 
   /**
@@ -83,7 +31,7 @@ export class ShiftCardButtonAvailable extends HTMLElement {
    * @returns {void}
    */
   connectedCallback() {
-    this._shadowRoot
+    this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.onClick.bind(this));
   }
@@ -99,9 +47,58 @@ export class ShiftCardButtonAvailable extends HTMLElement {
       return;
     }
 
-    this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
-      newVal,
-      this._shadowRoot.innerHTML,
-    );
+    const label = this.shadowRoot.querySelector("label")
+    switch(newVal) {
+      case 'de':
+        label.innerHTML = 'Frei'
+        break;
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  render() {
+    return /*html*/ `
+      <style>
+        @import url("css/font-awesome.min.css");
+    
+        button {
+          transition: box-shadow .28s;
+          padding: 6px 12px;
+          line-height: 1.42857143;
+          font-size: 1rem;
+          vertical-align: middle;
+          touch-action: manipulation;
+          cursor: pointer;
+          user-select: none;
+          border: 1px solid rgba(189, 183, 181, 0.5);
+          color: var(--black);
+          margin-bottom: 4px;
+          background-color: var(--grey-25);
+          border-radius: 5px;
+          width: 180px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        
+        button:hover {
+          background-color: var(--second-color);
+          border-color: var(--second-color);
+          background-color: var(--grey-25);
+        }
+    
+        @media (prefers-color-scheme: dark) {
+          button {
+            color: var(--white);
+          }
+        }
+      </style>
+      <button class="button promote apply-shift-button" type="button">
+          <i class="fa fa-hand-o-right"></i>
+          <label>Available</label>
+      </button>
+    `;
   }
 }
