@@ -32,7 +32,7 @@ export class ShiftCardCalendar extends HTMLElement {
 
     if (shiftTypeResponse.status !== 200) {
       console.error(
-        "Cannot read shift type from api [url: " + shiftTypeApiUrl + "]",
+        "Cannot read shift type from api [url: " + shiftTypeApiUrl + "]"
       );
       return;
     }
@@ -45,12 +45,12 @@ export class ShiftCardCalendar extends HTMLElement {
       shiftCard.setAttribute("color", shift.colorHex);
       shiftCard.setAttribute(
         "publisher-limit",
-        shiftType.publisherLimitPerShift,
+        shiftType.publisherLimitPerShift
       );
       shiftCard.setAttribute("route-name", shift.routeName);
       shiftCard.setAttribute(
         "language-code",
-        this.getAttribute("language-code"),
+        this.getAttribute("language-code")
       );
 
       this._shadowRoot.appendChild(shiftCard);

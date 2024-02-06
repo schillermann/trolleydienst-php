@@ -69,7 +69,7 @@ export class ShiftCardButtonEdit extends HTMLElement {
       new Event("edit-shift-click", {
         bubbles: true,
         composed: true,
-      }),
+      })
     );
   }
 
@@ -89,7 +89,7 @@ export class ShiftCardButtonEdit extends HTMLElement {
 
     this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
       newVal,
-      this._shadowRoot.innerHTML,
+      this._shadowRoot.innerHTML
     );
   }
 }

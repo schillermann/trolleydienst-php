@@ -1,6 +1,6 @@
 "use strict";
 
-import { FrontierElement } from '../forntier-element.js'
+import { FrontierElement } from "../forntier-element.js";
 
 export class ShiftCardButtonAvailable extends FrontierElement {
   static observedAttributes = ["language-code"];
@@ -23,7 +23,7 @@ export class ShiftCardButtonAvailable extends FrontierElement {
           shiftTypeId: this.getAttribute("shift-type-id"),
           shiftPosition: this.getAttribute("shift-position"),
         },
-      }),
+      })
     );
   }
 
@@ -47,10 +47,10 @@ export class ShiftCardButtonAvailable extends FrontierElement {
       return;
     }
 
-    const label = this.shadowRoot.querySelector("label")
-    switch(newVal) {
-      case 'de':
-        label.innerHTML = 'Frei'
+    const label = this.shadowRoot.querySelector("label");
+    switch (newVal) {
+      case "de":
+        label.innerHTML = "Frei";
         break;
     }
   }

@@ -45,7 +45,7 @@ export class ShiftCard extends HTMLElement {
     customElements.get("shift-card-button-edit") ||
       window.customElements.define(
         "shift-card-button-edit",
-        ShiftCardButtonEdit,
+        ShiftCardButtonEdit
       );
 
     const apiUrl = "/api/shifts/" + this.getAttribute("shift-id");
@@ -65,15 +65,15 @@ export class ShiftCard extends HTMLElement {
 
     for (let positionId = 1; positionId <= shift.positions; positionId++) {
       const shiftPositionElement = document.createElement(
-        "shift-card-position",
+        "shift-card-position"
       );
       shiftPositionElement.setAttribute(
         "shift-id",
-        this.getAttribute("shift-id"),
+        this.getAttribute("shift-id")
       );
       shiftPositionElement.setAttribute(
         "shift-type-id",
-        this.getAttribute("shift-type-id"),
+        this.getAttribute("shift-type-id")
       );
       shiftPositionElement.setAttribute("shift-position-id", positionId);
       // TODO: calculate time from to
@@ -81,11 +81,11 @@ export class ShiftCard extends HTMLElement {
       shiftPositionElement.setAttribute("to", "2023-12-21");
       shiftPositionElement.setAttribute(
         "language-code",
-        this.getAttribute("language-code"),
+        this.getAttribute("language-code")
       );
       shiftPositionElement.setAttribute(
         "publisher-limit",
-        this.getAttribute("publisher-limit"),
+        this.getAttribute("publisher-limit")
       );
 
       shiftPositionSection.appendChild(shiftPositionElement);

@@ -85,7 +85,7 @@ export class ShiftCardButtonPublisher extends HTMLElement {
           shiftPosition: parseInt(this.getAttribute("shift-position")),
           publisherId: parseInt(this.getAttribute("publisher-id")),
         },
-      }),
+      })
     );
   }
 }

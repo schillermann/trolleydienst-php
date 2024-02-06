@@ -94,19 +94,19 @@ export class ShiftDialogApplication extends HTMLElement {
     customElements.get("dialog-button-primary") ||
       window.customElements.define(
         "dialog-button-primary",
-        DialogButtonPrimary,
+        DialogButtonPrimary
       );
     customElements.get("dialog-button") ||
       window.customElements.define("dialog-button", DialogButton);
     customElements.get("shift-dialog-selectmenu-publishers") ||
       window.customElements.define(
         "shift-dialog-selectmenu-publishers",
-        ShiftDialogSelectmenuPublishers,
+        ShiftDialogSelectmenuPublishers
       );
 
     this._shadowRoot.addEventListener(
       "selectmenu-change",
-      this.setSelectedPublisherId.bind(this),
+      this.setSelectedPublisherId.bind(this)
     );
 
     this._shadowRoot
@@ -120,7 +120,7 @@ export class ShiftDialogApplication extends HTMLElement {
   disconnectedCallback() {
     this._shadowRoot.removeEventListener(
       "selectmenu-change",
-      this.setSelectedPublisherId,
+      this.setSelectedPublisherId
     );
 
     this._shadowRoot
@@ -145,7 +145,7 @@ export class ShiftDialogApplication extends HTMLElement {
     if (name === "language-code") {
       this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
-        this._shadowRoot.innerHTML,
+        this._shadowRoot.innerHTML
       );
       return;
     }

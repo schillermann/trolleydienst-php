@@ -37,7 +37,7 @@ export class ShiftCardPosition extends HTMLElement {
     customElements.get("shift-card-button-add-publisher") ||
       window.customElements.define(
         "shift-card-button-add-publisher",
-        ShiftCardButtonAddPublisher,
+        ShiftCardButtonAddPublisher
       );
 
     this.createPublisherButtons();
@@ -66,19 +66,19 @@ export class ShiftCardPosition extends HTMLElement {
 
     for (const publisher of await response.json()) {
       const shiftCardButtonPublisher = document.createElement(
-        "shift-card-button-publisher",
+        "shift-card-button-publisher"
       );
       shiftCardButtonPublisher.setAttribute(
         "shift-id",
-        this.getAttribute("shift-id"),
+        this.getAttribute("shift-id")
       );
       shiftCardButtonPublisher.setAttribute(
         "shift-type-id",
-        this.getAttribute("shift-type-id"),
+        this.getAttribute("shift-type-id")
       );
       shiftCardButtonPublisher.setAttribute(
         "shift-position-id",
-        this.getAttribute("shift-position-id"),
+        this.getAttribute("shift-position-id")
       );
       shiftCardButtonPublisher.setAttribute("publisher-id", publisher.id);
       shiftCardButtonPublisher.setAttribute("language-code", "en");
@@ -90,7 +90,7 @@ export class ShiftCardPosition extends HTMLElement {
       customElements.get("shift-card-button-publisher") ||
         window.customElements.define(
           "shift-card-button-publisher",
-          ShiftCardButtonPublisher,
+          ShiftCardButtonPublisher
         );
       numberOfPublisherNameButtons++;
     }
@@ -101,26 +101,26 @@ export class ShiftCardPosition extends HTMLElement {
       numberOfAvailableButtons++
     ) {
       const shiftCardButtonAvailable = document.createElement(
-        "shift-card-button-available",
+        "shift-card-button-available"
       );
       shiftCardButtonAvailable.setAttribute(
         "shift-id",
-        this.getAttribute("shift-id"),
+        this.getAttribute("shift-id")
       );
       shiftCardButtonAvailable.setAttribute(
         "shift-type-id",
-        this.getAttribute("shift-type-id"),
+        this.getAttribute("shift-type-id")
       );
       shiftCardButtonAvailable.setAttribute(
         "shift-position-id",
-        this.getAttribute("shift-position-id"),
+        this.getAttribute("shift-position-id")
       );
       shiftCardButtonAvailable.setAttribute("language-code", "en");
       dd.appendChild(shiftCardButtonAvailable);
       customElements.get("shift-card-button-available") ||
         window.customElements.define(
           "shift-card-button-available",
-          ShiftCardButtonAvailable,
+          ShiftCardButtonAvailable
         );
     }
   }

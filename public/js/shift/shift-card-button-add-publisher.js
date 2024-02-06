@@ -50,7 +50,7 @@ export class ShiftCardButtonAddPublisher extends HTMLElement {
       new Event("add-click", {
         bubbles: true,
         composed: true,
-      }),
+      })
     );
   }
 

@@ -130,7 +130,7 @@ export class ShiftDialogPublisherContact extends HTMLElement {
     if (name === "language-code") {
       this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
-        this._shadowRoot.innerHTML,
+        this._shadowRoot.innerHTML
       );
       return;
     }

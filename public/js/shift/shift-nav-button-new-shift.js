@@ -1,30 +1,29 @@
+"use strict";
 
-"use strict"
-
-import { FrontierElement } from '../forntier-element.js'
+import { FrontierElement } from "../forntier-element.js";
 
 export class ShiftNavButtonNewShift extends FrontierElement {
-    static observedAttributes = ["language-code"];
-    
-    constructor() {
-        super();
-    }
+  static observedAttributes = ["language-code"];
 
-/**
- * @param {string} name 
- * @param {string} oldVal 
- * @param {string} newVal 
- * @returns {void}
- */
+  constructor() {
+    super();
+  }
+
+  /**
+   * @param {string} name
+   * @param {string} oldVal
+   * @param {string} newVal
+   * @returns {void}
+   */
   attributeChangedCallback(name, oldVal, newVal) {
     if (name !== "language-code") {
       return;
     }
 
-    const label = this.shadowRoot.querySelector("label")
-    switch(newVal) {
-      case 'de':
-        label.innerHTML = 'Neue Schicht'
+    const label = this.shadowRoot.querySelector("label");
+    switch (newVal) {
+      case "de":
+        label.innerHTML = "Neue Schicht";
         break;
     }
   }

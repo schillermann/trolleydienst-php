@@ -33,7 +33,7 @@ export class ShiftCardTitle extends HTMLElement {
   attributeChangedCallback(name, oldVal, newVal) {
     if (name === "date") {
       this._shadowRoot.querySelector("#date").innerText = new Date(
-        newVal,
+        newVal
       ).toDateString();
       return;
     }

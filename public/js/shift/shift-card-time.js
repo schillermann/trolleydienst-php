@@ -8,7 +8,7 @@ template.innerHTML = /*html*/ `
 `;
 
 export class ShiftCardTime extends HTMLElement {
-  static observedAttributes = ["date-from", "date-to"]
+  static observedAttributes = ["date-from", "date-to"];
 
   constructor() {
     super();
@@ -33,7 +33,7 @@ export class ShiftCardTime extends HTMLElement {
       const hours = dateFrom.getHours();
       const minutes = new String("0" + dateFrom.getMinutes()).slice(-2);
       this._shadowRoot.querySelector(
-        "#date-from",
+        "#date-from"
       ).innerText = `${hours}:${minutes}`;
       return;
     }
@@ -47,7 +47,7 @@ export class ShiftCardTime extends HTMLElement {
       const minutes = new String("0" + dateTo.getMinutes()).slice(-2);
 
       this._shadowRoot.querySelector(
-        "#date-to",
+        "#date-to"
       ).innerText = `${hours}:${minutes}`;
     }
   }

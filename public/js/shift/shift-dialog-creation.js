@@ -144,7 +144,7 @@ export class ShiftDialogCreation extends HTMLElement {
         shiftTypeId: this.#shiftTypeId,
         routeName: this._shadowRoot.getElementById("route").value,
         numberOfShifts: Number(
-          this._shadowRoot.getElementById("number_of_shifts").value,
+          this._shadowRoot.getElementById("number_of_shifts").value
         ),
         minutesPerShift:
           this._shadowRoot.getElementById("hours_per_shift").value * 60,
@@ -184,13 +184,13 @@ export class ShiftDialogCreation extends HTMLElement {
     customElements.get("dialog-button-primary") ||
       window.customElements.define(
         "dialog-button-primary",
-        DialogButtonPrimary,
+        DialogButtonPrimary
       );
     this._shadowRoot
       .getElementById("button-create")
       .addEventListener(
         "click",
-        this.onClickButtonCreate.bind(this._shadowRoot.querySelector("form")),
+        this.onClickButtonCreate.bind(this._shadowRoot.querySelector("form"))
       );
 
     customElements.get("dialog-button") ||
@@ -251,7 +251,7 @@ export class ShiftDialogCreation extends HTMLElement {
     if (name === "language-code") {
       this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
-        this._shadowRoot.innerHTML,
+        this._shadowRoot.innerHTML
       );
       return;
     }

@@ -30,7 +30,7 @@ export class ShiftDialogSelectmenuPublishers extends HTMLElement {
         detail: {
           publisherId: event.target.value,
         },
-      }),
+      })
     );
   }
 
