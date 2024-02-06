@@ -1,6 +1,5 @@
 node_modules/
 vendor/
 .php-cs-fixer.cache
-.vscode
 config.php
 database.sqlite
