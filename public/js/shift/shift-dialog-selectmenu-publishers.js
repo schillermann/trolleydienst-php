@@ -1,34 +1,25 @@
 "use strict";
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-  <style>
-    select {
-      width: 100%;
-    }
-  </style>
+import { FrontierElement } from "../forntier-element.js";
 
-  <select></select>
-`;
-
-export class ShiftDialogSelectmenuPublishers extends HTMLElement {
+export class ShiftDialogSelectmenuPublishers extends FrontierElement {
   static observedAttributes = ["selected-publisher-id"];
 
   constructor() {
     super();
-
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
+  /**
+   * @param {Event} event
+   * @returns {void}
+   */
   onChangeMenu(event) {
     this.dispatchEvent(
       new CustomEvent("selectmenu-change", {
         bubbles: true,
         composed: true,
         detail: {
-          publisherId: event.target.value,
+          publisherId: Number(event.target.value),
         },
       })
     );
@@ -38,7 +29,7 @@ export class ShiftDialogSelectmenuPublishers extends HTMLElement {
    * @returns {void}
    */
   connectedCallback() {
-    this._shadowRoot
+    this.shadowRoot
       .querySelector("select")
       .addEventListener("change", this.onChangeMenu);
   }
@@ -47,7 +38,7 @@ export class ShiftDialogSelectmenuPublishers extends HTMLElement {
    * @returns {void}
    */
   disconnectedCallback() {
-    this._shadowRoot
+    this.shadowRoot
       .querySelector("select")
       .removeEventListener("change", this.onChangeMenu);
   }
@@ -64,9 +55,9 @@ export class ShiftDialogSelectmenuPublishers extends HTMLElement {
     }
 
     const response = await fetch("/api/shift/publishers-enabled");
+    const select = this.shadowRoot.querySelector("select");
 
     for (const publisher of await response.json()) {
-      const select = this._shadowRoot.querySelector("select");
       const option = document.createElement("option");
       option.value = publisher.id;
       option.innerHTML = publisher.name;
@@ -75,5 +66,21 @@ export class ShiftDialogSelectmenuPublishers extends HTMLElement {
       }
       select.appendChild(option);
     }
+    select.dispatchEvent(new Event("change"));
+  }
+
+  /**
+   * @returns {string}
+   */
+  render() {
+    return /*html*/ `
+      <style>
+        select {
+          width: 100%;
+        }
+      </style>
+
+      <select></select>
+    `;
   }
 }

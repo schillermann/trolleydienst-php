@@ -63,7 +63,11 @@ export class ShiftCard extends HTMLElement {
     const shiftPositionSection =
       this._shadowRoot.getElementById("shift-position");
 
-    for (let positionId = 1; positionId <= shift.positions; positionId++) {
+    for (
+      let shiftPosition = 1;
+      shiftPosition <= shift.positions;
+      shiftPosition++
+    ) {
       const shiftPositionElement = document.createElement(
         "shift-card-position"
       );
@@ -75,7 +79,7 @@ export class ShiftCard extends HTMLElement {
         "shift-type-id",
         this.getAttribute("shift-type-id")
       );
-      shiftPositionElement.setAttribute("shift-position-id", positionId);
+      shiftPositionElement.setAttribute("shift-position", shiftPosition);
       // TODO: calculate time from to
       shiftPositionElement.setAttribute("from", "2023-12-20");
       shiftPositionElement.setAttribute("to", "2023-12-21");

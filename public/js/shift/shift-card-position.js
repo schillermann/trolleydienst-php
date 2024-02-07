@@ -52,7 +52,7 @@ export class ShiftCardPosition extends HTMLElement {
       "/api/shifts/" +
       this.getAttribute("shift-id") +
       "/positions/" +
-      this.getAttribute("shift-position-id") +
+      this.getAttribute("shift-position") +
       "/publishers";
     const response = await fetch(apiUrl, {
       method: "GET",
@@ -77,8 +77,8 @@ export class ShiftCardPosition extends HTMLElement {
         this.getAttribute("shift-type-id")
       );
       shiftCardButtonPublisher.setAttribute(
-        "shift-position-id",
-        this.getAttribute("shift-position-id")
+        "shift-position",
+        this.getAttribute("shift-position")
       );
       shiftCardButtonPublisher.setAttribute("publisher-id", publisher.id);
       shiftCardButtonPublisher.setAttribute("language-code", "en");
@@ -112,8 +112,8 @@ export class ShiftCardPosition extends HTMLElement {
         this.getAttribute("shift-type-id")
       );
       shiftCardButtonAvailable.setAttribute(
-        "shift-position-id",
-        this.getAttribute("shift-position-id")
+        "shift-position",
+        this.getAttribute("shift-position")
       );
       shiftCardButtonAvailable.setAttribute("language-code", "en");
       dd.appendChild(shiftCardButtonAvailable);

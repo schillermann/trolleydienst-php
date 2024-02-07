@@ -96,14 +96,13 @@ require __DIR__ . '/../vendor/autoload.php';
       $this->session->start();
 
       if ($this->httpMethod === 'POST') {
-        if (preg_match('|^/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
+        if (preg_match('|^/api/shifts/([0-9]+)/positions/([0-9]+)/publishers$|', $value, $matches) === 1) {
           return new ShiftPositionPublisherPost(
             new ApplicationsSqlite($this->pdo),
             new ShiftsSqlite($this->pdo),
             new PublishersSqlite($this->pdo),
             (int)$matches[1],
-            (int)$matches[2],
-            (int)$matches[3],
+            (int)$matches[2]
           );
         }
         if ('/api/shifts' === $value) {
