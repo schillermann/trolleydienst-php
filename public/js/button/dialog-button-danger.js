@@ -1,25 +1,27 @@
 "use strict";
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-  <style>
-    button {
-      background-color: var(--error-color);
-      color: var(--white);
-      width: 100%;
-    }
-  </style>
-  <button>
-    <slot/>
-  </button>
-`;
+import { FrontierElement } from "../forntier-element.js";
 
-export class DialogButtonDanger extends HTMLElement {
+export class DialogButtonDanger extends FrontierElement {
   constructor() {
     super();
+  }
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+  /**
+   * @returns {string}
+   */
+  render() {
+    return /*html*/ `
+      <style>
+        button {
+          background-color: var(--error-color);
+          color: var(--white);
+          width: 100%;
+        }
+      </style>
+      <button>
+        <slot/>
+      </button>
+    `;
   }
 }

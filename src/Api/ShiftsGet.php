@@ -49,8 +49,8 @@ class ShiftsGet implements PageInterface
         'positions' => $shift->positions(),
         'minutesPerShift' => $shift->minutesPerShift(),
         'colorHex' => $shift->colorHex(),
-        'updatedAt' => $shift->updatedAt()->format(\DateTimeInterface::ATOM),
-        'createdAt' => $shift->createdAt()->format(\DateTimeInterface::ATOM)
+        'lastModifiedOn' => $shift->lastModifiedOn()->format(\DateTimeInterface::ATOM),
+        'createdOn' => $shift->createdOn()->format(\DateTimeInterface::ATOM)
       ];
     }
 

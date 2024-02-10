@@ -41,8 +41,8 @@ class ShiftTypeGet implements PageInterface
             'label' => $shiftType->label(),
             'publisherLimitPerShift' => $shiftType->publisherLimitPerShift(),
             'info' => $shiftType->info(),
-            'updatedAt' => $shiftType->updatedAt()->format(\DateTimeInterface::ATOM),
-            'createdAt' => $shiftType->createdAt()->format(\DateTimeInterface::ATOM)
+            'lastModifiedOn' => $shiftType->LastModifiedOn()->format(\DateTimeInterface::ATOM),
+            'createdOn' => $shiftType->createdOn()->format(\DateTimeInterface::ATOM)
           ],
           JSON_THROW_ON_ERROR,
           2

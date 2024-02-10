@@ -4,30 +4,15 @@ import { ShiftCardTime } from "./shift-card-time.js";
 import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher.js";
 import { ShiftCardButtonAvailable } from "./shift-card-button-available.js";
 import { ShiftCardButtonPublisher } from "./shift-card-button-publisher.js";
+import { FrontierElement } from "../forntier-element.js";
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-  <dl>          
-    <dt>
-      <shift-card-time language-code="en"></shift-card-time>
-    </dt>
-    <dd>
-      <shift-card-button-add-publisher language-code="en"></shift-card-button-add-publisher>
-    </dd>
-  </dl>
-`;
-
-export class ShiftCardPosition extends HTMLElement {
+export class ShiftCardPosition extends FrontierElement {
   constructor() {
     super();
-
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   connectedCallback() {
-    const shiftCardTime = this._shadowRoot.querySelector("shift-card-time");
+    const shiftCardTime = this.shadowRoot.querySelector("shift-card-time");
     // TODO: Add right time
     shiftCardTime.setAttribute("date-from", new Date().toString());
     shiftCardTime.setAttribute("date-to", new Date().toString());
@@ -43,28 +28,29 @@ export class ShiftCardPosition extends HTMLElement {
     this.createPublisherButtons();
   }
 
+  /**
+   *
+   * @returns {string}
+   */
+  render() {
+    return /*html*/ `
+      <dl>          
+        <dt>
+          <shift-card-time language-code="en"></shift-card-time>
+        </dt>
+        <dd>
+          <shift-card-button-add-publisher language-code="en"></shift-card-button-add-publisher>
+        </dd>
+      </dl>
+    `;
+  }
+
   async createPublisherButtons() {
     // TODO: Add buttons to tag who is empty
-    const dd = this._shadowRoot.querySelector("dd");
+    const dd = this.shadowRoot.querySelector("dd");
     let numberOfPublisherNameButtons = 0;
-
-    const apiUrl =
-      "/api/shifts/" +
-      this.getAttribute("shift-id") +
-      "/positions/" +
-      this.getAttribute("shift-position") +
-      "/publishers";
-    const response = await fetch(apiUrl, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (response.status !== 200) {
-      console.error("Cannot read publishers from api [url: " + apiUrl + "]");
-      return;
-    }
-
-    for (const publisher of await response.json()) {
+    const publishers = JSON.parse(this.getAttribute("publishers"));
+    for (const publisherId in publishers) {
       const shiftCardButtonPublisher = document.createElement(
         "shift-card-button-publisher"
       );
@@ -80,11 +66,10 @@ export class ShiftCardPosition extends HTMLElement {
         "shift-position",
         this.getAttribute("shift-position")
       );
-      shiftCardButtonPublisher.setAttribute("publisher-id", publisher.id);
+      shiftCardButtonPublisher.setAttribute("publisher-id", publisherId);
       shiftCardButtonPublisher.setAttribute("language-code", "en");
 
-      shiftCardButtonPublisher.innerText =
-        publisher.firstname + " " + publisher.lastname;
+      shiftCardButtonPublisher.innerText = publishers[publisherId];
 
       dd.appendChild(shiftCardButtonPublisher);
       customElements.get("shift-card-button-publisher") ||

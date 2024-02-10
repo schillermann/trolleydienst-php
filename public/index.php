@@ -9,6 +9,7 @@ use App\AdjustShiftTypePage;
 use App\Api\MeQuery;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
+use App\Api\ShiftApplicationsGet;
 use App\Api\ShiftGet;
 use App\Api\ShiftsGet;
 use App\Api\ShiftsPost;
@@ -19,6 +20,7 @@ use App\Api\ShiftTypeGet;
 use App\ChangePublisherPassword;
 use App\Database\ApplicationsSqlite;
 use App\Database\PublishersSqlite;
+use App\Database\ShiftApplicationsSqlite;
 use App\Database\ShiftsSqlite;
 use App\Database\ShiftTypesSqlite;
 use App\EditFilePage;
@@ -119,6 +121,12 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       if ($this->httpMethod === 'GET') {
+        if (preg_match('|^/api/shifts/([0-9]+)/applications$|', $value, $matches) === 1) {
+          return new ShiftApplicationsGet(
+            new ShiftApplicationsSqlite($this->pdo, (int)$matches[1])
+          );
+        }
+
         if ('/api/shifts' === $value) {
           return new ShiftsGet(
             new ShiftsSqlite($this->pdo)

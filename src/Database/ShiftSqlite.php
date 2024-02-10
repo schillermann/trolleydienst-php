@@ -41,12 +41,12 @@ class ShiftSqlite
   {
     return $this->columns['color_hex'];
   }
-  function updatedAt(): \DateTimeImmutable
+  function lastModifiedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['updated']);
+    return new \DateTimeImmutable($this->columns['last_modified_on']);
   }
-  function createdAt(): \DateTimeImmutable
+  function createdOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['created']);
+    return new \DateTimeImmutable($this->columns['created_on']);
   }
 }

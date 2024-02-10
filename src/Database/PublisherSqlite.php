@@ -71,15 +71,15 @@ class PublisherSqlite
   {
     return (bool)$this->columns['administrative'];
   }
-  function loggedInAt(): \DateTimeImmutable
+  function lastLoggedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['logged_on']);
+    return new \DateTimeImmutable($this->columns['last_logged_on']);
   }
-  function updatedAt(): \DateTimeImmutable
+  function LastModifiedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['updated_on']);
+    return new \DateTimeImmutable($this->columns['last_modified_on']);
   }
-  function createdAt(): \DateTimeImmutable
+  function createdOn(): \DateTimeImmutable
   {
     return new \DateTimeImmutable($this->columns['created_on']);
   }

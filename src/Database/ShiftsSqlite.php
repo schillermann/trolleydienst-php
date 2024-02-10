@@ -30,10 +30,10 @@ class ShiftsSqlite
     ]);
   }
 
-  function shift(int $shiftId)
+  function shift(int $shiftId): ShiftSqlite
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
+            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated AS last_modified_on, created AS created_on
             FROM shifts
             WHERE id_shift = :shiftId
         SQL);

@@ -3,38 +3,42 @@
 import { ShiftCardPosition } from "./shift-card-position.js";
 import { ShiftCardTitle } from "./shift-card-title.js";
 import { ShiftCardButtonEdit } from "./shift-card-button-edit.js";
+import { FrontierElement } from "../forntier-element.js";
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-  <style>
-    #shift-card {
-      background-color: var(--grey-25);
-    }
-  </style>
+/**
+ * @typedef {Object} Shift
+ * @property {number} typeId
+ * @property {string} routeName
+ * @property {string} start
+ * @property {number} positions
+ * @property {number} minutesPerShift
+ * @property {string} colorHex
+ * @property {string} lastModifiedOn
+ * @property {string} createdOn
+ */
 
-  <div id="shift-card">
-    <div>
-      <shift-card-title></shift-card-title>
-    </div>
-    <div id="shift-position"></div>
-    <div>
-      <shift-card-button-edit language-code="en"></shift-card-button-edit>
-    </div>
-  </div>
-`;
+/**
+ * @typedef {Object} Applications
+ * @property {number} shiftPosition
+ * @property {Publisher} publisher
+ * @property {string} createdOn
+ */
 
-export class ShiftCard extends HTMLElement {
+/**
+ * @typedef {Object} Publisher
+ * @property {number} id
+ * @property {string} firstname
+ * @property {string} lastname
+ */
+
+export class ShiftCard extends FrontierElement {
   constructor() {
     super();
-
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   async connectedCallback() {
     /** @type {Element} */
-    const shiftCardTitle = this._shadowRoot.querySelector("shift-card-title");
+    const shiftCardTitle = this.shadowRoot.querySelector("shift-card-title");
     shiftCardTitle.setAttribute("date", this.getAttribute("date"));
     shiftCardTitle.setAttribute("route-name", this.getAttribute("route-name"));
 
@@ -48,20 +52,10 @@ export class ShiftCard extends HTMLElement {
         ShiftCardButtonEdit
       );
 
-    const apiUrl = "/api/shifts/" + this.getAttribute("shift-id");
-    const response = await fetch(apiUrl, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (response.status !== 200) {
-      console.error("Cannot read shift from api");
-      return;
-    }
-
-    const shift = await response.json();
+    const shift = await this.shift();
+    const applications = await this.applications();
     const shiftPositionSection =
-      this._shadowRoot.getElementById("shift-position");
+      this.shadowRoot.getElementById("shift-position");
 
     for (
       let shiftPosition = 1;
@@ -70,6 +64,22 @@ export class ShiftCard extends HTMLElement {
     ) {
       const shiftPositionElement = document.createElement(
         "shift-card-position"
+      );
+
+      const publishers = {};
+      for (const application of applications) {
+        if (application.shiftPosition !== shiftPosition) {
+          continue;
+        }
+        publishers[application.publisher.id] =
+          application.publisher.firstname +
+          " " +
+          application.publisher.lastname;
+      }
+
+      shiftPositionElement.setAttribute(
+        "publishers",
+        JSON.stringify(publishers)
       );
       shiftPositionElement.setAttribute(
         "shift-id",
@@ -93,9 +103,69 @@ export class ShiftCard extends HTMLElement {
       );
 
       shiftPositionSection.appendChild(shiftPositionElement);
-
-      customElements.get("shift-card-position") ||
-        window.customElements.define("shift-card-position", ShiftCardPosition);
     }
+    customElements.get("shift-card-position") ||
+      window.customElements.define("shift-card-position", ShiftCardPosition);
+  }
+
+  /**
+   * @returns {string}
+   */
+  render() {
+    return /*html*/ `
+      <style>
+        #shift-card {
+          background-color: var(--grey-25);
+        }
+      </style>
+    
+      <div id="shift-card">
+        <div>
+          <shift-card-title></shift-card-title>
+        </div>
+        <div id="shift-position"></div>
+        <div>
+          <shift-card-button-edit language-code="en"></shift-card-button-edit>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * @returns {Shift}
+   */
+  async shift() {
+    const shiftId = this.getAttribute("shift-id");
+    const apiUrl = "/api/shifts/" + shiftId;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status !== 200) {
+      throw new Error("Cannot read shift from api [shiftId: " + shiftId + "]");
+    }
+
+    return await response.json();
+  }
+
+  /**
+   * @returns {Applications[]}
+   */
+  async applications() {
+    const shiftId = this.getAttribute("shift-id");
+    const apiUrl = "/api/shifts/" + shiftId + "/applications";
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status !== 200) {
+      throw new Error(
+        "Cannot read shift applications from api [shiftId: " + shiftId + "]"
+      );
+    }
+
+    return await response.json();
   }
 }
