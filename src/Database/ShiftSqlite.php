@@ -17,9 +17,9 @@ class ShiftSqlite
   {
     return $this->id;
   }
-  function typeId(): int
+  function calendarId(): int
   {
-    return (int)$this->columns['id_shift_type'];
+    return (int)$this->columns['calendar_id'];
   }
   function routeName(): string
   {
@@ -29,13 +29,13 @@ class ShiftSqlite
   {
     return new \DateTimeImmutable($this->columns['datetime_from']);
   }
-  function positions(): int
+  function numberOfShifts(): int
   {
-    return $this->columns['number'];
+    return (int)$this->columns['number_of_shifts'];
   }
   function minutesPerShift(): int
   {
-    return $this->columns['minutes_per_shift'];
+    return (int)$this->columns['minutes_per_shift'];
   }
   function colorHex(): string
   {

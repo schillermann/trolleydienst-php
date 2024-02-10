@@ -3,14 +3,14 @@
 import { ShiftCardPosition } from "./shift-card-position.js";
 import { ShiftCardTitle } from "./shift-card-title.js";
 import { ShiftCardButtonEdit } from "./shift-card-button-edit.js";
-import { FrontierElement } from "../forntier-element.js";
+import { FrontierElement } from "../frontier-element.js";
 
 /**
  * @typedef {Object} Shift
  * @property {number} typeId
  * @property {string} routeName
  * @property {string} start
- * @property {number} positions
+ * @property {number} numberOfShifts
  * @property {number} minutesPerShift
  * @property {string} colorHex
  * @property {string} lastModifiedOn
@@ -59,7 +59,7 @@ export class ShiftCard extends FrontierElement {
 
     for (
       let shiftPosition = 1;
-      shiftPosition <= shift.positions;
+      shiftPosition <= shift.numberOfShifts;
       shiftPosition++
     ) {
       const shiftPositionElement = document.createElement(
@@ -86,8 +86,8 @@ export class ShiftCard extends FrontierElement {
         this.getAttribute("shift-id")
       );
       shiftPositionElement.setAttribute(
-        "shift-type-id",
-        this.getAttribute("shift-type-id")
+        "calendar-id",
+        this.getAttribute("calendar-id")
       );
       shiftPositionElement.setAttribute("shift-position", shiftPosition);
       // TODO: calculate time from to
@@ -136,7 +136,11 @@ export class ShiftCard extends FrontierElement {
    */
   async shift() {
     const shiftId = this.getAttribute("shift-id");
-    const apiUrl = "/api/shifts/" + shiftId;
+    const apiUrl =
+      "/api/calendars/" +
+      this.getAttribute("calendar-id") +
+      "/shifts/" +
+      shiftId;
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: { "Content-Type": "application/json" },

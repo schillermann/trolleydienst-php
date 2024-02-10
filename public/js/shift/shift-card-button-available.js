@@ -1,6 +1,6 @@
 "use strict";
 
-import { FrontierElement } from "../forntier-element.js";
+import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardButtonAvailable extends FrontierElement {
   static observedAttributes = ["language-code"];

@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-class ShiftTypesSqlite
+class CalendarsSqlite
 {
   private \PDO $pdo;
 
@@ -10,7 +10,7 @@ class ShiftTypesSqlite
   {
     $this->pdo = $pdo;
   }
-  function shiftType(int $shiftTypeId): ShiftTypeSqlite
+  function shiftType(int $shiftTypeId): CalendarSqlite
   {
     $stmt = $this->pdo->prepare(<<<SQL
         SELECT id_shift_type, name, user_per_shift_max, info, updated AS last_modified_on, created AS created_on
@@ -23,10 +23,10 @@ class ShiftTypesSqlite
     $shiftType = $stmt->fetch(\PDO::FETCH_ASSOC);
 
     if ($shiftType === false) {
-      return new ShiftTypeSqlite(0);
+      return new CalendarSqlite(0);
     }
 
-    return new ShiftTypeSqlite(
+    return new CalendarSqlite(
       $shiftType['id_shift_type'],
       $shiftType
     );

@@ -12,7 +12,7 @@
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
         <shift-nav-button-new-shift language-code="en" id="create-shift-button">
-          Create Shift
+            Create Shift
         </shift-nav-button-new-shift>
     </nav>
 <?php endif ?>
@@ -20,7 +20,7 @@
 
 <shift-dialog-application language-code="en" open="false" logged-in-publisher-id="1"></shift-dialog-application>
 <shift-dialog-creation language-code="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-creation>
-<shift-card-calendar language-code="en" shift-type-id="1"></shift-card-calendar>
+<shift-card-calendar language-code="en" calendar-id="1"></shift-card-calendar>
 <shift-dialog-publisher language-code="en"></shift-dialog-publisher>
 <shift-dialog-publisher-contact language-code="en"></shift-dialog-publisher-contact>
 

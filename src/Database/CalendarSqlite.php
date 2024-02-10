@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-class ShiftTypeSqlite
+class CalendarSqlite
 {
   private int $id;
   private array $columns;

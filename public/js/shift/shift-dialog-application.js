@@ -2,7 +2,7 @@
 
 import { DialogButtonPrimary, DialogButton } from "../button/index.js";
 import { Dictionary } from "../dictionary.js";
-import { FrontierElement } from "../forntier-element.js";
+import { FrontierElement } from "../frontier-element.js";
 import { ShiftDialogSelectmenuPublishers } from "./shift-dialog-selectmenu-publishers.js";
 
 export class ShiftDialogApplication extends FrontierElement {

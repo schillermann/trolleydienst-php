@@ -4,24 +4,26 @@ namespace App\Database;
 
 use App\Shift\HexColorCode;
 
-class ShiftsSqlite
+class CalendarShiftsSqlite
 {
   private \PDO $pdo;
+  private int $calendarId;
 
-  function __construct(\PDO $pdo)
+  function __construct(\PDO $pdo, int $calendarId)
   {
     $this->pdo = $pdo;
+    $this->calendarId = $calendarId;
   }
 
-  public function add(\DateTimeInterface $start, int $shiftTypeId, string $routeName, int $numberOfShifts, int $minutesPerShift, HexColorCode $hexColorCode): void
+  public function add(\DateTimeInterface $start, string $routeName, int $numberOfShifts, int $minutesPerShift, HexColorCode $hexColorCode): void
   {
     $stmt = $this->pdo->prepare(<<<SQL
             INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created)
-            VALUES (:shiftTypeId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
+            VALUES (:calendarId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
         SQL);
 
     $stmt->execute([
-      'shiftTypeId' => $shiftTypeId,
+      'calendarId' => $this->calendarId,
       'routeName' =>  $routeName,
       'start' => $start->format('Y-m-d H:i'),
       'numberOfShifts' => $numberOfShifts,
@@ -33,7 +35,7 @@ class ShiftsSqlite
   function shift(int $shiftId): ShiftSqlite
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated AS last_modified_on, created AS created_on
+            SELECT id_shift, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex, updated AS last_modified_on, created AS created_on
             FROM shifts
             WHERE id_shift = :shiftId
         SQL);
@@ -52,19 +54,19 @@ class ShiftsSqlite
     );
   }
 
-  public function shiftsFrom(\DateTimeInterface $start, int $shiftTypeId, int $pageNumber, int $pageItems): \Generator
+  public function shiftsFrom(\DateTimeInterface $start, int $pageNumber, int $pageItems): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift, id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created
+            SELECT id_shift, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex, updated, created
             FROM shifts
-            WHERE datetime_from > :from AND id_shift_type = :shiftTypeId
+            WHERE datetime_from > :from AND id_shift_type = :calendarId
             ORDER BY datetime_from ASC
             LIMIT :offset, :limit
         SQL);
 
     $stmt->execute([
       'from' => $start->format('Y-m-d'),
-      'shiftTypeId' => $shiftTypeId,
+      'calendarId' => $this->calendarId,
       'offset' => ($pageNumber - 1) * $pageItems,
       'limit' => $pageItems,
     ]);
@@ -78,16 +80,16 @@ class ShiftsSqlite
     }
   }
 
-  public function shiftsTotalNumber(\DateTimeInterface $start, int $shiftTypeId): int
+  public function shiftsTotalNumber(\DateTimeInterface $start): int
   {
     $stmt = $this->pdo->prepare(<<<SQL
             SELECT count(*)
             FROM shifts
-            WHERE datetime_from > :from AND id_shift_type = :shiftTypeId
+            WHERE datetime_from > :from AND id_shift_type = :calendarId
         SQL);
     $stmt->execute([
       'from' => $start->format('Y-m-d'),
-      'shiftTypeId' => $shiftTypeId,
+      'calendarId' => $this->calendarId,
     ]);
 
     return $stmt->fetchColumn();

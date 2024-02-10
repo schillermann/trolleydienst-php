@@ -4,7 +4,7 @@ import { ShiftCardTime } from "./shift-card-time.js";
 import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher.js";
 import { ShiftCardButtonAvailable } from "./shift-card-button-available.js";
 import { ShiftCardButtonPublisher } from "./shift-card-button-publisher.js";
-import { FrontierElement } from "../forntier-element.js";
+import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardPosition extends FrontierElement {
   constructor() {

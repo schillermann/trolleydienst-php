@@ -2,38 +2,34 @@
 
 namespace App\Api;
 
-use App\Database\ShiftsSqlite;
+use App\Database\CalendarShiftsSqlite;
 use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftsGet implements PageInterface
+class CalendarShiftsGet implements PageInterface
 {
-  private ShiftsSqlite $shifts;
+  private CalendarShiftsSqlite $calendarShifts;
   private \DateTimeInterface $dateFrom;
-  private int $shiftTypeId;
   private int $pageNumber;
   private int $pageItems;
 
   public function __construct(
-    ShiftsSqlite $shifts,
+    CalendarShiftsSqlite $calendarShifts,
     \DateTimeInterface $dateFrom = new \DateTimeImmutable('0000-01-01'),
-    int $shiftTypeId = 0,
     int $pageNumber = 0,
     int $pageItems = 10
   ) {
-    $this->shifts = $shifts;
+    $this->calendarShifts = $calendarShifts;
     $this->dateFrom = $dateFrom;
-    $this->shiftTypeId = $shiftTypeId;
     $this->pageNumber = $pageNumber;
     $this->pageItems = $pageItems;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shifts = $this->shifts->shiftsFrom(
+    $shifts = $this->calendarShifts->shiftsFrom(
       $this->dateFrom,
-      $this->shiftTypeId,
       $this->pageNumber,
       $this->pageItems
     );
@@ -43,10 +39,9 @@ class ShiftsGet implements PageInterface
     foreach ($shifts as $shift) {
       $body[] = [
         'id' => $shift->id(),
-        'typeId' => $shift->typeId(),
         'routeName' => $shift->routeName(),
         'start' => $shift->start()->format(\DateTimeInterface::ATOM),
-        'positions' => $shift->positions(),
+        'numberOfShifts' => $shift->numberOfShifts(),
         'minutesPerShift' => $shift->minutesPerShift(),
         'colorHex' => $shift->colorHex(),
         'lastModifiedOn' => $shift->lastModifiedOn()->format(\DateTimeInterface::ATOM),
@@ -54,7 +49,7 @@ class ShiftsGet implements PageInterface
       ];
     }
 
-    $pagesTotalNumber = $this->shifts->shiftsTotalNumber($this->dateFrom, $this->shiftTypeId);
+    $pagesTotalNumber = $this->calendarShifts->shiftsTotalNumber($this->dateFrom);
     $itemNumberFrom = (($this->pageNumber - 1) * $this->pageItems) + 1;
     $itemNumberTo = $this->pageNumber * $this->pageItems;
     if ($itemNumberTo > $pagesTotalNumber) {
@@ -86,9 +81,8 @@ class ShiftsGet implements PageInterface
       $query = new SimpleFormData($value);
 
       return new self(
-        $this->shifts,
+        $this->calendarShifts,
         new \DateTimeImmutable($query->param('start-date')),
-        (int)$query->param('shift-type-id'),
         (int)$query->paramWithDefault('page-number', '1'),
         (int)$query->paramWithDefault('page-items', '10'),
       );

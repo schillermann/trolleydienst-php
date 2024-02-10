@@ -4,14 +4,14 @@ namespace App\Api;
 
 use App\Database\ApplicationsSqlite;
 use App\Database\PublishersSqlite;
-use App\Database\ShiftsSqlite;
+use App\Database\CalendarShiftsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftPositionPublisherPost implements PageInterface
 {
   private ApplicationsSqlite $applicationsStore;
-  private ShiftsSqlite $shiftsStore;
+  private CalendarShiftsSqlite $calendarShiftsStore;
   private PublishersSqlite $publishersStore;
   private int $shiftId;
   private int $shiftPositionId;
@@ -19,14 +19,14 @@ class ShiftPositionPublisherPost implements PageInterface
 
   public function __construct(
     ApplicationsSqlite $applicationsStore,
-    ShiftsSqlite $shiftsStore,
+    CalendarShiftsSqlite $calendarShiftsStore,
     PublishersSqlite $publishersStore,
     int $shiftId,
     int $shiftPositionId,
     int $publisherId = 0
   ) {
     $this->applicationsStore = $applicationsStore;
-    $this->shiftsStore = $shiftsStore;
+    $this->calendarShiftsStore = $calendarShiftsStore;
     $this->publishersStore = $publishersStore;
     $this->shiftId = $shiftId;
     $this->shiftPositionId = $shiftPositionId;
@@ -35,9 +35,9 @@ class ShiftPositionPublisherPost implements PageInterface
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shift = $this->shiftsStore->shift($this->shiftId);
+    $shift = $this->calendarShiftsStore->shift($this->shiftId);
 
-    if ($shift->id() === 0 || $shift->positions() < $this->shiftPositionId) {
+    if ($shift->id() === 0 || $shift->numberOfShifts() < $this->shiftPositionId) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
@@ -84,7 +84,7 @@ class ShiftPositionPublisherPost implements PageInterface
     $body = json_decode($value, true, 2);
     return new self(
       $this->applicationsStore,
-      $this->shiftsStore,
+      $this->calendarShiftsStore,
       $this->publishersStore,
       $this->shiftId,
       $this->shiftPositionId,

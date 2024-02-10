@@ -2,33 +2,30 @@
 
 namespace App\Api;
 
-use App\Database\ShiftsSqlite;
-use App\Shift\HexColorCode; 
+use App\Database\CalendarShiftsSqlite;
+use App\Shift\HexColorCode;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftsPost implements PageInterface
 {
-    private ShiftsSqlite $shifts;
+    private CalendarShiftsSqlite $calendarShifts;
     private \DateTimeInterface $start;
-    private int $shiftTypeId = 0;
     private string $routeName = "";
     private int $numberOfShifts = 0;
     private int $minutesPerShift = 0;
     private HexColorCode $hexColorCode;
 
     public function __construct(
-        ShiftsSqlite $shifts,
+        CalendarShiftsSqlite $calendarShifts,
         \DateTimeInterface $start = new \DateTimeImmutable('0000-01-01'),
-        int $shiftTypeId = 0,
         string $routeName = "",
         int $numberOfShifts = 0,
         int $minutesPerShift = 0,
         HexColorCode $hexColorCode = new HexColorCode("#000000")
     ) {
-        $this->shifts = $shifts;
+        $this->calendarShifts = $calendarShifts;
         $this->start = $start;
-        $this->shiftTypeId = $shiftTypeId;
         $this->routeName = $routeName;
         $this->numberOfShifts = $numberOfShifts;
         $this->minutesPerShift = $minutesPerShift;
@@ -36,9 +33,8 @@ class ShiftsPost implements PageInterface
     }
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $this->shifts->add(
+        $this->calendarShifts->add(
             $this->start,
-            $this->shiftTypeId,
             $this->routeName,
             $this->numberOfShifts,
             $this->minutesPerShift,
@@ -57,9 +53,8 @@ class ShiftsPost implements PageInterface
             $body = json_decode($value, true, 2);
 
             return new self(
-                $this->shifts,
+                $this->calendarShifts,
                 new \Datetime($body['startDate']),
-                $body['shiftTypeId'],
                 $body['routeName'],
                 $body['numberOfShifts'],
                 $body['minutesPerShift'],

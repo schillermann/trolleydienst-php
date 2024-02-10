@@ -2,24 +2,24 @@
 
 namespace App\Api;
 
-use App\Database\ShiftTypesSqlite;
+use App\Database\CalendarsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftTypeGet implements PageInterface
+class CalendarGet implements PageInterface
 {
-  private ShiftTypesSqlite $shiftTypes;
+  private CalendarsSqlite $calendars;
   private int $shiftTypeId;
 
-  function __construct(ShiftTypesSqlite $shiftTypes, int $shiftTypeId)
+  function __construct(CalendarsSqlite $calendars, int $shiftTypeId)
   {
-    $this->shiftTypes = $shiftTypes;
+    $this->calendars = $calendars;
     $this->shiftTypeId = $shiftTypeId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shiftType = $this->shiftTypes->shiftType($this->shiftTypeId);
+    $shiftType = $this->calendars->shiftType($this->shiftTypeId);
 
     if ($shiftType->id() === 0) {
       return $output->withMetadata(
@@ -37,7 +37,6 @@ class ShiftTypeGet implements PageInterface
         PageInterface::BODY,
         json_encode(
           [
-            'id' => $shiftType->id(),
             'label' => $shiftType->label(),
             'publisherLimitPerShift' => $shiftType->publisherLimitPerShift(),
             'info' => $shiftType->info(),

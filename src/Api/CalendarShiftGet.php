@@ -2,24 +2,24 @@
 
 namespace App\Api;
 
-use App\Database\ShiftsSqlite;
+use App\Database\CalendarShiftsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftGet implements PageInterface
+class CalendarShiftGet implements PageInterface
 {
-  private ShiftsSqlite $shifts;
+  private CalendarShiftsSqlite $calendarShifts;
   private int $shiftId;
 
-  function __construct(ShiftsSqlite $shifts, int $shiftId)
+  function __construct(CalendarShiftsSqlite $calendarShifts, int $shiftId)
   {
-    $this->shifts = $shifts;
+    $this->calendarShifts = $calendarShifts;
     $this->shiftId = $shiftId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shift = $this->shifts->shift($this->shiftId);
+    $shift = $this->calendarShifts->shift($this->shiftId);
 
     if ($shift->id() === 0) {
       return $output->withMetadata(
@@ -38,10 +38,9 @@ class ShiftGet implements PageInterface
         json_encode(
           [
             'id' => $shift->id(),
-            'typeId' => $shift->typeId(),
             'routeName' => $shift->routeName(),
             'start' => $shift->start()->format(\DateTimeInterface::ATOM),
-            'positions' => $shift->positions(),
+            'numberOfShifts' => $shift->numberOfShifts(),
             'minutesPerShift' => $shift->minutesPerShift(),
             'colorHex' => $shift->colorHex(),
             'lastModifiedOn' => $shift->lastModifiedOn()->format(\DateTimeInterface::ATOM),
