@@ -60,7 +60,7 @@ template.innerHTML = /*html*/ `
 export class ShiftDialogCreation extends HTMLElement {
   #shiftTypeId;
 
-  static observedAttributes = ["open", "language-code", "shift-type-id"];
+  static observedAttributes = ["open", "lang", "shift-type-id"];
 
   constructor() {
     super();
@@ -134,7 +134,8 @@ export class ShiftDialogCreation extends HTMLElement {
    */
   async onSubmitForm(event) {
     event.preventDefault();
-    const response = await fetch("/api/shifts", {
+    // TODO: set calendars id dynamically
+    const response = await fetch("/api/calendars/1/shifts", {
       method: "POST",
       body: JSON.stringify({
         startDate:
@@ -248,7 +249,7 @@ export class ShiftDialogCreation extends HTMLElement {
       return;
     }
 
-    if (name === "language-code") {
+    if (name === "lang") {
       this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
         this._shadowRoot.innerHTML

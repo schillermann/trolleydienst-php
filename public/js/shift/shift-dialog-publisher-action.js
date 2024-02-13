@@ -38,6 +38,7 @@ export class ShiftDialogPublisherAction extends FrontierElement {
    * @returns {void}
    */
   attributeChangedCallback(name, oldVal, newVal) {
+    this.render();
     if (name === "open") {
       const dialog = this.shadowRoot.querySelector("dialog");
       if (newVal === "true") {
@@ -47,7 +48,7 @@ export class ShiftDialogPublisherAction extends FrontierElement {
       dialog.close();
       return;
     }
-    if (name === "language-code") {
+    if (name === "lang") {
       this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
         this.shadowRoot.innerHTML
@@ -59,7 +60,7 @@ export class ShiftDialogPublisherAction extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
           input {

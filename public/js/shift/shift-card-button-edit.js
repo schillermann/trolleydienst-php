@@ -1,10 +1,49 @@
 "use strict";
 
-import { Dictionary } from "../dictionary.js";
+import { FrontierElement } from "../frontier-element.js";
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-    <style>
+export class ShiftCardButtonEdit extends FrontierElement {
+  #labelEdit = "Edit";
+
+  constructor() {
+    super();
+  }
+
+  /**
+   * @param {Event} event
+   * @returns {void}
+   */
+  fireClickEvent(event) {
+    this.dispatchEvent(
+      new Event("edit-shift-click", {
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  /**
+   * @returns {void}
+   */
+  connectedCallback() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        this.#labelEdit = "Bearbeiten";
+        break;
+    }
+
+    this.render();
+    this.shadowRoot
+      .querySelector("button")
+      .addEventListener("click", this.fireClickEvent, true);
+  }
+
+  /**
+   * @returns {string}
+   */
+  template() {
+    return /*html*/ `
+      <style>
         @import url("css/font-awesome.min.css");
 
         button {
@@ -37,59 +76,10 @@ template.innerHTML = /*html*/ `
                 color: var(--white);
             }
         }
-    </style>
-    <button type="button">
-        <i class="fa fa-pencil"></i> {Edit}
-    </button>
-`;
-
-export class ShiftCardButtonEdit extends HTMLElement {
-  static observedAttributes = ["language-code"];
-
-  constructor() {
-    super();
-
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
-
-    this.dictionary = new Dictionary({
-      Edit: {
-        de: "Bearbeiten",
-      },
-    });
-  }
-
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  fireClickEvent(event) {
-    this.dispatchEvent(
-      new Event("edit-shift-click", {
-        bubbles: true,
-        composed: true,
-      })
-    );
-  }
-
-  /**
-   * @returns {void}
-   */
-  connectedCallback() {
-    this._shadowRoot
-      .querySelector("button")
-      .addEventListener("click", this.fireClickEvent, true);
-  }
-
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (name !== "language-code") {
-      return;
-    }
-
-    this._shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
-      newVal,
-      this._shadowRoot.innerHTML
-    );
+      </style>
+      <button type="button">
+          <i class="fa fa-pencil"></i> ${this.#labelEdit}
+      </button>
+    `;
   }
 }

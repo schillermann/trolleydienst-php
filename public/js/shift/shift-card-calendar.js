@@ -31,9 +31,17 @@ export class ShiftCardCalendar extends FrontierElement {
   }
 
   async connectedCallback() {
-    const calendar = await this.calendar();
+    this.render();
+    await this.createShiftCards();
+  }
 
-    for (const shift of await this.shifts()) {
+  /**
+   * @returns {Promise<void>}
+   */
+  async createShiftCards() {
+    const calendar = await this.calendarJson();
+
+    for (const shift of await this.shiftsJson()) {
       const shiftCard = document.createElement("shift-card");
       shiftCard.setAttribute("date", shift.start);
       shiftCard.setAttribute("shift-id", shift.id);
@@ -44,10 +52,7 @@ export class ShiftCardCalendar extends FrontierElement {
         calendar.publisherLimitPerShift
       );
       shiftCard.setAttribute("route-name", shift.routeName);
-      shiftCard.setAttribute(
-        "language-code",
-        this.getAttribute("language-code")
-      );
+      shiftCard.setAttribute("lang", this.getAttribute("lang"));
 
       this.shadowRoot.appendChild(shiftCard);
     }
@@ -59,7 +64,7 @@ export class ShiftCardCalendar extends FrontierElement {
   /**
    * @returns {Shifts[]}
    */
-  async shifts() {
+  async shiftsJson() {
     const apiUrl =
       "/api/calendars/" + this.getAttribute("calendar-id") + "/shifts";
     const response = await fetch(apiUrl, {
@@ -77,7 +82,7 @@ export class ShiftCardCalendar extends FrontierElement {
   /**
    * @returns {Calendar[]}
    */
-  async calendar() {
+  async calendarJson() {
     const apiUrl = "/api/calendars/" + this.getAttribute("calendar-id");
     const response = await fetch(apiUrl, {
       method: "GET",

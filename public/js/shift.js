@@ -39,8 +39,9 @@ window.addEventListener(
   }
 );
 
+// TODO: split in open-shift-dialog-publisher-action and open-shift-dialog-publisher-contact
 window.addEventListener(
-  "open-shift-dialog-publisher",
+  "open-shift-dialog-publisher-contact",
   /**
    * @param {CustomEvent} event
    */

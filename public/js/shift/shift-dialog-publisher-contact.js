@@ -5,7 +5,7 @@ import { Dictionary } from "../dictionary.js";
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftDialogPublisherContact extends FrontierElement {
-  static observedAttributes = ["open", "language-code", "publisher-id"];
+  static observedAttributes = ["open", "lang", "publisher-id"];
 
   constructor() {
     super();
@@ -96,7 +96,8 @@ export class ShiftDialogPublisherContact extends FrontierElement {
    * @returns {Promise<void>}
    */
   async attributeChangedCallback(name, oldVal, newVal) {
-    if (name === "language-code") {
+    this.render();
+    if (name === "lang") {
       // this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
       //   newVal,
       //   this.shadowRoot.innerHTML
@@ -122,7 +123,7 @@ export class ShiftDialogPublisherContact extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style></style>
     

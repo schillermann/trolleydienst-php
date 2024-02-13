@@ -11,18 +11,18 @@
 
 <?php if ($_SESSION['is_admin']) : ?>
     <nav id="nav_shift">
-        <shift-nav-button-new-shift language-code="en" id="create-shift-button">
+        <shift-nav-button-new-shift lang="en" id="create-shift-button">
             Create Shift
         </shift-nav-button-new-shift>
     </nav>
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
-<shift-dialog-application language-code="en" open="false" logged-in-publisher-id="1"></shift-dialog-application>
-<shift-dialog-creation language-code="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-creation>
-<shift-card-calendar language-code="en" calendar-id="1"></shift-card-calendar>
-<shift-dialog-publisher language-code="en"></shift-dialog-publisher>
-<shift-dialog-publisher-contact language-code="en"></shift-dialog-publisher-contact>
+<shift-dialog-application lang="en" open="false" logged-in-publisher-id="1"></shift-dialog-application>
+<shift-dialog-creation lang="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-creation>
+<shift-card-calendar lang="en" calendar-id="1"></shift-card-calendar>
+<shift-dialog-publisher lang="en"></shift-dialog-publisher>
+<shift-dialog-publisher-contact lang="en"></shift-dialog-publisher-contact>
 
 <div class="number-of-pages">
     <p style="text-align: center"></p>

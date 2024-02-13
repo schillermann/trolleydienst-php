@@ -8,11 +8,7 @@ import { ShiftDialogSelectmenuPublishers } from "./shift-dialog-selectmenu-publi
 export class ShiftDialogApplication extends FrontierElement {
   #selectedPublisherId;
 
-  static observedAttributes = [
-    "open",
-    "language-code",
-    "logged-in-publisher-id",
-  ];
+  static observedAttributes = ["open", "lang", "logged-in-publisher-id"];
 
   constructor() {
     super();
@@ -112,6 +108,7 @@ export class ShiftDialogApplication extends FrontierElement {
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
+    this.render();
     if (name === "open") {
       const dialog = this.shadowRoot.querySelector("dialog");
       if (newVal === "true") {
@@ -122,7 +119,7 @@ export class ShiftDialogApplication extends FrontierElement {
       return;
     }
 
-    if (name === "language-code") {
+    if (name === "lang") {
       this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
         newVal,
         this.shadowRoot.innerHTML
@@ -141,7 +138,7 @@ export class ShiftDialogApplication extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style></style>
 

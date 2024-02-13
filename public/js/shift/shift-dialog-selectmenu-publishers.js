@@ -50,6 +50,7 @@ export class ShiftDialogSelectmenuPublishers extends FrontierElement {
    * @returns {void}
    */
   async attributeChangedCallback(name, oldVal, newVal) {
+    this.render();
     if (name !== "selected-publisher-id") {
       return;
     }
@@ -72,7 +73,7 @@ export class ShiftDialogSelectmenuPublishers extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
         select {

@@ -12,6 +12,8 @@ export class ShiftCardPosition extends FrontierElement {
   }
 
   connectedCallback() {
+    this.render();
+
     const shiftCardTime = this.shadowRoot.querySelector("shift-card-time");
     // TODO: Add right time
     shiftCardTime.setAttribute("date-from", new Date().toString());
@@ -36,14 +38,14 @@ export class ShiftCardPosition extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <dl>          
         <dt>
-          <shift-card-time language-code="en"></shift-card-time>
+          <shift-card-time lang="en"></shift-card-time>
         </dt>
         <dd>
-          <shift-card-button-publisher-action language-code="en"></shift-card-button-publisher-action>
+          <shift-card-button-publisher-action lang="en"></shift-card-button-publisher-action>
         </dd>
       </dl>
     `;
@@ -74,7 +76,7 @@ export class ShiftCardPosition extends FrontierElement {
         this.getAttribute("shift-position")
       );
       shiftCardButtonPublisherContact.setAttribute("publisher-id", publisherId);
-      shiftCardButtonPublisherContact.setAttribute("language-code", "en");
+      shiftCardButtonPublisherContact.setAttribute("lang", "en");
 
       shiftCardButtonPublisherContact.innerText = publishers[publisherId];
 
@@ -114,7 +116,7 @@ export class ShiftCardPosition extends FrontierElement {
         "shift-position",
         this.getAttribute("shift-position")
       );
-      shiftCardButtonAvailable.setAttribute("language-code", "en");
+      shiftCardButtonAvailable.setAttribute("lang", "en");
       element.appendChild(shiftCardButtonAvailable);
       customElements.get("shift-card-button-available") ||
         window.customElements.define(

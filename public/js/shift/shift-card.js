@@ -36,24 +36,32 @@ export class ShiftCard extends FrontierElement {
     super();
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async connectedCallback() {
+    this.render();
     /** @type {Element} */
     const shiftCardTitle = this.shadowRoot.querySelector("shift-card-title");
     shiftCardTitle.setAttribute("date", this.getAttribute("date"));
     shiftCardTitle.setAttribute("route-name", this.getAttribute("route-name"));
+    await this.createShiftPositions();
 
     customElements.get("shift-card-title") ||
       window.customElements.define("shift-card-title", ShiftCardTitle);
-    customElements.get("shift-card-position") ||
-      window.customElements.define("shift-card-position", ShiftCardPosition);
     customElements.get("shift-card-button-edit") ||
       window.customElements.define(
         "shift-card-button-edit",
         ShiftCardButtonEdit
       );
+  }
 
-    const shift = await this.shift();
-    const applications = await this.applications();
+  /**
+   * @returns {Promise<void>}
+   */
+  async createShiftPositions() {
+    const shift = await this.shiftJson();
+    const applications = await this.applicationsJson();
     const shiftPositionSection =
       this.shadowRoot.getElementById("shift-position");
 
@@ -93,10 +101,7 @@ export class ShiftCard extends FrontierElement {
       // TODO: calculate time from to
       shiftPositionElement.setAttribute("from", "2023-12-20");
       shiftPositionElement.setAttribute("to", "2023-12-21");
-      shiftPositionElement.setAttribute(
-        "language-code",
-        this.getAttribute("language-code")
-      );
+      shiftPositionElement.setAttribute("lang", this.getAttribute("lang"));
       shiftPositionElement.setAttribute(
         "publisher-limit",
         this.getAttribute("publisher-limit")
@@ -111,7 +116,7 @@ export class ShiftCard extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
         #shift-card {
@@ -125,16 +130,18 @@ export class ShiftCard extends FrontierElement {
         </div>
         <div id="shift-position"></div>
         <div>
-          <shift-card-button-edit language-code="en"></shift-card-button-edit>
+          <shift-card-button-edit lang="${this.getAttribute(
+            "lang"
+          )}"></shift-card-button-edit>
         </div>
       </div>
     `;
   }
 
   /**
-   * @returns {Shift}
+   * @returns {Promise<Shift>}
    */
-  async shift() {
+  async shiftJson() {
     const shiftId = this.getAttribute("shift-id");
     const apiUrl =
       "/api/calendars/" +
@@ -154,9 +161,9 @@ export class ShiftCard extends FrontierElement {
   }
 
   /**
-   * @returns {Applications[]}
+   * @returns {Promise<Applications[]>}
    */
-  async applications() {
+  async applicationsJson() {
     const shiftId = this.getAttribute("shift-id");
     const apiUrl = "/api/shifts/" + shiftId + "/applications";
     const response = await fetch(apiUrl, {

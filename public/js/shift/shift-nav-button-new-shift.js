@@ -3,35 +3,29 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftNavButtonNewShift extends FrontierElement {
-  static observedAttributes = ["language-code"];
+  #labelNewShift = "New Shift";
 
   constructor() {
     super();
   }
 
   /**
-   * @param {string} name
-   * @param {string} oldVal
-   * @param {string} newVal
    * @returns {void}
    */
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (name !== "language-code") {
-      return;
-    }
-
-    const label = this.shadowRoot.querySelector("label");
-    switch (newVal) {
+  connectedCallback() {
+    switch (this.getAttribute("lang")) {
       case "de":
-        label.innerHTML = "Neue Schicht";
+        this.#labelNewShift = "Neue Schicht";
         break;
     }
+
+    this.render();
   }
 
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
           @import url("css/font-awesome.min.css");
@@ -76,7 +70,7 @@ export class ShiftNavButtonNewShift extends FrontierElement {
       </style>
       <button type="button">
           <i class="fa fa-plus"></i>
-          <label>Create Shift<label>
+          ${this.#labelNewShift}
       </button>
     `;
   }

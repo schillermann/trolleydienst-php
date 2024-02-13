@@ -20,6 +20,7 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
    * @returns {void}
    */
   connectedCallback() {
+    this.render();
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.onClick.bind(this));
@@ -31,7 +32,7 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
    */
   onClick(event) {
     this.dispatchEvent(
-      new CustomEvent("open-shift-dialog-publisher", {
+      new CustomEvent("open-shift-dialog-publisher-contact", {
         bubbles: true,
         composed: true,
         detail: {
@@ -47,7 +48,7 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");

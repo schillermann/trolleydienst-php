@@ -3,7 +3,7 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardButtonAvailable extends FrontierElement {
-  static observedAttributes = ["language-code"];
+  #labelAvailable = "Available";
 
   constructor() {
     super();
@@ -31,34 +31,23 @@ export class ShiftCardButtonAvailable extends FrontierElement {
    * @returns {void}
    */
   connectedCallback() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        this.#labelAvailable = "Frei";
+        break;
+    }
+
+    this.render();
+
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.onClick.bind(this));
   }
 
   /**
-   * @param {string} name
-   * @param {string} oldVal
-   * @param {string} newVal
-   * @returns {void}
-   */
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (name !== "language-code") {
-      return;
-    }
-
-    const label = this.shadowRoot.querySelector("label");
-    switch (newVal) {
-      case "de":
-        label.innerHTML = "Frei";
-        break;
-    }
-  }
-
-  /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");
@@ -97,7 +86,7 @@ export class ShiftCardButtonAvailable extends FrontierElement {
       </style>
       <button class="button promote apply-shift-button" type="button">
           <i class="fa fa-hand-o-right"></i>
-          <label>Available</label>
+          ${this.#labelAvailable}
       </button>
     `;
   }

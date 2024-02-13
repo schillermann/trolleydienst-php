@@ -1,54 +1,61 @@
 "use strict";
 
-const template = document.createElement("template");
-template.innerHTML = /*html*/ `
-  <p>
-    <span id="date-from">Date From</span> - <span id="date-to">Date To</span>
-  </p>
-`;
+import { FrontierElement } from "../frontier-element.js";
 
-export class ShiftCardTime extends HTMLElement {
-  static observedAttributes = ["date-from", "date-to"];
+export class ShiftCardTime extends FrontierElement {
+  #dateFrom = "00:00";
+  #dateTo = "00:00";
 
   constructor() {
     super();
+  }
 
-    /** @type {ShadowRoot} */
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+  connectedCallback() {
+    this.#dateFrom = this.getDateFrom();
+    this.#dateTo = this.getDateTo();
+
+    this.render();
   }
 
   /**
-   * @param {string} name attribute name
-   * @param {string} oldVal
-   * @param {string} newVal
-   * @returns
+   * @returns {string}
    */
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (name === "date-from") {
-      const dateFrom = new Date(newVal);
-      if (dateFrom.toString() === "Invalid Date") {
-        return;
-      }
-      const hours = dateFrom.getHours();
-      const minutes = new String("0" + dateFrom.getMinutes()).slice(-2);
-      this._shadowRoot.querySelector(
-        "#date-from"
-      ).innerText = `${hours}:${minutes}`;
-      return;
+  getDateFrom() {
+    const dateFrom = new Date(this.getAttribute("date-from"));
+    if (dateFrom.toString() === "Invalid Date") {
+      throw new Error(
+        "Invalid Date [date-from: " + this.getAttribute("date-from") + "]"
+      );
     }
+    const hours = dateFrom.getHours();
+    const minutes = new String("0" + dateFrom.getMinutes()).slice(-2);
+    return hours + ":" + minutes;
+  }
 
-    if (name === "date-to") {
-      const dateTo = new Date(newVal);
-      if (dateTo.toString() === "Invalid Date") {
-        return;
-      }
-      const hours = dateTo.getHours();
-      const minutes = new String("0" + dateTo.getMinutes()).slice(-2);
-
-      this._shadowRoot.querySelector(
-        "#date-to"
-      ).innerText = `${hours}:${minutes}`;
+  /**
+   * @returns {string}
+   */
+  getDateTo() {
+    const dateTo = new Date(new Date(this.getAttribute("date-to")));
+    if (dateTo.toString() === "Invalid Date") {
+      throw new Error(
+        "Invalid Date [date-to: " + this.getAttribute("date-to") + "]"
+      );
     }
+    const hours = dateTo.getHours();
+    const minutes = new String("0" + dateTo.getMinutes()).slice(-2);
+
+    return hours + ":" + minutes;
+  }
+
+  /**
+   * @returns {string}
+   */
+  template() {
+    return /*html*/ `
+      <p>
+        <span id="date-from">Date From</span> - <span id="date-to">Date To</span>
+      </p>
+    `;
   }
 }

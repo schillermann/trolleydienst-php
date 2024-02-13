@@ -24,6 +24,7 @@ export class ShiftCardButtonPublisherAction extends FrontierElement {
    * @returns {void}
    */
   connectedCallback() {
+    this.render();
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
@@ -32,7 +33,7 @@ export class ShiftCardButtonPublisherAction extends FrontierElement {
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");

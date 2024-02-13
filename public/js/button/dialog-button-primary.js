@@ -7,10 +7,14 @@ export class DialogButtonPrimary extends FrontierElement {
     super();
   }
 
+  async connectedCallback() {
+    this.render();
+  }
+
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return /*html*/ `
       <style>
         button {
