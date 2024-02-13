@@ -1,9 +1,9 @@
 "use strict";
 
 import { ShiftCardTime } from "./shift-card-time.js";
-import { ShiftCardButtonAddPublisher } from "./shift-card-button-add-publisher.js";
+import { ShiftCardButtonPublisherAction } from "./shift-card-button-publisher-action.js";
+import { ShiftCardButtonPublisherContact } from "./shift-card-button-publisher-contact.js";
 import { ShiftCardButtonAvailable } from "./shift-card-button-available.js";
-import { ShiftCardButtonPublisher } from "./shift-card-button-publisher.js";
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardPosition extends FrontierElement {
@@ -19,17 +19,21 @@ export class ShiftCardPosition extends FrontierElement {
 
     customElements.get("shift-card-time") ||
       window.customElements.define("shift-card-time", ShiftCardTime);
-    customElements.get("shift-card-button-add-publisher") ||
+    customElements.get("shift-card-button-publisher-action") ||
       window.customElements.define(
-        "shift-card-button-add-publisher",
-        ShiftCardButtonAddPublisher
+        "shift-card-button-publisher-action",
+        ShiftCardButtonPublisherAction
       );
 
-    this.createPublisherButtons();
+    const dd = this.shadowRoot.querySelector("dd");
+    const numberOfButtonsCreated = this.createButtonsPublisherContact(dd);
+    this.createButtonsAvailable(
+      dd,
+      this.getAttribute("publisher-limit") - numberOfButtonsCreated
+    );
   }
 
   /**
-   *
    * @returns {string}
    */
   render() {
@@ -39,51 +43,61 @@ export class ShiftCardPosition extends FrontierElement {
           <shift-card-time language-code="en"></shift-card-time>
         </dt>
         <dd>
-          <shift-card-button-add-publisher language-code="en"></shift-card-button-add-publisher>
+          <shift-card-button-publisher-action language-code="en"></shift-card-button-publisher-action>
         </dd>
       </dl>
     `;
   }
 
-  async createPublisherButtons() {
-    // TODO: Add buttons to tag who is empty
-    const dd = this.shadowRoot.querySelector("dd");
-    let numberOfPublisherNameButtons = 0;
+  /**
+   * @param {HTMLElement} element
+   * @returns {number} - Number of created buttons
+   */
+  createButtonsPublisherContact(element) {
+    let numberOfButtons = 0;
     const publishers = JSON.parse(this.getAttribute("publishers"));
+
     for (const publisherId in publishers) {
-      const shiftCardButtonPublisher = document.createElement(
-        "shift-card-button-publisher"
+      const shiftCardButtonPublisherContact = document.createElement(
+        "shift-card-button-publisher-contact"
       );
-      shiftCardButtonPublisher.setAttribute(
+      shiftCardButtonPublisherContact.setAttribute(
         "shift-id",
         this.getAttribute("shift-id")
       );
-      shiftCardButtonPublisher.setAttribute(
-        "shift-type-id",
-        this.getAttribute("shift-type-id")
+      shiftCardButtonPublisherContact.setAttribute(
+        "calendar-id",
+        this.getAttribute("calendar-id")
       );
-      shiftCardButtonPublisher.setAttribute(
+      shiftCardButtonPublisherContact.setAttribute(
         "shift-position",
         this.getAttribute("shift-position")
       );
-      shiftCardButtonPublisher.setAttribute("publisher-id", publisherId);
-      shiftCardButtonPublisher.setAttribute("language-code", "en");
+      shiftCardButtonPublisherContact.setAttribute("publisher-id", publisherId);
+      shiftCardButtonPublisherContact.setAttribute("language-code", "en");
 
-      shiftCardButtonPublisher.innerText = publishers[publisherId];
+      shiftCardButtonPublisherContact.innerText = publishers[publisherId];
 
-      dd.appendChild(shiftCardButtonPublisher);
-      customElements.get("shift-card-button-publisher") ||
+      element.appendChild(shiftCardButtonPublisherContact);
+      customElements.get("shift-card-button-publisher-contact") ||
         window.customElements.define(
-          "shift-card-button-publisher",
-          ShiftCardButtonPublisher
+          "shift-card-button-publisher-contact",
+          ShiftCardButtonPublisherContact
         );
-      numberOfPublisherNameButtons++;
+      numberOfButtons++;
     }
+    return numberOfButtons;
+  }
 
+  /**
+   * @param {HTMLElement} element
+   * @param {void}
+   */
+  createButtonsAvailable(element, numberOfButtons) {
     for (
-      let numberOfAvailableButtons = numberOfPublisherNameButtons;
-      numberOfAvailableButtons < this.getAttribute("publisher-limit");
-      numberOfAvailableButtons++
+      let createdButtons = 0;
+      createdButtons < numberOfButtons;
+      createdButtons++
     ) {
       const shiftCardButtonAvailable = document.createElement(
         "shift-card-button-available"
@@ -93,15 +107,15 @@ export class ShiftCardPosition extends FrontierElement {
         this.getAttribute("shift-id")
       );
       shiftCardButtonAvailable.setAttribute(
-        "shift-type-id",
-        this.getAttribute("shift-type-id")
+        "calendar-id",
+        this.getAttribute("calendar-id")
       );
       shiftCardButtonAvailable.setAttribute(
         "shift-position",
         this.getAttribute("shift-position")
       );
       shiftCardButtonAvailable.setAttribute("language-code", "en");
-      dd.appendChild(shiftCardButtonAvailable);
+      element.appendChild(shiftCardButtonAvailable);
       customElements.get("shift-card-button-available") ||
         window.customElements.define(
           "shift-card-button-available",

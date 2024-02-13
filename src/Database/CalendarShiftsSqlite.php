@@ -57,7 +57,7 @@ class CalendarShiftsSqlite
   public function shiftsFrom(\DateTimeInterface $start, int $pageNumber, int $pageItems): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex, updated, created
+            SELECT id_shift, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex, updated AS last_modified_on, created AS created_on
             FROM shifts
             WHERE datetime_from > :from AND id_shift_type = :calendarId
             ORDER BY datetime_from ASC
