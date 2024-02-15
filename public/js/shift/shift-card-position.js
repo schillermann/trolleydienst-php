@@ -22,19 +22,6 @@ export class ShiftCardPosition extends FrontierElement {
     super();
   }
 
-  /**
-   * @param {string} name
-   * @param {string} oldVal
-   * @param {string} newVal
-   */
-  attributeChangedCallback(name, oldVal, newVal) {
-    if (oldVal === newVal || oldVal === null) {
-      return;
-    }
-
-    this.render();
-  }
-
   async connectedCallback() {
     this.render();
     customElements.get("shift-card-time") ||
