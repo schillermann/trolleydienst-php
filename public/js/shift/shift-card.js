@@ -41,10 +41,6 @@ export class ShiftCard extends FrontierElement {
    */
   async connectedCallback() {
     this.render();
-    /** @type {Element} */
-    const shiftCardTitle = this.shadowRoot.querySelector("shift-card-title");
-    shiftCardTitle.setAttribute("date", this.getAttribute("date"));
-    shiftCardTitle.setAttribute("route-name", this.getAttribute("route-name"));
     await this.createShiftPositions();
 
     customElements.get("shift-card-title") ||
@@ -74,19 +70,19 @@ export class ShiftCard extends FrontierElement {
         "shift-card-position"
       );
 
-      const publishers = {};
+      const publishers = [];
       for (const application of applications) {
         if (application.shiftPosition !== shiftPosition) {
           continue;
         }
-        publishers[application.publisher.id] =
-          application.publisher.firstname +
-          " " +
-          application.publisher.lastname;
+        publishers.push({
+          id: application.publisher.id,
+          name: `${application.publisher.firstname} ${application.publisher.lastname}`,
+        });
       }
 
       shiftPositionElement.setAttribute(
-        "publishers",
+        "publisher-list",
         JSON.stringify(publishers)
       );
       shiftPositionElement.setAttribute(
@@ -99,8 +95,8 @@ export class ShiftCard extends FrontierElement {
       );
       shiftPositionElement.setAttribute("shift-position", shiftPosition);
       // TODO: calculate time from to
-      shiftPositionElement.setAttribute("from", "2023-12-20");
-      shiftPositionElement.setAttribute("to", "2023-12-21");
+      shiftPositionElement.setAttribute("shift-from", "2023-12-20");
+      shiftPositionElement.setAttribute("shift-to", "2023-12-21");
       shiftPositionElement.setAttribute("lang", this.getAttribute("lang"));
       shiftPositionElement.setAttribute(
         "publisher-limit",
@@ -126,7 +122,11 @@ export class ShiftCard extends FrontierElement {
     
       <div id="shift-card">
         <div>
-          <shift-card-title></shift-card-title>
+          <shift-card-title date="${this.getAttribute(
+            "date"
+          )}" route-name="${this.getAttribute(
+      "route-name"
+    )}"></shift-card-title>
         </div>
         <div id="shift-position"></div>
         <div>

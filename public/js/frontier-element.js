@@ -2,20 +2,25 @@ export class FrontierElement extends HTMLElement {
   constructor() {
     super();
 
-    const shadow = this.attachShadow({ mode: "open" });
-    if (this.render().length === 0) {
+    this.attachShadow({ mode: "open" });
+  }
+
+  render() {
+    const templateString = this.template();
+    if (templateString.length === 0) {
       return;
     }
 
     const template = document.createElement("template");
-    template.innerHTML = this.render();
-    shadow.appendChild(template.content.cloneNode(true));
+    template.innerHTML = templateString;
+    this.shadowRoot.replaceChildren();
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   /**
    * @returns {string}
    */
-  render() {
+  template() {
     return "";
   }
 }
