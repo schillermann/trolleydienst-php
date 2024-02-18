@@ -92,3 +92,8 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
     `;
   }
 }
+
+window.customElements.define(
+  "shift-card-button-publisher-contact",
+  ShiftCardButtonPublisherContact
+);

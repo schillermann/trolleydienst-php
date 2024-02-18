@@ -3,8 +3,6 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardButtonEdit extends FrontierElement {
-  #labelEdit = "Edit";
-
   constructor() {
     super();
   }
@@ -26,12 +24,6 @@ export class ShiftCardButtonEdit extends FrontierElement {
    * @returns {void}
    */
   connectedCallback() {
-    switch (this.getAttribute("lang")) {
-      case "de":
-        this.#labelEdit = "Bearbeiten";
-        break;
-    }
-
     this.render();
     this.shadowRoot
       .querySelector("button")
@@ -42,6 +34,15 @@ export class ShiftCardButtonEdit extends FrontierElement {
    * @returns {string}
    */
   template() {
+    const buttonLabel = () => {
+      switch (this.getAttribute("lang")) {
+        case "de":
+          return "Bearbeiten";
+        default:
+          return "Edit";
+      }
+    };
+
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");
@@ -78,8 +79,10 @@ export class ShiftCardButtonEdit extends FrontierElement {
         }
       </style>
       <button type="button">
-          <i class="fa fa-pencil"></i> ${this.#labelEdit}
+          <i class="fa fa-pencil"></i> ${buttonLabel()}
       </button>
     `;
   }
 }
+
+window.customElements.define("shift-card-button-edit", ShiftCardButtonEdit);

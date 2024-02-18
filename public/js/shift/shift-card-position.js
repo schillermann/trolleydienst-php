@@ -1,15 +1,14 @@
 "use strict";
 
-import { ShiftCardTime } from "./shift-card-time.js";
-import { ShiftCardButtonPublisherAction } from "./shift-card-button-publisher-action.js";
-import { ShiftCardButtonPublisherContact } from "./shift-card-button-publisher-contact.js";
-import { ShiftCardButtonAvailable } from "./shift-card-button-available.js";
+import "./shift-card-time.js";
+import "./shift-card-button-publisher-action.js";
+import "./shift-card-button-publisher-contact.js";
+import "./shift-card-button-available.js";
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardPosition extends FrontierElement {
   static observedAttributes = [
-    "publisher-list",
-    "publisher-limit",
+    "publishers",
     "shift-id",
     "calendar-id",
     "shift-position",
@@ -22,41 +21,22 @@ export class ShiftCardPosition extends FrontierElement {
     super();
   }
 
-  async connectedCallback() {
-    this.render();
-    customElements.get("shift-card-time") ||
-      window.customElements.define("shift-card-time", ShiftCardTime);
-    customElements.get("shift-card-button-publisher-contact") ||
-      window.customElements.define(
-        "shift-card-button-publisher-contact",
-        ShiftCardButtonPublisherContact
-      );
-    customElements.get("shift-card-button-available") ||
-      window.customElements.define(
-        "shift-card-button-available",
-        ShiftCardButtonAvailable
-      );
-  }
-
   /**
    * @returns {string}
    */
   template() {
-    const publishers = JSON.parse(this.getAttribute("publisher-list"));
-    // TODO: Add right time
+    const publishers = JSON.parse(this.getAttribute("publishers"));
+    const lang = this.getAttribute("lang");
+    const shiftFrom = this.getAttribute("shift-from");
+    const shiftTo = this.getAttribute("shift-to");
+
     return /*html*/ `
       <dl>          
         <dt>
-          <shift-card-time lang="${this.getAttribute(
-            "lang"
-          )}" date-from="${new Date().toString()}" date-to="${new Date().toString()}"></shift-card-time>
+          <shift-card-time lang="${lang}" date-from="${shiftFrom}" date-to="${shiftTo}"></shift-card-time>
         </dt>
         <dd>
-          ${this.publisherContactButtons(publishers)}
-          ${this.availableButtons(
-            publishers,
-            this.getAttribute("publisher-limit")
-          )}
+          ${this.templateButtons(publishers)}
         </dd>
       </dl>
     `;
@@ -65,36 +45,33 @@ export class ShiftCardPosition extends FrontierElement {
   /**
    * @returns {string}
    */
-  publisherContactButtons(publishers) {
+  templateButtons(publishers) {
+    const lang = this.getAttribute("lang");
+    const shiftId = this.getAttribute("shift-id");
+    const calendarId = this.getAttribute("calendar-id");
+    const shiftPosition = this.getAttribute("shift-position");
+
     return publishers
-      .map(
-        (publisher) => /*html*/ `<shift-card-button-publisher-contact
-          lang="${this.getAttribute("lang")}"
-          shift-id="${this.getAttribute("shift-id")}"
-          calendar-id="${this.getAttribute("calendar-id")}"
-          shift-position="${this.getAttribute("shift-position")}"
-          publisher-id="${publisher.id}">
-          ${publisher.name}
-        </shift-card-button-publisher-contact>`
-      )
+      .map((publisher) => {
+        if (publisher.id && publisher.name) {
+          return /*html*/ `<shift-card-button-publisher-contact
+            lang="${lang}"
+            shift-id="${shiftId}"
+            calendar-id="${calendarId}"
+            shift-position="${shiftPosition}"
+            publisher-id="${publisher.id}">
+            ${publisher.name}
+          </shift-card-button-publisher-contact>`;
+        }
+        return /*html*/ `<shift-card-button-available
+          lang="${lang}"
+          shift-id="${shiftId}"
+          calendar-id="${calendarId}"
+          shift-position="${shiftPosition}">
+        </shift-card-button-available>`;
+      })
       .join("");
   }
-
-  /**
-   * @returns {string}
-   */
-  availableButtons(publishers, publisherLimit) {
-    const limit = publisherLimit - publishers.length;
-    let buttons = "";
-    for (let counter = 0; counter < limit; counter++) {
-      buttons += /*html*/ `<shift-card-button-available
-          lang="${this.getAttribute("lang")}"
-          shift-id="${this.getAttribute("shift-id")}"
-          calendar-id="${this.getAttribute("calendar-id")}"
-          shift-position="${this.getAttribute("shift-position")}">
-        </shift-card-button-available>`;
-    }
-
-    return buttons;
-  }
 }
+
+window.customElements.define("shift-card-position", ShiftCardPosition);

@@ -1,14 +1,14 @@
 "use strict";
 
-import { ShiftCard } from "./shift-card.js";
+import "./shift-card.js";
 import { FrontierElement } from "../frontier-element.js";
 
 /**
  * @typedef {Object} Shift
  * @property {number} id
  * @property {string} routeName
- * @property {string} start
- * @property {number} numberOfShifts
+ * @property {string} shiftStart
+ * @property {number} shiftPositions
  * @property {number} minutesPerShift
  * @property {string} colorHex
  * @property {string} lastModifiedOn
@@ -26,39 +26,38 @@ import { FrontierElement } from "../frontier-element.js";
  */
 
 export class ShiftCardCalendar extends FrontierElement {
+  static observedAttributes = ["lang", "calendar-id"];
+
   constructor() {
     super();
   }
 
-  async connectedCallback() {
-    this.render();
-    await this.createShiftCards();
-  }
-
-  /**
-   * @returns {Promise<void>}
-   */
-  async createShiftCards() {
+  async template() {
+    /** @type {Calendar} */
     const calendar = await this.calendarJson();
+    /** @type {Shift[]} */
+    const shitfs = await this.shiftsJson();
+    const calendarId = this.getAttribute("calendar-id");
+    const lang = this.getAttribute("lang");
 
-    for (const shift of await this.shiftsJson()) {
-      const shiftCard = document.createElement("shift-card");
-      shiftCard.setAttribute("date", shift.start);
-      shiftCard.setAttribute("shift-id", shift.id);
-      shiftCard.setAttribute("calendar-id", this.getAttribute("calendar-id"));
-      shiftCard.setAttribute("color", shift.colorHex);
-      shiftCard.setAttribute(
-        "publisher-limit",
-        calendar.publisherLimitPerShift
-      );
-      shiftCard.setAttribute("route-name", shift.routeName);
-      shiftCard.setAttribute("lang", this.getAttribute("lang"));
-
-      this.shadowRoot.appendChild(shiftCard);
-    }
-
-    customElements.get("shift-card") ||
-      window.customElements.define("shift-card", ShiftCard);
+    return shitfs
+      .map(
+        /**
+         * @param {Shift} shift
+         * @returns {string}
+         */
+        (shift) => /*html*/ `<shift-card
+            shift-id="${shift.id}"
+            shift-start="${shift.shiftStart}"
+            shift-color="${shift.colorHex}"
+            shift-positions="${shift.shiftPositions}"
+            minutes-per-shift="${shift.minutesPerShift}"
+            calendar-id="${calendarId}"
+            publisher-limit ="${calendar.publisherLimitPerShift}"
+            route-name="${shift.routeName}"
+            lang="${lang}"></shift-card>`
+      )
+      .join("");
   }
 
   /**
@@ -97,3 +96,5 @@ export class ShiftCardCalendar extends FrontierElement {
     return await response.json();
   }
 }
+
+window.customElements.define("shift-card-calendar", ShiftCardCalendar);

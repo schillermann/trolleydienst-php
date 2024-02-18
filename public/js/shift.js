@@ -1,6 +1,5 @@
 import {
   ShiftNavButtonNewShift,
-  ShiftCardCalendar,
   ShiftDialogApplication,
   ShiftDialogCreation,
   ShiftDialogPublisherContact,
@@ -11,8 +10,7 @@ customElements.get("shift-nav-button-new-shift") ||
     "shift-nav-button-new-shift",
     ShiftNavButtonNewShift
   );
-customElements.get("shift-card-calendar") ||
-  window.customElements.define("shift-card-calendar", ShiftCardCalendar);
+
 customElements.get("shift-dialog-application") ||
   window.customElements.define(
     "shift-dialog-application",

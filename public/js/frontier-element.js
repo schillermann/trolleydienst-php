@@ -10,16 +10,26 @@ export class FrontierElement extends HTMLElement {
    * @param {string} oldVal
    * @param {string} newVal
    */
-  attributeChangedCallback(name, oldVal, newVal) {
+  async attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal || oldVal === null) {
       return;
     }
 
-    this.render();
+    await this.render();
   }
 
-  render() {
-    const templateString = this.template();
+  /**
+   * @returns {void}
+   */
+  async connectedCallback() {
+    await this.render();
+  }
+
+  /**
+   * @returns {void}
+   */
+  async render() {
+    const templateString = await this.template();
     if (templateString.length === 0) {
       return;
     }
@@ -31,9 +41,9 @@ export class FrontierElement extends HTMLElement {
   }
 
   /**
-   * @returns {string}
+   * @returns {Promise<string>}
    */
-  template() {
+  async template() {
     return "";
   }
 }

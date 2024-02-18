@@ -8,20 +8,18 @@ use PhpPages\PageInterface;
 
 class CalendarGet implements PageInterface
 {
-  private CalendarsSqlite $calendars;
-  private int $shiftTypeId;
+  private CalendarsSqlite $calendarsStore;
 
-  function __construct(CalendarsSqlite $calendars, int $shiftTypeId)
+  function __construct(CalendarsSqlite $calendarsStore)
   {
-    $this->calendars = $calendars;
-    $this->shiftTypeId = $shiftTypeId;
+    $this->calendarsStore = $calendarsStore;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shiftType = $this->calendars->shiftType($this->shiftTypeId);
+    $calendar = $this->calendarsStore->calendar();
 
-    if ($shiftType->id() === 0) {
+    if ($calendar->id() === 0) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
@@ -37,11 +35,11 @@ class CalendarGet implements PageInterface
         PageInterface::BODY,
         json_encode(
           [
-            'label' => $shiftType->label(),
-            'publisherLimitPerShift' => $shiftType->publisherLimitPerShift(),
-            'info' => $shiftType->info(),
-            'lastModifiedOn' => $shiftType->LastModifiedOn()->format(\DateTimeInterface::ATOM),
-            'createdOn' => $shiftType->createdOn()->format(\DateTimeInterface::ATOM)
+            'label' => $calendar->label(),
+            'publisherLimitPerShift' => $calendar->publisherLimitPerShift(),
+            'info' => $calendar->info(),
+            'lastModifiedOn' => $calendar->LastModifiedOn()->format(\DateTimeInterface::ATOM),
+            'createdOn' => $calendar->createdOn()->format(\DateTimeInterface::ATOM)
           ],
           JSON_THROW_ON_ERROR,
           2

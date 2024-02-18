@@ -3,24 +3,19 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardTitle extends FrontierElement {
-  #date = "XXX XXX 00 0000";
-  #routeName = "Unknown";
+  static observedAttributes = ["date", "route-name"];
 
   constructor() {
     super();
-  }
-
-  connectedCallback() {
-    this.#date = new Date(this.getAttribute("date")).toDateString();
-    this.#routeName = this.getAttribute("route-name");
-
-    this.render();
   }
 
   /**
    * @returns {string}
    */
   template() {
+    const date = new Date(this.getAttribute("date")).toDateString();
+    const routeName = this.getAttribute("route-name");
+
     return /*html*/ `
       <style>
         h2 {
@@ -28,8 +23,10 @@ export class ShiftCardTitle extends FrontierElement {
         }
       </style>
       <h2>
-        ${this.#date} - ${this.#routeName}
+        ${date} - ${routeName}
       </h2>
     `;
   }
 }
+
+window.customElements.define("shift-card-title", ShiftCardTitle);

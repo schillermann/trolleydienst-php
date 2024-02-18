@@ -142,8 +142,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
         if (preg_match('|^/api/calendars/([0-9]+)$|', $value, $matches) === 1) {
           return new CalendarGet(
-            new CalendarsSqlite($this->pdo),
-            (int)$matches[1]
+            new CalendarsSqlite($this->pdo, (int)$matches[1]),
+            new CalendarShiftsSqlite($this->pdo, (int)$matches[1])
           );
         }
 

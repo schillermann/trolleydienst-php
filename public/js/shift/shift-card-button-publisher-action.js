@@ -66,3 +66,8 @@ export class ShiftCardButtonPublisherAction extends FrontierElement {
     `;
   }
 }
+
+window.customElements.define(
+  "shift-card-button-publisher-action",
+  ShiftCardButtonPublisherAction
+);

@@ -40,8 +40,8 @@ class CalendarShiftsGet implements PageInterface
       $body[] = [
         'id' => $shift->id(),
         'routeName' => $shift->routeName(),
-        'start' => $shift->start()->format(\DateTimeInterface::ATOM),
-        'numberOfShifts' => $shift->numberOfShifts(),
+        'shiftStart' => $shift->start()->format(\DateTimeInterface::ATOM),
+        'shiftPositions' => $shift->numberOfShifts(),
         'minutesPerShift' => $shift->minutesPerShift(),
         'colorHex' => $shift->colorHex(),
         'lastModifiedOn' => $shift->lastModifiedOn()->format(\DateTimeInterface::ATOM),

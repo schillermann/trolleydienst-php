@@ -39,7 +39,7 @@ class CalendarShiftGet implements PageInterface
           [
             'id' => $shift->id(),
             'routeName' => $shift->routeName(),
-            'start' => $shift->start()->format(\DateTimeInterface::ATOM),
+            'shiftStart' => $shift->start()->format(\DateTimeInterface::ATOM),
             'numberOfShifts' => $shift->numberOfShifts(),
             'minutesPerShift' => $shift->minutesPerShift(),
             'colorHex' => $shift->colorHex(),

@@ -3,18 +3,8 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardTime extends FrontierElement {
-  #dateFrom = "00:00";
-  #dateTo = "00:00";
-
   constructor() {
     super();
-  }
-
-  connectedCallback() {
-    this.#dateFrom = this.getDateFrom();
-    this.#dateTo = this.getDateTo();
-
-    this.render();
   }
 
   /**
@@ -54,8 +44,10 @@ export class ShiftCardTime extends FrontierElement {
   template() {
     return /*html*/ `
       <p>
-        <span id="date-from">Date From</span> - <span id="date-to">Date To</span>
+        <span id="date-from">${this.getDateFrom()}</span> - <span id="date-to">${this.getDateTo()}</span>
       </p>
     `;
   }
 }
+
+window.customElements.define("shift-card-time", ShiftCardTime);

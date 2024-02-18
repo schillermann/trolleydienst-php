@@ -91,3 +91,8 @@ export class ShiftCardButtonAvailable extends FrontierElement {
     `;
   }
 }
+
+window.customElements.define(
+  "shift-card-button-available",
+  ShiftCardButtonAvailable
+);
