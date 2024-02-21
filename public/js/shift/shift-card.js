@@ -28,6 +28,7 @@ export class ShiftCard extends FrontierElement {
     "minutes-per-shift",
     "publisher-limit ",
     "route-name",
+    "logged-in-publisher-id",
   ];
 
   constructor() {
@@ -71,6 +72,7 @@ export class ShiftCard extends FrontierElement {
     const lang = this.getAttribute("lang");
     const calendarId = this.getAttribute("calendar-id");
     const shiftId = this.getAttribute("shift-id");
+    const loggedInPublisherId = this.getAttribute("logged-in-publisher-id");
     const applications = await this.applicationsJson();
     let shiftTo = new Date(this.getAttribute("shift-start"));
     let template = "";
@@ -102,8 +104,9 @@ export class ShiftCard extends FrontierElement {
           shift-id="${shiftId}"
           calendar-id="${calendarId}"
           shift-position="${position}"
-          shift-from="${shiftFrom}"
-          shift-to="${shiftTo}"
+          shift-from="${shiftFrom.toISOString()}"
+          shift-to="${shiftTo.toISOString()}"
+          logged-in-publisher-id="${loggedInPublisherId}"
           publishers='${JSON.stringify(publishers)}'>
         </shift-card-position>`;
     }

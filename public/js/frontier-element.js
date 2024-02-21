@@ -15,20 +15,20 @@ export class FrontierElement extends HTMLElement {
       return;
     }
 
-    await this.render();
+    await this.renderTemplate();
   }
 
   /**
-   * @returns {void}
+   * @returns {Promise<void>}
    */
   async connectedCallback() {
-    await this.render();
+    await this.renderTemplate();
   }
 
   /**
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  async render() {
+  async renderTemplate() {
     const templateString = await this.template();
     if (templateString.length === 0) {
       return;

@@ -3,23 +3,20 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftNavButtonNewShift extends FrontierElement {
-  #labelNewShift = "New Shift";
-
   constructor() {
     super();
   }
 
   /**
-   * @returns {void}
+   * @returns {string}
    */
-  connectedCallback() {
+  buttonLabel() {
     switch (this.getAttribute("lang")) {
       case "de":
-        this.#labelNewShift = "Neue Schicht";
-        break;
+        return "Neue Schicht";
+      default:
+        return "New Shift";
     }
-
-    this.render();
   }
 
   /**
@@ -70,7 +67,7 @@ export class ShiftNavButtonNewShift extends FrontierElement {
       </style>
       <button type="button">
           <i class="fa fa-plus"></i>
-          ${this.#labelNewShift}
+          ${this.buttonLabel()}
       </button>
     `;
   }

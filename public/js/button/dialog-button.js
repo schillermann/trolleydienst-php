@@ -7,10 +7,6 @@ export class DialogButton extends FrontierElement {
     super();
   }
 
-  async connectedCallback() {
-    this.render();
-  }
-
   /**
    * @returns {string}
    */
@@ -27,3 +23,5 @@ export class DialogButton extends FrontierElement {
     `;
   }
 }
+
+window.customElements.define("dialog-button", DialogButton);

@@ -36,9 +36,7 @@ use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
-use App\Shift\Api\PublishersEnabledQuery;
 use App\Shift\Api\WithdrawShiftApplicationCommand;
-use App\Shift\Publishers;
 use App\Shift\ShiftCalendar;
 use App\Shift\ShiftPage;
 use App\ShiftHistoryPage;
@@ -178,10 +176,6 @@ require __DIR__ . '/../vendor/autoload.php';
         }
 
         switch ($value) {
-          case '/api/shift/publishers-enabled':
-            return new PublishersEnabledQuery(
-              new Publishers($this->pdo)
-            );
           case '/api/me':
             return new MeQuery(new UserSession($this->session));
         }

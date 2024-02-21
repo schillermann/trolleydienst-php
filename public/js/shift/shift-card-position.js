@@ -14,6 +14,7 @@ export class ShiftCardPosition extends FrontierElement {
     "shift-position",
     "shift-from",
     "shift-to",
+    "logged-in-publisher-id",
     "lang",
   ];
 
@@ -50,25 +51,34 @@ export class ShiftCardPosition extends FrontierElement {
     const shiftId = this.getAttribute("shift-id");
     const calendarId = this.getAttribute("calendar-id");
     const shiftPosition = this.getAttribute("shift-position");
+    const loggedInPublisherId = Number(
+      this.getAttribute("logged-in-publisher-id")
+    );
 
     return publishers
       .map((publisher) => {
-        if (publisher.id && publisher.name) {
-          return /*html*/ `<shift-card-button-publisher-contact
+        if (!publisher.id || !publisher.name) {
+          return /*html*/ `<shift-card-button-available
             lang="${lang}"
             shift-id="${shiftId}"
             calendar-id="${calendarId}"
-            shift-position="${shiftPosition}"
-            publisher-id="${publisher.id}">
-            ${publisher.name}
-          </shift-card-button-publisher-contact>`;
+            shift-position="${shiftPosition}">
+          </shift-card-button-available>`;
         }
-        return /*html*/ `<shift-card-button-available
-          lang="${lang}"
-          shift-id="${shiftId}"
-          calendar-id="${calendarId}"
-          shift-position="${shiftPosition}">
-        </shift-card-button-available>`;
+
+        if (publisher.id === loggedInPublisherId) {
+          return /*html*/ `<shift-card-button-publisher-action
+            publisher-name="${publisher.name}">
+          </shift-card-button-publisher-action>`;
+        }
+
+        return /*html*/ `<shift-card-button-publisher-contact
+            shift-id="${shiftId}"
+            calendar-id="${calendarId}"
+            shift-position="${shiftPosition}"
+            publisher-id="${publisher.id}"
+            publisher-name="${publisher.name}">
+          </shift-card-button-publisher-contact>`;
       })
       .join("");
   }

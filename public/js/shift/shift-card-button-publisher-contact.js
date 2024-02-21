@@ -3,6 +3,8 @@
 import { FrontierElement } from "../frontier-element.js";
 
 export class ShiftCardButtonPublisherContact extends FrontierElement {
+  static observedAttributes = ["publisher-name"];
+
   constructor() {
     super();
   }
@@ -17,10 +19,10 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
   }
 
   /**
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  connectedCallback() {
-    this.render();
+  async connectedCallback() {
+    await this.renderTemplate();
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.onClick.bind(this));
@@ -49,6 +51,8 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
    * @returns {string}
    */
   template() {
+    const publisherName = this.getAttribute("publisher-name");
+
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");
@@ -86,8 +90,8 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
         }
       </style>
       <button type="button">
-        <i class="fa fa-check-circle-o"></i>
-        <slot />
+        <i class="fa fa-info-circle"></i>
+        ${publisherName}
       </button>
     `;
   }

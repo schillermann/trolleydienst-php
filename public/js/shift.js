@@ -1,9 +1,4 @@
-import {
-  ShiftNavButtonNewShift,
-  ShiftDialogApplication,
-  ShiftDialogCreation,
-  ShiftDialogPublisherContact,
-} from "./shift/index.js";
+import { ShiftNavButtonNewShift, ShiftDialogCreation } from "./shift/index.js";
 
 customElements.get("shift-nav-button-new-shift") ||
   window.customElements.define(
@@ -11,18 +6,8 @@ customElements.get("shift-nav-button-new-shift") ||
     ShiftNavButtonNewShift
   );
 
-customElements.get("shift-dialog-application") ||
-  window.customElements.define(
-    "shift-dialog-application",
-    ShiftDialogApplication
-  );
 customElements.get("shift-dialog-creation") ||
   window.customElements.define("shift-dialog-creation", ShiftDialogCreation);
-customElements.get("shift-dialog-publisher-contact") ||
-  window.customElements.define(
-    "shift-dialog-publisher-contact",
-    ShiftDialogPublisherContact
-  );
 
 window.addEventListener(
   "open-shift-dialog-application",

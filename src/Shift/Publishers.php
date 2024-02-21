@@ -14,7 +14,7 @@ class Publishers implements PublishersInterface
     public function all(): \Generator
     {
         $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id, first_name, last_name
+            SELECT id, first_name AS firstname, last_name AS lastname
             FROM publisher
         SQL);
 
@@ -32,7 +32,7 @@ class Publishers implements PublishersInterface
     public function allActivate(): \Generator
     {
         $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id, first_name, last_name
+            SELECT id, first_name AS firstname, last_name AS lastname
             FROM publisher
             WHERE active = true
         SQL);

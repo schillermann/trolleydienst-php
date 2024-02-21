@@ -20,7 +20,7 @@
 
 <shift-dialog-application lang="en" open="false" logged-in-publisher-id="1"></shift-dialog-application>
 <shift-dialog-creation lang="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-creation>
-<shift-card-calendar lang="en" calendar-id="1"></shift-card-calendar>
+<shift-card-calendar lang="en" calendar-id="1" logged-in-publisher-id="1"></shift-card-calendar>
 <shift-dialog-publisher lang="en"></shift-dialog-publisher>
 <shift-dialog-publisher-contact lang="en"></shift-dialog-publisher-contact>
 

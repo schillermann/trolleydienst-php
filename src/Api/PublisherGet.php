@@ -49,8 +49,8 @@ class PublisherGet implements PageInterface
             'publisherNote' => $publisher->publisherNote(),
             'active' => $publisher->active(),
             'administrative' => $publisher->administrative(),
-            'lastLoggedOn' => $publisher->lastLoggedOn()->format(\DateTimeInterface::ATOM),
-            'lastModifiedOn' => $publisher->lastModifiedOn()->format(\DateTimeInterface::ATOM),
+            'loggedOn' => $publisher->loggedOn()->format(\DateTimeInterface::ATOM),
+            'updatedOn' => $publisher->updatedOn()->format(\DateTimeInterface::ATOM),
             'createdOn' => $publisher->createdOn()->format(\DateTimeInterface::ATOM)
           ],
           JSON_THROW_ON_ERROR,

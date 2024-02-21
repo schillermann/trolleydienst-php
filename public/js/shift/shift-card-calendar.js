@@ -26,12 +26,15 @@ import { FrontierElement } from "../frontier-element.js";
  */
 
 export class ShiftCardCalendar extends FrontierElement {
-  static observedAttributes = ["lang", "calendar-id"];
+  static observedAttributes = ["lang", "calendar-id", "logged-in-publisher-id"];
 
   constructor() {
     super();
   }
 
+  /**
+   * @returns {Promise<string>}
+   */
   async template() {
     /** @type {Calendar} */
     const calendar = await this.calendarJson();
@@ -39,6 +42,7 @@ export class ShiftCardCalendar extends FrontierElement {
     const shitfs = await this.shiftsJson();
     const calendarId = this.getAttribute("calendar-id");
     const lang = this.getAttribute("lang");
+    const loggedInPublisherId = this.getAttribute("logged-in-publisher-id");
 
     return shitfs
       .map(
@@ -55,13 +59,14 @@ export class ShiftCardCalendar extends FrontierElement {
             calendar-id="${calendarId}"
             publisher-limit ="${calendar.publisherLimitPerShift}"
             route-name="${shift.routeName}"
+            logged-in-publisher-id="${loggedInPublisherId}"
             lang="${lang}"></shift-card>`
       )
       .join("");
   }
 
   /**
-   * @returns {Shifts[]}
+   * @returns {Shift[]}
    */
   async shiftsJson() {
     const apiUrl =

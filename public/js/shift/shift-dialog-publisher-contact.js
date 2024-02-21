@@ -1,35 +1,33 @@
 "use strict";
 
-import { DialogButton } from "./../button/index.js";
-import { Dictionary } from "../dictionary.js";
+import "./../button/index.js";
 import { FrontierElement } from "../frontier-element.js";
+
+/**
+ * @typedef {Object} Publisher
+ * @property {number} id
+ * @property {string} username
+ * @property {string} firstname
+ * @property {string} lastname
+ * @property {string} email
+ * @property {string} phone
+ * @property {string} mobile
+ * @property {string} congregation
+ * @property {string} language
+ * @property {string} publisherNote
+ * @property {string} adminNote
+ * @property {string} active
+ * @property {string} administrative
+ * @property {string} loggedOn
+ * @property {string} updatedOn
+ * @property {string} createdOn
+ */
 
 export class ShiftDialogPublisherContact extends FrontierElement {
   static observedAttributes = ["open", "lang", "publisher-id"];
 
   constructor() {
     super();
-
-    // this.dictionary = new Dictionary({
-    //   "Publisher Contact": {
-    //     de: "Verkündiger Kontakt",
-    //   },
-    //   Email: {
-    //     de: "E-Mail",
-    //   },
-    //   Phone: {
-    //     de: "Festnetz",
-    //   },
-    //   Mobile: {
-    //     de: "Mobil",
-    //   },
-    //   "Info From Publisher": {
-    //     de: "Info vom Verkündiger",
-    //   },
-    //   Close: {
-    //     de: "Schließen",
-    //   },
-    // });
   }
 
   /**
@@ -40,10 +38,8 @@ export class ShiftDialogPublisherContact extends FrontierElement {
     this.setAttribute("open", "false");
   }
 
-  connectedCallback() {
-    customElements.get("dialog-button") ||
-      window.customElements.define("dialog-button", DialogButton);
-
+  async connectedCallback() {
+    await this.renderTemplate();
     this.shadowRoot
       .getElementById("button-close")
       .addEventListener("click", this.closeDialog.bind(this));
@@ -54,10 +50,123 @@ export class ShiftDialogPublisherContact extends FrontierElement {
   }
 
   /**
-   * @param {number} publisherId
-   * @returns {Promise<void>}
+   * @returns {string}
    */
-  async setContactInfo(publisherId) {
+  header() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Verkündiger Kontakt";
+      default:
+        return "Publisher Contact";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  labelEmail() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "E-Mail";
+      default:
+        return "Email";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  labelPhone() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Festnetz";
+      default:
+        return "Phone";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  labelMobile() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Mobil";
+      default:
+        return "Mobile";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  labelInfo() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Info vom Verkündiger";
+      default:
+        return "Info From Publisher";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  buttonLabel() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Schließen";
+      default:
+        return "Close";
+    }
+  }
+
+  /**
+   * @returns {Promise<string>}
+   */
+  async template() {
+    const publisherId = Number(this.getAttribute("publisher-id"));
+    const publisher =
+      publisherId === 0 ? {} : await this.publisherJson(publisherId);
+    const open = this.getAttribute("open") === "true" ? "open" : "";
+
+    return /*html*/ `
+      <style></style>
+    
+      <dialog ${open}>
+        <header>
+          <h2>${this.header()}</h2>
+        </header>
+        <div>
+          <h3>${publisher.firstname} ${publisher.lastname}</h3>
+          <address>
+            <dl>
+              <dt>${this.labelEmail()}:</dt>
+              <dd><a href="mailto:${publisher.email}">${
+      publisher.email
+    }</a></dd>
+              <dt>${this.labelPhone()}:</dt>
+              <dd><a href="tel:${publisher.phone}">${publisher.phone}</a></dd>
+              <dt>${this.labelMobile()}:</dt>
+              <dd><a href="tel:${publisher.mobile}">${publisher.mobile}</a></dd>
+            </dl>
+          </address>
+          <h4>${this.labelInfo()}</h4>
+          <p>${publisher.publisherNote}</p>
+        </div>
+        <div>
+          <dialog-button id="button-close">${this.buttonLabel()}</dialog-button>
+        </div>
+      </dialog>
+    `;
+  }
+
+  /**
+   *
+   * @param {number} publisherId
+   * @returns {Promise<Publisher>}
+   */
+  async publisherJson(publisherId) {
     const apiUrl = "/api/publishers/" + publisherId;
     const response = await fetch(apiUrl, {
       method: "GET",
@@ -65,91 +174,13 @@ export class ShiftDialogPublisherContact extends FrontierElement {
     });
 
     if (response.status !== 200) {
-      console.error("Cannot read publisher from api [url: " + apiUrl + "]");
-      return;
+      throw new Error("Cannot read publisher from api [url: " + apiUrl + "]");
     }
-    const publisher = await response.json();
-    const email = this.shadowRoot.getElementById("email");
-    email.href = "mailto:" + publisher.email;
-    email.textContent = publisher.email;
-
-    if (publisher.phone) {
-      const phone = this.shadowRoot.getElementById("phone");
-      phone.href = "tel:" + publisher.phone;
-      phone.textContent = publisher.phone;
-    }
-    if (publisher.mobile) {
-      const mobile = this.shadowRoot.getElementById("mobile");
-      mobile.href = publisher.mobile;
-      mobile.textContent = publisher.mobile;
-    }
-    if (publisher.publisherNote) {
-      this.shadowRoot.getElementById("info").textContent =
-        publisher.publisherNote;
-    }
-  }
-
-  /**
-   * @param {string} name
-   * @param {string} oldVal
-   * @param {string} newVal
-   * @returns {Promise<void>}
-   */
-  async attributeChangedCallback(name, oldVal, newVal) {
-    this.render();
-    if (name === "lang") {
-      // this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
-      //   newVal,
-      //   this.shadowRoot.innerHTML
-      // );
-      return;
-    }
-
-    if (name === "open") {
-      const dialog = this.shadowRoot.querySelector("dialog");
-      if (newVal === "true") {
-        dialog.showModal();
-        return;
-      }
-      dialog.close();
-      return;
-    }
-
-    if (name === "publisher-id") {
-      await this.setContactInfo(this.getAttribute("publisher-id"));
-    }
-  }
-
-  /**
-   * @returns {string}
-   */
-  template() {
-    return /*html*/ `
-      <style></style>
-    
-      <dialog>
-        <header>
-          <h2 id="publisher-contract">{Publisher Contact}</h2>
-        </header>
-        <div>
-          <h3 id="publisher-name"></h3>
-          <address>
-            <dl>
-              <dt>{Email}:</dt>
-              <dd><a id="email"></a></dd>
-              <dt>{Phone}:</dt>
-              <dd><a id="phone"></a></dd>
-              <dt>{Mobile}:</dt>
-              <dd><a id="mobile"></a></dd>
-            </dl>
-          </address>
-          <h4>{Info From Publisher}</h4>
-          <p id="info"></p>
-        </div>
-        <div>
-          <dialog-button id="button-close">{Close}</dialog-button>
-        </div>
-      </dialog>
-    `;
+    return await response.json();
   }
 }
+
+window.customElements.define(
+  "shift-dialog-publisher-contact",
+  ShiftDialogPublisherContact
+);

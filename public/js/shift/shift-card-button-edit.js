@@ -23,8 +23,8 @@ export class ShiftCardButtonEdit extends FrontierElement {
   /**
    * @returns {void}
    */
-  connectedCallback() {
-    this.render();
+  async connectedCallback() {
+    await this.renderTemplate();
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
@@ -33,16 +33,19 @@ export class ShiftCardButtonEdit extends FrontierElement {
   /**
    * @returns {string}
    */
-  template() {
-    const buttonLabel = () => {
-      switch (this.getAttribute("lang")) {
-        case "de":
-          return "Bearbeiten";
-        default:
-          return "Edit";
-      }
-    };
+  buttonLabel() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Bearbeiten";
+      default:
+        return "Edit";
+    }
+  }
 
+  /**
+   * @returns {string}
+   */
+  template() {
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");
@@ -79,7 +82,7 @@ export class ShiftCardButtonEdit extends FrontierElement {
         }
       </style>
       <button type="button">
-          <i class="fa fa-pencil"></i> ${buttonLabel()}
+          <i class="fa fa-pencil"></i> ${this.buttonLabel()}
       </button>
     `;
   }

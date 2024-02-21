@@ -23,11 +23,11 @@ class PublisherSqlite
   }
   function firstname(): string
   {
-    return $this->columns['first_name'];
+    return $this->columns['firstname'];
   }
   function lastname(): string
   {
-    return $this->columns['last_name'];
+    return $this->columns['lastname'];
   }
   function email(): string
   {
@@ -71,13 +71,13 @@ class PublisherSqlite
   {
     return (bool)$this->columns['administrative'];
   }
-  function lastLoggedOn(): \DateTimeImmutable
+  function loggedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['last_logged_on']);
+    return new \DateTimeImmutable($this->columns['logged_on']);
   }
-  function LastModifiedOn(): \DateTimeImmutable
+  function updatedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['last_modified_on']);
+    return new \DateTimeImmutable($this->columns['updated_on']);
   }
   function createdOn(): \DateTimeImmutable
   {

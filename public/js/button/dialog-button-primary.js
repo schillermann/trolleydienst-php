@@ -7,10 +7,6 @@ export class DialogButtonPrimary extends FrontierElement {
     super();
   }
 
-  async connectedCallback() {
-    this.render();
-  }
-
   /**
    * @returns {string}
    */
@@ -29,3 +25,5 @@ export class DialogButtonPrimary extends FrontierElement {
     `;
   }
 }
+
+window.customElements.define("dialog-button-primary", DialogButtonPrimary);

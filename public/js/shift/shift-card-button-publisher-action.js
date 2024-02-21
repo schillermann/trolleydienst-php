@@ -23,8 +23,8 @@ export class ShiftCardButtonPublisherAction extends FrontierElement {
   /**
    * @returns {void}
    */
-  connectedCallback() {
-    this.render();
+  async connectedCallback() {
+    await this.renderTemplate();
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
@@ -34,34 +34,47 @@ export class ShiftCardButtonPublisherAction extends FrontierElement {
    * @returns {string}
    */
   template() {
+    const publisherName = this.getAttribute("publisher-name");
+
     return /*html*/ `
       <style>
         @import url("css/font-awesome.min.css");
-    
-        @media (prefers-color-scheme: dark) {
-          button {
-            color: rgb(191, 191, 191);
-            background-color: rgb(31, 31, 31);
-          }
-        }
+      
         button {
-          width: 45px;
           transition: box-shadow .28s;
           padding: 6px 12px;
           line-height: 1.42857143;
           font-size: 1rem;
+          vertical-align: middle;
+          touch-action: manipulation;
           cursor: pointer;
-          background-image: none;
+          user-select: none;
           border: 1px solid rgba(189, 183, 181, 0.5);
           color: var(--black);
           margin-bottom: 4px;
           border-radius: 5px;
-          background-color: var(--check-color);
-          float: right;
+          width: 180px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          background-color: blue;
+        }
+
+        button:hover {
+          background-color: var(--second-color);
+          border-color: var(--second-color);
+          background-color: var(--grey-25);
+        }
+
+        @media (prefers-color-scheme: dark) {
+          button {
+            color: var(--white);
+          }
         }
       </style>
       <button type="button">
-        <i class="fa fa-user-plus"></i>
+        <i class="fa fa-pencil"></i>
+        ${publisherName}
       </button>
     `;
   }

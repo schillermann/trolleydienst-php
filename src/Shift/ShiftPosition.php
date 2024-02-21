@@ -47,7 +47,7 @@ class ShiftPosition implements ShiftPositionInterface
     public function publisher(int $publisherId): PublisherInterface
     {
         $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_user, first_name, last_name
+            SELECT id_user, first_name AS firstname, last_name AS lastname
             FROM shift_user_maps
             LEFT JOIN publisher ON shift_user_maps.id_user = publisher.id
             WHERE id_shift = :shiftId AND position = :shiftPosition AND id_user = :publisherId
@@ -63,8 +63,8 @@ class ShiftPosition implements ShiftPositionInterface
         if ($publisher) {
             return new Publisher(
                 $publisher['id_user'],
-                $publisher['first_name'],
-                $publisher['last_name']
+                $publisher['firstname'],
+                $publisher['lastname']
             );
         }
 
@@ -74,7 +74,7 @@ class ShiftPosition implements ShiftPositionInterface
     public function publishers(): \Generator
     {
         $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_user, first_name, last_name
+            SELECT id_user, first_name AS firstname, last_name AS lastname
             FROM shift_user_maps
             LEFT JOIN publisher ON shift_user_maps.id_user = publisher.id
             WHERE id_shift = :shiftId AND position = :shiftPosition
@@ -88,8 +88,8 @@ class ShiftPosition implements ShiftPositionInterface
         foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $publisher) {
             yield new Publisher(
                 $publisher['id_user'],
-                $publisher['first_name'],
-                $publisher['last_name']
+                $publisher['firstname'],
+                $publisher['lastname']
             );
         }
     }

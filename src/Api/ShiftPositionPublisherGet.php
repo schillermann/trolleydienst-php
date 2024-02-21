@@ -64,8 +64,8 @@ class ShiftPositionPublisherGet implements PageInterface
           'adminNote' => $publisher->adminNote(),
           'active' => $publisher->active(),
           'administrative' => $publisher->administrative(),
-          'lastLoggedOn' => $publisher->LastLoggedOn()->format(\DateTimeInterface::ATOM),
-          'lastModifiedOn' => $publisher->lastModifiedOn()->format(\DateTimeInterface::ATOM),
+          'loggedOn' => $publisher->loggedOn()->format(\DateTimeInterface::ATOM),
+          'updatedOn' => $publisher->updatedOn()->format(\DateTimeInterface::ATOM),
           'createdOn' => $publisher->CreatedOn()->format(\DateTimeInterface::ATOM)
         ])
       );
