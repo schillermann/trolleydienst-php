@@ -1,29 +1,15 @@
 "use strict";
 
-import { DialogButtonPrimary, DialogButton } from "../button/index.js";
-import { Dictionary } from "../dictionary.js";
+import "../button/index.js";
+import "./shift-dialog-selectmenu-publishers.js";
 import { FrontierElement } from "../frontier-element.js";
-import { ShiftDialogSelectmenuPublishers } from "./shift-dialog-selectmenu-publishers.js";
 
 export class ShiftDialogApplication extends FrontierElement {
-  #selectedPublisherId;
-
-  static observedAttributes = ["open", "lang", "logged-in-publisher-id"];
+  static observedAttributes = ["open", "lang", "publisher-id"];
+  #errorMessage = "";
 
   constructor() {
     super();
-
-    this.dictionary = new Dictionary({
-      "Shift Application": {
-        de: "Schicht Bewerbung",
-      },
-      Apply: {
-        de: "Bewerben",
-      },
-      Cancel: {
-        de: "Abbrechen",
-      },
-    });
   }
 
   /**
@@ -35,55 +21,36 @@ export class ShiftDialogApplication extends FrontierElement {
   }
 
   /**
-   * @param {Event} event
    * @returns {void}
    */
-  async sendShiftApplication(event) {
-    const response = await fetch(
-      "/api/shifts/" +
-        this.getAttribute("shift-id") +
-        "/positions/" +
-        this.getAttribute("shift-position") +
-        "/publishers",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          publisherId: this.#selectedPublisherId,
-        }),
-      }
-    );
+  disconnectedCallback() {
+    this.shadowRoot
+      .getElementById("button-apply")
+      .removeEventListener("click", this.sendShiftApplication);
+    this.shadowRoot
+      .getElementById("button-cancel")
+      .removeEventListener("click", this.closeDialog);
+  }
 
-    if (response.status === 201) {
-      this.setAttribute("open", "false");
+  /**
+   * @returns {Promise<void>}
+   */
+  async update() {
+    await super.update();
+    const dialog = this.shadowRoot.querySelector("dialog");
+    if (this.getAttribute("open") === "true") {
+      dialog.showModal();
+    } else {
+      dialog.close();
     }
   }
 
   /**
-   * @param {Event} event
+   * @param {string} template
    * @returns {void}
    */
-  setSelectedPublisherId(event) {
-    this.#selectedPublisherId = event.detail.publisherId;
-  }
-
-  connectedCallback() {
-    customElements.get("dialog-button-primary") ||
-      window.customElements.define(
-        "dialog-button-primary",
-        DialogButtonPrimary
-      );
-    customElements.get("dialog-button") ||
-      window.customElements.define("dialog-button", DialogButton);
-    customElements.get("shift-dialog-selectmenu-publishers") ||
-      window.customElements.define(
-        "shift-dialog-selectmenu-publishers",
-        ShiftDialogSelectmenuPublishers
-      );
-
-    this.shadowRoot.addEventListener(
-      "selectmenu-change",
-      this.setSelectedPublisherId.bind(this)
-    );
+  render(template) {
+    super.render(template);
 
     this.shadowRoot
       .getElementById("button-apply")
@@ -93,45 +60,77 @@ export class ShiftDialogApplication extends FrontierElement {
       .addEventListener("click", this.closeDialog.bind(this));
   }
 
-  disconnectedCallback() {
-    this.shadowRoot.removeEventListener(
-      "selectmenu-change",
-      this.setSelectedPublisherId
-    );
+  /**
+   * @param {Event} event
+   * @returns {Promise<void>}
+   */
+  async sendShiftApplication(event) {
+    const apiUrl =
+      "/api/calendars/1/shifts/" +
+      this.getAttribute("shift-id") +
+      "/positions/" +
+      this.getAttribute("shift-position") +
+      "/publishers/" +
+      this.getAttribute("publisher-id") +
+      "/applications";
 
-    this.shadowRoot
-      .getElementById("button-apply")
-      .removeEventListener("click", this.closeDialog);
-    this.shadowRoot
-      .getElementById("button-cancel")
-      .removeEventListener("click", this.sendShiftApplication);
+    const response = await fetch(apiUrl, {
+      method: "POST",
+    });
+
+    if (response.status === 409) {
+      this.#errorMessage = this.errorConflict();
+      await this.update();
+      return;
+    }
+
+    if (response.status === 204) {
+      this.setAttribute("open", "false");
+    }
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
-    this.render();
-    if (name === "open") {
-      const dialog = this.shadowRoot.querySelector("dialog");
-      if (newVal === "true") {
-        dialog.showModal();
-        return;
-      }
-      dialog.close();
-      return;
+  errorConflict() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Du hast dich bereits in dieser Schicht beworben";
+      default:
+        return "You have already applied for this shift";
     }
+  }
 
-    if (name === "lang") {
-      this.shadowRoot.innerHTML = this.dictionary.innerHTMLEnglishTo(
-        newVal,
-        this.shadowRoot.innerHTML
-      );
-      return;
+  /**
+   * @returns {string}
+   */
+  labelHeader() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Schicht Bewerbung";
+      default:
+        return "Shift Application";
     }
+  }
 
-    if (name === "logged-in-publisher-id") {
-      this.shadowRoot
-        .querySelector("shift-dialog-selectmenu-publishers")
-        .setAttribute("selected-publisher-id", newVal);
-      return;
+  /**
+   * @returns {string}
+   */
+  labelApply() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Bewerben";
+      default:
+        return "Apply";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  labelCancel() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Abbrechen";
+      default:
+        return "Cancel";
     }
   }
 
@@ -139,26 +138,34 @@ export class ShiftDialogApplication extends FrontierElement {
    * @returns {string}
    */
   template() {
+    const publisherId = this.getAttribute("publisher-id");
+
     return /*html*/ `
       <style></style>
 
       <dialog>
         <header>
-          <h2>{Shift Application}</h2>
+          <h2>${this.labelHeader()}</h2>
         </header>
         <div>
           <img src="images/gadgets.svg">
         </div>
         <div>
-          <shift-dialog-selectmenu-publishers></shift-dialog-selectmenu-publishers>
+          <p>${this.#errorMessage}</p>
+          <shift-dialog-selectmenu-publishers default-publisher-id="${publisherId}"></shift-dialog-selectmenu-publishers>
           <dialog-button-primary id="button-apply">
-            {Apply}
+            ${this.labelApply()}
           </dialog-button-primary>
           <dialog-button id="button-cancel">
-            {Cancel}
+            ${this.labelCancel()}
           </dialog-button>
         </div>
       </dialog>
     `;
   }
 }
+
+window.customElements.define(
+  "shift-dialog-application",
+  ShiftDialogApplication
+);

@@ -1,8 +1,18 @@
 export class FrontierElement extends HTMLElement {
+  #templateCache;
+
   constructor() {
     super();
 
+    this.#templateCache = "";
     this.attachShadow({ mode: "open" });
+  }
+
+  /**
+   * @returns {string}
+   */
+  debug() {
+    return this.getAttribute("debug") === "true";
   }
 
   /**
@@ -11,39 +21,85 @@ export class FrontierElement extends HTMLElement {
    * @param {string} newVal
    */
   async attributeChangedCallback(name, oldVal, newVal) {
-    if (oldVal === newVal || oldVal === null) {
+    if (this.debug()) {
+      console.log(
+        `call async ${this.constructor.name}.attributeChangedCallback(name: ${name}, oldVal: ${oldVal}, newVal: ${newVal})`
+      );
+    }
+    if (oldVal === newVal || this.shadowRoot.childElementCount === 0) {
+      if (this.debug()) {
+        console.log("// with no changes");
+      }
       return;
     }
-
-    await this.renderTemplate();
+    if (this.debug()) {
+      console.log(`// with changes`);
+    }
+    await this.update();
   }
 
   /**
    * @returns {Promise<void>}
    */
   async connectedCallback() {
-    await this.renderTemplate();
+    if (this.debug()) {
+      console.log(`call async ${this.constructor.name}.connectedCallback()`);
+    }
+    await this.update();
   }
 
   /**
    * @returns {Promise<void>}
    */
-  async renderTemplate() {
-    const templateString = await this.template();
-    if (templateString.length === 0) {
-      return;
+  async update() {
+    if (this.debug()) {
+      console.log(`call async ${this.constructor.name}.update()`);
     }
 
-    const template = document.createElement("template");
-    template.innerHTML = templateString;
+    const minifiedTemplate = await this.minifiedTemplate();
+    if (this.#templateCache === minifiedTemplate) {
+      if (this.debug()) {
+        console.log("// template has not changed");
+      }
+      return;
+    }
+    if (this.debug()) {
+      console.log("// template has changed");
+    }
+
+    this.render(minifiedTemplate);
+  }
+
+  /**
+   * @param {string} template
+   * @returns {void}
+   */
+  render(template) {
+    if (this.debug()) {
+      console.log(`call async ${this.constructor.name}.render()`);
+    }
+
+    const templateElement = document.createElement("template");
+    templateElement.innerHTML = template;
+    this.#templateCache = template;
     this.shadowRoot.replaceChildren();
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
   /**
    * @returns {Promise<string>}
    */
   async template() {
-    return "";
+    return "Error: Template is missing";
+  }
+
+  /**
+   * @returns {Promise<string>}
+   */
+  async minifiedTemplate() {
+    return (await this.template())
+      .replace(/\>[\r\n ]+\</g, "><")
+      .replace(/(<.*?>)|\s+/g, (m, $1) => ($1 ? $1 : " "))
+      .trim();
   }
 }

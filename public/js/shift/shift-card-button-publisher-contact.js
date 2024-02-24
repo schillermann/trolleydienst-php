@@ -10,6 +10,16 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
   }
 
   /**
+   * @returns {Promise<void>}
+   */
+  async connectedCallback() {
+    await super.connectedCallback();
+    this.shadowRoot
+      .querySelector("button")
+      .addEventListener("click", this.onClick.bind(this));
+  }
+
+  /**
    * @returns {void}
    */
   disconnectedCallback() {
@@ -19,29 +29,20 @@ export class ShiftCardButtonPublisherContact extends FrontierElement {
   }
 
   /**
-   * @returns {Promise<void>}
-   */
-  async connectedCallback() {
-    await this.renderTemplate();
-    this.shadowRoot
-      .querySelector("button")
-      .addEventListener("click", this.onClick.bind(this));
-  }
-
-  /**
    * @param {PointerEvent} event
    * @returns {void}
    */
   onClick(event) {
     this.dispatchEvent(
-      new CustomEvent("open-shift-dialog-publisher-contact", {
+      new CustomEvent("open-shift-dialog-publisher", {
         bubbles: true,
         composed: true,
         detail: {
-          shiftId: parseInt(this.getAttribute("shift-id")),
           calendarId: parseInt(this.getAttribute("calendar-id")),
+          shiftId: parseInt(this.getAttribute("shift-id")),
           shiftPosition: parseInt(this.getAttribute("shift-position")),
           publisherId: parseInt(this.getAttribute("publisher-id")),
+          editable: false,
         },
       })
     );

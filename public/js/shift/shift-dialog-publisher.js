@@ -23,8 +23,8 @@ import { FrontierElement } from "../frontier-element.js";
  * @property {string} createdOn
  */
 
-export class ShiftDialogPublisherContact extends FrontierElement {
-  static observedAttributes = ["open", "lang", "publisher-id"];
+export class ShiftDialogPublisher extends FrontierElement {
+  static observedAttributes = ["lang", "open", "publisher-id", "editable"];
 
   constructor() {
     super();
@@ -38,15 +38,74 @@ export class ShiftDialogPublisherContact extends FrontierElement {
     this.setAttribute("open", "false");
   }
 
-  async connectedCallback() {
-    await this.renderTemplate();
+  disconnectedCallback() {
+    const buttonDelete = this.shadowRoot.getElementById("button-delete");
+    if (buttonDelete) {
+      buttonDelete.removeEventListener(
+        "click",
+        this.sendDeleteShiftApplication
+      );
+    }
+
     this.shadowRoot
-      .getElementById("button-close")
+      .querySelector("button-cancel")
+      .removeEventListener("click", this.closeDialog);
+  }
+
+  /**
+   * @returns {Promise<void>}
+   */
+  async update() {
+    await super.update();
+    const dialog = this.shadowRoot.querySelector("dialog");
+    if (this.getAttribute("open") === "true") {
+      dialog.showModal();
+    } else {
+      dialog.close();
+    }
+  }
+
+  /**
+   * @param {string} template
+   * @returns {void}
+   */
+  render(template) {
+    super.render(template);
+
+    const buttonDelete = this.shadowRoot.getElementById("button-delete");
+    if (buttonDelete) {
+      buttonDelete.addEventListener(
+        "click",
+        this.sendDeleteShiftApplication.bind(this)
+      );
+    }
+
+    this.shadowRoot
+      .getElementById("button-cancel")
       .addEventListener("click", this.closeDialog.bind(this));
   }
 
-  disconnectedCallback() {
-    this.shadowRoot.removeEventListener("click", this.closeDialog);
+  /**
+   * @param {Event} event
+   * @returns {Promise<void>}
+   */
+  async sendDeleteShiftApplication(event) {
+    const apiUrl =
+      "/api/calendars/1/shifts/" +
+      this.getAttribute("shift-id") +
+      "/positions/" +
+      this.getAttribute("shift-position") +
+      "/publishers/" +
+      this.getAttribute("publisher-id") +
+      "/applications";
+
+    const response = await fetch(apiUrl, {
+      method: "DELETE",
+    });
+
+    if (response.status === 204) {
+      this.setAttribute("open", "false");
+    }
   }
 
   /**
@@ -112,7 +171,7 @@ export class ShiftDialogPublisherContact extends FrontierElement {
   /**
    * @returns {string}
    */
-  buttonLabel() {
+  buttonLabelClose() {
     switch (this.getAttribute("lang")) {
       case "de":
         return "Schließen";
@@ -122,18 +181,47 @@ export class ShiftDialogPublisherContact extends FrontierElement {
   }
 
   /**
+   * @returns {string}
+   */
+  buttonLabelDelete() {
+    switch (this.getAttribute("lang")) {
+      case "de":
+        return "Löschen";
+      default:
+        return "Delete";
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
+  templateDeleteButton() {
+    if (this.getAttribute("editable") === "true") {
+      return /*html*/ `<dialog-button-danger id="button-delete">
+          ${this.buttonLabelDelete()}
+        </dialog-button-danger>`;
+    }
+    return "";
+  }
+
+  /**
    * @returns {Promise<string>}
    */
   async template() {
     const publisherId = Number(this.getAttribute("publisher-id"));
     const publisher =
       publisherId === 0 ? {} : await this.publisherJson(publisherId);
-    const open = this.getAttribute("open") === "true" ? "open" : "";
+
+    if (this.debug()) {
+      console.log(`call async template()`);
+      console.log("// publisherId: ", publisherId);
+      console.log("// publisher: ", publisher);
+    }
 
     return /*html*/ `
       <style></style>
-    
-      <dialog ${open}>
+
+      <dialog>
         <header>
           <h2>${this.header()}</h2>
         </header>
@@ -155,14 +243,14 @@ export class ShiftDialogPublisherContact extends FrontierElement {
           <p>${publisher.publisherNote}</p>
         </div>
         <div>
-          <dialog-button id="button-close">${this.buttonLabel()}</dialog-button>
+          ${this.templateDeleteButton()}
+          <dialog-button id="button-cancel">${this.buttonLabelClose()}</dialog-button>
         </div>
       </dialog>
     `;
   }
 
   /**
-   *
    * @param {number} publisherId
    * @returns {Promise<Publisher>}
    */
@@ -180,7 +268,4 @@ export class ShiftDialogPublisherContact extends FrontierElement {
   }
 }
 
-window.customElements.define(
-  "shift-dialog-publisher-contact",
-  ShiftDialogPublisherContact
-);
+window.customElements.define("shift-dialog-publisher", ShiftDialogPublisher);

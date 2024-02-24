@@ -60,21 +60,28 @@ export class ShiftCardPosition extends FrontierElement {
         if (!publisher.id || !publisher.name) {
           return /*html*/ `<shift-card-button-available
             lang="${lang}"
-            shift-id="${shiftId}"
             calendar-id="${calendarId}"
-            shift-position="${shiftPosition}">
+            shift-id="${shiftId}"
+            shift-position="${shiftPosition}"
+            publisher-id="${loggedInPublisherId}">
           </shift-card-button-available>`;
         }
 
         if (publisher.id === loggedInPublisherId) {
           return /*html*/ `<shift-card-button-publisher-action
+            lang="${lang}"
+            calendar-id="${calendarId}"
+            shift-id="${shiftId}"
+            shift-position="${shiftPosition}"
+            publisher-id="${publisher.id}"
             publisher-name="${publisher.name}">
           </shift-card-button-publisher-action>`;
         }
 
         return /*html*/ `<shift-card-button-publisher-contact
-            shift-id="${shiftId}"
+            lang="${lang}"
             calendar-id="${calendarId}"
+            shift-id="${shiftId}"
             shift-position="${shiftPosition}"
             publisher-id="${publisher.id}"
             publisher-name="${publisher.name}">

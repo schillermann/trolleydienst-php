@@ -6,6 +6,8 @@ use App\AddShiftTypePage;
 use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
+use App\Api\ApplicationDelete;
+use App\Api\ApplicationPost;
 use App\Api\CalendarGet;
 use App\Api\CalendarShiftGet;
 use App\Api\CalendarShiftsGet;
@@ -36,8 +38,6 @@ use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
 use App\ResetPasswordPage;
-use App\Shift\Api\WithdrawShiftApplicationCommand;
-use App\Shift\ShiftCalendar;
 use App\Shift\ShiftPage;
 use App\ShiftHistoryPage;
 use App\ShiftTypePage;
@@ -110,11 +110,13 @@ require __DIR__ . '/../vendor/autoload.php';
             new CalendarShiftsSqlite($this->pdo, (int)$matches[1])
           );
         }
-        switch ($value) {
-          case '/api/shift/withdraw-shift-application':
-            return new WithdrawShiftApplicationCommand(
-              new ShiftCalendar($this->pdo)
-            );
+        if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)/applications$|', $value, $matches) === 1) {
+          return new ApplicationPost(
+            new ApplicationsSqlite($this->pdo, (int)$matches[1]),
+            (int)$matches[2],
+            (int)$matches[3],
+            (int)$matches[4]
+          );
         }
       }
 
@@ -178,6 +180,17 @@ require __DIR__ . '/../vendor/autoload.php';
         switch ($value) {
           case '/api/me':
             return new MeQuery(new UserSession($this->session));
+        }
+      }
+
+      if ($this->httpMethod === 'DELETE') {
+        if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)/applications$|', $value, $matches) === 1) {
+          return new ApplicationDelete(
+            new ApplicationsSqlite($this->pdo, (int)$matches[1]),
+            (int)$matches[2],
+            (int)$matches[3],
+            (int)$matches[4]
+          );
         }
       }
 

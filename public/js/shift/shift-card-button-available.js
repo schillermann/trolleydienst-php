@@ -17,9 +17,10 @@ export class ShiftCardButtonAvailable extends FrontierElement {
         bubbles: true,
         composed: true,
         detail: {
+          calendarId: this.getAttribute("calendar-id"),
           shiftId: this.getAttribute("shift-id"),
-          shiftTypeId: this.getAttribute("shift-type-id"),
           shiftPosition: this.getAttribute("shift-position"),
+          publisherId: this.getAttribute("publisher-id"),
         },
       })
     );
@@ -29,7 +30,7 @@ export class ShiftCardButtonAvailable extends FrontierElement {
    * @returns {Promise<void>}
    */
   async connectedCallback() {
-    await this.renderTemplate();
+    await super.connectedCallback();
 
     this.shadowRoot
       .querySelector("button")

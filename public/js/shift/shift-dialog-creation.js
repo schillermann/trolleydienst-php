@@ -262,3 +262,5 @@ export class ShiftDialogCreation extends HTMLElement {
     }
   }
 }
+
+window.customElements.define("shift-dialog-creation", ShiftDialogCreation);

@@ -75,4 +75,18 @@ class ApplicationsSqlite
       'publisherId' => $publisherId
     ]);
   }
+
+  function remove(int $shiftId, int $shiftPositionId, int $publisherId): void
+  {
+    $stmt = $this->pdo->prepare(<<<SQL
+            DELETE FROM shift_user_maps
+            WHERE id_shift = :shiftId AND position = :shiftPositionId AND id_user = :publisherId
+        SQL);
+
+    $stmt->execute([
+      'shiftId' => $shiftId,
+      'shiftPositionId' => $shiftPositionId,
+      'publisherId' => $publisherId
+    ]);
+  }
 }

@@ -72,3 +72,8 @@ export class ShiftNavButtonNewShift extends FrontierElement {
     `;
   }
 }
+
+window.customElements.define(
+  "shift-nav-button-new-shift",
+  ShiftNavButtonNewShift
+);

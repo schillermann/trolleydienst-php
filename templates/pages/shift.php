@@ -18,11 +18,10 @@
 <?php endif ?>
 <?php include '../templates/pagesnippets/note-box.php' ?>
 
-<shift-dialog-application lang="en" open="false" logged-in-publisher-id="1"></shift-dialog-application>
+<shift-dialog-application lang="en" open="false"></shift-dialog-application>
 <shift-dialog-creation lang="en" open="false" shift-type-id="<?= $placeholder['id_shift_type'] ?>"></shift-dialog-creation>
+<shift-dialog-publisher lang="en" open="false"></shift-dialog-publisher>
 <shift-card-calendar lang="en" calendar-id="1" logged-in-publisher-id="1"></shift-card-calendar>
-<shift-dialog-publisher lang="en"></shift-dialog-publisher>
-<shift-dialog-publisher-contact lang="en"></shift-dialog-publisher-contact>
 
 <div class="number-of-pages">
     <p style="text-align: center"></p>

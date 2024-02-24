@@ -9,6 +9,6 @@ export * from "./shift-card-title.js";
 export * from "./shift-card.js";
 export * from "./shift-dialog-application.js";
 export * from "./shift-dialog-creation.js";
-export * from "./shift-dialog-publisher-contact.js";
+export * from "./shift-dialog-publisher.js";
 export * from "./shift-dialog-selectmenu-publishers.js";
 export * from "./shift-nav-button-new-shift.js";

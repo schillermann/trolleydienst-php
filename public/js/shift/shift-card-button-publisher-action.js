@@ -8,26 +8,42 @@ export class ShiftCardButtonPublisherAction extends FrontierElement {
   }
 
   /**
-   * @param {Event} event
+   * @param {PointerEvent} event
    * @returns {void}
    */
-  fireClickEvent(event) {
+  onClick(event) {
     this.dispatchEvent(
-      new Event("add-click", {
+      new CustomEvent("open-shift-dialog-publisher", {
         bubbles: true,
         composed: true,
+        detail: {
+          calendarId: parseInt(this.getAttribute("calendar-id")),
+          shiftId: parseInt(this.getAttribute("shift-id")),
+          shiftPosition: parseInt(this.getAttribute("shift-position")),
+          publisherId: parseInt(this.getAttribute("publisher-id")),
+          editable: true,
+        },
       })
     );
   }
 
   /**
-   * @returns {void}
+   * @returns {Promise<void>}
    */
   async connectedCallback() {
-    await this.renderTemplate();
+    await super.connectedCallback();
     this.shadowRoot
       .querySelector("button")
-      .addEventListener("click", this.fireClickEvent, true);
+      .addEventListener("click", this.onClick.bind(this));
+  }
+
+  /**
+   * @returns {void}
+   */
+  disconnectedCallback() {
+    this.shadowRoot
+      .querySelector("button")
+      .removeEventListener("click", this.onClick);
   }
 
   /**

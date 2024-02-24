@@ -24,7 +24,7 @@ export class ShiftCardButtonEdit extends FrontierElement {
    * @returns {void}
    */
   async connectedCallback() {
-    await this.renderTemplate();
+    await super.connectedCallback();
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.fireClickEvent, true);
@@ -82,7 +82,7 @@ export class ShiftCardButtonEdit extends FrontierElement {
         }
       </style>
       <button type="button">
-          <i class="fa fa-pencil"></i> ${this.buttonLabel()}
+        <i class="fa fa-pencil"></i> ${this.buttonLabel()}
       </button>
     `;
   }
