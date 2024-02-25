@@ -71,6 +71,16 @@ export class FrontierElement extends HTMLElement {
   }
 
   /**
+   * @returns {Promise<void>}
+   */
+  async forceUpdate() {
+    if (this.debug()) {
+      console.log(`call async ${this.constructor.name}.forceUpdate()`);
+    }
+    this.render(await this.minifiedTemplate());
+  }
+
+  /**
    * @param {string} template
    * @returns {void}
    */

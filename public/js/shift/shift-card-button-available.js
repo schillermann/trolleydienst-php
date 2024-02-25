@@ -11,7 +11,7 @@ export class ShiftCardButtonAvailable extends FrontierElement {
    * @param {Event} event
    * @returns {void}
    */
-  onClick(event) {
+  openShiftDialogApplication(event) {
     this.dispatchEvent(
       new CustomEvent("open-shift-dialog-application", {
         bubbles: true,
@@ -34,7 +34,7 @@ export class ShiftCardButtonAvailable extends FrontierElement {
 
     this.shadowRoot
       .querySelector("button")
-      .addEventListener("click", this.onClick.bind(this));
+      .addEventListener("click", this.openShiftDialogApplication.bind(this));
   }
 
   /**

@@ -38,20 +38,6 @@ export class ShiftDialogPublisher extends FrontierElement {
     this.setAttribute("open", "false");
   }
 
-  disconnectedCallback() {
-    const buttonDelete = this.shadowRoot.getElementById("button-delete");
-    if (buttonDelete) {
-      buttonDelete.removeEventListener(
-        "click",
-        this.sendDeleteShiftApplication
-      );
-    }
-
-    this.shadowRoot
-      .querySelector("button-cancel")
-      .removeEventListener("click", this.closeDialog);
-  }
-
   /**
    * @returns {Promise<void>}
    */
@@ -104,7 +90,13 @@ export class ShiftDialogPublisher extends FrontierElement {
     });
 
     if (response.status === 204) {
-      this.setAttribute("open", "false");
+      this.dispatchEvent(
+        new CustomEvent("update-calendar", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        })
+      );
     }
   }
 

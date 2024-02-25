@@ -85,7 +85,13 @@ export class ShiftDialogApplication extends FrontierElement {
     }
 
     if (response.status === 204) {
-      this.setAttribute("open", "false");
+      this.dispatchEvent(
+        new CustomEvent("update-calendar", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        })
+      );
     }
   }
 

@@ -32,6 +32,54 @@ export class ShiftCardCalendar extends FrontierElement {
     super();
   }
 
+  openShiftDialogPublisher(event) {
+    const dialog = this.shadowRoot.querySelector("shift-dialog-publisher");
+    dialog.setAttribute("open", "true");
+    dialog.setAttribute("calendar-id", event.detail.calendarId);
+    dialog.setAttribute("shift-id", event.detail.shiftId);
+    dialog.setAttribute("shift-position", event.detail.shiftPosition);
+    dialog.setAttribute("publisher-id", event.detail.publisherId);
+    dialog.setAttribute("editable", event.detail.editable);
+  }
+
+  openShiftDialogApplication(event) {
+    const dialog = this.shadowRoot.querySelector("shift-dialog-application");
+    dialog.setAttribute("open", "true");
+    dialog.setAttribute("calendar-id", event.detail.calendarId);
+    dialog.setAttribute("shift-id", event.detail.shiftId);
+    dialog.setAttribute("shift-position", event.detail.shiftPosition);
+    dialog.setAttribute("publisher-id", event.detail.publisherId);
+  }
+
+  async connectedCallback() {
+    await super.connectedCallback();
+
+    this.shadowRoot.addEventListener(
+      "open-shift-dialog-publisher",
+      this.openShiftDialogPublisher.bind(this)
+    );
+    this.shadowRoot.addEventListener(
+      "open-shift-dialog-application",
+      this.openShiftDialogApplication.bind(this)
+    );
+    this.shadowRoot.addEventListener(
+      "update-calendar",
+      super.forceUpdate.bind(this)
+    );
+  }
+
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener(
+      "open-shift-dialog-publisher",
+      this.openShiftDialogPublisher
+    );
+    this.shadowRoot.removeEventListener(
+      "open-shift-dialog-application",
+      this.openShiftDialogPublisher
+    );
+    this.shadowRoot.removeEventListener("update-calendar", super.forceUpdate);
+  }
+
   /**
    * @returns {Promise<string>}
    */
@@ -44,13 +92,15 @@ export class ShiftCardCalendar extends FrontierElement {
     const lang = this.getAttribute("lang");
     const loggedInPublisherId = this.getAttribute("logged-in-publisher-id");
 
-    return shitfs
-      .map(
-        /**
-         * @param {Shift} shift
-         * @returns {string}
-         */
-        (shift) => /*html*/ `<shift-card
+    return /*html*/ `<shift-dialog-publisher lang="en" open="false"></shift-dialog-publisher>
+      <shift-dialog-application lang="en" open="false"></shift-dialog-application>
+      ${shitfs
+        .map(
+          /**
+           * @param {Shift} shift
+           * @returns {string}
+           */
+          (shift) => /*html*/ `<shift-card
             shift-id="${shift.id}"
             shift-start="${shift.shiftStart}"
             shift-color="${shift.colorHex}"
@@ -61,8 +111,8 @@ export class ShiftCardCalendar extends FrontierElement {
             route-name="${shift.routeName}"
             logged-in-publisher-id="${loggedInPublisherId}"
             lang="${lang}"></shift-card>`
-      )
-      .join("");
+        )
+        .join("")}`;
   }
 
   /**
