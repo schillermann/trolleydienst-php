@@ -17,12 +17,12 @@
             <th><?= __('Action') ?></th>
         </tr>
         <?php foreach ($placeholder['shift_type_list'] as $shift_type) : ?>
-        <tr>
-            <td><?= $shift_type['name'] ?></td>
-            <td><?= $shift_type['user_per_shift_max'] ?></td>
-            <td><?= $parse_text_to_html($shift_type['info']);?></td>
-            <td><a class="button" href="./adjust-shift-type?id_shift_type=<?= (int)$shift_type['id_shift_type'];?>"><i class="fa fa-pencil fa-6"></i> <?= __('Edit') ?></a></td>
-        </tr>
+            <tr>
+                <td><?= $shift_type['name'] ?></td>
+                <td><?= $shift_type['user_per_shift_max'] ?></td>
+                <td><?= $parse_text_to_html($shift_type['info']); ?></td>
+                <td><a class="button" href="./edit-shift-type?id_shift_type=<?= (int)$shift_type['id_shift_type']; ?>"><i class="fa fa-pencil fa-6"></i> <?= __('Edit') ?></a></td>
+            </tr>
         <?php endforeach ?>
     </table>
 </div>

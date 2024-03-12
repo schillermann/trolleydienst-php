@@ -76,12 +76,12 @@ $active_page = include '../templates/helpers/active_page.php';
                     </li>
                     <?php if ($_SESSION['is_admin']) : ?>
                         <li>
-                            <a href="shift-type" class="<?= $active_page('shift-type', 'add-shift-type', 'adjust-shift-type'); ?>">
+                            <a href="shift-type" class="<?= $active_page('shift-type', 'add-shift-type', 'edit-shift-type'); ?>">
                                 <i class="fa fa-calendar"></i> <?= __('Shift Type') ?>
                             </a>
                         </li>
                         <li>
-                            <a href="publishers" class="<?= $active_page('publishers', 'add-publisher', 'adjust-publisher'); ?>">
+                            <a href="publishers" class="<?= $active_page('publishers', 'add-publisher', 'edit-publisher'); ?>">
                                 <i class="fa fa-users"></i> <?= __('Publisher') ?>
                             </a>
                         </li>
