@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "format": "npx prettier --write public/js/"
+    "format": "npx prettier --write public/js/",
+    "postinstall": "npm run postinstall:font && npm run postinstall:lit",
+    "postinstall:font": "wget https://use.fontawesome.com/releases/v6.5.1/fontawesome-free-6.5.1-web.zip -O fontawesome.zip && unzip fontawesome.zip && rm fontawesome.zip && mv fontawesome-* fontawesome && cp fontawesome/css/all.min.css public/css/fontawesome.min.css && cp -R fontawesome/webfonts public/ && rm -R fontawesome",
+    "postinstall:lit": "wget https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js -O public/js/lit-all.min.js && wget https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js.map -O public/js/lit-all.min.js.map"
   },
   "devDependencies": {
     "prettier": "2.8.8"
