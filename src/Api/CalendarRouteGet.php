@@ -6,7 +6,7 @@ use App\Database\CalendarRoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class CalendarShiftGet implements PageInterface
+class CalendarRouteGet implements PageInterface
 {
   private CalendarRoutesSqlite $calendarRoutes;
   private int $routeId;

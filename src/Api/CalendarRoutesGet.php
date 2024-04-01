@@ -83,7 +83,7 @@ class CalendarRoutesGet implements PageInterface
       $body[] = [
         'id' => $route->id(),
         'routeName' => $route->routeName(),
-        'date' => $route->start()->format('Y-m-d'),
+        'start' => $route->start()->format(\DateTimeInterface::ATOM),
         'numberOfShifts' => $route->numberOfShifts(),
         'minutesPerShift' => $route->minutesPerShift(),
         'color' => $route->color(),

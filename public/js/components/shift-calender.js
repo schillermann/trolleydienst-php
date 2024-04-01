@@ -5,6 +5,17 @@ import "./shift/shift-route-dialog.js";
 import "./shift/shift-contact-dialog.js";
 import "./shift/shift-application-dialog.js";
 
+/**
+ * @typedef {Object} Route
+ * @property {number} id
+ * @property {string} routeName
+ * @property {string} start
+ * @property {number} numberOfShifts
+ * @property {number} minutesPerShift
+ * @property {string} color
+ * @property {Array} shifts
+ */
+
 export class ShiftCalendar extends LitElement {
   static properties = {
     calendarId: { type: Number },
@@ -65,6 +76,7 @@ export class ShiftCalendar extends LitElement {
   }
 
   render() {
+    /** @type {Promise<Route[]>} */
     const routes = fetch(`/api/calendars/${this.calendarId}/routes`).then(
       (response) => response.json()
     );
@@ -86,7 +98,7 @@ export class ShiftCalendar extends LitElement {
               routeId="${route.id}"
               currentPublisherId="1"
               routeName="${route.routeName}"
-              date="${route.date}"
+              date="${route.start}"
               shifts="${JSON.stringify(route.shifts)}"
               editable="true"
             ></shift-route>`

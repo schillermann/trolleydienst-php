@@ -38,7 +38,7 @@ export class ShiftContactDialog extends ViewDialog {
    */
   contentTemplate() {
     const publisher = this.publisherId
-      ? fetch(`/api/publishers/${this.publisherId}.json`).then((response) =>
+      ? fetch("/api/publishers/" + this.publisherId).then((response) =>
           response.json()
         )
       : Promise.resolve({});

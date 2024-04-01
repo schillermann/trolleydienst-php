@@ -48,9 +48,9 @@ export class ShiftRouteDialog extends ViewDialog {
    */
   contentTemplate() {
     const route = this.routeId
-      ? fetch(
-          `/api/calendars/${this.calendarId}/routes/${this.routeId}.json`
-        ).then((response) => response.json())
+      ? fetch(`/api/calendars/${this.calendarId}/routes/${this.routeId}`).then(
+          (response) => response.json()
+        )
       : Promise.resolve({
           date: new Date(),
         });

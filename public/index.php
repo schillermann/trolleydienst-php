@@ -9,8 +9,8 @@ use App\AdjustShiftTypePage;
 use App\Api\ApplicationDelete;
 use App\Api\ApplicationPost;
 use App\Api\CalendarGet;
+use App\Api\CalendarRouteGet;
 use App\Api\CalendarRoutesGet;
-use App\Api\CalendarShiftGet;
 use App\Api\MeQuery;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
@@ -128,8 +128,8 @@ require __DIR__ . '/../vendor/autoload.php';
           );
         }
 
-        if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)$|', $value, $matches) === 1) {
-          return new CalendarShiftGet(
+        if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
+          return new CalendarRouteGet(
             new CalendarRoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
           );
