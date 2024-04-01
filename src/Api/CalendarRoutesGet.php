@@ -53,7 +53,7 @@ class CalendarRoutesGet implements PageInterface
     foreach ($routes as $route) {
       $shifts = [];
       $timeFrom = \DateTime::createFromImmutable($route->start());
-      for ($i = 0; $i < $route->numberOfShifts(); $i++) {
+      for ($shiftIndex = 0; $shiftIndex < $route->numberOfShifts(); $shiftIndex++) {
 
         $slots = [];
 
@@ -65,7 +65,7 @@ class CalendarRoutesGet implements PageInterface
           ];
         }
 
-        for ($i = count($slots); $i < $publisherLimitPerShift; $i++) {
+        for ($slotIndex = count($slots); $slotIndex < $publisherLimitPerShift; $slotIndex++) {
           $slots[] = new \stdClass;
         }
 
