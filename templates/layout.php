@@ -9,7 +9,7 @@ $active_page = include '../templates/helpers/active_page.php';
     <title><?= APPLICATION_NAME ?> - <?= CONGREGATION_NAME ?></title>
     <meta name="description" content="Trolleydienst Verwaltung">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
     <link href="css/global.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
     <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-ipad-retina.png" />
