@@ -6,10 +6,20 @@ Du kannst das Trolley Programm auf deinen Server installieren und nach belieben 
 
 [Trolleydienst Demo](https://trolleydienst-demo.schillermann.de/)
 
+## Feedback
+Wir haben viel Zeit und Energie in die Entwicklung der App gesteckt. Unser Ziel ist es die Planung des öffentlichen Zeugnisgebens für jede Versammlung so einfach wie möglich zu machen. **Deshalb würden wir uns freuen, wenn ihr an unserer Umfrage teilnehmt.**
+
+Du kannst uns
+  - einen Funktionswunsch mitteilen
+  - einen Fehler melden
+  - oder Kontakt aufnehmen.
+
+  [Hier geht es zu der Umfrage](https://fern.my-router.de/url/trolleyfeedback)
+
+
 ## :cloud: Download
 - [Alle Versionen](https://github.com/schillermann/trolleydienst-php/tags)
 - [Letzte Verion](https://github.com/schillermann/trolleydienst-php/releases/tag/1.11.6)
-
 
 ## :gem: Funktionen
 - Einfache Installation
@@ -46,6 +56,20 @@ Easily schedule trolley service for your congregation.
 You can install the trolley program on your server and adapt it to the needs of your congeregation using the PHP programming language.
 
 [Trolley service demo](https://trolleydienst-demo.schillermann.de/)
+
+
+## Feedback
+We have put a lot of time and energy into developing the app. Our goal is to make the planning of public witnessing as easy as possible for every congregation. **We would therefore be delighted if you would take part in our survey.**
+
+You can
+  - tell us a feature request
+  - report an error
+  - or contact us.
+
+  [Click here for the survey (currently only in german)](https://fern.my-router.de/url/trolleyfeedback)
+
+
+
 
 ## :cloud: Download
 - [All versions](https://github.com/schillermann/trolleydienst-php/tags)
