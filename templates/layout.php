@@ -115,9 +115,10 @@ $active_page = include '../templates/helpers/active_page.php';
             </nav>
         </footer>
     </div>
-    <script type="text/javascript" src="js/note_box.js"></script>
 </body>
 <script type="text/javascript">
+    window.litDisableBundleWarning = true
+
     function toggel() {
         document.getElementById('nav-main').classList.toggle('hidden');
     }

@@ -12,7 +12,8 @@ import "../view-button.js";
 /**
  * @typedef {Object} ShiftSlot
  * @property {number} publisherId
- * @property {string} publisherName
+ * @property {string} firstname
+ * @property {string} lastname
  */
 
 export class ShiftRoute extends LitElement {
@@ -176,10 +177,10 @@ export class ShiftRoute extends LitElement {
                         @click="${this._clickPublisherContact}"
                       >
                         <i class="fa-regular fa-user"></i>
-                        ${slot.publisherName}
+                        ${slot.firstname} ${slot.lastname}
                       </view-button>`;
                     }
-                    if (slot.publisherName) {
+                    if (slot.publisherId) {
                       return html`
                         <view-button
                           publisher-id="${slot.publisherId}"
@@ -188,7 +189,7 @@ export class ShiftRoute extends LitElement {
                           @click="${this._clickPublisherContact}"
                         >
                           <i class="fa fa-info-circle"></i>
-                          ${slot.publisherName}
+                          ${slot.firstname} ${slot.lastname}
                         </view-button>
                       `;
                     }

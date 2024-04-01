@@ -29,9 +29,9 @@ class CalendarSqlite
   {
     return $this->columns['info'];
   }
-  function lastModifiedOn(): \DateTimeImmutable
+  function updatedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['last_modified_on']);
+    return new \DateTimeImmutable($this->columns['updated_on']);
   }
   function createdOn(): \DateTimeImmutable
   {

@@ -9,8 +9,8 @@ use App\AdjustShiftTypePage;
 use App\Api\ApplicationDelete;
 use App\Api\ApplicationPost;
 use App\Api\CalendarGet;
+use App\Api\CalendarRoutesGet;
 use App\Api\CalendarShiftGet;
-use App\Api\CalendarShiftsGet;
 use App\Api\MeQuery;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
@@ -21,10 +21,10 @@ use App\Api\ShiftPositionPublisherPost;
 use App\Api\ShiftPositionPublishersGet;
 use App\ChangePublisherPassword;
 use App\Database\ApplicationsSqlite;
-use App\Database\CalendarShiftsSqlite;
+use App\Database\CalendarRoutesSqlite;
 use App\Database\CalendarsSqlite;
 use App\Database\PublishersSqlite;
-use App\Database\ShiftApplicationsSqlite;
+use App\Database\ShiftSlotsSqlite;
 use App\EditFilePage;
 use App\EmailSettingsPage;
 use App\EmailTemplatesPage;
@@ -99,7 +99,7 @@ require __DIR__ . '/../vendor/autoload.php';
         if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)/positions/([0-9]+)/publishers$|', $value, $matches) === 1) {
           return new ShiftPositionPublisherPost(
             new ApplicationsSqlite($this->pdo),
-            new CalendarShiftsSqlite($this->pdo, (int)$matches[1]),
+            new CalendarRoutesSqlite($this->pdo, (int)$matches[1]),
             new PublishersSqlite($this->pdo),
             (int)$matches[2],
             (int)$matches[3]
@@ -107,7 +107,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
         if (preg_match('|^/api/calendars/([0-9]+)/shifts$|', $value, $matches) === 1) {
           return new ShiftsPost(
-            new CalendarShiftsSqlite($this->pdo, (int)$matches[1])
+            new CalendarRoutesSqlite($this->pdo, (int)$matches[1])
           );
         }
         if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)/applications$|', $value, $matches) === 1) {
@@ -123,27 +123,31 @@ require __DIR__ . '/../vendor/autoload.php';
       if ($this->httpMethod === 'GET') {
         if (preg_match('|^/api/shifts/([0-9]+)/applications$|', $value, $matches) === 1) {
           return new ShiftApplicationsGet(
-            new ShiftApplicationsSqlite($this->pdo, (int)$matches[1])
+            new ShiftSlotsSqlite($this->pdo),
+            (int)$matches[1]
           );
         }
 
         if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)$|', $value, $matches) === 1) {
           return new CalendarShiftGet(
-            new CalendarShiftsSqlite($this->pdo, (int)$matches[1]),
+            new CalendarRoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
           );
         }
 
-        if (preg_match('|^/api/calendars/([0-9]+)/shifts$|', $value, $matches) === 1) {
-          return new CalendarShiftsGet(
-            new CalendarShiftsSqlite($this->pdo, (int)$matches[1]),
+        if (preg_match('|^/api/calendars/([0-9]+)/routes$|', $value, $matches) === 1) {
+          return new CalendarRoutesGet(
+            new CalendarsSqlite($this->pdo),
+            new CalendarRoutesSqlite($this->pdo, (int)$matches[1]),
+            new ShiftSlotsSqlite($this->pdo),
+            (int)$matches[1]
           );
         }
 
         if (preg_match('|^/api/calendars/([0-9]+)$|', $value, $matches) === 1) {
           return new CalendarGet(
-            new CalendarsSqlite($this->pdo, (int)$matches[1]),
-            new CalendarShiftsSqlite($this->pdo, (int)$matches[1])
+            new CalendarsSqlite($this->pdo),
+            (int)$matches[1]
           );
         }
 

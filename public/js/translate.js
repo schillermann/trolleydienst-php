@@ -2,7 +2,7 @@ const language = (window.navigator.language || "en").split("-")[0];
 let translationList = {};
 if (language !== "en") {
   translationList = await (
-    await fetch(`/api/languages/${language.toLowerCase()}.json`)
+    await fetch(`/language/${language.toLowerCase()}.json`)
   ).json();
 }
 

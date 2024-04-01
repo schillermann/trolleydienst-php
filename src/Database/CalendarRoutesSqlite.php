@@ -4,7 +4,7 @@ namespace App\Database;
 
 use App\Shift\HexColorCode;
 
-class CalendarShiftsSqlite
+class CalendarRoutesSqlite
 {
   private \PDO $pdo;
   private int $calendarId;
@@ -18,7 +18,7 @@ class CalendarShiftsSqlite
   public function add(\DateTimeInterface $start, string $routeName, int $numberOfShifts, int $minutesPerShift, HexColorCode $hexColorCode): void
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created)
+            INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex AS color, updated, created)
             VALUES (:calendarId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
         SQL);
 
@@ -32,32 +32,32 @@ class CalendarShiftsSqlite
     ]);
   }
 
-  function shift(int $shiftId): ShiftSqlite
+  function route(int $routeId): RouteSqlite
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex, updated AS last_modified_on, created AS created_on
+            SELECT id_shift AS id, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex AS color, updated AS updated_on, created AS created_on
             FROM shifts
-            WHERE id_shift = :shiftId
+            WHERE id_shift = :routeId
         SQL);
     $stmt->execute([
-      'shiftId' => $shiftId
+      'routeId' => $routeId
     ]);
-    $shift = $stmt->fetch(\PDO::FETCH_ASSOC);
+    $route = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-    if ($shift === false) {
-      return new ShiftSqlite(0);
+    if ($route === false) {
+      return new RouteSqlite(0);
     }
 
-    return new ShiftSqlite(
-      $shift['id_shift'],
-      $shift,
+    return new RouteSqlite(
+      $route['id'],
+      $route,
     );
   }
 
-  public function shiftsFrom(\DateTimeInterface $start, int $pageNumber, int $pageItems): \Generator
+  public function routesFrom(\DateTimeInterface $start, int $pageNumber, int $pageItems): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex, updated AS last_modified_on, created AS created_on
+            SELECT id_shift AS id, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex AS color, updated AS updated_on, created AS created_on
             FROM shifts
             WHERE datetime_from > :from AND id_shift_type = :calendarId
             ORDER BY datetime_from ASC
@@ -72,10 +72,10 @@ class CalendarShiftsSqlite
     ]);
     $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-    foreach ($stmt as $shift) {
-      yield new ShiftSqlite(
-        $shift['id_shift'],
-        $shift,
+    foreach ($stmt as $route) {
+      yield new RouteSqlite(
+        $route['id'],
+        $route,
       );
     }
   }

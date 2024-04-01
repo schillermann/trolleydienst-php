@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-class ShiftApplicationSqlite
+class ShiftSlotSqlite
 {
     private array $columns;
 
@@ -11,9 +11,9 @@ class ShiftApplicationSqlite
         $this->columns = $columns;
     }
 
-    function shiftId(): int
+    function routeId(): int
     {
-        return $this->columns['shift_id'];
+        return $this->columns['route_id'];
     }
 
     function publisherId(): int

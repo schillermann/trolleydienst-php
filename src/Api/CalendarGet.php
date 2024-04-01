@@ -9,15 +9,17 @@ use PhpPages\PageInterface;
 class CalendarGet implements PageInterface
 {
   private CalendarsSqlite $calendarsStore;
+  private int $calendarId;
 
-  function __construct(CalendarsSqlite $calendarsStore)
+  function __construct(CalendarsSqlite $calendarsStore, int $calendarId)
   {
     $this->calendarsStore = $calendarsStore;
+    $this->calendarId = $calendarId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $calendar = $this->calendarsStore->calendar();
+    $calendar = $this->calendarsStore->calendar($this->calendarId);
 
     if ($calendar->id() === 0) {
       return $output->withMetadata(
@@ -38,7 +40,7 @@ class CalendarGet implements PageInterface
             'label' => $calendar->label(),
             'publisherLimitPerShift' => $calendar->publisherLimitPerShift(),
             'info' => $calendar->info(),
-            'lastModifiedOn' => $calendar->LastModifiedOn()->format(\DateTimeInterface::ATOM),
+            'updatedOn' => $calendar->updatedOn()->format(\DateTimeInterface::ATOM),
             'createdOn' => $calendar->createdOn()->format(\DateTimeInterface::ATOM)
           ],
           JSON_THROW_ON_ERROR,

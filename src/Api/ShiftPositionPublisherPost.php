@@ -4,40 +4,40 @@ namespace App\Api;
 
 use App\Database\ApplicationsSqlite;
 use App\Database\PublishersSqlite;
-use App\Database\CalendarShiftsSqlite;
+use App\Database\CalendarRoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftPositionPublisherPost implements PageInterface
 {
   private ApplicationsSqlite $applicationsStore;
-  private CalendarShiftsSqlite $calendarShiftsStore;
+  private CalendarRoutesSqlite $calendarRoutesStore;
   private PublishersSqlite $publishersStore;
-  private int $shiftId;
+  private int $routeId;
   private int $shiftPositionId;
   private int $publisherId;
 
   public function __construct(
     ApplicationsSqlite $applicationsStore,
-    CalendarShiftsSqlite $calendarShiftsStore,
+    CalendarRoutesSqlite $calendarRoutesStore,
     PublishersSqlite $publishersStore,
-    int $shiftId,
+    int $routeId,
     int $shiftPositionId,
     int $publisherId = 0
   ) {
     $this->applicationsStore = $applicationsStore;
-    $this->calendarShiftsStore = $calendarShiftsStore;
+    $this->calendarRoutesStore = $calendarRoutesStore;
     $this->publishersStore = $publishersStore;
-    $this->shiftId = $shiftId;
+    $this->routeId = $routeId;
     $this->shiftPositionId = $shiftPositionId;
     $this->publisherId = $publisherId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shift = $this->calendarShiftsStore->shift($this->shiftId);
+    $route = $this->calendarRoutesStore->route($this->routeId);
 
-    if ($shift->id() === 0 || $shift->numberOfShifts() < $this->shiftPositionId) {
+    if ($route->id() === 0 || $route->numberOfShifts() < $this->shiftPositionId) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
@@ -52,7 +52,7 @@ class ShiftPositionPublisherPost implements PageInterface
       );
     }
     $applications = $this->applicationsStore->applications(
-      $this->shiftId,
+      $this->routeId,
       $this->shiftPositionId
     );
     foreach ($applications as $application) {
@@ -64,7 +64,7 @@ class ShiftPositionPublisherPost implements PageInterface
       }
     }
     $this->applicationsStore->add(
-      $this->shiftId,
+      $this->routeId,
       $this->shiftPositionId,
       $this->publisherId
     );
@@ -84,9 +84,9 @@ class ShiftPositionPublisherPost implements PageInterface
     $body = json_decode($value, true, 2);
     return new self(
       $this->applicationsStore,
-      $this->calendarShiftsStore,
+      $this->calendarRoutesStore,
       $this->publishersStore,
-      $this->shiftId,
+      $this->routeId,
       $this->shiftPositionId,
       $body["publisherId"]
     );

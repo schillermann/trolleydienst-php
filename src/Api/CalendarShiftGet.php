@@ -2,26 +2,26 @@
 
 namespace App\Api;
 
-use App\Database\CalendarShiftsSqlite;
+use App\Database\CalendarRoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class CalendarShiftGet implements PageInterface
 {
-  private CalendarShiftsSqlite $calendarShifts;
-  private int $shiftId;
+  private CalendarRoutesSqlite $calendarRoutes;
+  private int $routeId;
 
-  function __construct(CalendarShiftsSqlite $calendarShifts, int $shiftId)
+  function __construct(CalendarRoutesSqlite $calendarRoutes, int $routeId)
   {
-    $this->calendarShifts = $calendarShifts;
-    $this->shiftId = $shiftId;
+    $this->calendarRoutes = $calendarRoutes;
+    $this->routeId = $routeId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $shift = $this->calendarShifts->shift($this->shiftId);
+    $route = $this->calendarRoutes->route($this->routeId);
 
-    if ($shift->id() === 0) {
+    if ($route->id() === 0) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
@@ -37,14 +37,14 @@ class CalendarShiftGet implements PageInterface
         PageInterface::BODY,
         json_encode(
           [
-            'id' => $shift->id(),
-            'routeName' => $shift->routeName(),
-            'shiftStart' => $shift->start()->format(\DateTimeInterface::ATOM),
-            'numberOfShifts' => $shift->numberOfShifts(),
-            'minutesPerShift' => $shift->minutesPerShift(),
-            'colorHex' => $shift->colorHex(),
-            'lastModifiedOn' => $shift->lastModifiedOn()->format(\DateTimeInterface::ATOM),
-            'createdOn' => $shift->createdOn()->format(\DateTimeInterface::ATOM)
+            'id' => $route->id(),
+            'routeName' => $route->routeName(),
+            'start' => $route->start()->format(\DateTimeInterface::ATOM),
+            'numberOfShifts' => $route->numberOfShifts(),
+            'minutesPerShift' => $route->minutesPerShift(),
+            'color' => $route->color(),
+            'updatedOn' => $route->updatedOn()->format(\DateTimeInterface::ATOM),
+            'createdOn' => $route->createdOn()->format(\DateTimeInterface::ATOM)
           ],
           JSON_THROW_ON_ERROR,
           2

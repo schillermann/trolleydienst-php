@@ -65,7 +65,7 @@ export class ShiftCalendar extends LitElement {
   }
 
   render() {
-    const routes = fetch(`/api/calendars/${this.calendarId}/routes.json`).then(
+    const routes = fetch(`/api/calendars/${this.calendarId}/routes`).then(
       (response) => response.json()
     );
     return html`<shift-application-dialog

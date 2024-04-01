@@ -1,4 +1,7 @@
 node_modules/
+public/css/fontawesome.min.css
+public/js/lit-all.min.js*
+public/webfonts/
 vendor/
 .php-cs-fixer.cache
 config.php

@@ -2,23 +2,25 @@
 
 namespace App\Api;
 
-use App\Database\ShiftApplicationsSqlite;
+use App\Database\ShiftSlotsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftApplicationsGet implements PageInterface
 {
-    private ShiftApplicationsSqlite $shiftApplicationsStore;
+    private ShiftSlotsSqlite $shiftSlotsStore;
+    private int $routeId;
 
-    function __construct(ShiftApplicationsSqlite $shiftApplicationsStore)
+    function __construct(ShiftSlotsSqlite $shiftSlotsStore, int $routeId)
     {
-        $this->shiftApplicationsStore = $shiftApplicationsStore;
+        $this->shiftSlotsStore = $shiftSlotsStore;
+        $this->routeId = $routeId;
     }
 
     function viaOutput(OutputInterface $output): OutputInterface
     {
         $body = [];
-        foreach ($this->shiftApplicationsStore->slots() as $slot) {
+        foreach ($this->shiftSlotsStore->slots($this->routeId) as $slot) {
             $body[] = [
                 'shiftPosition' => $slot->shiftPosition(),
                 'publisher' => [

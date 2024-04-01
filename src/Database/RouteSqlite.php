@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-class ShiftSqlite
+class RouteSqlite
 {
   private int $id;
   private array $columns;
@@ -37,13 +37,13 @@ class ShiftSqlite
   {
     return (int)$this->columns['minutes_per_shift'];
   }
-  function colorHex(): string
+  function color(): string
   {
-    return $this->columns['color_hex'];
+    return $this->columns['color'];
   }
-  function lastModifiedOn(): \DateTimeImmutable
+  function updatedOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['last_modified_on']);
+    return new \DateTimeImmutable($this->columns['updated_on']);
   }
   function createdOn(): \DateTimeImmutable
   {

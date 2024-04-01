@@ -2,14 +2,14 @@
 
 namespace App\Api;
 
-use App\Database\CalendarShiftsSqlite;
+use App\Database\CalendarRoutesSqlite;
 use App\Shift\HexColorCode;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftsPost implements PageInterface
 {
-    private CalendarShiftsSqlite $calendarShifts;
+    private CalendarRoutesSqlite $calendarRoutes;
     private \DateTimeInterface $start;
     private string $routeName = "";
     private int $numberOfShifts = 0;
@@ -17,14 +17,14 @@ class ShiftsPost implements PageInterface
     private HexColorCode $hexColorCode;
 
     public function __construct(
-        CalendarShiftsSqlite $calendarShifts,
+        CalendarRoutesSqlite $calendarRoutes,
         \DateTimeInterface $start = new \DateTimeImmutable('0000-01-01'),
         string $routeName = "",
         int $numberOfShifts = 0,
         int $minutesPerShift = 0,
         HexColorCode $hexColorCode = new HexColorCode("#000000")
     ) {
-        $this->calendarShifts = $calendarShifts;
+        $this->calendarRoutes = $calendarRoutes;
         $this->start = $start;
         $this->routeName = $routeName;
         $this->numberOfShifts = $numberOfShifts;
@@ -33,7 +33,7 @@ class ShiftsPost implements PageInterface
     }
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $this->calendarShifts->add(
+        $this->calendarRoutes->add(
             $this->start,
             $this->routeName,
             $this->numberOfShifts,
@@ -53,7 +53,7 @@ class ShiftsPost implements PageInterface
             $body = json_decode($value, true, 2);
 
             return new self(
-                $this->calendarShifts,
+                $this->calendarRoutes,
                 new \Datetime($body['startDate']),
                 $body['routeName'],
                 $body['numberOfShifts'],
