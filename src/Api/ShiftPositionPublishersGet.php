@@ -2,41 +2,41 @@
 
 namespace App\Api;
 
-use App\Database\ApplicationsSqlite;
+use App\Database\SlotsSqlite;
 use App\Database\PublishersSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftPositionPublishersGet implements PageInterface
 {
-  private ApplicationsSqlite $applications;
+  private SlotsSqlite $slots;
   private PublishersSqlite $publishers;
-  private int $shiftId;
-  private int $shiftPositionId;
+  private int $routeId;
+  private int $shiftNumber;
 
   public function __construct(
-    ApplicationsSqlite $applications,
+    SlotsSqlite $slots,
     PublishersSqlite $publishers,
-    int $shiftId,
-    int $shiftPositionId
+    int $routeId,
+    int $shiftNumber
   ) {
-    $this->applications = $applications;
+    $this->slots = $slots;
     $this->publishers = $publishers;
-    $this->shiftId = $shiftId;
-    $this->shiftPositionId = $shiftPositionId;
+    $this->routeId = $routeId;
+    $this->shiftNumber = $shiftNumber;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $applications = $this->applications->applications(
-      $this->shiftId,
-      $this->shiftPositionId
+    $slots = $this->slots->slots(
+      $this->routeId,
+      $this->shiftNumber
     );
 
     $body = [];
 
-    foreach ($applications as $application) {
-      $publisher = $this->publishers->publisher($application->publisherId());
+    foreach ($slots as $slot) {
+      $publisher = $this->publishers->publisher($slot->publisherId());
       $body[] = [
         'id' => $publisher->id(),
         'username' => $publisher->username(),

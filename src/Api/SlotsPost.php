@@ -2,70 +2,70 @@
 
 namespace App\Api;
 
-use App\Database\ApplicationsSqlite;
+use App\Database\SlotsSqlite;
 use App\Database\PublishersSqlite;
 use App\Database\CalendarRoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftPositionPublisherPost implements PageInterface
+class SlotsPost implements PageInterface
 {
-  private ApplicationsSqlite $applicationsStore;
-  private CalendarRoutesSqlite $calendarRoutesStore;
-  private PublishersSqlite $publishersStore;
+  private SlotsSqlite $slots;
+  private CalendarRoutesSqlite $calendarRoutes;
+  private PublishersSqlite $publishers;
   private int $routeId;
-  private int $shiftPositionId;
+  private int $shiftNumber;
   private int $publisherId;
 
   public function __construct(
-    ApplicationsSqlite $applicationsStore,
-    CalendarRoutesSqlite $calendarRoutesStore,
-    PublishersSqlite $publishersStore,
+    SlotsSqlite $slots,
+    CalendarRoutesSqlite $calendarRoutes,
+    PublishersSqlite $publishers,
     int $routeId,
-    int $shiftPositionId,
+    int $shiftNumber,
     int $publisherId = 0
   ) {
-    $this->applicationsStore = $applicationsStore;
-    $this->calendarRoutesStore = $calendarRoutesStore;
-    $this->publishersStore = $publishersStore;
+    $this->slots = $slots;
+    $this->calendarRoutes = $calendarRoutes;
+    $this->publishers = $publishers;
     $this->routeId = $routeId;
-    $this->shiftPositionId = $shiftPositionId;
+    $this->shiftNumber = $shiftNumber;
     $this->publisherId = $publisherId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $route = $this->calendarRoutesStore->route($this->routeId);
+    $route = $this->calendarRoutes->route($this->routeId);
 
-    if ($route->id() === 0 || $route->numberOfShifts() < $this->shiftPositionId) {
+    if ($route->id() === 0 || $route->numberOfShifts() < $this->shiftNumber) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
       );
     }
 
-    $publisher = $this->publishersStore->publisher($this->publisherId);
+    $publisher = $this->publishers->publisher($this->publisherId);
     if ($publisher->id() === 0) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
       );
     }
-    $applications = $this->applicationsStore->applications(
+    $slots = $this->slots->slots(
       $this->routeId,
-      $this->shiftPositionId
+      $this->shiftNumber
     );
-    foreach ($applications as $application) {
-      if ($application->publisherId() === $this->publisherId) {
+    foreach ($slots as $slot) {
+      if ($slot->publisherId() === $this->publisherId) {
         return $output->withMetadata(
           PageInterface::STATUS,
           'HTTP/1.1 409 Conflict'
         );
       }
     }
-    $this->applicationsStore->add(
+    $this->slots->add(
       $this->routeId,
-      $this->shiftPositionId,
+      $this->shiftNumber,
       $this->publisherId
     );
 
@@ -83,11 +83,11 @@ class ShiftPositionPublisherPost implements PageInterface
 
     $body = json_decode($value, true, 2);
     return new self(
-      $this->applicationsStore,
-      $this->calendarRoutesStore,
-      $this->publishersStore,
+      $this->slots,
+      $this->calendarRoutes,
+      $this->publishers,
       $this->routeId,
-      $this->shiftPositionId,
+      $this->shiftNumber,
       $body["publisherId"]
     );
   }

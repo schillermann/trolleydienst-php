@@ -4,7 +4,7 @@ namespace App\Api;
 
 use App\Database\CalendarRoutesSqlite;
 use App\Database\CalendarsSqlite;
-use App\Database\ShiftSlotsSqlite;
+use App\Database\SlotsSqlite;
 use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
@@ -13,7 +13,7 @@ class CalendarRoutesGet implements PageInterface
 {
   private CalendarsSqlite $calendars;
   private CalendarRoutesSqlite $calendarRoutes;
-  private ShiftSlotsSqlite $shiftSlots;
+  private SlotsSqlite $slots;
   private int $calendarId;
   private \DateTimeInterface $dateFrom;
   private int $pageNumber;
@@ -22,7 +22,7 @@ class CalendarRoutesGet implements PageInterface
   public function __construct(
     CalendarsSqlite $calendars,
     CalendarRoutesSqlite $calendarRoutes,
-    ShiftSlotsSqlite $shiftSlots,
+    SlotsSqlite $slots,
     int $calendarId,
     \DateTimeInterface $dateFrom = new \DateTimeImmutable('0000-01-01'),
     int $pageNumber = 0,
@@ -30,7 +30,7 @@ class CalendarRoutesGet implements PageInterface
   ) {
     $this->calendars = $calendars;
     $this->calendarRoutes = $calendarRoutes;
-    $this->shiftSlots = $shiftSlots;
+    $this->slots = $slots;
     $this->calendarId = $calendarId;
     $this->dateFrom = $dateFrom;
     $this->pageNumber = $pageNumber;
@@ -53,11 +53,11 @@ class CalendarRoutesGet implements PageInterface
     foreach ($routes as $route) {
       $shifts = [];
       $timeFrom = \DateTime::createFromImmutable($route->start());
-      for ($shiftIndex = 0; $shiftIndex < $route->numberOfShifts(); $shiftIndex++) {
+      for ($shiftNumber = 1; $shiftNumber <= $route->numberOfShifts(); $shiftNumber++) {
 
         $slots = [];
 
-        foreach ($this->shiftSlots->slots($route->id()) as $slot) {
+        foreach ($this->slots->slots($route->id(), $shiftNumber) as $slot) {
           $slots[] = [
             "publisherId" => $slot->publisherId(),
             "firstname" => $slot->firstname(),
@@ -78,7 +78,6 @@ class CalendarRoutesGet implements PageInterface
         ];
         $timeFrom->modify('+' . $route->minutesPerShift() . ' minutes');
       }
-
 
       $body[] = [
         'id' => $route->id(),
@@ -127,7 +126,7 @@ class CalendarRoutesGet implements PageInterface
       return new self(
         $this->calendars,
         $this->calendarRoutes,
-        $this->shiftSlots,
+        $this->slots,
         $this->calendarId,
         new \DateTimeImmutable($query->param('start-date')),
         (int)$query->paramWithDefault('page-number', '1'),

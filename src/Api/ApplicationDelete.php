@@ -2,34 +2,34 @@
 
 namespace App\Api;
 
-use App\Database\ApplicationsSqlite;
+use App\Database\SlotsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ApplicationDelete implements PageInterface
 {
-    private ApplicationsSqlite $applicationsStore;
-    private int $shiftId;
-    private int $shiftPositionId;
+    private SlotsSqlite $slots;
+    private int $routeId;
+    private int $shiftNumber;
     private int $publisherId;
 
     public function __construct(
-        ApplicationsSqlite $applicationsStore,
-        int $shiftId,
-        int $shiftPositionId,
+        SlotsSqlite $slots,
+        int $routeId,
+        int $shiftNumber,
         int $publisherId
     ) {
-        $this->applicationsStore = $applicationsStore;
-        $this->shiftId = $shiftId;
-        $this->shiftPositionId = $shiftPositionId;
+        $this->slots = $slots;
+        $this->routeId = $routeId;
+        $this->shiftNumber = $shiftNumber;
         $this->publisherId = $publisherId;
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $this->applicationsStore->remove(
-            $this->shiftId,
-            $this->shiftPositionId,
+        $this->slots->remove(
+            $this->routeId,
+            $this->shiftNumber,
             $this->publisherId
         );
 

@@ -16,6 +16,52 @@ $active_page = include '../templates/helpers/active_page.php';
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-iphone-retina.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-ipad.png" />
     <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-iphone.png" />
+    <style>
+        :root {
+            --font: Helvetica Light, Helvetica, Arial;
+
+            --td-text-primary: #000;
+
+            --td-primar: #786393;
+            --td-secondary: #666e75;
+
+            --td-success: #9ccc68;
+            --td-danger: #c82333;
+
+            --td-background: #edeae6;
+            --td-background-primary: #a484ce;
+            --td-background-secondary: #fff;
+            --td-background-element: #edeae6;
+
+            --td-shadow: rgba(0, 0, 0, 0.12);
+            --td-focus: 0.85;
+
+            --td-radius: 5px;
+            --td-border: #dee5f2;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --td-text-primary: #bfbfbf;
+                --td-primar: #1f1f1f;
+                --td-secondary: #404040;
+                --td-text-primary: #aaaaaa;
+                --td-background: #2e2e2e;
+                --td-background-secondary: #404040;
+                --td-background-element: #2e2e2e;
+            }
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--td-text-primary);
+            background-color: var(--td-background);
+        }
+
+        main {
+            background-color: var(--td-background-secondary);
+        }
+    </style>
 </head>
 
 <body>

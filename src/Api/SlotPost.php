@@ -2,42 +2,42 @@
 
 namespace App\Api;
 
-use App\Database\ApplicationsSqlite;
+use App\Database\SlotsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ApplicationPost implements PageInterface
+class SlotPost implements PageInterface
 {
-    private ApplicationsSqlite $applicationsStore;
-    private int $shiftId;
-    private int $shiftPositionId;
+    private SlotsSqlite $slots;
+    private int $routeId;
+    private int $shiftNumber;
     private int $publisherId;
 
     public function __construct(
-        ApplicationsSqlite $applicationsStore,
-        int $shiftId,
-        int $shiftPositionId,
+        SlotsSqlite $slots,
+        int $routeId,
+        int $shiftNumber,
         int $publisherId
     ) {
-        $this->applicationsStore = $applicationsStore;
-        $this->shiftId = $shiftId;
-        $this->shiftPositionId = $shiftPositionId;
+        $this->slots = $slots;
+        $this->routeId = $routeId;
+        $this->shiftNumber = $shiftNumber;
         $this->publisherId = $publisherId;
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $application = $this->applicationsStore->application($this->shiftId, $this->shiftPositionId, $this->publisherId);
-        if ($application->shiftId() > 0) {
+        $slot = $this->slots->slot($this->routeId, $this->shiftNumber, $this->publisherId);
+        if ($slot->routeId() > 0) {
             return $output->withMetadata(
                 PageInterface::STATUS,
                 'HTTP/1.1 409 Conflict'
             );
         }
 
-        $this->applicationsStore->add(
-            $this->shiftId,
-            $this->shiftPositionId,
+        $this->slots->add(
+            $this->routeId,
+            $this->shiftNumber,
             $this->publisherId
         );
 

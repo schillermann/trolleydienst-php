@@ -4,7 +4,10 @@ import { translate } from "../../translate.js";
 
 export class ShiftApplicationDialog extends ViewDialog {
   static properties = {
-    defaultPublisherId: { type: Number },
+    _responseStatusCode: { type: Number, state: true },
+    routeId: { type: Number },
+    shiftNumber: { type: Number },
+    publisherId: { type: Number },
     publisherSelection: { type: Boolean },
   };
 
@@ -24,12 +27,39 @@ export class ShiftApplicationDialog extends ViewDialog {
 
   constructor() {
     super();
-    this.defaultPublisherId = 0;
+    this._responseStatusCode = 0;
+    this.routeId = 0;
+    this.shiftNumber = 0;
+    this.publisherId = 0;
     this.publisherSelection = false;
   }
 
-  _clickApply() {
-    console.log("TODO: enter shift");
+  async _clickApply() {
+    const apiUrl = `/api/calendars/1/routes/${this.routeId}/shifts/${this.shiftNumber}/slots`;
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        publisherId: this.publisherId,
+      }),
+    });
+
+    if (response.status >= 400) {
+      console.error({
+        statusCode: response.status,
+        statusText: response.statusText,
+      });
+      this._responseStatusCode = response.status;
+      return;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("update-calendar", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+      })
+    );
     this.open = false;
   }
 
@@ -47,7 +77,7 @@ export class ShiftApplicationDialog extends ViewDialog {
       ${until(
         publishers.then((publishers) =>
           publishers.map((publisher) => {
-            if (publisher.id === this.defaultPublisherId) {
+            if (publisher.id === this.publisherId) {
               return html`<option value="${publisher.id}" selected>
                 ${publisher.firstname} ${publisher.lastname}
               </option>`;
@@ -65,11 +95,25 @@ export class ShiftApplicationDialog extends ViewDialog {
   /**
    * @returns {string}
    */
+  errorTemplate() {
+    switch (this._responseStatusCode) {
+      case 0:
+        return "";
+      case 409:
+        return translate("You have already applied");
+      default:
+        return translate("Application could not be saved");
+    }
+  }
+
+  /**
+   * @returns {string}
+   */
   contentTemplate() {
     return html`
       <link rel="stylesheet" href="css/fontawesome.min.css" />
       <div>
-        <p>Error Message</p>
+        <p>${this.errorTemplate()}</p>
         ${this.selectTemplate()}
         <view-button type="primary wide" @click="${this._clickApply}">
           <i class="fa-solid fa-check"></i>

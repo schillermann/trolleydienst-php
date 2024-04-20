@@ -100,7 +100,9 @@ export class ShiftRoute extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          calendarId: event.target.getAttribute("calendarId"),
+          calendarId: event.target.getAttribute("calendar-id"),
+          routeId: event.target.getAttribute("route-id"),
+          shiftNumber: event.target.getAttribute("shift-number"),
           publisherSelection: event.target.getAttribute("publisherSelection"),
         },
       })
@@ -146,7 +148,7 @@ export class ShiftRoute extends LitElement {
    * @returns {string}
    */
   render() {
-    let shiftId = 0;
+    let shiftNumber = 0;
     return html`
       <link rel="stylesheet" href="css/fontawesome.min.css" />
       <table>
@@ -194,9 +196,9 @@ export class ShiftRoute extends LitElement {
                       `;
                     }
                     return html`<view-button
-                      calendarid="${this.calendarId}"
-                      routeId="${this.routeId}"
-                      shift="${shiftId++}"
+                      calendar-id="${this.calendarId}"
+                      route-id="${this.routeId}"
+                      shift-number="${shiftNumber++}"
                       @click="${this._clickShiftApplication}"
                     >
                       <i class="fa-regular fa-pen-to-square"></i>

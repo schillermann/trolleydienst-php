@@ -2,22 +2,22 @@
 
 namespace App\Api;
 
-use App\Database\ApplicationsSqlite;
 use App\Database\PublishersSqlite;
+use App\Database\SlotsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class ShiftPositionPublisherGet implements PageInterface
 {
-  private ApplicationsSqlite $applications;
+  private SlotsSqlite $slots;
   private PublishersSqlite $publishers;
   private int $shiftId;
   private int $shiftPositionId;
   private int $publisherId;
 
-  public function __construct(ApplicationsSqlite $applications, PublishersSqlite $publishers, int $shiftId, int $shiftPositionId, int $publisherId)
+  public function __construct(SlotsSqlite $slots, PublishersSqlite $publishers, int $shiftId, int $shiftPositionId, int $publisherId)
   {
-    $this->applications = $applications;
+    $this->slots = $slots;
     $this->publishers = $publishers;
     $this->shiftId = $shiftId;
     $this->shiftPositionId = $shiftPositionId;
@@ -26,9 +26,9 @@ class ShiftPositionPublisherGet implements PageInterface
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $application = $this->applications->application($this->shiftId, $this->shiftPositionId, $this->publisherId);
+    $slot = $this->slots->slot($this->shiftId, $this->shiftPositionId, $this->publisherId);
 
-    if ($application->shiftId() === 0) {
+    if ($slot->routeId() === 0) {
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
