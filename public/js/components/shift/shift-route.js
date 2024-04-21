@@ -83,6 +83,8 @@ export class ShiftRoute extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
+          routeId: event.target.getAttribute("route-id"),
+          shiftNumber: event.target.getAttribute("shift-number"),
           publisherId: event.target.getAttribute("publisher-id"),
           editable: event.target.getAttribute("editable"),
         },
@@ -100,7 +102,6 @@ export class ShiftRoute extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          calendarId: event.target.getAttribute("calendar-id"),
           routeId: event.target.getAttribute("route-id"),
           shiftNumber: event.target.getAttribute("shift-number"),
           publisherSelection: event.target.getAttribute("publisherSelection"),
@@ -165,14 +166,17 @@ export class ShiftRoute extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${this.shifts.map(
-            (shift) => html`
+          ${this.shifts.map((shift) => {
+            shiftNumber++;
+            return html`
               <tr>
                 <td>${shift.from} - ${shift.to}</td>
                 <td>
                   ${shift.slots.map((slot) => {
                     if (slot.publisherId === this.currentPublisherId) {
                       return html`<view-button
+                        route-id="${this.routeId}"
+                        shift-number="${shiftNumber}"
                         publisher-id="${slot.publisherId}"
                         editable="true"
                         type="active"
@@ -185,6 +189,8 @@ export class ShiftRoute extends LitElement {
                     if (slot.publisherId) {
                       return html`
                         <view-button
+                          route-id="${this.routeId}"
+                          shift-number="${shiftNumber}"
                           publisher-id="${slot.publisherId}"
                           editable="false"
                           type="active"
@@ -196,9 +202,8 @@ export class ShiftRoute extends LitElement {
                       `;
                     }
                     return html`<view-button
-                      calendar-id="${this.calendarId}"
                       route-id="${this.routeId}"
-                      shift-number="${shiftNumber++}"
+                      shift-number="${shiftNumber}"
                       @click="${this._clickShiftApplication}"
                     >
                       <i class="fa-regular fa-pen-to-square"></i>
@@ -207,8 +212,8 @@ export class ShiftRoute extends LitElement {
                   })}
                 </td>
               </tr>
-            `
-          )}
+            `;
+          })}
         </tbody>
 
         <tfoot>

@@ -13,31 +13,49 @@ class SlotSqlite
 
   function routeId(): int
   {
-    return $this->columns['route_id'];
+    if (array_key_exists('route_id', $this->columns)) {
+      return $this->columns['route_id'];
+    }
+    return 0;
   }
 
   function publisherId(): int
   {
-    return $this->columns['publisher_id'];
+    if (array_key_exists('publisher_id', $this->columns)) {
+      return $this->columns['publisher_id'];
+    }
+    return 0;
   }
 
   function shiftNumber(): int
   {
-    return $this->columns['shift_number'];
+    if (array_key_exists('shift_number', $this->columns)) {
+      return $this->columns['shift_number'];
+    }
+    return 0;
   }
 
   function firstname(): string
   {
-    return $this->columns['firstname'];
+    if (array_key_exists('firstname', $this->columns)) {
+      return $this->columns['firstname'];
+    }
+    return '';
   }
 
   function lastname(): string
   {
-    return $this->columns['lastname'];
+    if (array_key_exists('lastname', $this->columns)) {
+      return $this->columns['lastname'];
+    }
+    return '';
   }
 
   function createdOn(): \DateTimeImmutable
   {
-    return new \DateTimeImmutable($this->columns['created_on']);
+    if (array_key_exists('created_on', $this->columns)) {
+      return new \DateTimeImmutable($this->columns['created_on']);
+    }
+    return new \DateTimeImmutable();
   }
 }

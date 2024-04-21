@@ -4,19 +4,47 @@ import { ViewDialog } from "../view-dialog.js";
 
 export class ShiftContactDialog extends ViewDialog {
   static properties = {
+    calendarId: { type: Number },
+    routeId: { type: Number },
+    shiftNumber: { type: Number },
     publisherId: { type: Number },
     editable: { type: Boolean },
+    _isError: { type: Boolean, state: true },
   };
 
   constructor() {
     super();
+    this.calendarId = 0;
+    this.routeId = 0;
+    this.shiftNumber = 0;
     this.publisherId = 0;
     this.editable = false;
+    this._isError = false;
   }
 
-  _clickDelete() {
-    console.log("TODO: delete application");
-    this.open = false;
+  /**
+   * @param {Event} event
+   */
+  async _clickDelete(event) {
+    const response = await fetch(
+      `/api/calendars/${this.calendarId}/routes/${this.routeId}/shifts/${this.shiftNumber}/publishers/${this.publisherId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+      this.open = false;
+      return;
+    }
+
+    this._isError = true;
+    console.error({
+      httpResponseStatus: {
+        code: response.status,
+        message: response.statusText,
+      },
+    });
   }
 
   /**
@@ -24,11 +52,13 @@ export class ShiftContactDialog extends ViewDialog {
    */
   buttonTemplate() {
     if (this.editable) {
-      return html`<link rel="stylesheet" href="css/fontawesome.min.css" />
-        <view-button type="danger wide" @click="${this._clickDelete}">
-          <i class="fa fa-times-circle"></i>
-          ${translate("Delete")}
-        </view-button>`;
+      return html` <view-button
+        type="danger wide"
+        @click="${this._clickDelete}"
+      >
+        <i class="fa fa-times-circle"></i>
+        ${translate("Delete")}
+      </view-button>`;
     }
     return "";
   }
@@ -45,7 +75,12 @@ export class ShiftContactDialog extends ViewDialog {
 
     return until(
       publisher.then(
-        (p) => html`<h3>${p.firstname} ${p.lastname}</h3>
+        (p) => html`<p>
+            ${this._isError
+              ? translate("Shift entry could not be deleted")
+              : ""}
+          </p>
+          <h3>${p.firstname} ${p.lastname}</h3>
           <link rel="stylesheet" href="css/fontawesome.min.css" />
           <address>
             <dl>

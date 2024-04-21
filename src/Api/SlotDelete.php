@@ -6,7 +6,7 @@ use App\Database\SlotsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ApplicationDelete implements PageInterface
+class SlotDelete implements PageInterface
 {
     private SlotsSqlite $slots;
     private int $routeId;
@@ -27,7 +27,20 @@ class ApplicationDelete implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $this->slots->remove(
+        $slot = $this->slots->slot(
+            $this->routeId,
+            $this->shiftNumber,
+            $this->publisherId
+        );
+
+        if ($slot->routeId() === 0) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_404_NOT_FOUND
+            );
+        }
+
+        $this->slots->releaseSlot(
             $this->routeId,
             $this->shiftNumber,
             $this->publisherId
@@ -35,7 +48,7 @@ class ApplicationDelete implements PageInterface
 
         return $output->withMetadata(
             PageInterface::STATUS,
-            'HTTP/1.1 204 No Content'
+            PageInterface::STATUS_204_NO_CONTENT
         );
     }
 

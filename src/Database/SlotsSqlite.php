@@ -31,9 +31,6 @@ class SlotsSqlite
     }
 
     return new SlotSqlite(
-      $slot['route_id'],
-      $slot['publisher_id'],
-      $slot['shift_number'],
       $slot
     );
   }
@@ -71,7 +68,7 @@ class SlotsSqlite
     ]);
   }
 
-  function remove(int $routeId, int $shiftNumber, int $publisherId): void
+  function releaseSlot(int $routeId, int $shiftNumber, int $publisherId): void
   {
     $stmt = $this->pdo->prepare(<<<SQL
             DELETE FROM shift_user_maps

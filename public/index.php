@@ -6,7 +6,6 @@ use App\AddShiftTypePage;
 use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
-use App\Api\ApplicationDelete;
 use App\Api\CalendarGet;
 use App\Api\CalendarRouteGet;
 use App\Api\CalendarRoutesGet;
@@ -17,6 +16,7 @@ use App\Api\ShiftApplicationsGet;
 use App\Api\ShiftsPost;
 use App\Api\ShiftPositionPublisherGet;
 use App\Api\ShiftPositionPublishersGet;
+use App\Api\SlotDelete;
 use App\Api\SlotsPost;
 use App\ChangePublisherPassword;
 use App\Database\CalendarRoutesSqlite;
@@ -179,9 +179,9 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       if ($this->httpMethod === 'DELETE') {
-        if (preg_match('|^/api/calendars/([0-9]+)/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)/applications$|', $value, $matches) === 1) {
-          return new ApplicationDelete(
-            new SlotsSqlite($this->pdo, (int)$matches[1]),
+        if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)/shifts/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
+          return new SlotDelete(
+            new SlotsSqlite($this->pdo),
             (int)$matches[2],
             (int)$matches[3],
             (int)$matches[4]

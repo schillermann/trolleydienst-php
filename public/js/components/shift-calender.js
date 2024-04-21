@@ -47,6 +47,8 @@ export class ShiftCalendar extends LitElement {
     const dialog = this.renderRoot.querySelector("shift-contact-dialog");
     dialog.setAttribute("open", "true");
     dialog.setAttribute("publisherId", event.detail.publisherId);
+    dialog.setAttribute("routeId", event.detail.routeId);
+    dialog.setAttribute("shiftNumber", event.detail.shiftNumber);
     if (event.detail.editable === "true") {
       dialog.setAttribute("editable", true);
     } else {
@@ -61,7 +63,6 @@ export class ShiftCalendar extends LitElement {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-application-dialog");
     dialog.setAttribute("open", "true");
-    dialog.setAttribute("calendarId", event.detail.calendarId);
     dialog.setAttribute("routeId", event.detail.routeId);
     dialog.setAttribute("shiftNumber", event.detail.shiftNumber);
   }
@@ -73,7 +74,6 @@ export class ShiftCalendar extends LitElement {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-route-dialog");
     dialog.setAttribute("open", "true");
-    dialog.setAttribute("calendarId", event.detail.calendarId);
     dialog.setAttribute("routeId", event.detail.routeId);
   }
 
@@ -83,14 +83,17 @@ export class ShiftCalendar extends LitElement {
       (response) => response.json()
     );
     return html`<shift-application-dialog
-        publisherid="1"
         title="${translate("Shift Application")}"
+        calendarId="${this.calendarId}"
+        publisherid="1"
       ></shift-application-dialog>
       <shift-contact-dialog
         title="${translate("Publisher Contact")}"
+        calendarId="${this.calendarId}"
       ></shift-contact-dialog>
       <shift-route-dialog
         title="${translate("Shift Route")}"
+        calendarId="${this.calendarId}"
       ></shift-route-dialog>
       ${until(
         routes.then((routes) =>
