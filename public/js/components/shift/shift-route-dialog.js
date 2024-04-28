@@ -2,6 +2,18 @@ import { html, until } from "../../lit-all.min.js";
 import { ViewDialog } from "../view-dialog.js";
 import { translate } from "../../translate.js";
 
+/**
+ * @typedef {Object} Route
+ * @property {number} id
+ * @property {string} routeName
+ * @property {string} start - 2024-05-01T09:00:00+02:00
+ * @property {number} numberOfShifts
+ * @property {number} minutesPerShift
+ * @property {string} color - #d5c8e4
+ * @property {string}updatedOn - 2024-03-12T20:42:09+01:00
+ * @property {string}createdOn - 2024-03-12T20:42:09+01:00
+ */
+
 export class ShiftRouteDialog extends ViewDialog {
   static properties = {
     calendarId: { type: Number },
@@ -56,111 +68,117 @@ export class ShiftRouteDialog extends ViewDialog {
         });
 
     return until(
-      route.then((r) => {
-        const dateFrom = new Date(r.date);
-        const dateTo = new Date(dateFrom);
-        dateTo.setMinutes(
-          dateTo.getMinutes() + r.numberOfShifts * r.minutesPerShift
-        );
-        return html`
-          <link rel="stylesheet" href="css/fontawesome.min.css" />
-          <form>
-            <dl>
-              <dt>
-                <label for="route-name">${translate("Route Name")}:</label>
-              </dt>
-              <dd>
-                <input
-                  type="text"
-                  id="route-name"
-                  name="route-name"
-                  value="${r.routeName}"
-                />
-              </dd>
+      route.then(
+        /** @param {Route} route */
+        (route) => {
+          if (!route.start) {
+            route.start = new Date();
+          }
+          const dateFrom = new Date(route.start);
+          const dateTo = new Date(dateFrom);
+          dateTo.setMinutes(
+            dateTo.getMinutes() + route.numberOfShifts * route.minutesPerShift
+          );
+          return html`
+            <link rel="stylesheet" href="css/fontawesome.min.css" />
+            <form>
+              <dl>
+                <dt>
+                  <label for="route-name">${translate("Route Name")}:</label>
+                </dt>
+                <dd>
+                  <input
+                    type="text"
+                    id="route-name"
+                    name="route-name"
+                    value="${route.routeName}"
+                  />
+                </dd>
 
-              <dt>
-                <label for="date">${translate("Date")}:</label>
-              </dt>
-              <dd>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  value="${dateFrom.toISOString().slice(0, 10)}"
-                />
-              </dd>
+                <dt>
+                  <label for="date">${translate("Date")}:</label>
+                </dt>
+                <dd>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value="${dateFrom.toISOString().slice(0, 10)}"
+                  />
+                </dd>
 
-              <dt>
-                <label for="from">${translate("From")}:</label>
-              </dt>
-              <dd>
-                <input
-                  type="time"
-                  id="from"
-                  name="from"
-                  value="${dateFrom.toTimeString().slice(0, 8)}"
-                  @change="${this._changeShiftTime}"
-                />
-              </dd>
+                <dt>
+                  <label for="from">${translate("From")}:</label>
+                </dt>
+                <dd>
+                  <input
+                    type="time"
+                    id="from"
+                    name="from"
+                    value="${dateFrom.toTimeString().slice(0, 8)}"
+                    @change="${this._changeShiftTime}"
+                  />
+                </dd>
 
-              <dt>
-                <label for="number-of-shifts"
-                  >${translate("Number Of Shifts")}:</label
-                >
-              </dt>
-              <dd>
-                <input
-                  type="number"
-                  id="number-of-shifts"
-                  name="number-of-shifts"
-                  value="${r.numberOfShifts}"
-                  @change="${this._changeShiftTime}"
-                />
-              </dd>
+                <dt>
+                  <label for="number-of-shifts"
+                    >${translate("Number Of Shifts")}:</label
+                  >
+                </dt>
+                <dd>
+                  <input
+                    type="number"
+                    id="number-of-shifts"
+                    name="number-of-shifts"
+                    value="${route.numberOfShifts}"
+                    @change="${this._changeShiftTime}"
+                  />
+                </dd>
 
-              <dt>
-                <label for="minutes-per-shift"
-                  >${translate("Minutes Per Shift")}:</label
-                >
-              </dt>
-              <dd>
-                <input
-                  type="number"
-                  id="minutes-per-shift"
-                  name="minutes-per-shift"
-                  value="${r.minutesPerShift}"
-                  @change="${this._changeShiftTime}"
-                />
-              </dd>
+                <dt>
+                  <label for="minutes-per-shift"
+                    >${translate("Minutes Per Shift")}:</label
+                  >
+                </dt>
+                <dd>
+                  <input
+                    type="number"
+                    id="minutes-per-shift"
+                    name="minutes-per-shift"
+                    value="${route.minutesPerShift}"
+                    @change="${this._changeShiftTime}"
+                  />
+                </dd>
 
-              <dt><label for="to">${translate("To")}:</label></dt>
-              <dd>
-                <input
-                  type="time"
-                  id="to"
-                  name="to"
-                  value="${dateTo.toTimeString().slice(0, 8)}"
-                  disabled
-                />
-              </dd>
+                <dt><label for="to">${translate("To")}:</label></dt>
+                <dd>
+                  <input
+                    type="time"
+                    id="to"
+                    name="to"
+                    value="${dateTo.toTimeString().slice(0, 8)}"
+                    disabled
+                  />
+                </dd>
 
-              <dt><label for="color">${translate("Color")}:</label></dt>
-              <dd>
-                <input
-                  type="color"
-                  id="color"
-                  name="color"
-                  value="${r.color}"
-                />
-              </dd>
-            </dl>
-            <view-button type="primary wide" @click="${this._clickSave}">
-              <i class="fa-regular fa-floppy-disk"></i>
-              ${translate("Save")}
-            </view-button>
-          </form>
-        `;
-      }),
+                <dt><label for="color">${translate("Color")}:</label></dt>
+                <dd>
+                  <input
+                    type="color"
+                    id="color"
+                    name="color"
+                    value="${route.color}"
+                  />
+                </dd>
+              </dl>
+              <view-button type="primary wide" @click="${this._clickSave}">
+                <i class="fa-regular fa-floppy-disk"></i>
+                ${translate("Save")}
+              </view-button>
+            </form>
+          `;
+        }
+      ),
       html`<span>${translate("Loading")}...</span>`
     );
   }

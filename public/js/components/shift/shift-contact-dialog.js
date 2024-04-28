@@ -35,6 +35,12 @@ export class ShiftContactDialog extends ViewDialog {
 
     if (response.ok) {
       this.open = false;
+      this.dispatchEvent(
+        new Event("update-calendar", {
+          bubbles: true,
+          composed: true,
+        })
+      );
       return;
     }
 

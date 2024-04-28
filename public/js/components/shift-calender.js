@@ -25,24 +25,59 @@ export class ShiftCalendar extends LitElement {
     super();
   }
 
+  /**
+   * @return {void}
+   */
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("publisher-contact", this._eventPublisherContact);
-    this.addEventListener("shift-application", this._eventShiftApplication);
-    this.addEventListener("shift-route", this._eventShiftRoute);
+    this.addEventListener(
+      "open-publisher-contact-dialog",
+      this._openPublisherContactDialog
+    );
+    this.addEventListener(
+      "open-shift-application-dialog",
+      this._openShiftApplicationDialog
+    );
+    this.addEventListener(
+      "open-shift-route-dialog",
+      this._openShiftRouteDialog
+    );
+    this.addEventListener("update-calendar", this._updateCalendar);
   }
 
+  /**
+   * @return {void}
+   */
   disconnectedCallback() {
-    this.removeEventListener("publisher-contact", this._eventPublisherContact);
-    this.removeEventListener("shift-application", this._eventShiftApplication);
-    this.removeEventListener("shift-route", this._eventShiftRoute);
+    this.removeEventListener(
+      "open-publisher-contact-dialog",
+      this._openPublisherContactDialog
+    );
+    this.removeEventListener(
+      "open-shift-application-dialog",
+      this._openShiftApplicationDialog
+    );
+    this.removeEventListener(
+      "open-shift-route-dialog",
+      this._openShiftRouteDialog
+    );
+    this.removeEventListener("update-calendar", this._updateCalendar);
     super.disconnectedCallback();
   }
 
   /**
    * @param {CustomEvent} event
+   * @return {void}
    */
-  _eventPublisherContact(event) {
+  _updateCalendar(event) {
+    this.requestUpdate();
+  }
+
+  /**
+   * @param {CustomEvent} event
+   * @return {void}
+   */
+  _openPublisherContactDialog(event) {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-contact-dialog");
     dialog.setAttribute("open", "true");
@@ -58,8 +93,9 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {CustomEvent} event
+   * @return {void}
    */
-  _eventShiftApplication(event) {
+  _openShiftApplicationDialog(event) {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-application-dialog");
     dialog.setAttribute("open", "true");
@@ -69,14 +105,18 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {CustomEvent} event
+   * @return {void}
    */
-  _eventShiftRoute(event) {
+  _openShiftRouteDialog(event) {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-route-dialog");
     dialog.setAttribute("open", "true");
     dialog.setAttribute("routeId", event.detail.routeId);
   }
 
+  /**
+   * @return {string}
+   */
   render() {
     /** @type {Promise<Route[]>} */
     const routes = fetch(`/api/calendars/${this.calendarId}/routes`).then(
