@@ -15,6 +15,35 @@ export class ViewDialog extends LitElement {
     dialog::backdrop {
       background: rgba(0, 0, 0, 0.6);
     }
+    button {
+      transition: box-shadow 0.28s;
+      padding: 6px 12px;
+      line-height: 1.4;
+      font-size: 1rem;
+      vertical-align: middle;
+      touch-action: manipulation;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid rgba(189, 183, 181, 0.5);
+      margin-bottom: 4px;
+      background-color: var(--td-background-element);
+      border-radius: var(--td-radius);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 180px;
+      color: var(--td-text-primary);
+      width: 100%;
+    }
+
+    button[type="submit"] {
+      color: var(--td-background-secondary);
+      background-color: var(--td-primar);
+    }
+
+    button:hover {
+      filter: brightness(var(--td-focus));
+    }
   `;
 
   constructor() {

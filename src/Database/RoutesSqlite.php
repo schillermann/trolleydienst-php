@@ -4,7 +4,7 @@ namespace App\Database;
 
 use App\Shift\HexColorCode;
 
-class CalendarRoutesSqlite
+class RoutesSqlite
 {
   private \PDO $pdo;
   private int $calendarId;
@@ -18,9 +18,9 @@ class CalendarRoutesSqlite
   public function add(\DateTimeInterface $start, string $routeName, int $numberOfShifts, int $minutesPerShift, HexColorCode $hexColorCode): void
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex AS color, updated, created)
-            VALUES (:calendarId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
-        SQL);
+      INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex AS color, updated, created)
+      VALUES (:calendarId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
+    SQL);
 
     $stmt->execute([
       'calendarId' => $this->calendarId,
@@ -57,12 +57,12 @@ class CalendarRoutesSqlite
   public function routesFrom(\DateTimeInterface $start, int $pageNumber, int $pageItems): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift AS id, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex AS color, updated AS updated_on, created AS created_on
-            FROM shifts
-            WHERE datetime_from > :from AND id_shift_type = :calendarId
-            ORDER BY datetime_from ASC
-            LIMIT :offset, :limit
-        SQL);
+      SELECT id_shift AS id, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex AS color, updated AS updated_on, created AS created_on
+      FROM shifts
+      WHERE datetime_from > :from AND id_shift_type = :calendarId
+      ORDER BY datetime_from ASC
+      LIMIT :offset, :limit
+    SQL);
 
     $stmt->execute([
       'from' => $start->format('Y-m-d'),
@@ -83,15 +83,42 @@ class CalendarRoutesSqlite
   public function shiftsTotalNumber(\DateTimeInterface $start): int
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT count(*)
-            FROM shifts
-            WHERE datetime_from > :from AND id_shift_type = :calendarId
-        SQL);
+      SELECT count(*)
+      FROM shifts
+      WHERE datetime_from > :from AND id_shift_type = :calendarId
+    SQL);
     $stmt->execute([
       'from' => $start->format('Y-m-d'),
       'calendarId' => $this->calendarId,
     ]);
 
     return $stmt->fetchColumn();
+  }
+
+  public function update(
+    int $routeId,
+    string $routeName,
+    \DateTimeImmutable $start,
+    int $numberOfShifts,
+    int $minutesPerShift,
+    string $color
+  ): bool {
+    $stmt = $this->pdo->prepare(<<<SQL
+      UPDATE shifts
+      SET route = :routeName, datetime_from = :start, number = :numberOfShifts, minutes_per_shift = :minutesPerShift, color_hex = :color
+      WHERE id_shift = :routeId AND id_shift_type = :calendarId
+    SQL);
+
+    $stmt->execute([
+      'routeName' => $routeName,
+      'start' => $start->format('Y-m-d H:i:s'),
+      'numberOfShifts' => $numberOfShifts,
+      'minutesPerShift' => $minutesPerShift,
+      'color' => $color,
+      'routeId' => $routeId,
+      'calendarId' => $this->calendarId
+    ]);
+
+    return $stmt->rowCount() == 1;
   }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Api;
 
-use App\Database\CalendarRoutesSqlite;
+use App\Database\RoutesSqlite;
 use App\Database\CalendarsSqlite;
 use App\Database\SlotsSqlite;
 use PhpPages\Form\SimpleFormData;
@@ -12,7 +12,7 @@ use PhpPages\PageInterface;
 class CalendarRoutesGet implements PageInterface
 {
   private CalendarsSqlite $calendars;
-  private CalendarRoutesSqlite $calendarRoutes;
+  private RoutesSqlite $routes;
   private SlotsSqlite $slots;
   private int $calendarId;
   private \DateTimeInterface $dateFrom;
@@ -21,7 +21,7 @@ class CalendarRoutesGet implements PageInterface
 
   public function __construct(
     CalendarsSqlite $calendars,
-    CalendarRoutesSqlite $calendarRoutes,
+    RoutesSqlite $routes,
     SlotsSqlite $slots,
     int $calendarId,
     \DateTimeInterface $dateFrom = new \DateTimeImmutable('0000-01-01'),
@@ -29,7 +29,7 @@ class CalendarRoutesGet implements PageInterface
     int $pageItems = 10
   ) {
     $this->calendars = $calendars;
-    $this->calendarRoutes = $calendarRoutes;
+    $this->routes = $routes;
     $this->slots = $slots;
     $this->calendarId = $calendarId;
     $this->dateFrom = $dateFrom;
@@ -39,7 +39,7 @@ class CalendarRoutesGet implements PageInterface
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $routes = $this->calendarRoutes->routesFrom(
+    $routes = $this->routes->routesFrom(
       $this->dateFrom,
       $this->pageNumber,
       $this->pageItems
@@ -92,7 +92,7 @@ class CalendarRoutesGet implements PageInterface
       ];
     }
 
-    $pagesTotalNumber = $this->calendarRoutes->shiftsTotalNumber($this->dateFrom);
+    $pagesTotalNumber = $this->routes->shiftsTotalNumber($this->dateFrom);
     $itemNumberFrom = (($this->pageNumber - 1) * $this->pageItems) + 1;
     $itemNumberTo = $this->pageNumber * $this->pageItems;
     if ($itemNumberTo > $pagesTotalNumber) {
@@ -125,7 +125,7 @@ class CalendarRoutesGet implements PageInterface
 
       return new self(
         $this->calendars,
-        $this->calendarRoutes,
+        $this->routes,
         $this->slots,
         $this->calendarId,
         new \DateTimeImmutable($query->param('start-date')),

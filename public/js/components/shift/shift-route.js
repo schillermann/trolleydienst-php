@@ -36,7 +36,18 @@ export class ShiftRoute extends LitElement {
   };
 
   static styles = css`
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
     table {
+      animation-name: fade-in;
+      animation-duration: 3s;
       margin-top: 20px;
     }
 

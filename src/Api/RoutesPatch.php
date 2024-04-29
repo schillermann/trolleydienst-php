@@ -3,62 +3,73 @@
 namespace App\Api;
 
 use App\Database\RoutesSqlite;
-use App\Shift\HexColorCode;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class ShiftsPost implements PageInterface
+class RoutesPatch implements PageInterface
 {
     private RoutesSqlite $routes;
-    private \DateTimeInterface $start;
-    private string $routeName = "";
-    private int $numberOfShifts = 0;
-    private int $minutesPerShift = 0;
-    private HexColorCode $hexColorCode;
+    private int $routeId;
+    private string $routeName;
+    private \DateTimeImmutable $start;
+    private int $numberOfShifts;
+    private int $minutesPerShift;
+    private string $color;
 
     public function __construct(
         RoutesSqlite $routes,
-        \DateTimeInterface $start = new \DateTimeImmutable('0000-01-01'),
+        int $routeId,
         string $routeName = "",
+        \DateTimeImmutable $start = new \DateTimeImmutable(),
         int $numberOfShifts = 0,
         int $minutesPerShift = 0,
-        HexColorCode $hexColorCode = new HexColorCode("#000000")
+        string $color = ""
     ) {
         $this->routes = $routes;
-        $this->start = $start;
+        $this->routeId = $routeId;
         $this->routeName = $routeName;
+        $this->start = $start;
         $this->numberOfShifts = $numberOfShifts;
         $this->minutesPerShift = $minutesPerShift;
-        $this->hexColorCode = $hexColorCode;
+        $this->color = $color;
     }
+
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        $this->routes->add(
-            $this->start,
+        $updated = $this->routes->update(
+            $this->routeId,
             $this->routeName,
+            $this->start,
             $this->numberOfShifts,
             $this->minutesPerShift,
-            $this->hexColorCode
+            $this->color
         );
+
+        if ($updated) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_204_NO_CONTENT
+            );
+        }
 
         return $output->withMetadata(
             PageInterface::STATUS,
-            'HTTP/1.1 201 Created'
+            PageInterface::STATUS_500_INTERNAL_SERVER_ERROR
         );
     }
 
     public function withMetadata(string $name, string $value): PageInterface
     {
         if ($name === PageInterface::BODY) {
-            $body = json_decode($value, true, 2);
-
+            $body = json_decode($value, true);
             return new self(
                 $this->routes,
-                new \Datetime($body['startDate']),
+                $this->routeId,
                 $body['routeName'],
+                new \DateTimeImmutable($body['start']),
                 $body['numberOfShifts'],
                 $body['minutesPerShift'],
-                new HexColorCode($body['color'])
+                $body['color'],
             );
         }
 

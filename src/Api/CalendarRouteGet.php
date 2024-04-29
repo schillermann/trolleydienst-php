@@ -2,24 +2,24 @@
 
 namespace App\Api;
 
-use App\Database\CalendarRoutesSqlite;
+use App\Database\RoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class CalendarRouteGet implements PageInterface
 {
-  private CalendarRoutesSqlite $calendarRoutes;
+  private RoutesSqlite $routes;
   private int $routeId;
 
-  function __construct(CalendarRoutesSqlite $calendarRoutes, int $routeId)
+  function __construct(RoutesSqlite $routes, int $routeId)
   {
-    $this->calendarRoutes = $calendarRoutes;
+    $this->routes = $routes;
     $this->routeId = $routeId;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $route = $this->calendarRoutes->route($this->routeId);
+    $route = $this->routes->route($this->routeId);
 
     if ($route->id() === 0) {
       return $output->withMetadata(

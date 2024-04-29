@@ -16,11 +16,13 @@ import { translate } from "../../translate.js";
 
 export class ShiftRouteDialog extends ViewDialog {
   static properties = {
+    _responseStatusCode: { type: Number, state: true },
     calendarId: { type: Number },
     routeId: { type: Number },
   };
   constructor() {
     super();
+    this._responseStatusCode = 0;
     this.calendarId = 0;
     this.routeId = 0;
   }
@@ -48,11 +50,58 @@ export class ShiftRouteDialog extends ViewDialog {
   }
 
   /**
-   * @param {Event} event
+   * @returns {string}
    */
-  _clickSave(event) {
-    console.log("TODO: save shift changes");
-    this.open = false;
+  errorTemplate() {
+    switch (this._responseStatusCode) {
+      case 0:
+        return "";
+      default:
+        return translate("Route change could not be saved");
+    }
+  }
+
+  /**
+   * @param {SubmitEvent} event
+   * @returns {void}
+   */
+  async _submitForm(event) {
+    event.preventDefault();
+    /** @type {HTMLFormControlsCollection} */
+    const elements = event.currentTarget.elements;
+    const response = await fetch(
+      `/api/calendars/${this.calendarId}/routes/${this.routeId}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          routeName: elements["route-name"].value,
+          start: new Date(
+            elements["date"].value + " " + elements["from"].value
+          ).toLocaleString(),
+          numberOfShifts: Number(elements["number-of-shifts"].value),
+          minutesPerShift: Number(elements["minutes-per-shift"].value),
+          color: elements["color"].value,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      this.dispatchEvent(
+        new CustomEvent("update-calendar", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        })
+      );
+      this.open = false;
+      return;
+    }
+
+    console.error({
+      statusCode: response.status,
+      statusText: response.statusText,
+    });
+    this._responseStatusCode = response.status;
   }
 
   /**
@@ -81,7 +130,8 @@ export class ShiftRouteDialog extends ViewDialog {
           );
           return html`
             <link rel="stylesheet" href="css/fontawesome.min.css" />
-            <form>
+            <p>${this.errorTemplate()}</p>
+            <form @submit=${this._submitForm}>
               <dl>
                 <dt>
                   <label for="route-name">${translate("Route Name")}:</label>
@@ -92,6 +142,7 @@ export class ShiftRouteDialog extends ViewDialog {
                     id="route-name"
                     name="route-name"
                     value="${route.routeName}"
+                    required
                   />
                 </dd>
 
@@ -171,10 +222,10 @@ export class ShiftRouteDialog extends ViewDialog {
                   />
                 </dd>
               </dl>
-              <view-button type="primary wide" @click="${this._clickSave}">
+              <button type="submit">
                 <i class="fa-regular fa-floppy-disk"></i>
                 ${translate("Save")}
-              </view-button>
+              </button>
             </form>
           `;
         }

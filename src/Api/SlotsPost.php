@@ -4,14 +4,14 @@ namespace App\Api;
 
 use App\Database\SlotsSqlite;
 use App\Database\PublishersSqlite;
-use App\Database\CalendarRoutesSqlite;
+use App\Database\RoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class SlotsPost implements PageInterface
 {
   private SlotsSqlite $slots;
-  private CalendarRoutesSqlite $calendarRoutes;
+  private RoutesSqlite $routes;
   private PublishersSqlite $publishers;
   private int $routeId;
   private int $shiftNumber;
@@ -19,14 +19,14 @@ class SlotsPost implements PageInterface
 
   public function __construct(
     SlotsSqlite $slots,
-    CalendarRoutesSqlite $calendarRoutes,
+    RoutesSqlite $routes,
     PublishersSqlite $publishers,
     int $routeId,
     int $shiftNumber,
     int $publisherId = 0
   ) {
     $this->slots = $slots;
-    $this->calendarRoutes = $calendarRoutes;
+    $this->routes = $routes;
     $this->publishers = $publishers;
     $this->routeId = $routeId;
     $this->shiftNumber = $shiftNumber;
@@ -35,7 +35,7 @@ class SlotsPost implements PageInterface
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
-    $route = $this->calendarRoutes->route($this->routeId);
+    $route = $this->routes->route($this->routeId);
 
     if ($route->id() === 0 || $route->numberOfShifts() < $this->shiftNumber) {
       return $output->withMetadata(
@@ -84,7 +84,7 @@ class SlotsPost implements PageInterface
     $body = json_decode($value, true, 2);
     return new self(
       $this->slots,
-      $this->calendarRoutes,
+      $this->routes,
       $this->publishers,
       $this->routeId,
       $this->shiftNumber,
