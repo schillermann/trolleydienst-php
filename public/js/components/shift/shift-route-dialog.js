@@ -222,10 +222,14 @@ export class ShiftRouteDialog extends ViewDialog {
                   />
                 </dd>
               </dl>
-              <button type="submit">
+              <view-button
+                type="primary wide"
+                @click="${(e) =>
+                  this.renderRoot.querySelector("form").requestSubmit()}"
+              >
                 <i class="fa-regular fa-floppy-disk"></i>
                 ${translate("Save")}
-              </button>
+              </view-button>
             </form>
           `;
         }
