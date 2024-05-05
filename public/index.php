@@ -7,12 +7,13 @@ use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
 use App\Api\CalendarGet;
-use App\Api\CalendarRouteGet;
+use App\Api\RouteGet;
 use App\Api\CalendarRoutesGet;
 use App\Api\MeQuery;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
-use App\Api\RoutesPatch;
+use App\Api\RoutePatch;
+use App\Api\RoutePost;
 use App\Api\ShiftApplicationsGet;
 use App\Api\ShiftsPost;
 use App\Api\ShiftPositionPublisherGet;
@@ -110,6 +111,9 @@ require __DIR__ . '/../vendor/autoload.php';
             (int)$matches[3]
           );
         }
+        if (preg_match('|^/api/calendars/([0-9]+)/routes$|', $value, $matches) === 1) {
+          return new RoutePost(new RoutesSqlite($this->pdo, (int)$matches[1]));
+        }
       }
 
       if ($this->httpMethod === 'GET') {
@@ -121,7 +125,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
 
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
-          return new CalendarRouteGet(
+          return new RouteGet(
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
           );
@@ -181,7 +185,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
       if ($this->httpMethod === 'PATCH') {
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
-          return new RoutesPatch(
+          return new RoutePatch(
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
           );

@@ -32,8 +32,10 @@ export class ShiftRouteDialog extends ViewDialog {
    */
   _changeShiftTime(event) {
     const timeFrom = this.renderRoot.getElementById("from").value;
+    if (!timeFrom) {
+      return;
+    }
     const timeFromSplit = timeFrom.split(":");
-
     const dateFrom = new Date();
     dateFrom.setHours(timeFromSplit[0]);
     dateFrom.setMinutes(timeFromSplit[1]);
@@ -46,13 +48,15 @@ export class ShiftRouteDialog extends ViewDialog {
 
     dateTo.setMinutes(dateTo.getMinutes() + numberOfShifts * minutesPerShift);
     dateTo.setSeconds(0);
-    this.renderRoot.getElementById("to").value = dateTo.toLocaleTimeString();
+    this.renderRoot.getElementById("to").value = dateTo
+      .toTimeString()
+      .slice(0, 8);
   }
 
   /**
    * @returns {string}
    */
-  errorTemplate() {
+  _errorTemplate() {
     switch (this._responseStatusCode) {
       case 0:
         return "";
@@ -65,7 +69,7 @@ export class ShiftRouteDialog extends ViewDialog {
    * @param {SubmitEvent} event
    * @returns {void}
    */
-  async _submitForm(event) {
+  async _editRoute(event) {
     event.preventDefault();
     /** @type {HTMLFormControlsCollection} */
     const elements = event.currentTarget.elements;
@@ -87,7 +91,47 @@ export class ShiftRouteDialog extends ViewDialog {
 
     if (response.ok) {
       this.dispatchEvent(
-        new CustomEvent("update-calendar", {
+        new Event("update-calendar", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        })
+      );
+      this.open = false;
+      return;
+    }
+
+    console.error({
+      statusCode: response.status,
+      statusText: response.statusText,
+    });
+    this._responseStatusCode = response.status;
+  }
+
+  /**
+   * @param {SubmitEvent} event
+   * @returns {void}
+   */
+  async _createRoute(event) {
+    event.preventDefault();
+    /** @type {HTMLFormControlsCollection} */
+    const elements = event.currentTarget.elements;
+    const response = await fetch(`/api/calendars/${this.calendarId}/routes`, {
+      method: "POST",
+      body: JSON.stringify({
+        routeName: elements["route-name"].value,
+        start: new Date(
+          elements["date"].value + " " + elements["from"].value
+        ).toLocaleString(),
+        numberOfShifts: Number(elements["number-of-shifts"].value),
+        minutesPerShift: Number(elements["minutes-per-shift"].value),
+        color: elements["color"].value,
+      }),
+    });
+
+    if (response.ok) {
+      this.dispatchEvent(
+        new Event("update-calendar", {
           bubbles: true,
           cancelable: false,
           composed: true,
@@ -107,22 +151,62 @@ export class ShiftRouteDialog extends ViewDialog {
   /**
    * @returns {string}
    */
+  _shiftSeriesTemplate() {
+    if (this.routeId) {
+      return "";
+    }
+
+    return html`<dt>
+        <label for="shift-series-until"
+          >${translate("Shift series until")}:</label
+        >
+      </dt>
+      <dd>
+        <input type="date" id="shift-series-until" name="shift-series-until" />
+      </dd>`;
+  }
+
+  /**
+   * @returns {string}
+   */
+  _buttonDeleteTemplate() {
+    if (this.routeId) {
+      return html`<view-button type="danger wide">
+        <i class="fa-regular fa-trash-o"></i>
+        ${translate("Delete")}
+      </view-button>`;
+    }
+
+    return "";
+  }
+
+  /**
+   * @returns {string}
+   */
   contentTemplate() {
     const route = this.routeId
       ? fetch(`/api/calendars/${this.calendarId}/routes/${this.routeId}`).then(
           (response) => response.json()
         )
-      : Promise.resolve({
-          date: new Date(),
+      : Promise.resolve().then(() => {
+          const start = new Date();
+          start.setSeconds(0);
+          start.setMinutes(0);
+          return {
+            routeName: "",
+            start: start.toLocaleString(),
+            numberOfShifts: 1,
+            minutesPerShift: 60,
+            color: "#604A7B",
+            updatedOn: new Date().toLocaleString(),
+            createdOn: new Date().toLocaleString(),
+          };
         });
 
     return until(
       route.then(
         /** @param {Route} route */
         (route) => {
-          if (!route.start) {
-            route.start = new Date();
-          }
           const dateFrom = new Date(route.start);
           const dateTo = new Date(dateFrom);
           dateTo.setMinutes(
@@ -130,8 +214,13 @@ export class ShiftRouteDialog extends ViewDialog {
           );
           return html`
             <link rel="stylesheet" href="css/fontawesome.min.css" />
-            <p>${this.errorTemplate()}</p>
-            <form @submit=${this._submitForm}>
+            <p>${this._errorTemplate()}</p>
+            <form
+              @submit=${async (e) =>
+                this.routeId
+                  ? await this._editRoute(e)
+                  : await this._createRoute(e)}
+            >
               <dl>
                 <dt>
                   <label for="route-name">${translate("Route Name")}:</label>
@@ -221,7 +310,9 @@ export class ShiftRouteDialog extends ViewDialog {
                     value="${route.color}"
                   />
                 </dd>
+                ${this._shiftSeriesTemplate()}
               </dl>
+              ${this._buttonDeleteTemplate()}
               <view-button
                 type="primary wide"
                 @click="${(e) =>

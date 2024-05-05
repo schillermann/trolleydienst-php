@@ -6,7 +6,7 @@ use App\Database\RoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class RoutesPatch implements PageInterface
+class RoutePatch implements PageInterface
 {
     private RoutesSqlite $routes;
     private int $routeId;
@@ -38,8 +38,8 @@ class RoutesPatch implements PageInterface
     {
         $updated = $this->routes->update(
             $this->routeId,
-            $this->routeName,
             $this->start,
+            $this->routeName,
             $this->numberOfShifts,
             $this->minutesPerShift,
             $this->color

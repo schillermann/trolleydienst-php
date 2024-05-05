@@ -88,7 +88,7 @@ export class ShiftRoute extends LitElement {
    * @param {PointerEvent} event
    * @returns {void}
    */
-  _openPublisherContactDialog(event) {
+  _clickPublisher(event) {
     this.dispatchEvent(
       new CustomEvent("open-publisher-contact-dialog", {
         bubbles: true,
@@ -107,7 +107,7 @@ export class ShiftRoute extends LitElement {
    * @param {PointerEvent} event
    * @returns {void}
    */
-  _openShiftApplicationDialog(event) {
+  _clickApply(event) {
     this.dispatchEvent(
       new CustomEvent("open-shift-application-dialog", {
         bubbles: true,
@@ -125,13 +125,12 @@ export class ShiftRoute extends LitElement {
    * @param {PointerEvent} event
    * @returns {void}
    */
-  _openShiftRouteDialog(event) {
+  _clickEdit(event) {
     this.dispatchEvent(
       new CustomEvent("open-shift-route-dialog", {
         bubbles: true,
         composed: true,
         detail: {
-          calendarId: event.target.getAttribute("calendarId"),
           routeId: event.target.getAttribute("routeId"),
         },
       })
@@ -147,7 +146,7 @@ export class ShiftRoute extends LitElement {
         type="flex"
         calendarid="${this.calendarId}"
         routeid="${this.routeId}"
-        @click="${this._openShiftRouteDialog}"
+        @click="${this._clickEdit}"
       >
         <i class="fa-solid fa-pencil"></i>
         ${translate("Edit")}
@@ -191,7 +190,7 @@ export class ShiftRoute extends LitElement {
                         publisher-id="${slot.publisherId}"
                         editable="true"
                         type="active"
-                        @click="${this._openPublisherContactDialog}"
+                        @click="${this._clickPublisher}"
                       >
                         <i class="fa-regular fa-user"></i>
                         ${slot.firstname} ${slot.lastname}
@@ -205,7 +204,7 @@ export class ShiftRoute extends LitElement {
                           publisher-id="${slot.publisherId}"
                           editable="false"
                           type="active"
-                          @click="${this._openPublisherContactDialog}"
+                          @click="${this._clickPublisher}"
                         >
                           <i class="fa fa-info-circle"></i>
                           ${slot.firstname} ${slot.lastname}
@@ -215,7 +214,7 @@ export class ShiftRoute extends LitElement {
                     return html`<view-button
                       route-id="${this.routeId}"
                       shift-number="${shiftNumber}"
-                      @click="${this._openShiftApplicationDialog}"
+                      @click="${this._clickApply}"
                     >
                       <i class="fa-regular fa-pen-to-square"></i>
                       ${translate("Apply")}

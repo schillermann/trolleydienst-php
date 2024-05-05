@@ -15,10 +15,10 @@ class RoutesSqlite
     $this->calendarId = $calendarId;
   }
 
-  public function add(\DateTimeInterface $start, string $routeName, int $numberOfShifts, int $minutesPerShift, HexColorCode $hexColorCode): void
+  public function add(\DateTimeInterface $start, string $routeName, int $numberOfShifts, int $minutesPerShift, string $color): int
   {
     $stmt = $this->pdo->prepare(<<<SQL
-      INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex AS color, updated, created)
+      INSERT INTO shifts (id_shift_type, route, datetime_from, number, minutes_per_shift, color_hex, updated, created)
       VALUES (:calendarId, :routeName, :start, :numberOfShifts, :minutesPerShift, :color, datetime("now", "localtime"), datetime("now", "localtime"))
     SQL);
 
@@ -28,17 +28,19 @@ class RoutesSqlite
       'start' => $start->format('Y-m-d H:i'),
       'numberOfShifts' => $numberOfShifts,
       'minutesPerShift' => $minutesPerShift,
-      "color" => $hexColorCode->string()
+      "color" => $color
     ]);
+
+    return (int)$this->pdo->lastInsertId();
   }
 
   function route(int $routeId): RouteSqlite
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id_shift AS id, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex AS color, updated AS updated_on, created AS created_on
-            FROM shifts
-            WHERE id_shift = :routeId
-        SQL);
+      SELECT id_shift AS id, id_shift_type AS calendar_id, route, datetime_from, number AS number_of_shifts, minutes_per_shift, color_hex AS color, updated AS updated_on, created AS created_on
+      FROM shifts
+      WHERE id_shift = :routeId
+    SQL);
     $stmt->execute([
       'routeId' => $routeId
     ]);
@@ -97,15 +99,15 @@ class RoutesSqlite
 
   public function update(
     int $routeId,
-    string $routeName,
     \DateTimeImmutable $start,
+    string $routeName,
     int $numberOfShifts,
     int $minutesPerShift,
     string $color
   ): bool {
     $stmt = $this->pdo->prepare(<<<SQL
       UPDATE shifts
-      SET route = :routeName, datetime_from = :start, number = :numberOfShifts, minutes_per_shift = :minutesPerShift, color_hex = :color
+      SET route = :routeName, datetime_from = :start, number = :numberOfShifts, minutes_per_shift = :minutesPerShift, color_hex = :color, updated = datetime("now", "localtime")
       WHERE id_shift = :routeId AND id_shift_type = :calendarId
     SQL);
 
