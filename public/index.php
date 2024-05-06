@@ -12,6 +12,7 @@ use App\Api\CalendarRoutesGet;
 use App\Api\MeQuery;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
+use App\Api\RouteDelete;
 use App\Api\RoutePatch;
 use App\Api\RoutePost;
 use App\Api\ShiftApplicationsGet;
@@ -199,6 +200,12 @@ require __DIR__ . '/../vendor/autoload.php';
             (int)$matches[2],
             (int)$matches[3],
             (int)$matches[4]
+          );
+        }
+        if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
+          return new RouteDelete(
+            new RoutesSqlite($this->pdo, (int)$matches[1]),
+            (int)$matches[2]
           );
         }
       }

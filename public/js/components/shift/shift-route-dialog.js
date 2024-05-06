@@ -16,7 +16,7 @@ import { translate } from "../../translate.js";
 
 export class ShiftRouteDialog extends ViewDialog {
   static properties = {
-    _responseStatusCode: { type: Number, state: true },
+    _errorMessage: { type: String, state: true },
     calendarId: { type: Number },
     routeId: { type: Number },
   };
@@ -51,18 +51,6 @@ export class ShiftRouteDialog extends ViewDialog {
     this.renderRoot.getElementById("to").value = dateTo
       .toTimeString()
       .slice(0, 8);
-  }
-
-  /**
-   * @returns {string}
-   */
-  _errorTemplate() {
-    switch (this._responseStatusCode) {
-      case 0:
-        return "";
-      default:
-        return translate("Route change could not be saved");
-    }
   }
 
   /**
@@ -105,7 +93,7 @@ export class ShiftRouteDialog extends ViewDialog {
       statusCode: response.status,
       statusText: response.statusText,
     });
-    this._responseStatusCode = response.status;
+    this._errorMessage = translate("Route change could not be saved");
   }
 
   /**
@@ -156,6 +144,38 @@ export class ShiftRouteDialog extends ViewDialog {
   }
 
   /**
+   * @param {PointerEvent} event
+   * @returns {void}
+   */
+  async _clickDelete(event) {
+    const response = await fetch(
+      `/api/calendars/${this.calendarId}/routes/${this.routeId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+      this.routeId = 0;
+      this.dispatchEvent(
+        new Event("update-calendar", {
+          bubbles: true,
+          cancelable: false,
+          composed: true,
+        })
+      );
+      this.open = false;
+      return;
+    }
+
+    console.error({
+      statusCode: response.status,
+      statusText: response.statusText,
+    });
+    this._errorMessage = translate("Route could not be deleted");
+  }
+
+  /**
    * @returns {string}
    */
   _shiftSeriesTemplate() {
@@ -178,7 +198,7 @@ export class ShiftRouteDialog extends ViewDialog {
    */
   _buttonDeleteTemplate() {
     if (this.routeId) {
-      return html`<view-button type="danger wide">
+      return html`<view-button type="danger wide" @click="${this._clickDelete}">
         <i class="fa-regular fa-trash-o"></i>
         ${translate("Delete")}
       </view-button>`;
@@ -221,7 +241,7 @@ export class ShiftRouteDialog extends ViewDialog {
           );
           return html`
             <link rel="stylesheet" href="css/fontawesome.min.css" />
-            <p>${this._errorTemplate()}</p>
+            <p>${this._errorMessage}</p>
             <form
               @submit=${async (e) =>
                 this.routeId

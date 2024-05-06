@@ -34,7 +34,7 @@ export class ShiftApplicationDialog extends ViewDialog {
     this.publisherSelection = false;
   }
 
-  async _clickApply() {
+  async _clickApply(event) {
     const response = await fetch(
       `/api/calendars/1/routes/${this.routeId}/shifts/${this.shiftNumber}/slots`,
       {

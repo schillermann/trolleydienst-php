@@ -2,8 +2,6 @@
 
 namespace App\Database;
 
-use App\Shift\HexColorCode;
-
 class RoutesSqlite
 {
   private \PDO $pdo;
@@ -122,5 +120,17 @@ class RoutesSqlite
     ]);
 
     return $stmt->rowCount() == 1;
+  }
+
+  public function delete(int $routeId): bool
+  {
+    $stmt = $this->pdo->prepare(<<<SQL
+      DELETE FROM shifts
+      WHERE id_shift = :routeId
+    SQL);
+
+    return $stmt->execute(
+      [':routeId' => $routeId]
+    );
   }
 }
