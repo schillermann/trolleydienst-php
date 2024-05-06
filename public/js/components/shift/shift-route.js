@@ -22,6 +22,7 @@ export class ShiftRoute extends LitElement {
     routeName: { type: String },
     calendarId: { type: Number },
     routeId: { type: Number },
+    color: { type: String },
     date: {
       /**
        * @param {string} value
@@ -53,7 +54,6 @@ export class ShiftRoute extends LitElement {
 
     th {
       color: #363636;
-      background-color: #d5c8e4;
       text-align: left;
       padding: 10px;
       font-size: 17px;
@@ -66,10 +66,6 @@ export class ShiftRoute extends LitElement {
     td {
       padding: 6px;
     }
-
-    tfoot tr td {
-      background-color: #d5c8e4;
-    }
   `;
 
   constructor() {
@@ -78,6 +74,7 @@ export class ShiftRoute extends LitElement {
     this.routeName = "";
     this.calendarId = 0;
     this.routeId = 0;
+    this.color = "#d5c8e4";
     /** @type {Shift[]} */
     this.shifts = [];
     this.date = new Date();
@@ -165,7 +162,7 @@ export class ShiftRoute extends LitElement {
       <table>
         <thead>
           <tr>
-            <th colspan="2">
+            <th colspan="2" style="background-color: ${this.color}">
               ${this.date.toLocaleDateString(undefined, {
                 weekday: "short",
                 month: "short",
@@ -228,7 +225,9 @@ export class ShiftRoute extends LitElement {
 
         <tfoot>
           <tr>
-            <td colspan="2">${this.buttonTemplate()}</td>
+            <td colspan="2" style="background-color: ${this.color}">
+              ${this.buttonTemplate()}
+            </td>
           </tr>
         </tfoot>
       </table>

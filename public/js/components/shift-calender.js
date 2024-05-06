@@ -175,6 +175,7 @@ export class ShiftCalendar extends LitElement {
               routeName="${route.routeName}"
               date="${route.start}"
               shifts="${JSON.stringify(route.shifts)}"
+              color="${route.color}"
               editable="true"
             ></shift-route>`
           )
