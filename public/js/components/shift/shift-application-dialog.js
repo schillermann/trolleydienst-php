@@ -35,14 +35,15 @@ export class ShiftApplicationDialog extends ViewDialog {
   }
 
   async _clickApply() {
-    const apiUrl = `/api/calendars/1/routes/${this.routeId}/shifts/${this.shiftNumber}/slots`;
-
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      body: JSON.stringify({
-        publisherId: this.publisherId,
-      }),
-    });
+    const response = await fetch(
+      `/api/calendars/1/routes/${this.routeId}/shifts/${this.shiftNumber}/slots`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          publisherId: this.publisherId,
+        }),
+      }
+    );
 
     if (response.status >= 400) {
       console.error({

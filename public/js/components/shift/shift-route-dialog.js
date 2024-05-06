@@ -116,36 +116,43 @@ export class ShiftRouteDialog extends ViewDialog {
     event.preventDefault();
     /** @type {HTMLFormControlsCollection} */
     const elements = event.currentTarget.elements;
-    const response = await fetch(`/api/calendars/${this.calendarId}/routes`, {
-      method: "POST",
-      body: JSON.stringify({
-        routeName: elements["route-name"].value,
-        start: new Date(
-          elements["date"].value + " " + elements["from"].value
-        ).toLocaleString(),
-        numberOfShifts: Number(elements["number-of-shifts"].value),
-        minutesPerShift: Number(elements["minutes-per-shift"].value),
-        color: elements["color"].value,
-      }),
-    });
 
-    if (response.ok) {
-      this.dispatchEvent(
-        new Event("update-calendar", {
-          bubbles: true,
-          cancelable: false,
-          composed: true,
-        })
-      );
-      this.open = false;
-      return;
-    }
+    const start = new Date(
+      elements["date"].value + " " + elements["from"].value
+    );
+    const until = elements["shift-series-until"].value;
+    const shiftSeriesUntil = until ? new Date(until) : new Date(start);
+    shiftSeriesUntil.setDate(shiftSeriesUntil.getDate() + 1);
 
-    console.error({
-      statusCode: response.status,
-      statusText: response.statusText,
-    });
-    this._responseStatusCode = response.status;
+    do {
+      const response = await fetch(`/api/calendars/${this.calendarId}/routes`, {
+        method: "POST",
+        body: JSON.stringify({
+          routeName: elements["route-name"].value,
+          start: start.toLocaleString(),
+          numberOfShifts: Number(elements["number-of-shifts"].value),
+          minutesPerShift: Number(elements["minutes-per-shift"].value),
+          color: elements["color"].value,
+        }),
+      });
+      if (!response.ok) {
+        console.error({
+          statusCode: response.status,
+          statusText: response.statusText,
+        });
+        this._responseStatusCode = response.status;
+        return;
+      }
+    } while (start.setDate(start.getDate() + 7) <= shiftSeriesUntil.getTime());
+
+    this.dispatchEvent(
+      new Event("update-calendar", {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+      })
+    );
+    this.open = false;
   }
 
   /**
