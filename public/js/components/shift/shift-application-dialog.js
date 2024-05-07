@@ -4,7 +4,6 @@ import { translate } from "../../translate.js";
 
 export class ShiftApplicationDialog extends ViewDialog {
   static properties = {
-    _responseStatusCode: { type: Number, state: true },
     routeId: { type: Number },
     shiftNumber: { type: Number },
     publisherId: { type: Number },
@@ -27,7 +26,6 @@ export class ShiftApplicationDialog extends ViewDialog {
 
   constructor() {
     super();
-    this._responseStatusCode = 0;
     this.routeId = 0;
     this.shiftNumber = 0;
     this.publisherId = 0;
@@ -50,7 +48,12 @@ export class ShiftApplicationDialog extends ViewDialog {
         statusCode: response.status,
         statusText: response.statusText,
       });
-      this._responseStatusCode = response.status;
+
+      if (response.status === 409) {
+        this._errorMessage = translate("You have already applied");
+      } else {
+        this._errorMessage = translate("Application could not be saved");
+      }
       return;
     }
 
@@ -96,25 +99,11 @@ export class ShiftApplicationDialog extends ViewDialog {
   /**
    * @returns {string}
    */
-  errorTemplate() {
-    switch (this._responseStatusCode) {
-      case 0:
-        return "";
-      case 409:
-        return translate("You have already applied");
-      default:
-        return translate("Application could not be saved");
-    }
-  }
-
-  /**
-   * @returns {string}
-   */
   contentTemplate() {
     return html`
       <link rel="stylesheet" href="css/fontawesome.min.css" />
       <div>
-        <p>${this.errorTemplate()}</p>
+        <p>${this._errorMessage}</p>
         ${this.selectTemplate()}
         <view-button type="primary wide" @click="${this._clickApply}">
           <i class="fa-solid fa-check"></i>

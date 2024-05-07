@@ -1,4 +1,4 @@
-import { css, LitElement, until, html } from "../lit-all.min.js";
+import { css, LitElement, html } from "../lit-all.min.js";
 import { translate } from "../translate.js";
 import "./shift/shift-route.js";
 import "./shift/shift-route-dialog.js";
@@ -48,7 +48,7 @@ export class ShiftCalendar extends LitElement {
       "open-shift-route-dialog",
       this._eventOpenShiftRouteDialog
     );
-    this.addEventListener("update-calendar", this._updateCalendar);
+    this.addEventListener("update-calendar", this._eventUpdateCalendar);
   }
 
   /**
@@ -67,7 +67,7 @@ export class ShiftCalendar extends LitElement {
       "open-shift-route-dialog",
       this._eventOpenShiftRouteDialog
     );
-    this.removeEventListener("update-calendar", this._updateCalendar);
+    this.removeEventListener("update-calendar", this._eventUpdateCalendar);
     super.disconnectedCallback();
   }
 
@@ -75,8 +75,8 @@ export class ShiftCalendar extends LitElement {
    * @param {CustomEvent} event
    * @return {void}
    */
-  _updateCalendar(event) {
-    this.requestUpdate();
+  async _eventUpdateCalendar(event) {
+    await this._updateRoutes();
   }
 
   /**
@@ -139,13 +139,47 @@ export class ShiftCalendar extends LitElement {
   }
 
   /**
+   * @returns {Promise<void>}
+   */
+  async updated() {
+    await this._updateRoutes();
+  }
+
+  /**
+   * @returns {Promise<void>}
+   */
+  async _updateRoutes() {
+    const response = await fetch(`/api/calendars/${this.calendarId}/routes`);
+    /** @type {Route[]} */
+    const routes = await response.json();
+    /** @type {Element} */
+    const section = this.renderRoot.querySelector("section");
+
+    if (section.childElementCount !== routes.length) {
+      section.replaceChildren();
+    }
+
+    for (const route of routes) {
+      let shiftRoute = section.querySelector(`[routeId="${route.id}"]`);
+      if (!shiftRoute) {
+        shiftRoute = document.createElement("shift-route");
+        section.appendChild(shiftRoute);
+      }
+      shiftRoute.setAttribute("calendarId", this.calendarId);
+      shiftRoute.setAttribute("routeId", route.id);
+      shiftRoute.setAttribute("currentPublisherId", 1);
+      shiftRoute.setAttribute("routeName", route.routeName);
+      shiftRoute.setAttribute("date", route.start);
+      shiftRoute.setAttribute("shifts", JSON.stringify(route.shifts));
+      shiftRoute.setAttribute("color", route.color);
+      shiftRoute.setAttribute("editable", true);
+    }
+  }
+
+  /**
    * @return {string}
    */
   render() {
-    /** @type {Promise<Route[]>} */
-    const routes = fetch(`/api/calendars/${this.calendarId}/routes`).then(
-      (response) => response.json()
-    );
     return html`<nav>
         <view-button type="primary flex" @click="${this._clickNewShift}">
           <i class="fa-solid fa-plus"></i>
@@ -165,23 +199,7 @@ export class ShiftCalendar extends LitElement {
         title="${translate("Shift Route")}"
         calendarId="${this.calendarId}"
       ></shift-route-dialog>
-      ${until(
-        routes.then((routes) =>
-          routes.map(
-            (route) => html` <shift-route
-              calendarId="${this.calendarId}"
-              routeId="${route.id}"
-              currentPublisherId="1"
-              routeName="${route.routeName}"
-              date="${route.start}"
-              shifts="${JSON.stringify(route.shifts)}"
-              color="${route.color}"
-              editable="true"
-            ></shift-route>`
-          )
-        ),
-        html`<span>${translate("Loading")}...</span>`
-      )}`;
+      <section></section>`;
   }
 }
 customElements.define("shift-calendar", ShiftCalendar);

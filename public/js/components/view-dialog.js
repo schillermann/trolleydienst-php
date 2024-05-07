@@ -3,6 +3,7 @@ import { translate } from "../translate.js";
 
 export class ViewDialog extends LitElement {
   static properties = {
+    _errorMessage: { type: String, state: true },
     title: { type: String },
     open: { type: Boolean },
   };
@@ -19,6 +20,7 @@ export class ViewDialog extends LitElement {
 
   constructor() {
     super();
+    this.__errorMessage = "";
     this.title = "Dialog Box";
     this.open = false;
   }
@@ -28,7 +30,7 @@ export class ViewDialog extends LitElement {
       const dialog = this.renderRoot.querySelector("dialog");
       val ? dialog.showModal() : dialog.close();
     }
-
+    this._errorMessage = "";
     this._open = val;
   }
 

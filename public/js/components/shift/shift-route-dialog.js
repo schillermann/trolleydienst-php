@@ -16,13 +16,11 @@ import { translate } from "../../translate.js";
 
 export class ShiftRouteDialog extends ViewDialog {
   static properties = {
-    _errorMessage: { type: String, state: true },
     calendarId: { type: Number },
     routeId: { type: Number },
   };
   constructor() {
     super();
-    this._responseStatusCode = 0;
     this.calendarId = 0;
     this.routeId = 0;
   }
@@ -128,7 +126,7 @@ export class ShiftRouteDialog extends ViewDialog {
           statusCode: response.status,
           statusText: response.statusText,
         });
-        this._responseStatusCode = response.status;
+        this._errorMessage = translate("Route could not be created");
         return;
       }
     } while (start.setDate(start.getDate() + 7) <= shiftSeriesUntil.getTime());
