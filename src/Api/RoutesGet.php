@@ -9,7 +9,7 @@ use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class CalendarRoutesGet implements PageInterface
+class RoutesGet implements PageInterface
 {
   private CalendarsSqlite $calendars;
   private RoutesSqlite $routes;

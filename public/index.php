@@ -8,13 +8,13 @@ use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
 use App\Api\CalendarGet;
 use App\Api\RouteGet;
-use App\Api\CalendarRoutesGet;
 use App\Api\MeQuery;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
 use App\Api\RouteDelete;
 use App\Api\RoutePatch;
 use App\Api\RoutePost;
+use App\Api\RoutesGet;
 use App\Api\ShiftApplicationsGet;
 use App\Api\ShiftsPost;
 use App\Api\ShiftPositionPublisherGet;
@@ -133,7 +133,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
 
         if (preg_match('|^/api/calendars/([0-9]+)/routes$|', $value, $matches) === 1) {
-          return new CalendarRoutesGet(
+          return new RoutesGet(
             new CalendarsSqlite($this->pdo),
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             new SlotsSqlite($this->pdo),

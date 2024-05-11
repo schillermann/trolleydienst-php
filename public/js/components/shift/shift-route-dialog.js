@@ -154,14 +154,17 @@ export class ShiftRouteDialog extends ViewDialog {
     );
 
     if (response.ok) {
-      this.routeId = 0;
       this.dispatchEvent(
-        new Event("update-calendar", {
+        new CustomEvent("update-calendar", {
           bubbles: true,
           cancelable: false,
           composed: true,
+          detail: {
+            deleteRouteId: this.routeId,
+          },
         })
       );
+      this.routeId = 0;
       this.open = false;
       return;
     }

@@ -25,10 +25,13 @@ export class ShiftCalendar extends LitElement {
 
   static properties = {
     calendarId: { type: Number },
+    _pageNumber: { type: Number, state: true },
   };
 
   constructor() {
     super();
+    this.calendarId = 0;
+    this._pageNumber = 1;
   }
 
   /**
@@ -49,26 +52,24 @@ export class ShiftCalendar extends LitElement {
       this._eventOpenShiftRouteDialog
     );
     this.addEventListener("update-calendar", this._eventUpdateCalendar);
+    window.addEventListener("scroll", this._eventInfiniteScroll.bind(this));
   }
 
   /**
    * @return {void}
    */
   disconnectedCallback() {
-    this.removeEventListener(
-      "open-publisher-contact-dialog",
-      this._eventOpenPublisherContactDialog
-    );
-    this.removeEventListener(
-      "open-shift-application-dialog",
-      this._eventOpenShiftApplicationDialog
-    );
-    this.removeEventListener(
-      "open-shift-route-dialog",
-      this._eventOpenShiftRouteDialog
-    );
-    this.removeEventListener("update-calendar", this._eventUpdateCalendar);
     super.disconnectedCallback();
+    window.removeEventListener("scroll", this._eventInfiniteScroll);
+  }
+
+  async _eventInfiniteScroll() {
+    const scrollPoint = window.innerHeight + window.scrollY;
+    const totalPageHeight = document.body.offsetHeight;
+    if (scrollPoint >= totalPageHeight) {
+      this._pageNumber++;
+      await this._updateRoutes();
+    }
   }
 
   /**
@@ -76,6 +77,9 @@ export class ShiftCalendar extends LitElement {
    * @return {void}
    */
   async _eventUpdateCalendar(event) {
+    if (event.detail?.deleteRouteId) {
+      this._deleteRoute(event.detail?.deleteRouteId);
+    }
     await this._updateRoutes();
   }
 
@@ -139,25 +143,34 @@ export class ShiftCalendar extends LitElement {
   }
 
   /**
+   * @param {Map} changedProperties
    * @returns {Promise<void>}
    */
-  async updated() {
+  async firstUpdated(changedProperties) {
     await this._updateRoutes();
+  }
+
+  /**
+   * @param {number} routeId
+   * @returns {void}
+   */
+  _deleteRoute(routeId) {
+    const section = this.renderRoot.querySelector("section");
+    const route = section.querySelector(`[routeId="${routeId}"]`);
+    route.remove();
   }
 
   /**
    * @returns {Promise<void>}
    */
   async _updateRoutes() {
-    const response = await fetch(`/api/calendars/${this.calendarId}/routes`);
+    const response = await fetch(
+      `/api/calendars/${this.calendarId}/routes?page-number=${this._pageNumber}`
+    );
     /** @type {Route[]} */
     const routes = await response.json();
     /** @type {Element} */
     const section = this.renderRoot.querySelector("section");
-
-    if (section.childElementCount !== routes.length) {
-      section.replaceChildren();
-    }
 
     for (const route of routes) {
       let shiftRoute = section.querySelector(`[routeId="${route.id}"]`);
