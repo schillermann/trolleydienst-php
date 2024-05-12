@@ -25,13 +25,15 @@ export class ShiftCalendar extends LitElement {
 
   static properties = {
     calendarId: { type: Number },
-    _pageNumber: { type: Number, state: true },
+    itemsPerPage: { type: Number },
+    _pageItems: { type: Number, state: true },
   };
 
   constructor() {
     super();
     this.calendarId = 0;
-    this._pageNumber = 1;
+    this.itemsPerPage = 10;
+    this._pageItems = this.itemsPerPage;
   }
 
   /**
@@ -67,7 +69,7 @@ export class ShiftCalendar extends LitElement {
     const scrollPoint = window.innerHeight + window.scrollY;
     const totalPageHeight = document.body.offsetHeight;
     if (scrollPoint >= totalPageHeight) {
-      this._pageNumber++;
+      this._pageItems += this.itemsPerPage;
       await this._updateRoutes();
     }
   }
@@ -165,7 +167,7 @@ export class ShiftCalendar extends LitElement {
    */
   async _updateRoutes() {
     const response = await fetch(
-      `/api/calendars/${this.calendarId}/routes?page-number=${this._pageNumber}`
+      `/api/calendars/${this.calendarId}/routes?page-items=${this._pageItems}`
     );
     /** @type {Route[]} */
     const routes = await response.json();
