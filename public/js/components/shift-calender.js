@@ -17,23 +17,33 @@ import "./shift/shift-application-dialog.js";
  */
 
 export class ShiftCalendar extends LitElement {
+  /** @type {Element} */
+  _loadingCircle;
+
   static styles = css`
     nav {
       margin: 20px 0px 20px 0px;
+    }
+
+    section#loading {
+      text-align: center;
+      padding-top: 20px;
+      svg {
+        width: 30px;
+        height: 30px;
+      }
     }
   `;
 
   static properties = {
     calendarId: { type: Number },
-    itemsPerPage: { type: Number },
     _pageItems: { type: Number, state: true },
   };
 
   constructor() {
     super();
     this.calendarId = 0;
-    this.itemsPerPage = 10;
-    this._pageItems = this.itemsPerPage;
+    this._pageNumber = 1;
   }
 
   /**
@@ -69,8 +79,9 @@ export class ShiftCalendar extends LitElement {
     const scrollPoint = window.innerHeight + window.scrollY;
     const totalPageHeight = document.body.offsetHeight;
     if (scrollPoint >= totalPageHeight) {
-      this._pageItems += this.itemsPerPage;
-      await this._updateRoutes();
+      if (await this._loadNextRoutes(this._pageNumber + 1)) {
+        this._pageNumber++;
+      }
     }
   }
 
@@ -149,7 +160,16 @@ export class ShiftCalendar extends LitElement {
    * @returns {Promise<void>}
    */
   async firstUpdated(changedProperties) {
-    await this._updateRoutes();
+    this._loadingCircle = this.renderRoot.querySelector("section#loading svg");
+    this._rotationAnimation = this._loadingCircle.animate(
+      [{ transform: "rotate(0)" }, { transform: "rotate(360deg)" }],
+      {
+        duration: 3000,
+        iterations: Infinity,
+      }
+    );
+
+    await this._loadNextRoutes(this._pageNumber);
   }
 
   /**
@@ -166,29 +186,47 @@ export class ShiftCalendar extends LitElement {
    * @returns {Promise<void>}
    */
   async _updateRoutes() {
+    for (let pageNumber = 1; pageNumber <= this._pageNumber; pageNumber++) {
+      await this._loadNextRoutes(pageNumber);
+    }
+  }
+
+  /**
+   * @param {number} pageNumber
+   * @returns {boolean} routes have been loaded
+   */
+  async _loadNextRoutes(pageNumber) {
+    this._rotationAnimation.play();
+    this._loadingCircle.style.visibility = "visible";
+
     const response = await fetch(
-      `/api/calendars/${this.calendarId}/routes?page-items=${this._pageItems}`
+      `/api/calendars/${this.calendarId}/routes?page-number=${pageNumber}`
     );
+
     /** @type {Route[]} */
     const routes = await response.json();
     /** @type {Element} */
     const section = this.renderRoot.querySelector("section");
 
     for (const route of routes) {
-      let shiftRoute = section.querySelector(`[routeId="${route.id}"]`);
-      if (!shiftRoute) {
-        shiftRoute = document.createElement("shift-route");
-        section.appendChild(shiftRoute);
+      let routeElement = section.querySelector(`[routeId="${route.id}"]`);
+      if (!routeElement) {
+        routeElement = document.createElement("shift-route");
+        section.appendChild(routeElement);
       }
-      shiftRoute.setAttribute("calendarId", this.calendarId);
-      shiftRoute.setAttribute("routeId", route.id);
-      shiftRoute.setAttribute("currentPublisherId", 1);
-      shiftRoute.setAttribute("routeName", route.routeName);
-      shiftRoute.setAttribute("date", route.start);
-      shiftRoute.setAttribute("shifts", JSON.stringify(route.shifts));
-      shiftRoute.setAttribute("color", route.color);
-      shiftRoute.setAttribute("editable", true);
+      routeElement.setAttribute("calendarId", this.calendarId);
+      routeElement.setAttribute("routeId", route.id);
+      routeElement.setAttribute("currentPublisherId", 1);
+      routeElement.setAttribute("routeName", route.routeName);
+      routeElement.setAttribute("date", route.start);
+      routeElement.setAttribute("shifts", JSON.stringify(route.shifts));
+      routeElement.setAttribute("color", route.color);
+      routeElement.setAttribute("editable", true);
     }
+    this._rotationAnimation.pause();
+    this._loadingCircle.style.visibility = "hidden";
+
+    return routes.length != 0;
   }
 
   /**
@@ -214,7 +252,21 @@ export class ShiftCalendar extends LitElement {
         title="${translate("Shift Route")}"
         calendarId="${this.calendarId}"
       ></shift-route-dialog>
-      <section></section>`;
+      <section></section>
+      <section id="loading">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          role="presentation"
+          class="icon icon-spinner"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M7.229 1.173a9.25 9.25 0 1 0 11.655 11.412 1.25 1.25 0 1 0-2.4-.698 6.75 6.75 0 1 1-8.506-8.329 1.25 1.25 0 1 0-.75-2.385z"
+            fill="#919EAB"
+          />
+        </svg>
+      </section>`;
   }
 }
 customElements.define("shift-calendar", ShiftCalendar);
