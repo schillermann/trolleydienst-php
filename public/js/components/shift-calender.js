@@ -19,6 +19,10 @@ import "./shift/shift-application-dialog.js";
 export class ShiftCalendar extends LitElement {
   /** @type {Element} */
   _loadingCircle;
+  /** @type {number} */
+  _pageNumber;
+  /** @type {Date} */
+  _routesFrom;
 
   static styles = css`
     nav {
@@ -37,45 +41,45 @@ export class ShiftCalendar extends LitElement {
 
   static properties = {
     calendarId: { type: Number },
-    _pageItems: { type: Number, state: true },
   };
 
   constructor() {
     super();
     this.calendarId = 0;
     this._pageNumber = 1;
+    this._routesFrom = new Date();
   }
 
   /**
-   * @return {void}
+   * @returns {void}
    */
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener(
       "open-publisher-contact-dialog",
-      this._eventOpenPublisherContactDialog
+      this._handleOpenPublisherContactDialog
     );
     this.addEventListener(
       "open-shift-application-dialog",
-      this._eventOpenShiftApplicationDialog
+      this._handleOpenShiftApplicationDialog
     );
     this.addEventListener(
       "open-shift-route-dialog",
-      this._eventOpenShiftRouteDialog
+      this._handleOpenShiftRouteDialog
     );
-    this.addEventListener("update-calendar", this._eventUpdateCalendar);
-    window.addEventListener("scroll", this._eventInfiniteScroll.bind(this));
+    this.addEventListener("update-calendar", this._handleUpdateCalendar);
+    window.addEventListener("scroll", this._handleInfiniteScroll.bind(this));
   }
 
   /**
-   * @return {void}
+   * @returns {void}
    */
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener("scroll", this._eventInfiniteScroll);
+    window.removeEventListener("scroll", this._handleInfiniteScroll);
   }
 
-  async _eventInfiniteScroll() {
+  async _handleInfiniteScroll() {
     const scrollPoint = window.innerHeight + window.scrollY;
     const totalPageHeight = document.body.offsetHeight;
     if (scrollPoint >= totalPageHeight) {
@@ -87,9 +91,9 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {CustomEvent} event
-   * @return {void}
+   * @returns {void}
    */
-  async _eventUpdateCalendar(event) {
+  async _handleUpdateCalendar(event) {
     if (event.detail?.deleteRouteId) {
       this._deleteRoute(event.detail?.deleteRouteId);
     }
@@ -98,9 +102,9 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {CustomEvent} event
-   * @return {void}
+   * @returns {void}
    */
-  _eventOpenPublisherContactDialog(event) {
+  _handleOpenPublisherContactDialog(event) {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-contact-dialog");
     dialog.setAttribute("open", "true");
@@ -116,9 +120,9 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {CustomEvent} event
-   * @return {void}
+   * @returns {void}
    */
-  _eventOpenShiftApplicationDialog(event) {
+  _handleOpenShiftApplicationDialog(event) {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-application-dialog");
     dialog.setAttribute("open", "true");
@@ -128,9 +132,9 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {CustomEvent} event
-   * @return {void}
+   * @returns {void}
    */
-  _eventOpenShiftRouteDialog(event) {
+  _handleOpenShiftRouteDialog(event) {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-route-dialog");
     dialog.setAttribute("open", "true");
@@ -140,9 +144,9 @@ export class ShiftCalendar extends LitElement {
 
   /**
    * @param {PointerEvent} event
-   * @return {void}
+   * @returns {void}
    */
-  _clickNewShift(event) {
+  _onClickNewShift(event) {
     this.dispatchEvent(
       new CustomEvent("open-shift-route-dialog", {
         bubbles: true,
@@ -156,11 +160,22 @@ export class ShiftCalendar extends LitElement {
   }
 
   /**
+   * @param {Event} event
+   * @returns {void}
+   */
+  _onChangeRoutesFrom(event) {
+    this._routesFrom = new Date(event.target.value);
+    const routesSection = this.renderRoot.getElementById("routes");
+    routesSection.replaceChildren();
+    this._loadNextRoutes(1);
+  }
+
+  /**
    * @param {Map} changedProperties
    * @returns {Promise<void>}
    */
   async firstUpdated(changedProperties) {
-    this._loadingCircle = this.renderRoot.querySelector("section#loading svg");
+    this._loadingCircle = this.renderRoot.querySelector("#loading svg");
     this._rotationAnimation = this._loadingCircle.animate(
       [{ transform: "rotate(0)" }, { transform: "rotate(360deg)" }],
       {
@@ -177,8 +192,8 @@ export class ShiftCalendar extends LitElement {
    * @returns {void}
    */
   _deleteRoute(routeId) {
-    const section = this.renderRoot.querySelector("section");
-    const route = section.querySelector(`[routeId="${routeId}"]`);
+    const routesSection = this.renderRoot.getElementById("routes");
+    const route = routesSection.querySelector(`[routeId="${routeId}"]`);
     route.remove();
   }
 
@@ -199,20 +214,21 @@ export class ShiftCalendar extends LitElement {
     this._rotationAnimation.play();
     this._loadingCircle.style.visibility = "visible";
 
+    const startDate = this._routesFrom.toISOString().split("T")[0];
     const response = await fetch(
-      `/api/calendars/${this.calendarId}/routes?page-number=${pageNumber}`
+      `/api/calendars/${this.calendarId}/routes?page-number=${pageNumber}&start-date=${startDate}`
     );
 
     /** @type {Route[]} */
     const routes = await response.json();
     /** @type {Element} */
-    const section = this.renderRoot.querySelector("section");
+    const routesSection = this.renderRoot.getElementById("routes");
 
     for (const route of routes) {
-      let routeElement = section.querySelector(`[routeId="${route.id}"]`);
+      let routeElement = routesSection.querySelector(`[routeId="${route.id}"]`);
       if (!routeElement) {
         routeElement = document.createElement("shift-route");
-        section.appendChild(routeElement);
+        routesSection.appendChild(routeElement);
       }
       routeElement.setAttribute("calendarId", this.calendarId);
       routeElement.setAttribute("routeId", route.id);
@@ -230,11 +246,11 @@ export class ShiftCalendar extends LitElement {
   }
 
   /**
-   * @return {string}
+   * @returns {string}
    */
   render() {
     return html`<nav>
-        <view-button type="primary flex" @click="${this._clickNewShift}">
+        <view-button type="primary flex" @click="${this._onClickNewShift}">
           <i class="fa-solid fa-plus"></i>
           ${translate("New Shift")}
         </view-button>
@@ -252,7 +268,16 @@ export class ShiftCalendar extends LitElement {
         title="${translate("Shift Route")}"
         calendarId="${this.calendarId}"
       ></shift-route-dialog>
-      <section></section>
+      <label for="routes-from">${translate("Routes from")}:</label>
+      <input
+        type="date"
+        name="routes-from"
+        id="routes-from"
+        value="${this._routesFrom.toISOString().split("T")[0]}"
+        @change="${this._onChangeRoutesFrom}"
+      />
+
+      <section id="routes"></section>
       <section id="loading">
         <svg
           aria-hidden="true"

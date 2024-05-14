@@ -50,6 +50,7 @@ export class ShiftRoute extends LitElement {
       animation-name: fade-in;
       animation-duration: 3s;
       margin-top: 20px;
+      width: 100%;
     }
 
     th {
