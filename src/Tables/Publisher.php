@@ -196,13 +196,13 @@ class Publisher
 
     static function select_logindata(\PDO $connection, string $email_or_username, string $password): array
     {
-        $stmt = $connection->prepare(
-            'SELECT id, first_name, last_name, administrative
-            FROM ' . self::TABLE_NAME . '
+        $stmt = $connection->prepare(<<<SQL
+            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative, logged_on, updated_on, created_on
+            FROM publisher
             WHERE (email = :email OR username = :username)
             AND password = :password
-            AND active = 1'
-        );
+            AND active = 1
+        SQL);
 
         $params = [
             ':email' => $email_or_username,

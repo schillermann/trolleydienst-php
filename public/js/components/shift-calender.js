@@ -42,11 +42,13 @@ export class ShiftCalendar extends LitElement {
 
   static properties = {
     calendarId: { type: Number },
+    editable: { type: Boolean },
   };
 
   constructor() {
     super();
     this.calendarId = 0;
+    this.editable = false;
     this._pageNumber = 1;
     this._routesFrom = new Date();
   }
@@ -239,7 +241,7 @@ export class ShiftCalendar extends LitElement {
       routeElement.setAttribute("date", route.start);
       routeElement.setAttribute("shifts", JSON.stringify(route.shifts));
       routeElement.setAttribute("color", route.color);
-      routeElement.setAttribute("editable", true);
+      routeElement.setAttribute("editable", this.editable);
     }
     this._rotationAnimation.pause();
     this._loadingCircle.style.visibility = "hidden";

@@ -8,7 +8,7 @@ use App\AdjustShiftPage;
 use App\AdjustShiftTypePage;
 use App\Api\CalendarGet;
 use App\Api\RouteGet;
-use App\Api\MeQuery;
+use App\Api\MeGet;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
 use App\Api\RouteDelete;
@@ -48,7 +48,6 @@ use App\SystemHistoryPage;
 use App\UpdatePage;
 use App\UploadFilePage;
 use App\UserDetailsPage;
-use App\UserSession;
 use PhpPages\App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
@@ -118,6 +117,10 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       if ($this->httpMethod === 'GET') {
+        if ('/api/me' === $value) {
+          return new MeGet($this->session);
+        }
+
         if (preg_match('|^/api/shifts/([0-9]+)/applications$|', $value, $matches) === 1) {
           return new ShiftApplicationsGet(
             new ShiftSlotsSqlite($this->pdo),
@@ -176,11 +179,6 @@ require __DIR__ . '/../vendor/autoload.php';
             new PublishersSqlite($this->pdo),
             (int)$matches[1]
           );
-        }
-
-        switch ($value) {
-          case '/api/me':
-            return new MeQuery(new UserSession($this->session));
         }
       }
 
