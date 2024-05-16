@@ -1,9 +1,10 @@
 import { css, LitElement, html } from "../lit-all.min.js";
 import { translate } from "../translate.js";
+import "./shift/shift-application-dialog.js";
+import "./shift/shift-contact-dialog.js";
 import "./shift/shift-route.js";
 import "./shift/shift-route-dialog.js";
-import "./shift/shift-contact-dialog.js";
-import "./shift/shift-application-dialog.js";
+import "./shift/shift-route-filter.js";
 
 /**
  * @typedef {Object} Route
@@ -68,6 +69,7 @@ export class ShiftCalendar extends LitElement {
       this._handleOpenShiftRouteDialog
     );
     this.addEventListener("update-calendar", this._handleUpdateCalendar);
+    this.addEventListener("filter-routes", this._handlerFilterRoutes);
     window.addEventListener("scroll", this._handleInfiniteScroll.bind(this));
   }
 
@@ -143,6 +145,17 @@ export class ShiftCalendar extends LitElement {
   }
 
   /**
+   * @param {Event} event
+   * @returns {void}
+   */
+  _handlerFilterRoutes(event) {
+    this._routesFrom = event.detail.dateFrom;
+    const routesSection = this.renderRoot.getElementById("routes");
+    routesSection.replaceChildren();
+    this._loadNextRoutes(1);
+  }
+
+  /**
    * @param {PointerEvent} event
    * @returns {void}
    */
@@ -157,17 +170,6 @@ export class ShiftCalendar extends LitElement {
         },
       })
     );
-  }
-
-  /**
-   * @param {Event} event
-   * @returns {void}
-   */
-  _onChangeRoutesFrom(event) {
-    this._routesFrom = new Date(event.target.value);
-    const routesSection = this.renderRoot.getElementById("routes");
-    routesSection.replaceChildren();
-    this._loadNextRoutes(1);
   }
 
   /**
@@ -268,14 +270,7 @@ export class ShiftCalendar extends LitElement {
         title="${translate("Shift Route")}"
         calendarId="${this.calendarId}"
       ></shift-route-dialog>
-      <label for="routes-from">${translate("Routes from")}:</label>
-      <input
-        type="date"
-        name="routes-from"
-        id="routes-from"
-        value="${this._routesFrom.toISOString().split("T")[0]}"
-        @change="${this._onChangeRoutesFrom}"
-      />
+      <shift-route-filter></shift-route-filter>
 
       <section id="routes"></section>
       <section id="loading">

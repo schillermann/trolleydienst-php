@@ -58,9 +58,8 @@ export class ShiftApplicationDialog extends ViewDialog {
     }
 
     this.dispatchEvent(
-      new CustomEvent("update-calendar", {
+      new Event("update-calendar", {
         bubbles: true,
-        cancelable: false,
         composed: true,
       })
     );

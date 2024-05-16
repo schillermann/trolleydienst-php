@@ -79,7 +79,6 @@ export class ShiftRouteDialog extends ViewDialog {
       this.dispatchEvent(
         new Event("update-calendar", {
           bubbles: true,
-          cancelable: false,
           composed: true,
         })
       );
@@ -134,7 +133,6 @@ export class ShiftRouteDialog extends ViewDialog {
     this.dispatchEvent(
       new Event("update-calendar", {
         bubbles: true,
-        cancelable: false,
         composed: true,
       })
     );
@@ -157,7 +155,6 @@ export class ShiftRouteDialog extends ViewDialog {
       this.dispatchEvent(
         new CustomEvent("update-calendar", {
           bubbles: true,
-          cancelable: false,
           composed: true,
           detail: {
             deleteRouteId: this.routeId,
