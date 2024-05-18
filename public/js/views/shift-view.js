@@ -41,7 +41,7 @@ export class ShiftView extends LitElement {
 
   render() {
     return html`<view-header>Trolley Schichten</view-header>
-      <shift-info-box></shift-info-box>
+      <shift-info-box calendarid="${this.calendarId}"></shift-info-box>
       ${until(
         fetch("/api/me")
           .then((response) => response.json())

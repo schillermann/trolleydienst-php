@@ -35,12 +35,11 @@ export class ViewButton extends LitElement {
     }
 
     .primary {
-      color: var(--td-background-secondary);
       background-color: var(--td-primar);
     }
 
     .active {
-      color: var(--td-text-primary);
+      color: #000;
       background-color: var(--td-success);
     }
 

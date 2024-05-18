@@ -45,7 +45,6 @@ $active_page = include '../templates/helpers/active_page.php';
                 --td-text-primary: #bfbfbf;
                 --td-primar: #1f1f1f;
                 --td-secondary: #404040;
-                --td-text-primary: #aaaaaa;
                 --td-background: #2e2e2e;
                 --td-background-secondary: #404040;
                 --td-background-element: #2e2e2e;

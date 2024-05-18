@@ -28,6 +28,10 @@ export class ShiftCalendar extends LitElement {
   static styles = css`
     nav {
       margin: 20px 0px 20px 0px;
+
+      shift-route-filter {
+        float: right;
+      }
     }
 
     section#loading {
@@ -265,11 +269,13 @@ export class ShiftCalendar extends LitElement {
    * @returns {string}
    */
   render() {
-    return html`<nav>
+    return html`<link rel="stylesheet" href="css/fontawesome.min.css" />
+      <nav>
         <view-button type="primary flex" @click="${this._onClickNewShift}">
           <i class="fa-solid fa-plus"></i>
           ${translate("New Shift")}
         </view-button>
+        <shift-route-filter></shift-route-filter>
       </nav>
       <shift-application-dialog
         title="${translate("Shift Application")}"
@@ -284,7 +290,6 @@ export class ShiftCalendar extends LitElement {
         title="${translate("Shift Route")}"
         calendarId="${this.calendarId}"
       ></shift-route-dialog>
-      <shift-route-filter></shift-route-filter>
 
       <section id="routes"></section>
       <section id="loading">
