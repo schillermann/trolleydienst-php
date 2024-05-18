@@ -42,12 +42,14 @@ export class ShiftCalendar extends LitElement {
 
   static properties = {
     calendarId: { type: Number },
+    publisherId: { type: Number },
     editable: { type: Boolean },
   };
 
   constructor() {
     super();
     this.calendarId = 0;
+    this.publisherId = 0;
     this.editable = false;
     this._pageNumber = 1;
     this._routesFrom = new Date();
@@ -59,7 +61,7 @@ export class ShiftCalendar extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener(
-      "open-publisher-contact-dialog",
+      "open-shift-contact-dialog",
       this._handleOpenPublisherContactDialog
     );
     this.addEventListener(
@@ -132,6 +134,7 @@ export class ShiftCalendar extends LitElement {
     dialog.setAttribute("open", "true");
     dialog.setAttribute("routeId", event.detail.routeId);
     dialog.setAttribute("shiftNumber", event.detail.shiftNumber);
+    dialog.setAttribute("publisherId", this.publisherId);
   }
 
   /**
@@ -241,7 +244,7 @@ export class ShiftCalendar extends LitElement {
       }
       routeElement.setAttribute("calendarId", this.calendarId);
       routeElement.setAttribute("routeId", route.id);
-      routeElement.setAttribute("currentPublisherId", 1);
+      routeElement.setAttribute("publisherId", this.publisherId);
       routeElement.setAttribute("routeName", route.routeName);
       routeElement.setAttribute("date", route.start);
       routeElement.setAttribute("shifts", JSON.stringify(route.shifts));
@@ -271,7 +274,6 @@ export class ShiftCalendar extends LitElement {
       <shift-application-dialog
         title="${translate("Shift Application")}"
         calendarId="${this.calendarId}"
-        publisherid="1"
       ></shift-application-dialog>
       <shift-contact-dialog
         title="${translate("Publisher Contact")}"

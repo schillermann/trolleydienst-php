@@ -18,7 +18,7 @@ import "../view-button.js";
 
 export class ShiftRoute extends LitElement {
   static properties = {
-    currentPublisherId: { type: Number },
+    publisherId: { type: Number },
     routeName: { type: String },
     calendarId: { type: Number },
     routeId: { type: Number },
@@ -71,7 +71,7 @@ export class ShiftRoute extends LitElement {
 
   constructor() {
     super();
-    this.currentPublisherId = 0;
+    this.publisherId = 0;
     this.routeName = "";
     this.calendarId = 0;
     this.routeId = 0;
@@ -88,7 +88,7 @@ export class ShiftRoute extends LitElement {
    */
   _clickPublisher(event) {
     this.dispatchEvent(
-      new CustomEvent("open-publisher-contact-dialog", {
+      new CustomEvent("open-shift-contact-dialog", {
         bubbles: true,
         composed: true,
         detail: {
@@ -181,12 +181,13 @@ export class ShiftRoute extends LitElement {
                 <td>${shift.from} - ${shift.to}</td>
                 <td>
                   ${shift.slots.map((slot) => {
-                    if (slot.publisherId === this.currentPublisherId) {
+                    if (slot.publisherId === this.publisherId) {
                       return html`<view-button
+                        test="publisher"
                         route-id="${this.routeId}"
                         shift-number="${shiftNumber}"
                         publisher-id="${slot.publisherId}"
-                        editable="${this.editable || nothing}"
+                        editable="true"
                         type="active"
                         @click="${this._clickPublisher}"
                       >
@@ -200,6 +201,7 @@ export class ShiftRoute extends LitElement {
                           route-id="${this.routeId}"
                           shift-number="${shiftNumber}"
                           publisher-id="${slot.publisherId}"
+                          editable="${this.editable || nothing}"
                           type="active"
                           @click="${this._clickPublisher}"
                         >
