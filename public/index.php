@@ -104,6 +104,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)/shifts/([0-9]+)/slots$|', $value, $matches) === 1) {
           return new SlotsPost(
+            $this->session,
             new SlotsSqlite($this->pdo),
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             new PublishersSqlite($this->pdo),

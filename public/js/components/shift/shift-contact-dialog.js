@@ -83,7 +83,7 @@ export class ShiftContactDialog extends ViewDialog {
       publisher.then(
         (p) => html`<p>
             ${this._isError
-              ? translate("Shift entry could not be deleted")
+              ? translate("Shift entry could not be deleted.")
               : ""}
           </p>
           <h3>${p.firstname} ${p.lastname}</h3>

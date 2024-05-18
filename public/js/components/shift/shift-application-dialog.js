@@ -50,11 +50,17 @@ export class ShiftApplicationDialog extends ViewDialog {
       });
 
       if (response.status === 409) {
-        this._errorMessage = translate("You have already applied");
-      } else {
-        this._errorMessage = translate("Application could not be saved");
+        this._errorMessage = translate("You have already applied.");
+        return;
       }
-      return;
+
+      if (response.status === 401) {
+        this._errorMessage = translate(
+          "You are not authorized to submit the application."
+        );
+        return;
+      }
+      this._errorMessage = translate("Application could not be saved.");
     }
 
     this.dispatchEvent(

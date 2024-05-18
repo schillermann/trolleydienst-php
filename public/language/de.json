@@ -1,5 +1,5 @@
 {
-  "Application could not be saved": "Bewerbung konnte nicht gespeichert werden",
+  "Application could not be saved.": "Bewerbung konnte nicht gespeichert werden.",
   "Apply": "Bewerben",
   "Close": "Schließen",
   "Color": "Farbe",
@@ -21,11 +21,12 @@
   "Shift Application": "Schicht Bewerbung",
   "Shift Route": "Schicht Route",
   "To": "Bis",
-  "You have already applied": "Du hast dich bereits beworben",
-  "Route change could not be saved": "Routen Änderung konnte nicht gespeichert werden",
-  "Route could not be created": "Route konnte nicht erstellt werden",
-  "Route could not be deleted": "Route konnte nicht geloescht werden",
-  "Shift entry could not be deleted": "Schichteintrag konnte nicht gelöscht werden",
+  "You are not authorized to submit the application.": "Du bist nicht berechtigt die Bewerbung abzugeben.",
+  "You have already applied.": "Du hast dich bereits beworben.",
+  "Route change could not be saved.": "Routen Änderung konnte nicht gespeichert werden.",
+  "Route could not be created.": "Route konnte nicht erstellt werden.",
+  "Route could not be deleted.": "Route konnte nicht geloescht werden.",
+  "Shift entry could not be deleted.": "Schichteintrag konnte nicht gelöscht werden.",
   "Routes from": "Routen ab",
   "Shift series until": "Schicht Serie bis"
 }

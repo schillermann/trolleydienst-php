@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "../../lit-all.min.js";
+import { LitElement, css, html, nothing } from "../../lit-all.min.js";
 import { translate } from "../../translate.js";
 import "../view-button.js";
 
@@ -186,7 +186,7 @@ export class ShiftRoute extends LitElement {
                         route-id="${this.routeId}"
                         shift-number="${shiftNumber}"
                         publisher-id="${slot.publisherId}"
-                        editable="true"
+                        editable="${this.editable || nothing}"
                         type="active"
                         @click="${this._clickPublisher}"
                       >
@@ -200,7 +200,6 @@ export class ShiftRoute extends LitElement {
                           route-id="${this.routeId}"
                           shift-number="${shiftNumber}"
                           publisher-id="${slot.publisherId}"
-                          editable="false"
                           type="active"
                           @click="${this._clickPublisher}"
                         >

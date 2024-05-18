@@ -7,9 +7,11 @@ use App\Database\PublishersSqlite;
 use App\Database\RoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
+use PhpPages\SessionInterface;
 
 class SlotsPost implements PageInterface
 {
+  private SessionInterface $session;
   private SlotsSqlite $slots;
   private RoutesSqlite $routes;
   private PublishersSqlite $publishers;
@@ -18,6 +20,7 @@ class SlotsPost implements PageInterface
   private int $publisherId;
 
   public function __construct(
+    SessionInterface $session,
     SlotsSqlite $slots,
     RoutesSqlite $routes,
     PublishersSqlite $publishers,
@@ -25,6 +28,7 @@ class SlotsPost implements PageInterface
     int $shiftNumber,
     int $publisherId = 0
   ) {
+    $this->session = $session;
     $this->slots = $slots;
     $this->routes = $routes;
     $this->publishers = $publishers;
@@ -35,12 +39,22 @@ class SlotsPost implements PageInterface
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
+    if (
+      !$this->session->param('administrative') &&
+      $this->session->param('id_user') != $this->publisherId
+    ) {
+      return $output->withMetadata(
+        PageInterface::STATUS,
+        PageInterface::STATUS_401_UNAUTHORIZED
+      );
+    }
+
     $route = $this->routes->route($this->routeId);
 
     if ($route->id() === 0 || $route->numberOfShifts() < $this->shiftNumber) {
       return $output->withMetadata(
         PageInterface::STATUS,
-        'HTTP/1.1 404 Not Found'
+        PageInterface::STATUS_404_NOT_FOUND
       );
     }
 
@@ -48,7 +62,7 @@ class SlotsPost implements PageInterface
     if ($publisher->id() === 0) {
       return $output->withMetadata(
         PageInterface::STATUS,
-        'HTTP/1.1 404 Not Found'
+        PageInterface::STATUS_404_NOT_FOUND
       );
     }
     $slots = $this->slots->slots(
@@ -59,7 +73,7 @@ class SlotsPost implements PageInterface
       if ($slot->publisherId() === $this->publisherId) {
         return $output->withMetadata(
           PageInterface::STATUS,
-          'HTTP/1.1 409 Conflict'
+          PageInterface::STATUS_409_CONFLICT
         );
       }
     }
@@ -71,7 +85,7 @@ class SlotsPost implements PageInterface
 
     return $output->withMetadata(
       PageInterface::STATUS,
-      'HTTP/1.1 201 Created'
+      PageInterface::STATUS_201_CREATED
     );
   }
 
@@ -83,6 +97,7 @@ class SlotsPost implements PageInterface
 
     $body = json_decode($value, true, 2);
     return new self(
+      $this->session,
       $this->slots,
       $this->routes,
       $this->publishers,

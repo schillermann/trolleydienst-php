@@ -90,7 +90,7 @@ export class ShiftRouteDialog extends ViewDialog {
       statusCode: response.status,
       statusText: response.statusText,
     });
-    this._errorMessage = translate("Route change could not be saved");
+    this._errorMessage = translate("Route change could not be saved.");
   }
 
   /**
@@ -125,7 +125,7 @@ export class ShiftRouteDialog extends ViewDialog {
           statusCode: response.status,
           statusText: response.statusText,
         });
-        this._errorMessage = translate("Route could not be created");
+        this._errorMessage = translate("Route could not be created.");
         return;
       }
     } while (start.setDate(start.getDate() + 7) <= shiftSeriesUntil.getTime());
@@ -170,7 +170,7 @@ export class ShiftRouteDialog extends ViewDialog {
       statusCode: response.status,
       statusText: response.statusText,
     });
-    this._errorMessage = translate("Route could not be deleted");
+    this._errorMessage = translate("Route could not be deleted.");
   }
 
   /**

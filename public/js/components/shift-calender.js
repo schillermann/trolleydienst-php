@@ -142,7 +142,12 @@ export class ShiftCalendar extends LitElement {
     /** @type {Element} */
     const dialog = this.renderRoot.querySelector("shift-route-dialog");
     dialog.setAttribute("open", "true");
-    dialog.setAttribute("editable", event.detail.editable);
+    if (event.detail.editable) {
+      dialog.setAttribute("editable", true);
+    } else {
+      dialog.removeAttribute("editable");
+    }
+
     dialog.setAttribute("routeId", event.detail.routeId);
   }
 
@@ -168,7 +173,7 @@ export class ShiftCalendar extends LitElement {
         composed: true,
         detail: {
           routeId: 0,
-          editable: false,
+          editable: this.editable,
         },
       })
     );
@@ -241,7 +246,11 @@ export class ShiftCalendar extends LitElement {
       routeElement.setAttribute("date", route.start);
       routeElement.setAttribute("shifts", JSON.stringify(route.shifts));
       routeElement.setAttribute("color", route.color);
-      routeElement.setAttribute("editable", this.editable);
+      if (this.editable) {
+        routeElement.setAttribute("editable", true);
+      } else {
+        routeElement.removeAttribute("editable");
+      }
     }
     this._rotationAnimation.pause();
     this._loadingCircle.style.visibility = "hidden";
