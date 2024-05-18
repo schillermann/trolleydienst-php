@@ -1,4 +1,4 @@
-import { css, LitElement, html } from "../lit-all.min.js";
+import { css, LitElement, html, nothing } from "../lit-all.min.js";
 import { translate } from "../translate.js";
 import "./shift/shift-application-dialog.js";
 import "./shift/shift-contact-dialog.js";
@@ -274,6 +274,7 @@ export class ShiftCalendar extends LitElement {
       <shift-application-dialog
         title="${translate("Shift Application")}"
         calendarId="${this.calendarId}"
+        selectable="${this.editable || nothing}"
       ></shift-application-dialog>
       <shift-contact-dialog
         title="${translate("Publisher Contact")}"

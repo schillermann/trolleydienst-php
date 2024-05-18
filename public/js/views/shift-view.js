@@ -1,4 +1,5 @@
 import { LitElement, html, until, nothing } from "../lit-all.min.js";
+import { translate } from "../translate.js";
 import "../components/view-header.js";
 import "../components/shift/shift-info-box.js";
 import "../components/shift-calender.js";
@@ -55,7 +56,7 @@ export class ShiftView extends LitElement {
               publisherid="${publisher.id}"
             ></shift-calendar>`
           ),
-        html`<span>Loading...</span>`
+        html`<span>${translate("Loading")}...</span>`
       )}`;
   }
 }

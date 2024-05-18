@@ -81,7 +81,7 @@ $active_page = include '../templates/helpers/active_page.php';
             <div id="site-header" class="wrapper-center">
                 <h1 id="site-name"><?= APPLICATION_NAME ?> <span><?= CONGREGATION_NAME ?></span></h1>
                 <?php if (!empty($_SESSION)) : ?>
-                    <div class="menu-button" onclick="toggel()">
+                    <div class="menu-button" onclick="toggle()">
                         <i class="fa fa-bars" aria-hidden="true"></i>
                     </div>
                 <?php endif; ?>
@@ -116,7 +116,7 @@ $active_page = include '../templates/helpers/active_page.php';
                             <i class="fa fa-user"></i> <?= __('Profile') ?>
                         </a>
                     </li>
-                    <?php if ($_SESSION['is_admin']) : ?>
+                    <?php if ($_SESSION['administrative']) : ?>
                         <li>
                             <a href="shift-type" class="<?= $active_page('shift-type', 'add-shift-type', 'adjust-shift-type'); ?>">
                                 <i class="fa fa-calendar"></i> <?= __('Shift Type') ?>
@@ -165,7 +165,7 @@ $active_page = include '../templates/helpers/active_page.php';
 <script type="text/javascript">
     window.litDisableBundleWarning = true
 
-    function toggel() {
+    function toggle() {
         document.getElementById('nav-main').classList.toggle('hidden');
     }
 </script>

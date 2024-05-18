@@ -6,8 +6,13 @@ export class ShiftApplicationDialog extends ViewDialog {
   static properties = {
     routeId: { type: Number },
     shiftNumber: { type: Number },
-    publisherId: { type: Number },
-    publisherSelection: { type: Boolean },
+    publisherId: {
+      type: Number,
+      hasChanged(newVal, oldVal) {
+        return false;
+      },
+    },
+    selectable: { type: Boolean },
   };
 
   static styles = [
@@ -29,7 +34,14 @@ export class ShiftApplicationDialog extends ViewDialog {
     this.routeId = 0;
     this.shiftNumber = 0;
     this.publisherId = 0;
-    this.publisherSelection = false;
+    this.selectable = false;
+  }
+
+  /**
+   * @param {Event} event
+   */
+  _changePublisher(event) {
+    this.publisherId = event.target.value;
   }
 
   async _clickApply(event) {
@@ -76,13 +88,13 @@ export class ShiftApplicationDialog extends ViewDialog {
    * @returns {string}
    */
   selectTemplate() {
-    if (!this.publisherSelection) {
+    if (!this.selectable) {
       return "";
     }
-    const publishers = fetch(`/api/publishers.json?active=true`).then(
-      (response) => response.json()
+    const publishers = fetch(`/api/publishers?active=true`).then((response) =>
+      response.json()
     );
-    return html`<select>
+    return html`<select @change="${this._changePublisher}">
       ${until(
         publishers.then((publishers) =>
           publishers.map((publisher) => {

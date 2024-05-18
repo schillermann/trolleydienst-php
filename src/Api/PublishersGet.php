@@ -96,7 +96,7 @@ class PublishersGet implements PageInterface
 
       return new self(
         $this->publishers,
-        (bool)$query->param('state'),
+        (bool)$query->param('active'),
         (int)$query->paramWithDefault('page-number', '1'),
         (int)$query->paramWithDefault('page-items', '10'),
       );
