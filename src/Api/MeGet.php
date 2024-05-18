@@ -16,12 +16,6 @@ class MeGet implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        if ((int)$this->session->param('id_user') === 0) {
-            return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_401_UNAUTHORIZED
-            );
-        }
         return $output
             ->withMetadata(
                 'Content-Type',

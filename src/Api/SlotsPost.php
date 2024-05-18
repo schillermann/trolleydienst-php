@@ -45,7 +45,7 @@ class SlotsPost implements PageInterface
     ) {
       return $output->withMetadata(
         PageInterface::STATUS,
-        PageInterface::STATUS_401_UNAUTHORIZED
+        PageInterface::STATUS_403_FORBIDDEN
       );
     }
 

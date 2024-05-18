@@ -77,6 +77,13 @@ require __DIR__ . '/../vendor/autoload.php';
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
+      if (!$this->session->param('id_user')) {
+        return $output->withMetadata(
+          PageInterface::STATUS,
+          PageInterface::STATUS_401_UNAUTHORIZED
+        );
+      }
+
       include('../config.php');
       return $output->withMetadata(
         PageInterface::STATUS,
@@ -95,6 +102,10 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       $this->session->start();
+
+      if (!$this->session->param('id_user') && $value != '/') {
+        return $this;
+      }
 
       if ($this->httpMethod === 'POST') {
         if (preg_match('|^/api/calendars/([0-9]+)/shifts$|', $value, $matches) === 1) {
