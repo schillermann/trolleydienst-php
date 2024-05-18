@@ -1,10 +1,10 @@
-import { css, LitElement, html, nothing } from "../lit-all.min.js";
-import { translate } from "../translate.js";
-import "./shift/shift-application-dialog.js";
-import "./shift/shift-contact-dialog.js";
-import "./shift/shift-route.js";
-import "./shift/shift-route-dialog.js";
-import "./shift/shift-route-filter.js";
+import { css, LitElement, html, nothing } from "../../lit-all.min.js";
+import { translate } from "../../translate.js";
+import "./shift-application-dialog.js";
+import "./shift-contact-dialog.js";
+import "./shift-route.js";
+import "./shift-route-dialog.js";
+import "./shift-route-filter.js";
 
 /**
  * @typedef {Object} Route

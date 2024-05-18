@@ -2,7 +2,7 @@ import { LitElement, html, until, nothing } from "../lit-all.min.js";
 import { translate } from "../translate.js";
 import "../components/view-header.js";
 import "../components/shift/shift-info-box.js";
-import "../components/shift-calender.js";
+import "../components/shift/shift-calender.js";
 
 /**
  * @typedef {Object} Publisher
