@@ -195,6 +195,7 @@ require __DIR__ . '/../vendor/autoload.php';
       if ($this->httpMethod === 'DELETE') {
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)/shifts/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
           return new SlotDelete(
+            $this->session,
             new SlotsSqlite($this->pdo),
             (int)$matches[2],
             (int)$matches[3],
