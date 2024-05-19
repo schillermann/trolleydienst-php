@@ -66,12 +66,14 @@ require __DIR__ . '/../vendor/autoload.php';
     private \PDO $pdo;
     private SessionInterface $session;
 
-    public function __construct(string $httpMethod = '')
+    public function __construct(string $httpMethod = '', bool $authenticated = false)
     {
       $this->httpMethod = $httpMethod;
 
-      $this->pdo = new \PDO('sqlite:./../database.sqlite');
-      $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+      if (file_exists('./../database.sqlite')) {
+        $this->pdo = new \PDO('sqlite:./../database.sqlite');
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+      }
 
       $this->session = new NativeSession();
     }
@@ -104,8 +106,67 @@ require __DIR__ . '/../vendor/autoload.php';
 
       $this->session->start();
 
+      switch ($value) {
+        case '/':
+          return new LoginPage();
+        case '/shift':
+          return new ShiftPage();
+        case '/add-shift':
+          return new AddShiftPage();
+        case '/edit-shift':
+          return new EditShiftPage();
+        case '/user-details':
+          return new UserDetailsPage();
+        case '/report':
+          return new ReportPage();
+        case '/submit-report':
+          return new SubmitReportPage();
+        case '/publisher-profile':
+          return new PublisherProfilePage();
+        case '/change-publisher-password':
+          return new ChangePublisherPassword();
+        case '/publishers':
+          return new PublishersPage();
+        case '/add-publisher':
+          return new AddPublisherPage();
+        case '/edit-publisher':
+          return new EditPublisherPage();
+        case '/newsletter':
+          return new NewsletterPage();
+        case '/info':
+          return new InfoPage();
+        case '/upload-file':
+          return new UploadFilePage();
+        case '/file-view':
+          return new FileViewPage();
+        case '/edit-file':
+          return new EditFilePage();
+        case '/reset-password':
+          return new ResetPasswordPage();
+        case '/shift-type':
+          return new ShiftTypePage();
+        case '/edit-shift-type':
+          return new EditShiftTypePage();
+        case '/add-shift-type':
+          return new AddShiftTypePage();
+        case '/shift-history':
+          return new ShiftHistoryPage();
+        case '/login-history':
+          return new LoginHistoryPage();
+        case '/system-history':
+          return new SystemHistoryPage();
+        case '/email-settings':
+          return new EmailSettingsPage();
+        case '/email-templates':
+          return new EmailTemplatesPage();
+        case '/update':
+          return new UpdatePage();
+        case '/install':
+          return new InstallPage();
+      }
+
       if (!$this->session->param('id_user') && $value != '/') {
-        return $this;
+        return new self($this->httpMethod, true);
       }
 
       if ($this->httpMethod === 'POST') {
@@ -220,65 +281,6 @@ require __DIR__ . '/../vendor/autoload.php';
             (int)$matches[2]
           );
         }
-      }
-
-      switch ($value) {
-        case '/':
-          return new LoginPage();
-        case '/shift':
-          return new ShiftPage();
-        case '/add-shift':
-          return new AddShiftPage();
-        case '/edit-shift':
-          return new EditShiftPage();
-        case '/user-details':
-          return new UserDetailsPage();
-        case '/report':
-          return new ReportPage();
-        case '/submit-report':
-          return new SubmitReportPage();
-        case '/publisher-profile':
-          return new PublisherProfilePage();
-        case '/change-publisher-password':
-          return new ChangePublisherPassword();
-        case '/publishers':
-          return new PublishersPage();
-        case '/add-publisher':
-          return new AddPublisherPage();
-        case '/edit-publisher':
-          return new EditPublisherPage();
-        case '/newsletter':
-          return new NewsletterPage();
-        case '/info':
-          return new InfoPage();
-        case '/upload-file':
-          return new UploadFilePage();
-        case '/file-view':
-          return new FileViewPage();
-        case '/edit-file':
-          return new EditFilePage();
-        case '/reset-password':
-          return new ResetPasswordPage();
-        case '/shift-type':
-          return new ShiftTypePage();
-        case '/edit-shift-type':
-          return new EditShiftTypePage();
-        case '/add-shift-type':
-          return new AddShiftTypePage();
-        case '/shift-history':
-          return new ShiftHistoryPage();
-        case '/login-history':
-          return new LoginHistoryPage();
-        case '/system-history':
-          return new SystemHistoryPage();
-        case '/email-settings':
-          return new EmailSettingsPage();
-        case '/email-templates':
-          return new EmailTemplatesPage();
-        case '/update':
-          return new UpdatePage();
-        case '/install':
-          return new InstallPage();
       }
 
       return $this;
