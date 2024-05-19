@@ -39,7 +39,7 @@
             </div>
             <div>
                 <label for="color_hex"><?= __('Colour') ?></label>
-                <input id="color_hex" type="color" name="color_hex" maxlength="5" required value="<?= $placeholder['color_hex'];?>">
+                <input class="coloris" id="color_hex" oninput="(this.style.backgroundColor=this.value)" style="background-color: <?= $placeholder['color_hex']; ?>;" type="text" name="color_hex" maxlength="5" required value="<?= $placeholder['color_hex']; ?>">
             </div>
         </fieldset>
         <div class="from-button">

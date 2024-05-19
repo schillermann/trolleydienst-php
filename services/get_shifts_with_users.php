@@ -1,5 +1,5 @@
-<?php return function (\PDO $connection, int $id_shift_type,bool $between = false, string $from = '', string $to = ''): array {
-    
+<?php return function (\PDO $connection, int $id_shift_type, bool $between = false, string $from = '', string $to = ''): array {
+
     $get_users_from_shift = include '../services/get_users_from_shift.php';
     $shift_day_list = array();
     foreach (App\Tables\Shifts::select_all($connection, $id_shift_type, $between, $from, $to) as $shift_day) {
@@ -9,7 +9,7 @@
         $id_shift = $shift_day['id_shift'];
 
         $shift_day_list[$id_shift] = [
-            'date' => $shift_datetime_from->format(__('d/m/Y')),
+            'date' => $shift_datetime_from->format(__('d-m-Y')),
             'day' => $get_weekday($shift_datetime_from),
             'route' => $shift_day['route'],
             'color_hex' => $shift_day['color_hex'],
@@ -22,7 +22,7 @@
             $shift_time_to = date_modify($shift_datetime_from, '+' . (int)$shift_day['minutes_per_shift'] . ' minutes');
             $shift_time = $shift_time_from . ' - ' . $shift_time_to->format('H:i');
 
-            $shift_day_list[$id_shift]['shifts'][$shift_time] = (isset($user_list[$shift_position]))? $user_list[$shift_position] : [];
+            $shift_day_list[$id_shift]['shifts'][$shift_time] = (isset($user_list[$shift_position])) ? $user_list[$shift_position] : [];
         }
     }
 

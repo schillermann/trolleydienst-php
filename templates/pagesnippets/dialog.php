@@ -15,7 +15,7 @@
                 <p><?= __('Show contact from');
                     echo (' ') ?>
                     <span>
-                        <a href="./user-details.php?id_shift_type=<?= (int)$_GET['id_shift_type']; ?>&id_user=<?= $id_user ?>&id_shift=<?= $id_shift ?>"><?= $name ?></a><i class="fa fa-external-link"></i></span>
+                        <a href="./user-details?id_shift_type=<?= (int)$_GET['id_shift_type']; ?>&id_user=<?= $id_user ?>&id_shift=<?= $id_shift ?>"><?= $name ?></a><i class="fa fa-external-link"></i></span>
                 </p>
             </div>
         <?php endif ?>

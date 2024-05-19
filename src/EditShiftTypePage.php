@@ -5,7 +5,7 @@ namespace App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class AdjustShiftTypePage implements PageInterface
+class EditShiftTypePage implements PageInterface
 {
     public function viaOutput(OutputInterface $output): OutputInterface
     {

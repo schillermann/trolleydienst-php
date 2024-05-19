@@ -3,9 +3,7 @@
 use App\AddPublisherPage;
 use App\AddShiftPage;
 use App\AddShiftTypePage;
-use App\AdjustPublisherPage;
 use App\AdjustShiftPage;
-use App\AdjustShiftTypePage;
 use App\Api\CalendarGet;
 use App\Api\RouteGet;
 use App\Api\MeGet;
@@ -28,6 +26,9 @@ use App\Database\PublishersSqlite;
 use App\Database\ShiftSlotsSqlite;
 use App\Database\SlotsSqlite;
 use App\EditFilePage;
+use App\EditPublisherPage;
+use App\EditShiftPage;
+use App\EditShiftTypePage;
 use App\EmailSettingsPage;
 use App\EmailTemplatesPage;
 use App\FileViewPage;
@@ -228,8 +229,8 @@ require __DIR__ . '/../vendor/autoload.php';
           return new ShiftPage();
         case '/add-shift':
           return new AddShiftPage();
-        case '/adjust-shift':
-          return new AdjustShiftPage();
+        case '/edit-shift':
+          return new EditShiftPage();
         case '/user-details':
           return new UserDetailsPage();
         case '/report':
@@ -244,8 +245,8 @@ require __DIR__ . '/../vendor/autoload.php';
           return new PublishersPage();
         case '/add-publisher':
           return new AddPublisherPage();
-        case '/adjust-publisher':
-          return new AdjustPublisherPage();
+        case '/edit-publisher':
+          return new EditPublisherPage();
         case '/newsletter':
           return new NewsletterPage();
         case '/info':
@@ -260,8 +261,8 @@ require __DIR__ . '/../vendor/autoload.php';
           return new ResetPasswordPage();
         case '/shift-type':
           return new ShiftTypePage();
-        case '/adjust-shift-type':
-          return new AdjustShiftTypePage();
+        case '/edit-shift-type':
+          return new EditShiftTypePage();
         case '/add-shift-type':
           return new AddShiftTypePage();
         case '/shift-history':

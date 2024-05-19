@@ -62,7 +62,7 @@
             </div>
             <div>
                 <label for="color_hex"><?= __('Colour') ?></label>
-                <input id="color_hex" type="color" name="color_hex" value="#d5c8e4" maxlength="7" required>
+                <input class="coloris" oninput="(this.style.backgroundColor=this.value)" style="background-color: #d5c8e4" id="color_hex" type="text" name="color_hex" value="#d5c8e4" maxlength="7" required>
             </div>
         </fieldset>
         <div class="from-button">
