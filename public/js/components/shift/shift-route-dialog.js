@@ -215,11 +215,12 @@ export class ShiftRouteDialog extends ViewDialog {
         )
       : Promise.resolve().then(() => {
           const start = new Date();
+          start.setHours(8);
           start.setSeconds(0);
           start.setMinutes(0);
           return {
             routeName: "",
-            start: start.toLocaleString(),
+            start: start.toString(),
             numberOfShifts: 1,
             minutesPerShift: 60,
             color: "#604A7B",
@@ -241,10 +242,10 @@ export class ShiftRouteDialog extends ViewDialog {
             <link rel="stylesheet" href="css/fontawesome.min.css" />
             <p>${this._errorMessage}</p>
             <form
-              @submit=${async (e) =>
+              @submit=${(event) =>
                 this.routeId
-                  ? await this._editRoute(e)
-                  : await this._createRoute(e)}
+                  ? this._editRoute(event)
+                  : this._createRoute(event)}
             >
               <dl>
                 <dt>
