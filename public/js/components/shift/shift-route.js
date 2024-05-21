@@ -92,10 +92,10 @@ export class ShiftRoute extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          routeId: event.target.getAttribute("route-id"),
-          shiftNumber: event.target.getAttribute("shift-number"),
-          publisherId: event.target.getAttribute("publisher-id"),
-          editable: event.target.getAttribute("editable"),
+          routeId: event.currentTarget.getAttribute("route-id"),
+          shiftNumber: event.currentTarget.getAttribute("shift-number"),
+          publisherId: event.currentTarget.getAttribute("publisher-id"),
+          editable: event.currentTarget.getAttribute("editable"),
         },
       })
     );
@@ -111,9 +111,8 @@ export class ShiftRoute extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          routeId: event.target.getAttribute("route-id"),
-          shiftNumber: event.target.getAttribute("shift-number"),
-          publisherSelection: event.target.getAttribute("publisherSelection"),
+          routeId: event.currentTarget.getAttribute("route-id"),
+          shiftNumber: event.currentTarget.getAttribute("shift-number"),
         },
       })
     );
@@ -129,7 +128,7 @@ export class ShiftRoute extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          routeId: event.target.getAttribute("routeId"),
+          routeId: event.currentTarget.getAttribute("routeId"),
         },
       })
     );
@@ -138,7 +137,7 @@ export class ShiftRoute extends LitElement {
   /**
    * @returns {string}
    */
-  buttonTemplate() {
+  _footerTemplate() {
     if (this.editable) {
       return html`<view-button
         type="flex"
@@ -151,6 +150,26 @@ export class ShiftRoute extends LitElement {
       </view-button>`;
     }
     return "";
+  }
+
+  /**
+   * @param {number} shiftNumber
+   * @returns
+   */
+  _extraPublisher(shiftNumber) {
+    if (!this.editable) {
+      return "";
+    }
+    return html`<view-button
+      route-id="${this.routeId}"
+      shift-number="${shiftNumber}"
+      type="active flex"
+      style="float: right"
+      tooltip="${translate("Add more publishers")}"
+      @click="${this._clickApply}"
+    >
+      <i class="fa fa-user-plus"></i>
+    </view-button>`;
   }
 
   /**
@@ -219,6 +238,7 @@ export class ShiftRoute extends LitElement {
                       ${translate("Apply")}
                     </view-button>`;
                   })}
+                  ${this._extraPublisher(shiftNumber)}
                 </td>
               </tr>
             `;
@@ -228,7 +248,7 @@ export class ShiftRoute extends LitElement {
         <tfoot>
           <tr>
             <td colspan="2" style="background-color: ${this.color}">
-              ${this.buttonTemplate()}
+              ${this._footerTemplate()}
             </td>
           </tr>
         </tfoot>

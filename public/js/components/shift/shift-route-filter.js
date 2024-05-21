@@ -46,7 +46,7 @@ export class ShiftRouteFilter extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          dateFrom: new Date(event.target.value),
+          dateFrom: new Date(event.currentTarget.value),
         },
       })
     );

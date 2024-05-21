@@ -41,7 +41,7 @@ export class ShiftApplicationDialog extends ViewDialog {
    * @param {Event} event
    */
   _changePublisher(event) {
-    this.publisherId = event.target.value;
+    this.publisherId = event.currentTarget.value;
   }
 
   async _clickApply(event) {

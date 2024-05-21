@@ -280,6 +280,7 @@ export class ShiftCalendar extends LitElement {
       <shift-application-dialog
         title="${translate("Shift Application")}"
         calendarId="${this.calendarId}"
+        publisherId="${this.publisherId}"
         selectable="${this.editable || nothing}"
       ></shift-application-dialog>
       <shift-contact-dialog
