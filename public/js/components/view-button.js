@@ -1,8 +1,9 @@
-import { LitElement, css, html } from "../lit-all.min.js";
+import { LitElement, css, html, nothing } from "../lit-all.min.js";
 
 export class ViewButton extends LitElement {
   static properties = {
     type: { type: String },
+    tooltip: { type: String },
   };
 
   static styles = css`
@@ -54,11 +55,13 @@ export class ViewButton extends LitElement {
 
   constructor() {
     super();
+    this.type = "";
+    this.tooltip = "";
   }
 
   render() {
     return html`
-      <button class="${this.type}">
+      <button class="${this.type}" title="${this.tooltip || nothing}">
         <slot></slot>
       </button>
     `;
