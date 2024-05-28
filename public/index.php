@@ -4,6 +4,7 @@ use App\AddPublisherPage;
 use App\AddShiftPage;
 use App\AddShiftTypePage;
 use App\Api\CalendarGet;
+use App\Api\CalendarTypes;
 use App\Api\RouteGet;
 use App\Api\MeGet;
 use App\Api\PublisherGet;
@@ -21,6 +22,7 @@ use App\Api\SlotsPost;
 use App\ChangePublisherPassword;
 use App\Database\RoutesSqlite;
 use App\Database\CalendarsSqlite;
+use App\Database\CalendarTypesSqlite;
 use App\Database\PublishersSqlite;
 use App\Database\ShiftSlotsSqlite;
 use App\Database\SlotsSqlite;
@@ -222,6 +224,10 @@ require __DIR__ . '/../vendor/autoload.php';
             new CalendarsSqlite($this->pdo),
             (int)$matches[1]
           );
+        }
+
+        if (preg_match('|^/api/calendar-types$|', $value, $matches) === 1) {
+          return new CalendarTypes(new CalendarTypesSqlite($this->pdo));
         }
 
         if ('/api/publishers' === $value) {

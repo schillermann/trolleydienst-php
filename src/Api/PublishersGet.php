@@ -38,10 +38,7 @@ class PublishersGet implements PageInterface
         $limit
       );
 
-
-
     $body = [];
-
     foreach ($publishers as $publisher) {
       $body[] = [
         'id' => $publisher->id(),
