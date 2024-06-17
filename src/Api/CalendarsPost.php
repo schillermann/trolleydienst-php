@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Api;
+
+use App\Database\CalendarsSqlite;
+use PhpPages\OutputInterface;
+use PhpPages\PageInterface;
+
+class CalendarsPost implements PageInterface
+{
+    private CalendarsSqlite $calendars;
+    private string $calendarName;
+    private string $info;
+    private int $publishersPerShift;
+
+    public function __construct(
+        CalendarsSqlite $calendars,
+        string $calendarName = "",
+        string $info = "",
+        int $publishersPerShift = 0,
+    ) {
+        $this->calendars = $calendars;
+        $this->calendarName = $calendarName;
+        $this->info = $info;
+        $this->publishersPerShift = $publishersPerShift;
+    }
+
+    public function viaOutput(OutputInterface $output): OutputInterface
+    {
+        $calendarId = $this->calendars->add(
+            $this->calendarName,
+            $this->info,
+            $this->publishersPerShift,
+        );
+
+        $calendar = $this->calendars->calendar($calendarId);
+
+        return $output->withMetadata(
+            PageInterface::STATUS,
+            PageInterface::STATUS_201_CREATED
+        )->withMetadata(
+            'Content-Type',
+            'application/json'
+        )
+            ->withMetadata(
+                PageInterface::BODY,
+                json_encode(
+                    [
+                        'id' => $calendar->id(),
+                        'name' => $calendar->name(),
+                        'publishersPerShift' => $calendar->publishersPerShift(),
+                        'info' => $calendar->info(),
+                        'updatedOn' => $calendar->updatedOn()->format(\DateTimeInterface::ATOM),
+                        'createdOn' => $calendar->createdOn()->format(\DateTimeInterface::ATOM),
+                    ],
+                    JSON_THROW_ON_ERROR,
+                    2
+                )
+            );
+    }
+
+    public function withMetadata(string $name, string $value): PageInterface
+    {
+        if ($name === PageInterface::BODY) {
+            $body = json_decode($value, true);
+            return new self(
+                $this->calendars,
+                $body['name'],
+                $body['info'],
+                $body['publishersPerShift'],
+            );
+        }
+
+        return $this;
+    }
+}

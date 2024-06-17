@@ -36,6 +36,7 @@ export class ViewButton extends LitElement {
     }
 
     .primary {
+      color: #fff;
       background-color: var(--td-primar);
     }
 

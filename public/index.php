@@ -3,15 +3,18 @@
 use App\AddPublisherPage;
 use App\AddShiftPage;
 use App\AddShiftTypePage;
+use App\Api\CalendarDelete;
 use App\Api\CalendarGet;
-use App\Api\CalendarTypes;
+use App\Api\CalendarPut;
+use App\Api\CalendarsGet;
+use App\Api\CalendarsPost;
 use App\Api\RouteGet;
 use App\Api\MeGet;
 use App\Api\PublisherGet;
 use App\Api\PublishersGet;
 use App\Api\RouteDelete;
-use App\Api\RoutePatch;
 use App\Api\RoutePost;
+use App\Api\RoutePut;
 use App\Api\RoutesGet;
 use App\Api\ShiftApplicationsGet;
 use App\Api\ShiftsPost;
@@ -22,7 +25,6 @@ use App\Api\SlotsPost;
 use App\ChangePublisherPassword;
 use App\Database\RoutesSqlite;
 use App\Database\CalendarsSqlite;
-use App\Database\CalendarTypesSqlite;
 use App\Database\PublishersSqlite;
 use App\Database\ShiftSlotsSqlite;
 use App\Database\SlotsSqlite;
@@ -189,6 +191,11 @@ require __DIR__ . '/../vendor/autoload.php';
         if (preg_match('|^/api/calendars/([0-9]+)/routes$|', $value, $matches) === 1) {
           return new RoutePost(new RoutesSqlite($this->pdo, (int)$matches[1]));
         }
+        if (preg_match('|^/api/calendars$|', $value, $matches) === 1) {
+          return new CalendarsPost(
+            new CalendarsSqlite($this->pdo)
+          );
+        }
       }
 
       if ($this->httpMethod === 'GET') {
@@ -226,8 +233,8 @@ require __DIR__ . '/../vendor/autoload.php';
           );
         }
 
-        if (preg_match('|^/api/calendar-types$|', $value, $matches) === 1) {
-          return new CalendarTypes(new CalendarTypesSqlite($this->pdo));
+        if (preg_match('|^/api/calendars$|', $value, $matches) === 1) {
+          return new CalendarsGet(new CalendarsSqlite($this->pdo));
         }
 
         if ('/api/publishers' === $value) {
@@ -261,11 +268,18 @@ require __DIR__ . '/../vendor/autoload.php';
         }
       }
 
-      if ($this->httpMethod === 'PATCH') {
+      if ($this->httpMethod === 'PUT') {
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
-          return new RoutePatch(
+          return new RoutePut(
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
+          );
+        }
+
+        if (preg_match('|^/api/calendars/([0-9]+)$|', $value, $matches) === 1) {
+          return new CalendarPut(
+            new CalendarsSqlite($this->pdo),
+            (int)$matches[1]
           );
         }
       }
@@ -284,6 +298,13 @@ require __DIR__ . '/../vendor/autoload.php';
           return new RouteDelete(
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
+          );
+        }
+
+        if (preg_match('|^/api/calendars/([0-9]+)$|', $value, $matches) === 1) {
+          return new CalendarDelete(
+            new CalendarsSqlite($this->pdo),
+            (int)$matches[1]
           );
         }
       }

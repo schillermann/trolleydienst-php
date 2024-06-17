@@ -10,7 +10,7 @@ import { translate } from "../../translate.js";
  * @property {string} createdOn - 2023-03-26T11:04:45+02:00
  */
 
-export class ShiftInfoBox extends LitElement {
+export class CalendarInfoBox extends LitElement {
   static styles = css`
     article {
       border: 1px dotted;
@@ -54,4 +54,4 @@ export class ShiftInfoBox extends LitElement {
     `;
   }
 }
-customElements.define("shift-info-box", ShiftInfoBox);
+customElements.define("calendar-info-box", CalendarInfoBox);

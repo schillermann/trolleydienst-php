@@ -1,8 +1,8 @@
 import { LitElement, html, until, nothing } from "../lit-all.min.js";
 import { translate } from "../translate.js";
 import "../components/view-header.js";
-import "../components/shift/shift-info-box.js";
-import "../components/shift/shift-calender.js";
+import "../components/calendar-cards/calendar-info-box.js";
+import "../components/calender-cards.js";
 
 /**
  * @typedef {Object} Publisher
@@ -40,8 +40,8 @@ export class ShiftView extends LitElement {
   }
 
   render() {
-    return html`<view-header>Trolley Schichten</view-header>
-      <shift-info-box calendarid="${this.calendarId}"></shift-info-box>
+    return html`<view-header>${translate("Cart Shifts")}</view-header>
+      <calendar-info-box calendarid="${this.calendarId}"></calendar-info-box>
       ${until(
         fetch("/api/me")
           .then((response) => response.json())
@@ -50,11 +50,11 @@ export class ShiftView extends LitElement {
              * @param {Publisher} publisher
              * @returns {string}
              */
-            (publisher) => html` <shift-calendar
+            (publisher) => html` <calendar-cards
               calendarid="${this.calendarId}"
               editable="${publisher.administrative || nothing}"
               publisherid="${publisher.id}"
-            ></shift-calendar>`
+            ></calendar-cards>`
           ),
         html`<span>${translate("Loading")}...</span>`
       )}`;

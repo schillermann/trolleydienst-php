@@ -2,20 +2,20 @@
 
 namespace App\Api;
 
-use App\Database\CalendarTypesSqlite;
+use App\Database\CalendarsSqlite;
 use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class CalendarTypes implements PageInterface
+class CalendarsGet implements PageInterface
 {
-    private CalendarTypesSqlite $calendarTypes;
+    private CalendarsSqlite $calendars;
     private int $pageNumber;
     private int $pageItems;
 
-    function __construct(CalendarTypesSqlite $calendarTypes, int $pageNumber = 0, int $pageItems = 50)
+    function __construct(CalendarsSqlite $calendars, int $pageNumber = 0, int $pageItems = 50)
     {
-        $this->calendarTypes = $calendarTypes;
+        $this->calendars = $calendars;
         $this->pageNumber = $pageNumber;
         $this->pageItems = $pageItems;
     }
@@ -25,16 +25,16 @@ class CalendarTypes implements PageInterface
         $offset = ($this->pageNumber - 1) * $this->pageItems;
         $limit = $this->pageItems;
 
-        $calendarTypes = $this->calendarTypes->all($offset, $limit);
+        $calendars = $this->calendars->all($offset, $limit);
         $body = [];
-        foreach ($calendarTypes as $calendarType) {
+        foreach ($calendars as $calendar) {
             $body[] = [
-                'id' => $calendarType->id(),
-                'name' => $calendarType->name(),
-                'publishersPerShift' => $calendarType->publishersPerShift(),
-                'info' => $calendarType->info(),
-                'updatedOn' => $calendarType->updatedOn()->format(\DateTimeInterface::ATOM),
-                'createdOn' => $calendarType->createdOn()->format(\DateTimeInterface::ATOM),
+                'id' => $calendar->id(),
+                'name' => $calendar->name(),
+                'publishersPerShift' => $calendar->publishersPerShift(),
+                'info' => $calendar->info(),
+                'updatedOn' => $calendar->updatedOn()->format(\DateTimeInterface::ATOM),
+                'createdOn' => $calendar->createdOn()->format(\DateTimeInterface::ATOM),
             ];
         }
 
@@ -59,7 +59,7 @@ class CalendarTypes implements PageInterface
             $query = new SimpleFormData($value);
 
             return new self(
-                $this->calendarTypes,
+                $this->calendars,
                 (int)$query->paramWithDefault('page-number', '1'),
                 (int)$query->paramWithDefault('page-items', '10'),
             );

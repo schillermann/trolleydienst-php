@@ -11,7 +11,7 @@ $active_page = include '../templates/helpers/active_page.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/fontawesome.min.css">
     <link href="css/global.css" rel="stylesheet">
-    <?php if(@$_SESSION['is_admin']): ?>
+    <?php if (@$_SESSION['is_admin']) : ?>
         <link rel="stylesheet" href="css/coloris.min.css" />
         <script src="js/coloris.min.js"></script>
     <?php endif ?>
@@ -26,7 +26,7 @@ $active_page = include '../templates/helpers/active_page.php';
 
             --td-text-primary: #000;
 
-            --td-primar: #786393;
+            --td-primar: #604A7B;
             --td-secondary: #666e75;
 
             --td-success: #9ccc68;
@@ -122,7 +122,7 @@ $active_page = include '../templates/helpers/active_page.php';
                     <?php if ($_SESSION['administrative']) : ?>
                         <li>
                             <a href="shift-type" class="<?= $active_page('shift-type', 'add-shift-type', 'edit-shift-type'); ?>">
-                                <i class="fa fa-calendar"></i> <?= __('Shift Type') ?>
+                                <i class="fa fa-calendar"></i> <?= __('Calendar Settings') ?>
                             </a>
                         </li>
                         <li>

@@ -14,7 +14,7 @@ import { translate } from "../../translate.js";
  * @property {string}createdOn - 2024-03-12T20:42:09+01:00
  */
 
-export class ShiftRouteDialog extends ViewDialog {
+export class CalendarRouteDialog extends ViewDialog {
   static properties = {
     calendarId: { type: Number },
     routeId: { type: Number },
@@ -62,7 +62,7 @@ export class ShiftRouteDialog extends ViewDialog {
     const response = await fetch(
       `/api/calendars/${this.calendarId}/routes/${this.routeId}`,
       {
-        method: "PATCH",
+        method: "PUT",
         body: JSON.stringify({
           routeName: elements["route-name"].value,
           start: new Date(
@@ -140,7 +140,7 @@ export class ShiftRouteDialog extends ViewDialog {
   }
 
   /**
-   * @param {PointerEvent} event
+   * @param {Event} event
    * @returns {void}
    */
   async _clickDelete(event) {
@@ -355,4 +355,4 @@ export class ShiftRouteDialog extends ViewDialog {
     );
   }
 }
-customElements.define("shift-route-dialog", ShiftRouteDialog);
+customElements.define("calendar-route-dialog", CalendarRouteDialog);

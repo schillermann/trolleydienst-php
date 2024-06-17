@@ -16,7 +16,7 @@ import "../view-button.js";
  * @property {string} lastname
  */
 
-export class ShiftRoute extends LitElement {
+export class CalendarRoute extends LitElement {
   static properties = {
     publisherId: { type: Number },
     routeName: { type: String },
@@ -83,12 +83,12 @@ export class ShiftRoute extends LitElement {
   }
 
   /**
-   * @param {PointerEvent} event
+   * @param {Event} event
    * @returns {void}
    */
   _clickPublisher(event) {
     this.dispatchEvent(
-      new CustomEvent("open-shift-contact-dialog", {
+      new CustomEvent("open-calendar-contact-dialog", {
         bubbles: true,
         composed: true,
         detail: {
@@ -102,12 +102,12 @@ export class ShiftRoute extends LitElement {
   }
 
   /**
-   * @param {PointerEvent} event
+   * @param {Event} event
    * @returns {void}
    */
   _clickApply(event) {
     this.dispatchEvent(
-      new CustomEvent("open-shift-application-dialog", {
+      new CustomEvent("open-calendar-application-dialog", {
         bubbles: true,
         composed: true,
         detail: {
@@ -119,12 +119,12 @@ export class ShiftRoute extends LitElement {
   }
 
   /**
-   * @param {PointerEvent} event
+   * @param {Event} event
    * @returns {void}
    */
   _clickEdit(event) {
     this.dispatchEvent(
-      new CustomEvent("open-shift-route-dialog", {
+      new CustomEvent("open-calendar-route-dialog", {
         bubbles: true,
         composed: true,
         detail: {
@@ -256,4 +256,4 @@ export class ShiftRoute extends LitElement {
     `;
   }
 }
-customElements.define("shift-route", ShiftRoute);
+customElements.define("calendar-route", CalendarRoute);

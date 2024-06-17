@@ -1,7 +1,7 @@
 import { LitElement, css, html } from "../../lit-all.min.js";
 import { translate } from "../../translate.js";
 
-export class ShiftRouteFilter extends LitElement {
+export class CalendarRouteFilter extends LitElement {
   static styles = css`
     input {
       padding: 6px;
@@ -67,4 +67,4 @@ export class ShiftRouteFilter extends LitElement {
   }
 }
 
-customElements.define("shift-route-filter", ShiftRouteFilter);
+customElements.define("calendar-route-filter", CalendarRouteFilter);

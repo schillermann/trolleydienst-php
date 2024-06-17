@@ -17,13 +17,13 @@ class CalendarSqlite
   {
     return $this->id;
   }
-  function label(): string
+  function name(): string
   {
     return $this->columns['name'];
   }
-  function publisherLimitPerShift(): int
+  function publishersPerShift(): int
   {
-    return $this->columns['user_per_shift_max'];
+    return $this->columns['publishers_per_shift'];
   }
   function info(): string
   {

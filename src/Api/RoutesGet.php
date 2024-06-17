@@ -48,7 +48,7 @@ class RoutesGet implements PageInterface
     $body = [];
 
     $calendar = $this->calendars->calendar($this->calendarId);
-    $publisherLimitPerShift = $calendar->publisherLimitPerShift();
+    $publisherLimitPerShift = $calendar->publishersPerShift();
 
     foreach ($routes as $route) {
       $shifts = [];

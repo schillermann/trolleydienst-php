@@ -6,7 +6,7 @@ use App\Database\RoutesSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class RoutePatch implements PageInterface
+class RoutePut implements PageInterface
 {
     private RoutesSqlite $routes;
     private int $routeId;

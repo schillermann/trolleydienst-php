@@ -146,7 +146,7 @@ return [
     'New Shift Type' => 'Neuer Schichttyp',
     'Max. Publishers per Shift' => 'Verkündiger pro Schicht maximal',
     'Edit Shift Type' => 'Schichttyp bearbeiten',
-    'Shift Type' => 'Schichttyp',
+    'Calendar Settings' => 'Kalender Einstellungen',
     'Shift Type List' => 'Schichttyp Liste',
     'New Pubisher' => 'Neuer Verkündiger',
     'Publisher' => 'Verkündiger',

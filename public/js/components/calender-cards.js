@@ -1,10 +1,10 @@
-import { css, LitElement, html, nothing } from "../../lit-all.min.js";
-import { translate } from "../../translate.js";
-import "./shift-application-dialog.js";
-import "./shift-contact-dialog.js";
-import "./shift-route.js";
-import "./shift-route-dialog.js";
-import "./shift-route-filter.js";
+import { css, LitElement, html, nothing } from "../lit-all.min.js";
+import { translate } from "../translate.js";
+import "./calendar-cards/calendar-application-dialog.js";
+import "./calendar-cards/calendar-contact-dialog.js";
+import "./calendar-cards/calendar-route.js";
+import "./calendar-cards/calendar-route-dialog.js";
+import "./calendar-cards/calendar-route-filter.js";
 
 /**
  * @typedef {Object} Route
@@ -17,7 +17,7 @@ import "./shift-route-filter.js";
  * @property {Array} shifts
  */
 
-export class ShiftCalendar extends LitElement {
+export class CalendarRoutes extends LitElement {
   /** @type {Element} */
   _loadingCircle;
   /** @type {number} */
@@ -29,7 +29,7 @@ export class ShiftCalendar extends LitElement {
     nav {
       margin: 20px 0px 20px 0px;
 
-      shift-route-filter {
+      calendar-route-filter {
         float: right;
       }
     }
@@ -65,16 +65,16 @@ export class ShiftCalendar extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener(
-      "open-shift-contact-dialog",
-      this._handleOpenPublisherContactDialog
+      "open-calendar-contact-dialog",
+      this._handleOpenCalendarContactDialog
     );
     this.addEventListener(
-      "open-shift-application-dialog",
-      this._handleOpenShiftApplicationDialog
+      "open-calendar-application-dialog",
+      this._handleOpenCalendarApplicationDialog
     );
     this.addEventListener(
-      "open-shift-route-dialog",
-      this._handleOpenShiftRouteDialog
+      "open-calendar-route-dialog",
+      this._handleOpenCalendarRouteDialog
     );
     this.addEventListener("update-calendar", this._handleUpdateCalendar);
     this.addEventListener("filter-routes", this._handlerFilterRoutes);
@@ -114,9 +114,9 @@ export class ShiftCalendar extends LitElement {
    * @param {CustomEvent} event
    * @returns {void}
    */
-  _handleOpenPublisherContactDialog(event) {
+  _handleOpenCalendarContactDialog(event) {
     /** @type {Element} */
-    const dialog = this.renderRoot.querySelector("shift-contact-dialog");
+    const dialog = this.renderRoot.querySelector("calendar-contact-dialog");
     dialog.setAttribute("open", "true");
     dialog.setAttribute("publisherId", event.detail.publisherId);
     dialog.setAttribute("routeId", event.detail.routeId);
@@ -132,9 +132,9 @@ export class ShiftCalendar extends LitElement {
    * @param {CustomEvent} event
    * @returns {void}
    */
-  _handleOpenShiftApplicationDialog(event) {
+  _handleOpenCalendarApplicationDialog(event) {
     /** @type {Element} */
-    const dialog = this.renderRoot.querySelector("shift-application-dialog");
+    const dialog = this.renderRoot.querySelector("calendar-application-dialog");
     dialog.setAttribute("open", "true");
     dialog.setAttribute("routeId", event.detail.routeId);
     dialog.setAttribute("shiftNumber", event.detail.shiftNumber);
@@ -145,9 +145,9 @@ export class ShiftCalendar extends LitElement {
    * @param {CustomEvent} event
    * @returns {void}
    */
-  _handleOpenShiftRouteDialog(event) {
+  _handleOpenCalendarRouteDialog(event) {
     /** @type {Element} */
-    const dialog = this.renderRoot.querySelector("shift-route-dialog");
+    const dialog = this.renderRoot.querySelector("calendar-route-dialog");
     dialog.setAttribute("open", "true");
     if (event.detail.editable) {
       dialog.setAttribute("editable", true);
@@ -170,12 +170,12 @@ export class ShiftCalendar extends LitElement {
   }
 
   /**
-   * @param {PointerEvent} event
+   * @param {Event} event
    * @returns {void}
    */
   _onClickNewShift(event) {
     this.dispatchEvent(
-      new CustomEvent("open-shift-route-dialog", {
+      new CustomEvent("open-calendar-route-dialog", {
         bubbles: true,
         composed: true,
         detail: {
@@ -243,7 +243,7 @@ export class ShiftCalendar extends LitElement {
     for (const route of routes) {
       let routeElement = routesSection.querySelector(`[routeId="${route.id}"]`);
       if (!routeElement) {
-        routeElement = document.createElement("shift-route");
+        routeElement = document.createElement("calendar-route");
         routesSection.appendChild(routeElement);
       }
       routeElement.setAttribute("calendarId", this.calendarId);
@@ -273,24 +273,24 @@ export class ShiftCalendar extends LitElement {
       <nav>
         <view-button type="primary flex" @click="${this._onClickNewShift}">
           <i class="fa-solid fa-plus"></i>
-          ${translate("New Shift")}
+          ${translate("New Route")}
         </view-button>
-        <shift-route-filter></shift-route-filter>
+        <calendar-route-filter></calendar-route-filter>
       </nav>
-      <shift-application-dialog
+      <calendar-application-dialog
         title="${translate("Shift Application")}"
         calendarId="${this.calendarId}"
         publisherId="${this.publisherId}"
         selectable="${this.editable || nothing}"
-      ></shift-application-dialog>
-      <shift-contact-dialog
+      ></calendar-application-dialog>
+      <calendar-contact-dialog
         title="${translate("Publisher Contact")}"
         calendarId="${this.calendarId}"
-      ></shift-contact-dialog>
-      <shift-route-dialog
-        title="${translate("Shift Route")}"
+      ></calendar-contact-dialog>
+      <calendar-route-dialog
+        title="${translate("New Route")}"
         calendarId="${this.calendarId}"
-      ></shift-route-dialog>
+      ></calendar-route-dialog>
 
       <section id="routes"></section>
       <section id="loading">
@@ -309,4 +309,4 @@ export class ShiftCalendar extends LitElement {
       </section>`;
   }
 }
-customElements.define("shift-calendar", ShiftCalendar);
+customElements.define("calendar-cards", CalendarRoutes);

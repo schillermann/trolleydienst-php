@@ -37,8 +37,8 @@ class CalendarGet implements PageInterface
         PageInterface::BODY,
         json_encode(
           [
-            'label' => $calendar->label(),
-            'publisherLimitPerShift' => $calendar->publisherLimitPerShift(),
+            'name' => $calendar->name(),
+            'publishersPerShift' => $calendar->publishersPerShift(),
             'info' => $calendar->info(),
             'updatedOn' => $calendar->updatedOn()->format(\DateTimeInterface::ATOM),
             'createdOn' => $calendar->createdOn()->format(\DateTimeInterface::ATOM)

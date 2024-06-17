@@ -2,7 +2,7 @@ import { html, css, until } from "../../lit-all.min.js";
 import { ViewDialog } from "../view-dialog.js";
 import { translate } from "../../translate.js";
 
-export class ShiftApplicationDialog extends ViewDialog {
+export class CalendarApplicationDialog extends ViewDialog {
   static properties = {
     routeId: { type: Number },
     shiftNumber: { type: Number },
@@ -130,4 +130,4 @@ export class ShiftApplicationDialog extends ViewDialog {
     `;
   }
 }
-customElements.define("shift-application-dialog", ShiftApplicationDialog);
+customElements.define("calendar-application-dialog", CalendarApplicationDialog);

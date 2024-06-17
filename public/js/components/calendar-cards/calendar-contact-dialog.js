@@ -2,7 +2,7 @@ import { html, until } from "../../lit-all.min.js";
 import { translate } from "../../translate.js";
 import { ViewDialog } from "../view-dialog.js";
 
-export class ShiftContactDialog extends ViewDialog {
+export class CalendarContactDialog extends ViewDialog {
   static properties = {
     calendarId: { type: Number },
     routeId: { type: Number },
@@ -81,23 +81,23 @@ export class ShiftContactDialog extends ViewDialog {
 
     return until(
       publisher.then(
-        (p) => html`<p>
+        (publisher) => html`<p>
             ${this._isError
               ? translate("Shift entry could not be deleted.")
               : ""}
           </p>
-          <h3>${p.firstname} ${p.lastname}</h3>
+          <h3>${publisher.firstname} ${publisher.lastname}</h3>
           <link rel="stylesheet" href="css/fontawesome.min.css" />
           <address>
             <dl>
               <dt>${translate("Email")}:</dt>
               <dd>
-                <a href="mailto:${p.email}">${p.email}</a>
+                <a href="mailto:${publisher.email}">${publisher.email}</a>
               </dd>
               <dt>${translate("Phone")}:</dt>
-              <dd><a href="tel:${p.phone}">${p.phone}</a></dd>
+              <dd><a href="tel:${publisher.phone}">${publisher.phone}</a></dd>
               <dt>${translate("Mobile")}:</dt>
-              <dd><a href="tel:${p.mobile}">${p.mobile}</a></dd>
+              <dd><a href="tel:${publisher.mobile}">${publisher.mobile}</a></dd>
             </dl>
           </address>
           <h4>${translate("Info From Publisher")}:</h4>
@@ -108,4 +108,4 @@ export class ShiftContactDialog extends ViewDialog {
     );
   }
 }
-customElements.define("shift-contact-dialog", ShiftContactDialog);
+customElements.define("calendar-contact-dialog", CalendarContactDialog);
