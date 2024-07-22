@@ -133,6 +133,19 @@ export class CalendarSettingsDialog extends ViewDialog {
   /**
    * @returns {string}
    */
+  _buttonDeleteTemplate() {
+    if (this.calendarId === 0) {
+      return "";
+    }
+    return html`<view-button type="danger wide" @click="${this._clickDelete}">
+      <i class="fa-regular fa-trash-o"></i>
+      ${translate("Delete")}
+    </view-button>`;
+  }
+
+  /**
+   * @returns {string}
+   */
   contentTemplate() {
     /** @type {Calendar} */
     const calendarResponse = this.calendarId
@@ -199,10 +212,7 @@ export class CalendarSettingsDialog extends ViewDialog {
           ),
           html`<span>${translate("Loading")}...</span>`
         )}
-        <view-button type="danger wide" @click="${this._clickDelete}">
-          <i class="fa-regular fa-trash-o"></i>
-          ${translate("Delete")}
-        </view-button>
+        ${this._buttonDeleteTemplate()}
         <view-button
           type="primary wide"
           @click="${(e) =>
