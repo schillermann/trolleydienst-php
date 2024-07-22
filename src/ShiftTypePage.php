@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -10,8 +11,6 @@ class ShiftTypePage implements PageInterface
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
-        $placeholder['shift_type_list'] = Shift\ShiftTypeTable::select_all($database_pdo);
-
         $render_page = include '../includes/render_page.php';
 
         return $output

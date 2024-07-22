@@ -114,12 +114,6 @@ require __DIR__ . '/../vendor/autoload.php';
           return new LoginPage();
         case '/shift':
           return new ShiftPage();
-        case '/add-shift':
-          return new AddShiftPage();
-        case '/edit-shift':
-          return new EditShiftPage();
-        case '/user-details':
-          return new UserDetailsPage();
         case '/report':
           return new ReportPage();
         case '/submit-report':
@@ -148,10 +142,6 @@ require __DIR__ . '/../vendor/autoload.php';
           return new ResetPasswordPage();
         case '/shift-type':
           return new ShiftTypePage();
-        case '/edit-shift-type':
-          return new EditShiftTypePage();
-        case '/add-shift-type':
-          return new AddShiftTypePage();
         case '/shift-history':
           return new ShiftHistoryPage();
         case '/login-history':

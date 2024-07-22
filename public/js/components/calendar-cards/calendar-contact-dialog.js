@@ -101,7 +101,7 @@ export class CalendarContactDialog extends ViewDialog {
             </dl>
           </address>
           <h4>${translate("Info From Publisher")}:</h4>
-          <p>${p.publisherNote}</p>
+          <p>${publisher.publisherNote}</p>
           ${this.buttonTemplate()}`
       ),
       html`<span>${translate("Loading")}...</span>`
