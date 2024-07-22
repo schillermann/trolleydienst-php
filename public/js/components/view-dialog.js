@@ -25,6 +25,9 @@ export class ViewDialog extends LitElement {
     this.open = false;
   }
 
+  /**
+   * @param {boolean} val
+   */
   set open(val) {
     if (this.renderRoot) {
       const dialog = this.renderRoot.querySelector("dialog");
@@ -34,13 +37,22 @@ export class ViewDialog extends LitElement {
     this._open = val;
   }
 
+  /**
+   * @returns {boolean}
+   */
   get open() {
     return this._open;
   }
 
   _clickClose(e) {
     this.open = false;
+    this._closed();
   }
+
+  /**
+   * @returns {void}
+   */
+  _closed() {}
 
   contentTemplate() {
     return "";

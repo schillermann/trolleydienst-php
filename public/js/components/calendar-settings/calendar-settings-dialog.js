@@ -28,6 +28,10 @@ export class CalendarSettingsDialog extends ViewDialog {
 
   constructor() {
     super();
+    this._closed();
+  }
+
+  _closed() {
     this.calendarId = 0;
   }
 
