@@ -21,7 +21,7 @@
         <?php endif ?>
 
         <div class="promote_shift_row" id="promote_shift_button">
-            <?php if ($empty_apply_form && !$_SESSION['administrative']) : ?>
+            <?php if ($empty_apply_form && !$_SESSION['admin']) : ?>
                 <form method="post">
                     <input type="hidden" name="position" value="<?= $position ?>">
                     <input type="hidden" name="id_shift" value="<?= $id_shift ?>">
@@ -32,7 +32,7 @@
             <?php endif ?>
 
             <?php $has_user_promoted =  @$id_user === $_SESSION['id_user']; ?>
-            <?php if (!$empty_apply_form && ($has_user_promoted || $_SESSION['administrative'])) : ?>
+            <?php if (!$empty_apply_form && ($has_user_promoted || $_SESSION['admin'])) : ?>
                 <form method="post">
                     <input type="hidden" name="position" value="<?= $position ?>">
                     <input type="hidden" name="id_shift" value="<?= $id_shift ?>">
@@ -41,7 +41,7 @@
                 </form>
             <?php endif ?>
 
-            <?php if ($empty_apply_form && $_SESSION['administrative']) : ?>
+            <?php if ($empty_apply_form && $_SESSION['admin']) : ?>
                 <form method="post">
                     <input type="hidden" name="position" value="<?= $position ?>">
                     <input type="hidden" name="id_shift" value="<?= $id_shift ?>">

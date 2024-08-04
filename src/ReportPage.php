@@ -36,7 +36,7 @@ class ReportPage implements PageInterface
             $placeholder['report_to'] = $report_to->format('Y-m-d');
 
             $get_reports = include '../services/get_reports.php';
-            $name = ($_SESSION['administrative']) ? '' : $_SESSION['name'];
+            $name = ($_SESSION['admin']) ? '' : $_SESSION['name'];
             $placeholder['report_list'] = $get_reports($database_pdo, $report_from, $report_to, $id_shift_type, $name);
             $placeholder['shifttype_list'] = Shift\ShiftTypeTable::select_all($database_pdo);
         }

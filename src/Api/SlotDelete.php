@@ -3,26 +3,27 @@
 namespace App\Api;
 
 use App\Database\SlotsSqlite;
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 use PhpPages\SessionInterface;
 
 class SlotDelete implements PageInterface
 {
-    private SessionInterface $session;
+    private UserSession $userSession;
     private SlotsSqlite $slots;
     private int $routeId;
     private int $shiftNumber;
     private int $publisherId;
 
     public function __construct(
-        SessionInterface $session,
+        UserSession $userSession,
         SlotsSqlite $slots,
         int $routeId,
         int $shiftNumber,
         int $publisherId
     ) {
-        $this->session = $session;
+        $this->userSession = $userSession;
         $this->slots = $slots;
         $this->routeId = $routeId;
         $this->shiftNumber = $shiftNumber;
@@ -32,8 +33,8 @@ class SlotDelete implements PageInterface
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         if (
-            !$this->session->param('administrative') &&
-            $this->session->param('id_user') != $this->publisherId
+            !$this->userSession->admin() &&
+            $this->userSession->publisherId() != $this->publisherId
         ) {
             return $output->withMetadata(
                 PageInterface::STATUS,

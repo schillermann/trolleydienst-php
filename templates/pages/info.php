@@ -1,7 +1,7 @@
 <header>
     <h2> <?= __('Info') ?></h2>
 </header>
-<?php if ($_SESSION['administrative']) : ?>
+<?php if ($_SESSION['admin']) : ?>
     <nav id="nav-sub">
         <a href="./upload-file" class="button active">
             <i class="fa fa-cloud-upload"></i> <?= __('Upload File') ?>
@@ -19,7 +19,7 @@
                         <i class="fa fa-file-image-o"></i>
                     <?php endif; ?>
                     <h4> <?= $file['label'] ?></h4>
-                    <?php if ($_SESSION['administrative']) : ?>
+                    <?php if ($_SESSION['admin']) : ?>
                         <a href="./edit-file?id_info= <?= $file['id_info'] ?>" class="button" target="_blank"> <?= __('Edit') ?></a>
                     <?php endif ?>
                 </a>

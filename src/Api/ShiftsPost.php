@@ -3,7 +3,7 @@
 namespace App\Api;
 
 use App\Database\RoutesSqlite;
-use App\Shift\HexColorCode;
+use App\Shift\CssColor;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
@@ -14,7 +14,7 @@ class ShiftsPost implements PageInterface
     private string $routeName = "";
     private int $numberOfShifts = 0;
     private int $minutesPerShift = 0;
-    private HexColorCode $hexColorCode;
+    private CssColor $cssColor;
 
     public function __construct(
         RoutesSqlite $routes,
@@ -22,14 +22,14 @@ class ShiftsPost implements PageInterface
         string $routeName = "",
         int $numberOfShifts = 0,
         int $minutesPerShift = 0,
-        HexColorCode $hexColorCode = new HexColorCode("#000000")
+        CssColor $cssColor = new CssColor("#000000")
     ) {
         $this->routes = $routes;
         $this->start = $start;
         $this->routeName = $routeName;
         $this->numberOfShifts = $numberOfShifts;
         $this->minutesPerShift = $minutesPerShift;
-        $this->hexColorCode = $hexColorCode;
+        $this->cssColor = $cssColor;
     }
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -38,7 +38,7 @@ class ShiftsPost implements PageInterface
             $this->routeName,
             $this->numberOfShifts,
             $this->minutesPerShift,
-            $this->hexColorCode
+            $this->cssColor->string()
         );
 
         return $output->withMetadata(
@@ -58,7 +58,7 @@ class ShiftsPost implements PageInterface
                 $body['routeName'],
                 $body['numberOfShifts'],
                 $body['minutesPerShift'],
-                new HexColorCode($body['color'])
+                new CssColor($body['color'])
             );
         }
 

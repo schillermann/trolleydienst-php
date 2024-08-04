@@ -17,7 +17,7 @@ import "../components/calender-cards.js";
  * @property {string} publisherNote
  * @property {string} adminNote
  * @property {boolean} active
- * @property {boolean} administrative
+ * @property {boolean} admin
  * @property {string} loggedOn - 2024-05-16 21:32:38
  * @property {string} updatedOn - 2024-04-01 18:34:46
  * @property {string} createdOn - 2023-03-26 11:06:14
@@ -52,7 +52,7 @@ export class ShiftView extends LitElement {
              */
             (publisher) => html` <calendar-cards
               calendarid="${this.calendarId}"
-              editable="${publisher.administrative || nothing}"
+              editable="${publisher.admin || nothing}"
               publisherid="${publisher.id}"
             ></calendar-cards>`
           ),

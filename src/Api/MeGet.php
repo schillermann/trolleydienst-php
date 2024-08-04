@@ -2,15 +2,19 @@
 
 namespace App\Api;
 
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 use PhpPages\SessionInterface;
 
 class MeGet implements PageInterface
 {
+    private UserSession $userSession;
     private SessionInterface $session;
-    public function __construct(SessionInterface $session)
+
+    public function __construct(UserSession $userSession, SessionInterface $session)
     {
+        $this->userSession = $userSession;
         $this->session = $session;
     }
 
@@ -25,7 +29,7 @@ class MeGet implements PageInterface
                 PageInterface::BODY,
                 json_encode(
                     [
-                        'id' => (int)$this->session->param('id_user'),
+                        'id' => $this->userSession->publisherId(),
                         'username' => $this->session->param('username'),
                         'firstname' => $this->session->param('firstname'),
                         'lastname' => $this->session->param('lastname'),
@@ -36,8 +40,8 @@ class MeGet implements PageInterface
                         'language' => $this->session->param('language'),
                         'publisherNote' => $this->session->param('publisher_note'),
                         'adminNote' => $this->session->param('admin_note'),
-                        'active' => (bool)$this->session->param('active'),
-                        'administrative' => (bool)$this->session->param('administrative'),
+                        'active' => $this->userSession->active(),
+                        'admin' => $this->userSession->admin(),
                         'loggedOn' => $this->session->param('logged_on'),
                         'updatedOn' => $this->session->param('updated_on'),
                         'createdOn' => $this->session->param('created_on')

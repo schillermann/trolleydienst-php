@@ -1,2 +1,2 @@
 <?php
-return (isset($_POST['administrative']))? true : false;
+return (isset($_POST['admin'])) ? true : false;

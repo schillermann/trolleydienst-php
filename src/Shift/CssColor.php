@@ -2,16 +2,16 @@
 
 namespace App\Shift;
 
-class HexColorCode
+class CssColor
 {
     private string $hex;
 
-    public function __construct(string $hex)
+    function __construct(string $hex)
     {
         $this->hex = $hex;
     }
 
-    public function string(): string
+    function string(): string
     {
         return $this->hex;
     }

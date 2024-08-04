@@ -48,7 +48,7 @@ class PublisherGet implements PageInterface
             'language' => $publisher->language(),
             'publisherNote' => $publisher->publisherNote(),
             'active' => $publisher->active(),
-            'administrative' => $publisher->administrative(),
+            'admin' => $publisher->admin(),
             'loggedOn' => $publisher->loggedOn()->format(\DateTimeInterface::ATOM),
             'updatedOn' => $publisher->updatedOn()->format(\DateTimeInterface::ATOM),
             'createdOn' => $publisher->createdOn()->format(\DateTimeInterface::ATOM)

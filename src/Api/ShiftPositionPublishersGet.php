@@ -48,7 +48,7 @@ class ShiftPositionPublishersGet implements PageInterface
         'congregation' => $publisher->congregation(),
         'language' => $publisher->language(),
         'active' => $publisher->active(),
-        'administrative' => $publisher->administrative(),
+        'admin' => $publisher->admin(),
         'loggedOn' => $publisher->loggedOn()->format(\DateTimeInterface::ATOM),
         'updatedOn' => $publisher->updatedOn()->format(\DateTimeInterface::ATOM),
         'createdOn' => $publisher->CreatedOn()->format(\DateTimeInterface::ATOM)

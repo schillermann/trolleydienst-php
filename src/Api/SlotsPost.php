@@ -5,13 +5,13 @@ namespace App\Api;
 use App\Database\SlotsSqlite;
 use App\Database\PublishersSqlite;
 use App\Database\RoutesSqlite;
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
-use PhpPages\SessionInterface;
 
 class SlotsPost implements PageInterface
 {
-  private SessionInterface $session;
+  private UserSession $userSession;
   private SlotsSqlite $slots;
   private RoutesSqlite $routes;
   private PublishersSqlite $publishers;
@@ -20,7 +20,7 @@ class SlotsPost implements PageInterface
   private int $publisherId;
 
   public function __construct(
-    SessionInterface $session,
+    UserSession $userSession,
     SlotsSqlite $slots,
     RoutesSqlite $routes,
     PublishersSqlite $publishers,
@@ -28,7 +28,7 @@ class SlotsPost implements PageInterface
     int $shiftNumber,
     int $publisherId = 0
   ) {
-    $this->session = $session;
+    $this->userSession = $userSession;
     $this->slots = $slots;
     $this->routes = $routes;
     $this->publishers = $publishers;
@@ -40,8 +40,8 @@ class SlotsPost implements PageInterface
   public function viaOutput(OutputInterface $output): OutputInterface
   {
     if (
-      !$this->session->param('administrative') &&
-      $this->session->param('id_user') != $this->publisherId
+      !$this->userSession->admin() &&
+      $this->userSession->publisherId() != $this->publisherId
     ) {
       return $output->withMetadata(
         PageInterface::STATUS,
@@ -97,7 +97,7 @@ class SlotsPost implements PageInterface
 
     $body = json_decode($value, true, 2);
     return new self(
-      $this->session,
+      $this->userSession,
       $this->slots,
       $this->routes,
       $this->publishers,

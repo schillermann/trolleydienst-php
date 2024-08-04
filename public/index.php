@@ -1,8 +1,6 @@
 <?php
 
 use App\AddPublisherPage;
-use App\AddShiftPage;
-use App\AddShiftTypePage;
 use App\Api\CalendarDelete;
 use App\Api\CalendarGet;
 use App\Api\CalendarPut;
@@ -30,8 +28,6 @@ use App\Database\ShiftSlotsSqlite;
 use App\Database\SlotsSqlite;
 use App\EditFilePage;
 use App\EditPublisherPage;
-use App\EditShiftPage;
-use App\EditShiftTypePage;
 use App\EmailSettingsPage;
 use App\EmailTemplatesPage;
 use App\FileViewPage;
@@ -51,7 +47,7 @@ use App\SubmitReportPage;
 use App\SystemHistoryPage;
 use App\UpdatePage;
 use App\UploadFilePage;
-use App\UserDetailsPage;
+use App\UserSession;
 use PhpPages\App;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
@@ -68,6 +64,7 @@ require __DIR__ . '/../vendor/autoload.php';
     private string $httpMethod;
     private \PDO $pdo;
     private SessionInterface $session;
+    private UserSession $userSession;
 
     public function __construct(string $httpMethod = '', bool $authenticated = false)
     {
@@ -79,11 +76,12 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       $this->session = new NativeSession();
+      $this->userSession = new UserSession($this->session);
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-      if (!$this->session->param('id_user')) {
+      if (!$this->userSession->active()) {
         return $output->withMetadata(
           PageInterface::STATUS,
           PageInterface::STATUS_401_UNAUTHORIZED
@@ -158,7 +156,7 @@ require __DIR__ . '/../vendor/autoload.php';
           return new InstallPage();
       }
 
-      if (!$this->session->param('id_user') && $value != '/') {
+      if (!$this->userSession->active() && $value != '/') {
         return new self($this->httpMethod, true);
       }
 
@@ -170,7 +168,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)/shifts/([0-9]+)/slots$|', $value, $matches) === 1) {
           return new SlotsPost(
-            $this->session,
+            $this->userSession,
             new SlotsSqlite($this->pdo),
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             new PublishersSqlite($this->pdo),
@@ -190,7 +188,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
       if ($this->httpMethod === 'GET') {
         if ('/api/me' === $value) {
-          return new MeGet($this->session);
+          return new MeGet($this->userSession, $this->session);
         }
 
         if (preg_match('|^/api/shifts/([0-9]+)/applications$|', $value, $matches) === 1) {
@@ -277,7 +275,7 @@ require __DIR__ . '/../vendor/autoload.php';
       if ($this->httpMethod === 'DELETE') {
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)/shifts/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
           return new SlotDelete(
-            $this->session,
+            $this->userSession,
             new SlotsSqlite($this->pdo),
             (int)$matches[2],
             (int)$matches[3],

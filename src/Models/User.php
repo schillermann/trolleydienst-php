@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Models;
 
-class User {
+class User
+{
 
     function __construct(
         int $id_user,
@@ -10,7 +12,7 @@ class User {
         string $lastName,
         string $email,
         string $password,
-        bool $administrative = false,
+        bool $admin = false,
         bool $active = true,
         string $phone = '',
         string $mobile = '',
@@ -25,7 +27,7 @@ class User {
         $this->lastName = $lastName;
         $this->email = $email;
         $this->password = $password;
-        $this->administrative = $administrative;
+        $this->admin = $admin;
         $this->active = $active;
         $this->phone = $phone;
         $this->mobile = $mobile;
@@ -35,62 +37,76 @@ class User {
         $this->publisher_note = $publisher_note;
     }
 
-    function get_id_user(): int {
+    function get_id_user(): int
+    {
         return $this->id_user;
     }
 
-    function get_username(): string {
+    function get_username(): string
+    {
         return $this->username;
     }
-    
-    function get_firstName(): string {
+
+    function get_firstName(): string
+    {
         return $this->firstName;
     }
 
-    function get_lastName(): string {
+    function get_lastName(): string
+    {
         return $this->lastName;
     }
 
-    function get_email(): string {
+    function get_email(): string
+    {
         return $this->email;
     }
 
-    function get_password(): string {
+    function get_password(): string
+    {
         return $this->password;
     }
 
-    function active(): bool {
+    function active(): bool
+    {
         return $this->active;
     }
 
-    function administrative(): bool {
-        return $this->administrative;
+    function admin(): bool
+    {
+        return $this->admin;
     }
 
-    function get_phone(): string {
+    function get_phone(): string
+    {
         return $this->phone;
     }
 
-    function get_mobile(): string {
+    function get_mobile(): string
+    {
         return $this->mobile;
     }
 
-    function get_congregation(): string {
+    function get_congregation(): string
+    {
         return $this->congregation;
     }
 
-    function get_language(): string {
+    function get_language(): string
+    {
         return $this->language;
     }
 
-    function get_publisher_note(): string {
+    function get_publisher_note(): string
+    {
         return $this->publisher_note;
     }
 
-    function get_admin_note(): string {
+    function get_admin_note(): string
+    {
         return $this->admin_note;
     }
 
-    protected $id_user, $firstName, $lastName, $email, $password, $administrative, $active, $phone, $mobile;
+    protected $id_user, $username, $firstName, $lastName, $email, $password, $admin, $active, $phone, $mobile;
     protected $congregation, $language, $publisher_note, $admin_note;
 }

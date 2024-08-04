@@ -53,7 +53,7 @@ class PublishersGet implements PageInterface
         'publisherNote' => $publisher->publisherNote(),
         'adminNote' => $publisher->adminNote(), // TODO: Display only by admin user
         'active' => $publisher->active(),
-        'administrative' => $publisher->administrative(),
+        'admin' => $publisher->admin(),
         'loggedOn' => $publisher->loggedOn()->format(\DateTimeInterface::ATOM),
         'updatedOn' => $publisher->updatedOn()->format(\DateTimeInterface::ATOM),
         'createdOn' => $publisher->createdOn()->format(\DateTimeInterface::ATOM)

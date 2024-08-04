@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -10,12 +11,12 @@ class ChangePublisherPassword implements PageInterface
     {
         $placeholder = require '../includes/init_page.php';
 
-        if(isset($_POST['save']) && !empty($_POST['password'])) {
-            if(DEMO) {
+        if (isset($_POST['save']) && !empty($_POST['password'])) {
+            if (DEMO) {
                 $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
             } else {
-                if($_POST['password'] == $_POST['password_repeat'])
-                    if(Tables\Publisher::update_password($database_pdo, $_SESSION['id_user'], $_POST['password']))
+                if ($_POST['password'] == $_POST['password_repeat'])
+                    if (Tables\Publisher::update_password($database_pdo, $_SESSION['publisher_id'], $_POST['password']))
                         $placeholder['message']['success'] = __('Your password has been changed successfully.');
                     else
                         $placeholder['message']['error'] = __('Your password could not be changed!');

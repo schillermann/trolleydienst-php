@@ -67,9 +67,9 @@ class PublisherSqlite
   {
     return (bool)$this->columns['active'];
   }
-  function administrative(): bool
+  function admin(): bool
   {
-    return (bool)$this->columns['administrative'];
+    return (bool)$this->columns['admin'];
   }
   function loggedOn(): \DateTimeImmutable
   {

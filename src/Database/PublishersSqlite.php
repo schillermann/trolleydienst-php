@@ -14,7 +14,7 @@ class PublishersSqlite
   function publisher(int $publisherId): PublisherSqlite
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative, logged_on, updated_on AS last_modified_on, created_on
+            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative AS admin, logged_on, updated_on AS last_modified_on, created_on
             FROM publisher
             WHERE id = :publisherId
         SQL);
@@ -36,7 +36,7 @@ class PublishersSqlite
   function publishers(int $offset, int $limit): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative, logged_on, updated_on, created_on
+            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative AS admin, logged_on, updated_on, created_on
             FROM publisher
             LIMIT :offset, :limit
         SQL);
@@ -57,7 +57,7 @@ class PublishersSqlite
   function publishersFilterActive(int $offset, int $limit): \Generator
   {
     $stmt = $this->pdo->prepare(<<<SQL
-            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative, logged_on, updated_on, created_on
+            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative AS admin, logged_on, updated_on, created_on
             FROM publisher
             WHERE active = 1
             LIMIT :offset, :limit

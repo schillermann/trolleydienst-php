@@ -49,7 +49,7 @@ class Publisher
     static function select_all(\PDO $connection): array
     {
         $stmt = $connection->query(
-            'SELECT id, first_name, last_name, email, administrative, active, logged_on
+            'SELECT id, first_name, last_name, email, administrative AS admin, active, logged_on
             FROM ' . self::TABLE_NAME
         );
         $user_list = $stmt->fetchAll();
@@ -58,7 +58,7 @@ class Publisher
     static function select_user_search_name(\PDO $connection, $search_name = ""): array
     {
         $stmt = $connection->query(
-            'SELECT id, first_name, last_name, email, administrative, active, logged_on
+            'SELECT id, first_name, last_name, email, administrative AS admin, active, logged_on
             FROM ' . self::TABLE_NAME
         );
         if (!empty($search_name)) {
@@ -197,7 +197,7 @@ class Publisher
     static function select_logindata(\PDO $connection, string $email_or_username, string $password): array
     {
         $stmt = $connection->prepare(<<<SQL
-            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative, logged_on, updated_on, created_on
+            SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language, publisher_note, admin_note, active, administrative AS admin, logged_on, updated_on, created_on
             FROM publisher
             WHERE (email = :email OR username = :username)
             AND password = :password
@@ -274,7 +274,7 @@ class Publisher
                 ':last_name' => $user->get_lastName(),
                 ':email' => $user->get_email(),
                 ':active' => (int)$user->active(),
-                ':administrative' => (int)$user->administrative(),
+                ':administrative' => (int)$user->admin(),
                 ':phone' => $user->get_phone(),
                 ':mobile' => $user->get_mobile(),
                 ':congregation' => $user->get_congregation(),
@@ -328,7 +328,7 @@ class Publisher
                 ':congregation' => $user->get_congregation(),
                 ':language' => $user->get_language(),
                 ':admin_note' => $user->get_admin_note(),
-                ':administrative' => (int)$user->administrative(),
+                ':administrative' => (int)$user->admin(),
                 ':active' => (int)$user->active()
             ]
         ) && $stmt->rowCount() == 1;

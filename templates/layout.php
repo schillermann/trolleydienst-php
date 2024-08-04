@@ -119,7 +119,7 @@ $active_page = include '../templates/helpers/active_page.php';
                             <i class="fa fa-user"></i> <?= __('Profile') ?>
                         </a>
                     </li>
-                    <?php if ($_SESSION['administrative']) : ?>
+                    <?php if ($_SESSION['admin']) : ?>
                         <li>
                             <a href="shift-type" class="<?= $active_page('shift-type', 'add-shift-type', 'edit-shift-type'); ?>">
                                 <i class="fa fa-calendar"></i> <?= __('Calendar Settings') ?>
