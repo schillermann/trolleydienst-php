@@ -29,7 +29,7 @@ import "../components/calender-cards.js";
  * @property {Array} shifts
  */
 
-export class ShiftView extends LitElement {
+export class CalendarView extends LitElement {
   static properties = {
     calendarId: { type: Number },
   };
@@ -60,4 +60,4 @@ export class ShiftView extends LitElement {
       )}`;
   }
 }
-customElements.define("shift-view", ShiftView);
+customElements.define("calendar-view", CalendarView);
