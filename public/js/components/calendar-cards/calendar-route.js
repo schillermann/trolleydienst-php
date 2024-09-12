@@ -54,7 +54,7 @@ export class CalendarRoute extends LitElement {
     }
 
     th {
-      color: var(--td-secondary-white);
+      color: var(--td-brand-white-90);
       text-align: left;
       padding: 10px;
       font-size: 17px;

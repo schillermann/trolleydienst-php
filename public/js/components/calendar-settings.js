@@ -25,8 +25,8 @@ export class CalendarSettings extends LitElement {
       width: 100%;
 
       th {
-        color: #373433;
-        background-color: var(--td-brand-purple-70);
+        color: var(--td-brand-white-90);
+        background-color: var(--td-brand-purple-62);
         text-align: left;
         padding: 10px;
         font-size: 17px;

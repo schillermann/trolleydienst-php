@@ -24,7 +24,9 @@ $active_page = include '../templates/helpers/active_page.php';
         :root {
             /** color palette */
             --td-brand-purple-40: hsl(267, 25%, 40%);
-            --td-brand-purple-70: hsl(267, 25%, 70%);
+            --td-brand-purple-62: hsl(267, 25%, 62%);
+            --td-brand-white-90: hsl(0, 0%, 90%);
+            --td-brand-white-100: hsl(0, 0%, 100%);
 
             --td-secondary-grey-94: hsl(0 0% 94%);
             --td-secondary-grey-90: hsl(0 0% 90%);
@@ -36,12 +38,12 @@ $active_page = include '../templates/helpers/active_page.php';
             --td-secondary-red: hsl(0 100% 40%);
             --td-secondary-green: hsl(80 100% 40%);
             --td-secondary-black: hsl(0, 0%, 0%);
-            --td-secondary-white: hsl(0, 0%, 100%);
+
 
             /** scope */
             --td-font: Helvetica Light, Helvetica, Arial;
             --td-background-body-color: var(--td-secondary-grey-94);
-            --td-background-content-color: var(--td-secondary-white);
+            --td-background-content-color: var(--td-brand-white-100);
             --td-background-content-accent-color: var(--td-secondary-grey-90);
             --td-text-default-color: var(--td-secondary-black);
             --td-text-accent-color: var(--td-brand-purple-40);
@@ -54,7 +56,7 @@ $active_page = include '../templates/helpers/active_page.php';
                 --td-background-body-color: var(--td-secondary-black);
                 --td-background-content-color: var(--td-secondary-grey-7);
                 --td-background-content-accent-color: var(--td-secondary-grey-16);
-                --td-text-default-color: var(--td-secondary-white);
+                --td-text-default-color: var(--td-brand-white-100);
                 --td-text-accent-color: var(--td-brand-purple-70);
             }
         }

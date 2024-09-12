@@ -10,8 +10,8 @@ export class ViewDialog extends LitElement {
 
   static styles = css`
     dialog {
-      color: var(--td-secondary-black);
-      background-color: var(--td-secondary-white);
+      color: var(--td-text-default-color);
+      background-color: var(--td-background-content-color);
     }
     dialog::backdrop {
       background: rgba(0, 0, 0, 0.6);

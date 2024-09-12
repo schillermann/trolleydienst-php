@@ -33,12 +33,12 @@ export class ViewButton extends LitElement {
     }
 
     .danger {
-      color: #fff;
+      color: var(--td-brand-white-90);
       background-color: var(--td-secondary-red);
     }
 
     .primary {
-      color: #fff;
+      color: var(--td-brand-white-90);
       background-color: var(--td-brand-purple-40);
     }
 
@@ -57,7 +57,7 @@ export class ViewButton extends LitElement {
 
     @media (prefers-color-scheme: dark) {
       button {
-        color: var(--td-secondary-white);
+        color: var(--td-brand-white-90);
         background-color: var(--td-secondary-grey-20);
         border-color: var(--td-secondary-grey-35);
     }
