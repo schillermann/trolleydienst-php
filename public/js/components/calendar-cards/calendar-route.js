@@ -54,14 +54,14 @@ export class CalendarRoute extends LitElement {
     }
 
     th {
-      color: #363636;
+      color: var(--td-secondary-white);
       text-align: left;
       padding: 10px;
       font-size: 17px;
     }
 
     tr:nth-child(even) {
-      background-color: var(--td-background);
+      background-color: var(--td-background-content-accent-color);
     }
 
     td {

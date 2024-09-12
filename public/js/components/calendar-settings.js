@@ -26,14 +26,14 @@ export class CalendarSettings extends LitElement {
 
       th {
         color: #373433;
-        background-color: #afa0bf;
+        background-color: var(--td-brand-purple-70);
         text-align: left;
         padding: 10px;
         font-size: 17px;
       }
 
       tr:nth-child(even) {
-        background-color: var(--td-background);
+        background-color: var(--td-background-content-accent-color);
       }
 
       td {

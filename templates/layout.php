@@ -22,47 +22,51 @@ $active_page = include '../templates/helpers/active_page.php';
     <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-iphone.png" />
     <style>
         :root {
-            --font: Helvetica Light, Helvetica, Arial;
+            /** color palette */
+            --td-brand-purple-40: hsl(267, 25%, 40%);
+            --td-brand-purple-70: hsl(267, 25%, 70%);
 
-            --td-text-primary: #000;
+            --td-secondary-grey-94: hsl(0 0% 94%);
+            --td-secondary-grey-90: hsl(0 0% 90%);
+            --td-secondary-grey-70: hsl(0 0% 70%);
+            --td-secondary-grey-35: hsl(0 0% 35%);
+            --td-secondary-grey-20: hsl(0 0% 20%);
+            --td-secondary-grey-16: hsl(0 0% 16%);
+            --td-secondary-grey-7: hsl(0 0% 7%);
+            --td-secondary-red: hsl(0 100% 40%);
+            --td-secondary-green: hsl(80 100% 40%);
+            --td-secondary-black: hsl(0, 0%, 0%);
+            --td-secondary-white: hsl(0, 0%, 100%);
 
-            --td-primar: #604A7B;
-            --td-secondary: #666e75;
-
-            --td-success: #9ccc68;
-            --td-danger: #c82333;
-
-            --td-background: #edeae6;
-            --td-background-primary: #a484ce;
-            --td-background-secondary: #fff;
-            --td-background-element: #edeae6;
-
-            --td-shadow: rgba(0, 0, 0, 0.12);
-            --td-focus: 0.85;
-
-            --td-radius: 5px;
-            --td-border: #dee5f2;
+            /** scope */
+            --td-font: Helvetica Light, Helvetica, Arial;
+            --td-background-body-color: var(--td-secondary-grey-94);
+            --td-background-content-color: var(--td-secondary-white);
+            --td-background-content-accent-color: var(--td-secondary-grey-90);
+            --td-text-default-color: var(--td-secondary-black);
+            --td-text-accent-color: var(--td-brand-purple-40);
+            --td-hover-brightness: 0.85;
+            --td-border-radius: 5px;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --td-text-primary: #bfbfbf;
-                --td-primar: #1f1f1f;
-                --td-secondary: #404040;
-                --td-background: #2e2e2e;
-                --td-background-secondary: #404040;
-                --td-background-element: #2e2e2e;
+                --td-background-body-color: var(--td-secondary-black);
+                --td-background-content-color: var(--td-secondary-grey-7);
+                --td-background-content-accent-color: var(--td-secondary-grey-16);
+                --td-text-default-color: var(--td-secondary-white);
+                --td-text-accent-color: var(--td-brand-purple-70);
             }
         }
 
         body {
-            font-family: var(--font);
-            color: var(--td-text-primary);
-            background-color: var(--td-background);
+            font-family: var(--td-font);
+            color: var(--td-text-default-color);
+            background-color: var(--td-background-body-color);
         }
 
         main {
-            background-color: var(--td-background-secondary);
+            background-color: var(--td-background-content-color);
         }
     </style>
 </head>

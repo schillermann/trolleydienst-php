@@ -16,33 +16,35 @@ export class ViewButton extends LitElement {
       touch-action: manipulation;
       cursor: pointer;
       user-select: none;
-      border: 1px solid rgba(189, 183, 181, 0.5);
+      border: 1px solid;
+      border-color: var(--td-secondary-grey-70);
       margin-bottom: 4px;
-      background-color: var(--td-background-element);
-      border-radius: var(--td-radius);
+      background-color: var(--td-secondary-grey-90);
+      border-radius: var(--td-border-radius);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 180px;
-      color: var(--td-text-primary);
+      color: var(--td-secondary-black);
     }
 
     button:hover {
-      filter: brightness(var(--td-focus));
+      filter: brightness(var(--td-hover-brightness));
     }
 
     .danger {
-      background-color: var(--td-danger);
+      color: #fff;
+      background-color: var(--td-secondary-red);
     }
 
     .primary {
       color: #fff;
-      background-color: var(--td-primar);
+      background-color: var(--td-brand-purple-40);
     }
 
     .active {
       color: #000;
-      background-color: var(--td-success);
+      background-color: var(--td-secondary-green);
     }
 
     .wide {
@@ -51,6 +53,13 @@ export class ViewButton extends LitElement {
 
     .flex {
       width: auto;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      button {
+        color: var(--td-secondary-white);
+        background-color: var(--td-secondary-grey-20);
+        border-color: var(--td-secondary-grey-35);
     }
   `;
 

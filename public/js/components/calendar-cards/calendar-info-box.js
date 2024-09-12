@@ -14,7 +14,7 @@ export class CalendarInfoBox extends LitElement {
   static styles = css`
     article {
       border: 1px dotted;
-      background-color: #edeae6;
+      background-color: var(--td-background-content-accent-color);
       padding: 14px;
     }
 
