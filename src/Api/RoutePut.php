@@ -3,11 +3,13 @@
 namespace App\Api;
 
 use App\Database\RoutesSqlite;
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class RoutePut implements PageInterface
 {
+    private UserSession $userSession;
     private RoutesSqlite $routes;
     private int $routeId;
     private string $routeName;
@@ -17,6 +19,7 @@ class RoutePut implements PageInterface
     private string $color;
 
     public function __construct(
+        UserSession $userSession,
         RoutesSqlite $routes,
         int $routeId,
         string $routeName = "",
@@ -25,6 +28,7 @@ class RoutePut implements PageInterface
         int $minutesPerShift = 0,
         string $color = ""
     ) {
+        $this->userSession = $userSession;
         $this->routes = $routes;
         $this->routeId = $routeId;
         $this->routeName = $routeName;
@@ -36,6 +40,13 @@ class RoutePut implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
+        if (!$this->userSession->admin()) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_401_UNAUTHORIZED
+            );
+        }
+
         $updated = $this->routes->update(
             $this->routeId,
             $this->start,
@@ -63,6 +74,7 @@ class RoutePut implements PageInterface
         if ($name === PageInterface::BODY) {
             $body = json_decode($value, true);
             return new self(
+                $this->userSession,
                 $this->routes,
                 $this->routeId,
                 $body['routeName'],

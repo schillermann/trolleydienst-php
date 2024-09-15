@@ -98,7 +98,7 @@ class PublishersSqlite
     $stmt = $this->pdo->prepare(<<<SQL
       SELECT id, username, first_name AS firstname, last_name AS lastname, email, phone, mobile, congregation, language as languages, publisher_note, admin_note, active, administrative AS admin, logged_on, updated_on, created_on
       FROM publisher
-      WHERE active = 1 AND (first_name LIKE :searchNameOrEmail OR last_name LIKE :searchNameOrEmail OR email LIKE :searchNameOrEmail)
+      WHERE first_name LIKE :searchNameOrEmail OR last_name LIKE :searchNameOrEmail OR email LIKE :searchNameOrEmail
       LIMIT :offset, :limit
     SQL);
 
@@ -187,5 +187,17 @@ class PublishersSqlite
     ]);
 
     return $stmt->rowCount() == 1;
+  }
+
+  public function delete(int $publisherId): bool
+  {
+    $stmt = $this->pdo->prepare(<<<SQL
+      DELETE FROM publisher
+      WHERE id = :publisherId
+    SQL);
+
+    return $stmt->execute(
+      [':publisherId' => $publisherId]
+    );
   }
 }

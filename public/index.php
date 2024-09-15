@@ -8,6 +8,7 @@ use App\Api\CalendarsGet;
 use App\Api\CalendarPost;
 use App\Api\RouteGet;
 use App\Api\MeGet;
+use App\Api\PublisherDelete;
 use App\Api\PublisherGet;
 use App\Api\PublisherPost;
 use App\Api\PublisherPut;
@@ -179,10 +180,11 @@ require __DIR__ . '/../vendor/autoload.php';
           );
         }
         if (preg_match('|^/api/calendars/([0-9]+)/routes$|', $value, $matches) === 1) {
-          return new RoutePost(new RoutesSqlite($this->pdo, (int)$matches[1]));
+          return new RoutePost($this->userSession, new RoutesSqlite($this->pdo, (int)$matches[1]));
         }
         if (preg_match('|^/api/calendars$|', $value, $matches) === 1) {
           return new CalendarPost(
+            $this->userSession,
             new CalendarsSqlite($this->pdo)
           );
         }
@@ -268,6 +270,7 @@ require __DIR__ . '/../vendor/autoload.php';
       if ($this->httpMethod === 'PUT') {
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
           return new RoutePut(
+            $this->userSession,
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
           );
@@ -275,6 +278,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
         if (preg_match('|^/api/calendars/([0-9]+)$|', $value, $matches) === 1) {
           return new CalendarPut(
+            $this->userSession,
             new CalendarsSqlite($this->pdo),
             (int)$matches[1]
           );
@@ -297,6 +301,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
         if (preg_match('|^/api/calendars/([0-9]+)/routes/([0-9]+)$|', $value, $matches) === 1) {
           return new RouteDelete(
+            $this->userSession,
             new RoutesSqlite($this->pdo, (int)$matches[1]),
             (int)$matches[2]
           );
@@ -304,7 +309,16 @@ require __DIR__ . '/../vendor/autoload.php';
 
         if (preg_match('|^/api/calendars/([0-9]+)$|', $value, $matches) === 1) {
           return new CalendarDelete(
+            $this->userSession,
             new CalendarsSqlite($this->pdo),
+            (int)$matches[1]
+          );
+        }
+
+        if (preg_match('|^/api/publishers/([0-9]+)$|', $value, $matches) === 1) {
+          return new PublisherDelete(
+            $this->userSession,
+            new PublishersSqlite($this->pdo),
             (int)$matches[1]
           );
         }

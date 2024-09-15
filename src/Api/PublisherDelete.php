@@ -2,25 +2,25 @@
 
 namespace App\Api;
 
-use App\Database\CalendarsSqlite;
+use App\Database\PublishersSqlite;
 use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class CalendarDelete implements PageInterface
+class PublisherDelete implements PageInterface
 {
     private UserSession $userSession;
-    private CalendarsSqlite $calendars;
-    private int $calendarId;
+    private PublishersSqlite $publishers;
+    private int $publisherId;
 
     public function __construct(
         UserSession $userSession,
-        CalendarsSqlite $calendars,
-        int $calendarId
+        PublishersSqlite $publishers,
+        int $publisherId
     ) {
         $this->userSession = $userSession;
-        $this->calendars = $calendars;
-        $this->calendarId = $calendarId;
+        $this->publishers = $publishers;
+        $this->publisherId = $publisherId;
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
@@ -32,8 +32,8 @@ class CalendarDelete implements PageInterface
             );
         }
 
-        $deleted = $this->calendars->delete(
-            $this->calendarId
+        $deleted = $this->publishers->delete(
+            $this->publisherId
         );
 
         if ($deleted) {

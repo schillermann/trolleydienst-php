@@ -147,7 +147,7 @@ export class PublisherManagementDialog extends ViewDialog {
 
     if (response.ok) {
       this.dispatchEvent(
-        new Event("update-calendar-settings", {
+        new Event("update-publishers", {
           bubbles: true,
           composed: true,
         })

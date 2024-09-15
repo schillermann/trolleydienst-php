@@ -3,11 +3,13 @@
 namespace App\Api;
 
 use App\Database\RoutesSqlite;
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class RoutePost implements PageInterface
 {
+    private UserSession $userSession;
     private RoutesSqlite $routes;
     private string $routeName;
     private \DateTimeImmutable $start;
@@ -16,6 +18,7 @@ class RoutePost implements PageInterface
     private string $color;
 
     public function __construct(
+        UserSession $userSession,
         RoutesSqlite $routes,
         string $routeName = "",
         \DateTimeImmutable $start = new \DateTimeImmutable(),
@@ -23,6 +26,7 @@ class RoutePost implements PageInterface
         int $minutesPerShift = 0,
         string $color = ""
     ) {
+        $this->userSession = $userSession;
         $this->routes = $routes;
         $this->routeName = $routeName;
         $this->start = $start;
@@ -33,6 +37,13 @@ class RoutePost implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
+        if (!$this->userSession->admin()) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_401_UNAUTHORIZED
+            );
+        }
+
         $routeId = $this->routes->add(
             $this->start,
             $this->routeName,
@@ -75,6 +86,7 @@ class RoutePost implements PageInterface
         if ($name === PageInterface::BODY) {
             $body = json_decode($value, true);
             return new self(
+                $this->userSession,
                 $this->routes,
                 $body['routeName'],
                 new \DateTimeImmutable($body['start']),

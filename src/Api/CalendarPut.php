@@ -3,11 +3,13 @@
 namespace App\Api;
 
 use App\Database\CalendarsSqlite;
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class CalendarPut implements PageInterface
 {
+    private UserSession $userSession;
     private CalendarsSqlite $calendars;
     private int $calendarId;
     private string $calendarName;
@@ -15,12 +17,14 @@ class CalendarPut implements PageInterface
     private int $publishersPerShift;
 
     public function __construct(
+        UserSession $userSession,
         CalendarsSqlite $calendars,
         int $calendarId,
         string $calendarName = "",
         string $info = "",
         int $publishersPerShift = 0,
     ) {
+        $this->userSession = $userSession;
         $this->calendars = $calendars;
         $this->calendarId = $calendarId;
         $this->calendarName = $calendarName;
@@ -30,6 +34,13 @@ class CalendarPut implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
+        if (!$this->userSession->admin()) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_401_UNAUTHORIZED
+            );
+        }
+
         $updated = $this->calendars->update(
             $this->calendarId,
             $this->calendarName,
@@ -55,6 +66,7 @@ class CalendarPut implements PageInterface
         if ($name === PageInterface::BODY) {
             $body = json_decode($value, true);
             return new self(
+                $this->userSession,
                 $this->calendars,
                 $this->calendarId,
                 $body['name'],
