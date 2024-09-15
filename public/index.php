@@ -5,10 +5,12 @@ use App\Api\CalendarDelete;
 use App\Api\CalendarGet;
 use App\Api\CalendarPut;
 use App\Api\CalendarsGet;
-use App\Api\CalendarsPost;
+use App\Api\CalendarPost;
 use App\Api\RouteGet;
 use App\Api\MeGet;
 use App\Api\PublisherGet;
+use App\Api\PublisherPost;
+use App\Api\PublisherPut;
 use App\Api\PublishersGet;
 use App\Api\RouteDelete;
 use App\Api\RoutePost;
@@ -180,8 +182,14 @@ require __DIR__ . '/../vendor/autoload.php';
           return new RoutePost(new RoutesSqlite($this->pdo, (int)$matches[1]));
         }
         if (preg_match('|^/api/calendars$|', $value, $matches) === 1) {
-          return new CalendarsPost(
+          return new CalendarPost(
             new CalendarsSqlite($this->pdo)
+          );
+        }
+        if (preg_match('|^/api/publishers$|', $value, $matches) === 1) {
+          return new PublisherPost(
+            $this->userSession,
+            new PublishersSqlite($this->pdo)
           );
         }
       }
@@ -226,7 +234,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
 
         if ('/api/publishers' === $value) {
-          return new PublishersGet(new PublishersSqlite($this->pdo));
+          return new PublishersGet($this->userSession, new PublishersSqlite($this->pdo));
         }
 
         if (preg_match('|^/api/shifts/([0-9]+)/positions/([0-9]+)/publishers/([0-9]+)$|', $value, $matches) === 1) {
@@ -250,6 +258,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
         if (preg_match('|^/api/publishers/([0-9]+)$|', $value, $matches) === 1) {
           return new PublisherGet(
+            $this->userSession,
             new PublishersSqlite($this->pdo),
             (int)$matches[1]
           );
@@ -269,6 +278,10 @@ require __DIR__ . '/../vendor/autoload.php';
             new CalendarsSqlite($this->pdo),
             (int)$matches[1]
           );
+        }
+
+        if (preg_match('|^/api/publishers/([0-9]+)$|', $value, $matches) === 1) {
+          return new PublisherPut(new PublishersSqlite($this->pdo), (int)$matches[1]);
         }
       }
 

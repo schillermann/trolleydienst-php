@@ -3,40 +3,58 @@
 namespace App\Api;
 
 use App\Database\PublishersSqlite;
+use App\UserSession;
 use PhpPages\Form\SimpleFormData;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class PublishersGet implements PageInterface
 {
+  private UserSession $userSession;
   private PublishersSqlite $publishers;
   private bool $filterActivePublishers;
+  private string $searchNameOrEmail;
   private int $pageNumber;
   private int $pageItems;
 
   public function __construct(
+    UserSession $userSession,
     PublishersSqlite $publishers,
     bool $filterActivePublishers = false,
+    string $searchNameOrEmail = '',
     int $pageNumber = 0,
     int $pageItems = 10
   ) {
+    $this->userSession = $userSession;
     $this->publishers = $publishers;
     $this->filterActivePublishers = $filterActivePublishers;
+    $this->searchNameOrEmail = $searchNameOrEmail;
     $this->pageNumber = $pageNumber;
     $this->pageItems = $pageItems;
   }
 
   public function viaOutput(OutputInterface $output): OutputInterface
   {
+    if (!$this->userSession->admin()) {
+      return $output->withMetadata(
+        PageInterface::STATUS,
+        PageInterface::STATUS_401_UNAUTHORIZED
+      );
+    }
+
     $offset = ($this->pageNumber - 1) * $this->pageItems;
     $limit = $this->pageItems;
 
-    $publishers = $this->filterActivePublishers ?
-      $this->publishers->publishersFilterActive($offset, $limit) :
+    if ($this->filterActivePublishers) {
+      $publishers = $this->publishers->publishersFilterActive($offset, $limit);
+    } else if ($this->searchNameOrEmail) {
+      $publishers = $this->publishers->publishersByNameOrEmail($offset, $limit, $this->searchNameOrEmail);
+    } else {
       $publishers = $this->publishers->publishers(
         $offset,
         $limit
       );
+    }
 
     $body = [];
     foreach ($publishers as $publisher) {
@@ -49,9 +67,9 @@ class PublishersGet implements PageInterface
         'phone' => $publisher->phone(),
         'mobile' => $publisher->mobile(),
         'congregation' => $publisher->congregation(),
-        'language' => $publisher->language(),
+        'language' => $publisher->languages(),
         'publisherNote' => $publisher->publisherNote(),
-        'adminNote' => $publisher->adminNote(), // TODO: Display only by admin user
+        'adminNote' => $publisher->adminNote(),
         'active' => $publisher->active(),
         'admin' => $publisher->admin(),
         'loggedOn' => $publisher->loggedOn()->format(\DateTimeInterface::ATOM),
@@ -92,8 +110,10 @@ class PublishersGet implements PageInterface
       $query = new SimpleFormData($value);
 
       return new self(
+        $this->userSession,
         $this->publishers,
         (bool)$query->param('active'),
+        $query->param('search'),
         (int)$query->paramWithDefault('page-number', '1'),
         (int)$query->paramWithDefault('page-items', '10'),
       );

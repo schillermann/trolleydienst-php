@@ -6,7 +6,6 @@ export class CalendarRouteFilter extends LitElement {
     input {
       padding: 6px;
       margin: 2px 0;
-      font-family: inherit;
       border: 1px solid #bdb7b5;
       box-sizing: border-box;
       min-height: 36px;

@@ -3,16 +3,19 @@
 namespace App\Api;
 
 use App\Database\PublishersSqlite;
+use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class PublisherGet implements PageInterface
 {
+  private UserSession $userSession;
   private PublishersSqlite $publishers;
   private int $publisherId;
 
-  function __construct(PublishersSqlite $publishers, int $publisherId)
+  function __construct(UserSession $userSession, PublishersSqlite $publishers, int $publisherId)
   {
+    $this->userSession = $userSession;
     $this->publishers = $publishers;
     $this->publisherId = $publisherId;
   }
@@ -45,7 +48,9 @@ class PublisherGet implements PageInterface
             'phone' => $publisher->phone(),
             'mobile' => $publisher->mobile(),
             'congregation' => $publisher->congregation(),
-            'language' => $publisher->language(),
+            'languages' => $publisher->languages(),
+            'publisherNote' => $publisher->publisherNote(),
+            'adminNote' => $this->userSession->admin() ? $publisher->adminNote() : '',
             'publisherNote' => $publisher->publisherNote(),
             'active' => $publisher->active(),
             'admin' => $publisher->admin(),

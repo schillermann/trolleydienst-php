@@ -6,7 +6,7 @@ use App\Database\CalendarsSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
-class CalendarsPost implements PageInterface
+class CalendarPost implements PageInterface
 {
     private CalendarsSqlite $calendars;
     private string $calendarName;

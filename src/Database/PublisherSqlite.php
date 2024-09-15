@@ -45,9 +45,9 @@ class PublisherSqlite
   {
     return $this->columns['congregation'];
   }
-  function language(): string
+  function languages(): string
   {
-    return $this->columns['language'];
+    return $this->columns['languages'];
   }
   function publisherNote(): string
   {

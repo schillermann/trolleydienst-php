@@ -16,6 +16,9 @@ export class ViewDialog extends LitElement {
     dialog::backdrop {
       background: rgba(0, 0, 0, 0.6);
     }
+    footer {
+      margin-top: 10px;
+    }
   `;
 
   constructor() {
