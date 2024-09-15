@@ -1,6 +1,6 @@
-import { html, css, until } from "../../lit-all.min.js";
-import { ViewDialog } from "../view-dialog.js";
-import { translate } from "../../translate.js";
+import { html, css, until } from "../lit-all.min.js";
+import { ViewDialog } from "./view-dialog.js";
+import { translate } from "../translate.js";
 
 /**
  * @typedef {Object} Calendar

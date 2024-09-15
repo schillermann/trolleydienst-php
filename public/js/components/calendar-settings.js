@@ -1,6 +1,6 @@
 import { LitElement, css, html, until } from "../lit-all.min.js";
 import { translate } from "../translate.js";
-import "./calendar-settings/calendar-settings-dialog.js";
+import "./calendar-settings-dialog.js";
 import "./view-button.js";
 
 /**
