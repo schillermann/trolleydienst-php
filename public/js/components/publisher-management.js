@@ -1,4 +1,4 @@
-import { LitElement, css, html, until } from "../lit-all.min.js";
+import { LitElement, css, html, until, nothing } from "../lit-all.min.js";
 import { translate } from "../translate.js";
 import "./publisher-management-dialog.js";
 import "./view-search.js";
@@ -25,8 +25,11 @@ import "./view-button.js";
  */
 
 export class PublisherManagement extends LitElement {
-  /** @type {string} */
-  _searchNameOrEmail;
+  static properties = {
+    publisherId: { type: Number },
+    demo: { type: Boolean },
+    _searchNameOrEmail: { type: String, state: true },
+  };
 
   static styles = css`
     section {
@@ -72,6 +75,8 @@ export class PublisherManagement extends LitElement {
 
   constructor() {
     super();
+    this.publisher = 0;
+    this.demo = false;
     this._searchNameOrEmail = "";
   }
 
@@ -81,7 +86,6 @@ export class PublisherManagement extends LitElement {
    */
   _handlerSearchPublisher(event) {
     this._searchNameOrEmail = event.detail.search;
-    this.requestUpdate();
   }
 
   /**
@@ -115,6 +119,7 @@ export class PublisherManagement extends LitElement {
       <link rel="stylesheet" href="css/fontawesome.min.css" />
       <publisher-management-dialog
         title="${translate("New Publisher")}"
+        demo="${this.demo || nothing}"
       ></publisher-management-dialog>
       <nav>
         <view-button type="primary flex" @click="${this._openDialog}">

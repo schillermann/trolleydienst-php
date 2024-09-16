@@ -25,6 +25,7 @@ import { translate } from "../translate.js";
 export class PublisherManagementDialog extends ViewDialog {
   static properties = {
     publisherId: { type: Number },
+    demo: { type: Boolean },
   };
 
   static styles = [
@@ -39,6 +40,7 @@ export class PublisherManagementDialog extends ViewDialog {
 
   constructor() {
     super();
+    this.demo = false;
     this._closed();
   }
 
@@ -52,6 +54,14 @@ export class PublisherManagementDialog extends ViewDialog {
    */
   async _editPublisher(event) {
     event.preventDefault();
+
+    if (this.demo) {
+      this._errorMessage = translate(
+        "Publishers cannot be edited in the demo version."
+      );
+      return;
+    }
+
     /** @type {HTMLFormControlsCollection} */
     const elements = event.currentTarget.elements;
 
@@ -98,6 +108,13 @@ export class PublisherManagementDialog extends ViewDialog {
    */
   async _createPublisher(event) {
     event.preventDefault();
+    if (this.demo) {
+      this._errorMessage = translate(
+        "Publishers cannot be added in the demo version."
+      );
+      return;
+    }
+
     /** @type {HTMLFormControlsCollection} */
     const elements = event.currentTarget.elements;
 
@@ -141,6 +158,13 @@ export class PublisherManagementDialog extends ViewDialog {
    * @returns {void}
    */
   async _clickDelete(event) {
+    if (this.demo) {
+      this._errorMessage = translate(
+        "Publishers cannot be deleted in the demo version."
+      );
+      return;
+    }
+
     const response = await fetch(`/api/publishers/${this.publisherId}`, {
       method: "DELETE",
     });
@@ -358,7 +382,7 @@ ${publisher.adminNote}</textarea
         ${this._buttonDeleteTemplate()}
         <view-button
           type="primary wide"
-          @click="${(e) =>
+          @click="${(event) =>
             this.renderRoot.querySelector("form").requestSubmit()}"
         >
           <i class="fa-regular fa-floppy-disk"></i>

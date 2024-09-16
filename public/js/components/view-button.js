@@ -60,6 +60,7 @@ export class ViewButton extends LitElement {
         color: var(--td-brand-white-90);
         background-color: var(--td-secondary-grey-20);
         border-color: var(--td-secondary-grey-35);
+      }
     }
   `;
 
