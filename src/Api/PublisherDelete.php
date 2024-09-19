@@ -11,15 +11,18 @@ class PublisherDelete implements PageInterface
 {
     private UserSession $userSession;
     private PublishersSqlite $publishers;
+    private bool $demo;
     private int $publisherId;
 
     public function __construct(
         UserSession $userSession,
         PublishersSqlite $publishers,
+        bool $demo,
         int $publisherId
     ) {
         $this->userSession = $userSession;
         $this->publishers = $publishers;
+        $this->demo = $demo;
         $this->publisherId = $publisherId;
     }
 
@@ -28,7 +31,19 @@ class PublisherDelete implements PageInterface
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
-                PageInterface::STATUS_401_UNAUTHORIZED
+                PageInterface::STATUS_403_FORBIDDEN
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'You need admin permission'])
+            );
+        }
+        if ($this->demo) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_403_FORBIDDEN
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'Not allowed in the demo version'])
             );
         }
 

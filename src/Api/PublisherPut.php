@@ -9,6 +9,7 @@ use PhpPages\PageInterface;
 class PublisherPut implements PageInterface
 {
     private PublishersSqlite $publishers;
+    private bool $demo;
     private int $publisherId;
     private bool $active;
     private bool $admin;
@@ -25,6 +26,7 @@ class PublisherPut implements PageInterface
 
     public function __construct(
         PublishersSqlite $publishers,
+        bool $demo,
         int $publisherId,
         bool $active = false,
         bool $admin = false,
@@ -40,6 +42,7 @@ class PublisherPut implements PageInterface
         string $adminNote = ''
     ) {
         $this->publishers = $publishers;
+        $this->demo = $demo;
         $this->publisherId = $publisherId;
         $this->active = $active;
         $this->admin = $admin;
@@ -57,6 +60,16 @@ class PublisherPut implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
+        if ($this->demo) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_403_FORBIDDEN
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'Not allowed in the demo version'])
+            );
+        }
+
         $updated = $this->publishers->update(
             $this->publisherId,
             $this->active,
@@ -92,6 +105,7 @@ class PublisherPut implements PageInterface
             $body = json_decode($value, true);
             return new self(
                 $this->publishers,
+                $this->demo,
                 $this->publisherId,
                 $body['active'],
                 $body['admin'],

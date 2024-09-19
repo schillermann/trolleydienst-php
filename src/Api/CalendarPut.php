@@ -37,7 +37,10 @@ class CalendarPut implements PageInterface
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
-                PageInterface::STATUS_401_UNAUTHORIZED
+                PageInterface::STATUS_403_FORBIDDEN
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'You need admin permission'])
             );
         }
 

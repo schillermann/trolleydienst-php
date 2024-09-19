@@ -6,7 +6,6 @@ use App\Database\SlotsSqlite;
 use App\UserSession;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
-use PhpPages\SessionInterface;
 
 class SlotDelete implements PageInterface
 {
@@ -38,7 +37,10 @@ class SlotDelete implements PageInterface
         ) {
             return $output->withMetadata(
                 PageInterface::STATUS,
-                PageInterface::STATUS_401_UNAUTHORIZED
+                PageInterface::STATUS_400_BAD_REQUEST
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'Wrong publisher'])
             );
         }
 

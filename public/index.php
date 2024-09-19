@@ -191,7 +191,8 @@ require __DIR__ . '/../vendor/autoload.php';
         if (preg_match('|^/api/publishers$|', $value, $matches) === 1) {
           return new PublisherPost(
             $this->userSession,
-            new PublishersSqlite($this->pdo)
+            new PublishersSqlite($this->pdo),
+            DEMO,
           );
         }
       }
@@ -285,7 +286,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
 
         if (preg_match('|^/api/publishers/([0-9]+)$|', $value, $matches) === 1) {
-          return new PublisherPut(new PublishersSqlite($this->pdo), (int)$matches[1]);
+          return new PublisherPut(new PublishersSqlite($this->pdo), DEMO, (int)$matches[1]);
         }
       }
 
@@ -311,6 +312,7 @@ require __DIR__ . '/../vendor/autoload.php';
           return new CalendarDelete(
             $this->userSession,
             new CalendarsSqlite($this->pdo),
+            DEMO,
             (int)$matches[1]
           );
         }
@@ -319,6 +321,7 @@ require __DIR__ . '/../vendor/autoload.php';
           return new PublisherDelete(
             $this->userSession,
             new PublishersSqlite($this->pdo),
+            DEMO,
             (int)$matches[1]
           );
         }

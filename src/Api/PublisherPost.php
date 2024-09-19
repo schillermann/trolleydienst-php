@@ -11,6 +11,7 @@ class PublisherPost implements PageInterface
 {
     private UserSession $userSession;
     private PublishersSqlite $publishers;
+    private bool $demo;
     private bool $active;
     private bool $admin;
     private string $firstname;
@@ -27,6 +28,7 @@ class PublisherPost implements PageInterface
     function __construct(
         UserSession $userSession,
         PublishersSqlite $publishers,
+        bool $demo,
         bool $active = false,
         bool $admin = false,
         string $firstname = '',
@@ -42,6 +44,7 @@ class PublisherPost implements PageInterface
     ) {
         $this->userSession = $userSession;
         $this->publishers = $publishers;
+        $this->demo = $demo;
         $this->active = $active;
         $this->admin = $admin;
         $this->firstname = $firstname;
@@ -61,7 +64,19 @@ class PublisherPost implements PageInterface
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
-                PageInterface::STATUS_401_UNAUTHORIZED
+                PageInterface::STATUS_403_FORBIDDEN
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'You need admin permission'])
+            );
+        }
+        if ($this->demo) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_403_FORBIDDEN
+            )->withMetadata(
+                PageInterface::BODY,
+                json_encode(['error' => 'Not allowed in the demo version'])
             );
         }
 
@@ -124,6 +139,7 @@ class PublisherPost implements PageInterface
             return new self(
                 $this->userSession,
                 $this->publishers,
+                $this->demo,
                 $body['active'],
                 $body['admin'],
                 $body['firstname'],
