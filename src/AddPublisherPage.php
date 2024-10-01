@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -6,19 +7,21 @@ use PhpPages\PageInterface;
 
 class AddPublisherPage implements PageInterface
 {
+    public function __construct(private Config $config) {}
+
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
         $render_page = include '../includes/render_page.php';
 
-        if(isset($_POST['save'])) {
+        if (isset($_POST['save'])) {
 
-            if(DEMO) {
-                $placeholder['message']['error'] = __('Publishers cannot be created i nthe demo version!');
+            if ($this->config->demo()) {
+                $placeholder['message']['error'] = __('Publishers cannot be created in the demo version!');
             } else {
                 $username = include '../filters/post_username.php';
 
-                if(Tables\Publisher::exists_username($database_pdo, $username)) {
+                if (Tables\Publisher::exists_username($database_pdo, $username)) {
                     $placeholder['message']['error'] = __('This username is already in use!');
                 } else {
                     $get_password = require '../modules/random_string.php';
@@ -64,10 +67,10 @@ class AddPublisherPage implements PageInterface
 
                         $send_email = require('../modules/send_email.php');
 
-                        if($send_email($email, $email_template['subject'], $email_template_message))
-                            $placeholder['message']['success'] .= __('<br>An email with access data was sent to %s successfully.', [ $email ]);
+                        if ($send_email($email, $email_template['subject'], $email_template_message))
+                            $placeholder['message']['success'] .= __('<br>An email with access data was sent to %s successfully.', [$email]);
                     }
-                }  
+                }
             }
         }
 

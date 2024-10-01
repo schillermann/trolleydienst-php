@@ -7,12 +7,14 @@ use PhpPages\PageInterface;
 
 class PublisherProfilePage implements PageInterface
 {
+    function __construct(private Config $config) {}
+
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
 
         if (isset($_POST['save'])) {
-            if (DEMO) {
+            if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('The profile cannot be changed in the demo version!');
             } else {
                 $profile_filter_post_input = include '../modules/filter_post_input.php';

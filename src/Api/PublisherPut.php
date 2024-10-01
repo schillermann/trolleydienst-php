@@ -2,65 +2,35 @@
 
 namespace App\Api;
 
+use App\Config;
 use App\Database\PublishersSqlite;
 use PhpPages\OutputInterface;
 use PhpPages\PageInterface;
 
 class PublisherPut implements PageInterface
 {
-    private PublishersSqlite $publishers;
-    private bool $demo;
-    private int $publisherId;
-    private bool $active;
-    private bool $admin;
-    private string $firstname;
-    private string $lastname;
-    private string $username;
-    private string $email;
-    private string $mobile;
-    private string $phone;
-    private string $congregation;
-    private string $languages;
-    private string $publisherNote;
-    private string $adminNote;
-
     public function __construct(
-        PublishersSqlite $publishers,
-        bool $demo,
-        int $publisherId,
-        bool $active = false,
-        bool $admin = false,
-        string $firstname = '',
-        string $lastname = '',
-        string $username = '',
-        string $email = '',
-        string $mobile = '',
-        string $phone = '',
-        string $congregation = '',
-        string $languages = '',
-        string $publisherNote = '',
-        string $adminNote = ''
+        private PublishersSqlite $publishers,
+        private Config $config,
+        private int $publisherId,
+        private bool $active = false,
+        private bool $admin = false,
+        private string $firstname = '',
+        private string $lastname = '',
+        private string $username = '',
+        private string $email = '',
+        private string $mobile = '',
+        private string $phone = '',
+        private string $congregation = '',
+        private string $languages = '',
+        private string $publisherNote = '',
+        private string $adminNote = ''
     ) {
-        $this->publishers = $publishers;
-        $this->demo = $demo;
-        $this->publisherId = $publisherId;
-        $this->active = $active;
-        $this->admin = $admin;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->username = $username;
-        $this->email = $email;
-        $this->mobile = $mobile;
-        $this->phone = $phone;
-        $this->congregation = $congregation;
-        $this->languages = $languages;
-        $this->publisherNote = $publisherNote;
-        $this->adminNote = $adminNote;
     }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        if ($this->demo) {
+        if ($this->config->demo()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
@@ -105,7 +75,7 @@ class PublisherPut implements PageInterface
             $body = json_decode($value, true);
             return new self(
                 $this->publishers,
-                $this->demo,
+                $this->config,
                 $this->publisherId,
                 $body['active'],
                 $body['admin'],

@@ -7,6 +7,8 @@ use PhpPages\PageInterface;
 
 class EditPublisherPage implements PageInterface
 {
+    function __construct(private Config $config) {}
+
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         if (!isset($_GET['id_user'])) {
@@ -18,7 +20,7 @@ class EditPublisherPage implements PageInterface
         $id_user = (int)$_GET['id_user'];
 
         if (isset($_POST['save'])) {
-            if (DEMO) {
+            if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('User details cannot be changed in the demo version!');
             } else {
                 $user = new Models\User(
@@ -46,7 +48,7 @@ class EditPublisherPage implements PageInterface
             }
         } elseif (isset($_POST['delete'])) {
 
-            if (DEMO) {
+            if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('Publishers cannot be deleted in the demo version!');
             } else {
                 if (Tables\Publisher::delete($database_pdo, $id_user)) {
@@ -55,7 +57,7 @@ class EditPublisherPage implements PageInterface
                 }
             }
         } elseif (isset($_POST['password_save']) && !empty($_POST['password'])) {
-            if (DEMO) {
+            if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
             } else {
                 if ($_POST['password'] == $_POST['password_repeat'])

@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -6,16 +7,18 @@ use PhpPages\PageInterface;
 
 class UploadFilePage implements PageInterface
 {
+    function __construct(private Config $config) {}
+
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
 
-        if(isset($_POST['upload'])) {
-            if(DEMO) {
+        if (isset($_POST['upload'])) {
+            if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('Files cannot be uploaded in the demo version!');
             } else {
                 $upload_info_file = include '../services/upload_info_file.php';
-                if($upload_info_file(
+                if ($upload_info_file(
                     $database_pdo,
                     include '../filters/post_info_file_label.php',
                     $_FILES['file']['tmp_name'],
@@ -23,7 +26,7 @@ class UploadFilePage implements PageInterface
                     $_FILES['file']['size']
                 ))
                     $placeholder['message']['success'] = __('The file was uploaded successfully.');
-            else
+                else
                     $placeholder['message']['error'] = __('The file could not be uploaded!');
             }
         }

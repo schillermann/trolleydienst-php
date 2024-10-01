@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use App\Config;
 use App\Database\PublishersSqlite;
 use App\UserSession;
 use PhpPages\OutputInterface;
@@ -9,22 +10,12 @@ use PhpPages\PageInterface;
 
 class PublisherDelete implements PageInterface
 {
-    private UserSession $userSession;
-    private PublishersSqlite $publishers;
-    private bool $demo;
-    private int $publisherId;
-
     public function __construct(
-        UserSession $userSession,
-        PublishersSqlite $publishers,
-        bool $demo,
-        int $publisherId
-    ) {
-        $this->userSession = $userSession;
-        $this->publishers = $publishers;
-        $this->demo = $demo;
-        $this->publisherId = $publisherId;
-    }
+        private UserSession $userSession,
+        private PublishersSqlite $publishers,
+        private Config $config,
+        private int $publisherId
+    ) {}
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -37,7 +28,7 @@ class PublisherDelete implements PageInterface
                 json_encode(['error' => 'You need admin permission'])
             );
         }
-        if ($this->demo) {
+        if ($this->config->demo()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN

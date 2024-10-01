@@ -6,6 +6,7 @@ use App\Api\CalendarGet;
 use App\Api\CalendarPut;
 use App\Api\CalendarsGet;
 use App\Api\CalendarPost;
+use App\Api\EmailSendPost;
 use App\Api\RouteGet;
 use App\Api\MeGet;
 use App\Api\PublisherDelete;
@@ -24,6 +25,7 @@ use App\Api\ShiftPositionPublishersGet;
 use App\Api\SlotDelete;
 use App\Api\SlotsPost;
 use App\ChangePublisherPassword;
+use App\Config;
 use App\Database\RoutesSqlite;
 use App\Database\CalendarsSqlite;
 use App\Database\PublishersSqlite;
@@ -91,7 +93,6 @@ require __DIR__ . '/../vendor/autoload.php';
         );
       }
 
-      include('../config.php');
       return $output->withMetadata(
         PageInterface::STATUS,
         'HTTP/1.1 404 Not Found'
@@ -109,6 +110,7 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       $this->session->start();
+      $config = new Config();
 
       switch ($value) {
         case '/':
@@ -120,27 +122,27 @@ require __DIR__ . '/../vendor/autoload.php';
         case '/submit-report':
           return new SubmitReportPage();
         case '/publisher-profile':
-          return new PublisherProfilePage();
+          return new PublisherProfilePage($config);
         case '/change-publisher-password':
-          return new ChangePublisherPassword();
+          return new ChangePublisherPassword($config);
         case '/publishers':
           return new PublishersPage();
         case '/add-publisher':
-          return new AddPublisherPage();
+          return new AddPublisherPage($config);
         case '/edit-publisher':
-          return new EditPublisherPage();
+          return new EditPublisherPage($config);
         case '/newsletter':
-          return new NewsletterPage();
+          return new NewsletterPage($config);
         case '/info':
           return new InfoPage();
         case '/upload-file':
-          return new UploadFilePage();
+          return new UploadFilePage($config);
         case '/file-view':
-          return new FileViewPage();
+          return new FileViewPage($config);
         case '/edit-file':
-          return new EditFilePage();
+          return new EditFilePage($config);
         case '/reset-password':
-          return new ResetPasswordPage();
+          return new ResetPasswordPage($config);
         case '/shift-type':
           return new ShiftTypePage();
         case '/shift-history':
@@ -164,6 +166,11 @@ require __DIR__ . '/../vendor/autoload.php';
       }
 
       if ($this->httpMethod === 'POST') {
+        if ('/api/emails/send' === $value) {
+          return new EmailSendPost(
+            $config
+          );
+        }
         if (preg_match('|^/api/calendars/([0-9]+)/shifts$|', $value, $matches) === 1) {
           return new ShiftsPost(
             new RoutesSqlite($this->pdo, (int)$matches[1])
@@ -192,7 +199,7 @@ require __DIR__ . '/../vendor/autoload.php';
           return new PublisherPost(
             $this->userSession,
             new PublishersSqlite($this->pdo),
-            DEMO,
+            $config
           );
         }
       }
@@ -286,7 +293,7 @@ require __DIR__ . '/../vendor/autoload.php';
         }
 
         if (preg_match('|^/api/publishers/([0-9]+)$|', $value, $matches) === 1) {
-          return new PublisherPut(new PublishersSqlite($this->pdo), DEMO, (int)$matches[1]);
+          return new PublisherPut(new PublishersSqlite($this->pdo), $config, (int)$matches[1]);
         }
       }
 
@@ -312,7 +319,6 @@ require __DIR__ . '/../vendor/autoload.php';
           return new CalendarDelete(
             $this->userSession,
             new CalendarsSqlite($this->pdo),
-            DEMO,
             (int)$matches[1]
           );
         }
@@ -321,7 +327,7 @@ require __DIR__ . '/../vendor/autoload.php';
           return new PublisherDelete(
             $this->userSession,
             new PublishersSqlite($this->pdo),
-            DEMO,
+            $config,
             (int)$matches[1]
           );
         }

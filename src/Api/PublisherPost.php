@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use App\Config;
 use App\Database\PublishersSqlite;
 use App\UserSession;
 use PhpPages\OutputInterface;
@@ -9,57 +10,26 @@ use PhpPages\PageInterface;
 
 class PublisherPost implements PageInterface
 {
-    private UserSession $userSession;
-    private PublishersSqlite $publishers;
-    private bool $demo;
-    private bool $active;
-    private bool $admin;
-    private string $firstname;
-    private string $lastname;
-    private string $username;
-    private string $email;
-    private string $mobile;
-    private string $phone;
-    private string $congregation;
-    private string $languages;
-    private string $publisherNote;
-    private string $adminNote;
-
-    function __construct(
-        UserSession $userSession,
-        PublishersSqlite $publishers,
-        bool $demo,
-        bool $active = false,
-        bool $admin = false,
-        string $firstname = '',
-        string $lastname = '',
-        string $username = '',
-        string $email = '',
-        string $mobile = '',
-        string $phone = '',
-        string $congregation = '',
-        string $languages = '',
-        string $publisherNote = '',
-        string $adminNote = ''
+    public function __construct(
+        private UserSession $userSession,
+        private PublishersSqlite $publishers,
+        private Config $config,
+        private bool $active = false,
+        private bool $admin = false,
+        private string $firstname = '',
+        private string $lastname = '',
+        private string $username = '',
+        private string $email = '',
+        private string $mobile = '',
+        private string $phone = '',
+        private string $congregation = '',
+        private string $languages = '',
+        private string $publisherNote = '',
+        private string $adminNote = ''
     ) {
-        $this->userSession = $userSession;
-        $this->publishers = $publishers;
-        $this->demo = $demo;
-        $this->active = $active;
-        $this->admin = $admin;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->username = $username;
-        $this->email = $email;
-        $this->mobile = $mobile;
-        $this->phone = $phone;
-        $this->congregation = $congregation;
-        $this->languages = $languages;
-        $this->publisherNote = $publisherNote;
-        $this->adminNote = $adminNote;
     }
 
-    function viaOutput(OutputInterface $output): OutputInterface
+    public function viaOutput(OutputInterface $output): OutputInterface
     {
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
@@ -70,7 +40,7 @@ class PublisherPost implements PageInterface
                 json_encode(['error' => 'You need admin permission'])
             );
         }
-        if ($this->demo) {
+        if ($this->config->demo()) {
             return $output->withMetadata(
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
@@ -132,14 +102,14 @@ class PublisherPost implements PageInterface
             );
     }
 
-    function withMetadata(string $name, string $value): PageInterface
+    public function withMetadata(string $name, string $value): PageInterface
     {
         if ($name === PageInterface::BODY) {
             $body = json_decode($value, true);
             return new self(
                 $this->userSession,
                 $this->publishers,
-                $this->demo,
+                $this->config,
                 $body['active'],
                 $body['admin'],
                 $body['firstname'],
@@ -158,7 +128,7 @@ class PublisherPost implements PageInterface
         return $this;
     }
 
-    function randomPassword(int $length)
+    public function randomPassword(int $length)
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return substr(str_shuffle($chars), 0, $length);

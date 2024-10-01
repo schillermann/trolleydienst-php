@@ -7,12 +7,14 @@ use PhpPages\PageInterface;
 
 class ChangePublisherPassword implements PageInterface
 {
+    public function __construct(private Config $config) {}
+
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
 
         if (isset($_POST['save']) && !empty($_POST['password'])) {
-            if (DEMO) {
+            if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
             } else {
                 if ($_POST['password'] == $_POST['password_repeat'])
