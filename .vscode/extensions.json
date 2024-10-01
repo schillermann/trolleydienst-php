@@ -2,6 +2,7 @@
   "recommendations": [
     "bmewburn.vscode-intelephense-client",
     "esbenp.prettier-vscode",
-    "pushqrdx.inline-html"
+    "pushqrdx.inline-html",
+    "junstyle.php-cs-fixer"
   ]
 }
