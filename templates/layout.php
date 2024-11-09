@@ -164,7 +164,7 @@ $active_page = include '../templates/helpers/active_page.php';
             <nav>
                 <ul id="nav-footer">
                     <li><a href="https://github.com/schillermann/trolleydienst-php" target="_blank" id="link-github">GitHub</a></li>
-                    <li><a href="https://github.com/schillermann/trolleydienst-php/issues" target="_blank"><?= __('Issues') ?></a></li>
+                    <li><a href="https://fern.my-router.de/url/trolleyfeedback" target="_blank"><?= __('Feedback') ?></a></li>
                     <?php if (!empty($_SESSION)) : ?><li><?= __('Version') ?> <?= include '../includes/get_version.php'; ?></li><?php endif; ?>
                 </ul>
             </nav>

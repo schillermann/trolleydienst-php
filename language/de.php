@@ -15,6 +15,7 @@ return [
     'Admin' => 'Admin',
     'Login' => 'Anmelden',
     'Logout' => 'Abmelden',
+    'Feedback' => 'Feedback',
     'First Name' => 'Vorname',
     'Last Name' => 'Nachname',
     'Username' => 'Benutzername',
