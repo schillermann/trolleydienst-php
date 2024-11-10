@@ -11,8 +11,8 @@ class UnauthorizedPage implements PageInterface
     function viaOutput(OutputInterface $output): OutputInterface
     {
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_401_UNAUTHORIZED
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_401_UNAUTHORIZED
         );
     }
 

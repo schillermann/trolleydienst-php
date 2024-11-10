@@ -42,7 +42,7 @@ class ShiftsPost implements PageInterface
         );
 
         return $output->withMetadata(
-            PageInterface::STATUS,
+            PageInterface::OUTPUT_STATUS,
             'HTTP/1.1 201 Created'
         );
     }

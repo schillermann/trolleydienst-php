@@ -42,8 +42,8 @@ class RoutePut implements PageInterface
     {
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
@@ -61,14 +61,14 @@ class RoutePut implements PageInterface
 
         if ($updated) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_204_NO_CONTENT
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_204_NO_CONTENT
             );
         }
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_500_INTERNAL_SERVER_ERROR
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_500_INTERNAL_SERVER_ERROR
         );
     }
 

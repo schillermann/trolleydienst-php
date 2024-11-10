@@ -30,7 +30,7 @@ class ShiftPositionPublisherGet implements PageInterface
 
         if ($slot->routeId() === 0) {
             return $output->withMetadata(
-                PageInterface::STATUS,
+                PageInterface::OUTPUT_STATUS,
                 'HTTP/1.1 404 Not Found'
             );
         }
@@ -38,7 +38,7 @@ class ShiftPositionPublisherGet implements PageInterface
         $publisher = $this->publishers->publisher($this->publisherId);
         if ($publisher->id() === 0) {
             return $output->withMetadata(
-                PageInterface::STATUS,
+                PageInterface::OUTPUT_STATUS,
                 'HTTP/1.1 404 Not Found'
             );
         }

@@ -44,8 +44,8 @@ class SlotsPost implements PageInterface
             $this->userSession->publisherId() != $this->publisherId
         ) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             );
         }
 
@@ -53,16 +53,16 @@ class SlotsPost implements PageInterface
 
         if ($route->id() === 0 || $route->numberOfShifts() < $this->shiftNumber) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_404_NOT_FOUND
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_404_NOT_FOUND
             );
         }
 
         $publisher = $this->publishers->publisher($this->publisherId);
         if ($publisher->id() === 0) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_404_NOT_FOUND
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_404_NOT_FOUND
             );
         }
         $slots = $this->slots->slots(
@@ -72,8 +72,8 @@ class SlotsPost implements PageInterface
         foreach ($slots as $slot) {
             if ($slot->publisherId() === $this->publisherId) {
                 return $output->withMetadata(
-                    PageInterface::STATUS,
-                    PageInterface::STATUS_409_CONFLICT
+                    PageInterface::OUTPUT_STATUS,
+                    PageInterface::OUTPUT_STATUS_409_CONFLICT
                 );
             }
         }
@@ -84,8 +84,8 @@ class SlotsPost implements PageInterface
         );
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_201_CREATED
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_201_CREATED
         );
     }
 

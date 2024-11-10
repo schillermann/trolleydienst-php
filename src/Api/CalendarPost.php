@@ -33,8 +33,8 @@ class CalendarPost implements PageInterface
     {
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
@@ -50,8 +50,8 @@ class CalendarPost implements PageInterface
         $calendar = $this->calendars->calendar($calendarId);
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_201_CREATED
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_201_CREATED
         )->withMetadata(
             'Content-Type',
             'application/json'

@@ -36,8 +36,8 @@ class SlotDelete implements PageInterface
             $this->userSession->publisherId() != $this->publisherId
         ) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_400_BAD_REQUEST
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_400_BAD_REQUEST
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'Wrong publisher'])
@@ -52,8 +52,8 @@ class SlotDelete implements PageInterface
 
         if ($slot->routeId() === 0) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_404_NOT_FOUND
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_404_NOT_FOUND
             );
         }
 
@@ -64,8 +64,8 @@ class SlotDelete implements PageInterface
         );
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_204_NO_CONTENT
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_204_NO_CONTENT
         );
     }
 

@@ -23,7 +23,7 @@ class RouteGet implements PageInterface
 
         if ($route->id() === 0) {
             return $output->withMetadata(
-                PageInterface::STATUS,
+                PageInterface::OUTPUT_STATUS,
                 'HTTP/1.1 404 Not Found'
             );
         }

@@ -33,8 +33,8 @@ class PublisherPost implements PageInterface
     {
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
@@ -42,8 +42,8 @@ class PublisherPost implements PageInterface
         }
         if ($this->config->demo()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'Not allowed in the demo version'])
@@ -69,8 +69,8 @@ class PublisherPost implements PageInterface
         $publisher = $this->publishers->publisher($publisherId);
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_201_CREATED
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_201_CREATED
         )->withMetadata(
             'Content-Type',
             'application/json'

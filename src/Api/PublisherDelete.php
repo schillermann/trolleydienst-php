@@ -22,8 +22,8 @@ class PublisherDelete implements PageInterface
     {
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
@@ -31,8 +31,8 @@ class PublisherDelete implements PageInterface
         }
         if ($this->config->demo()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'Not allowed in the demo version'])
@@ -45,14 +45,14 @@ class PublisherDelete implements PageInterface
 
         if ($deleted) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_204_NO_CONTENT
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_204_NO_CONTENT
             );
         }
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_500_INTERNAL_SERVER_ERROR
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_500_INTERNAL_SERVER_ERROR
         );
     }
 

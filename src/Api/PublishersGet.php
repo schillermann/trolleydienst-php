@@ -37,8 +37,8 @@ class PublishersGet implements PageInterface
     {
         if (!$this->userSession->admin()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_403_FORBIDDEN
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_403_FORBIDDEN
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])

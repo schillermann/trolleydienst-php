@@ -31,8 +31,8 @@ class EmailSendPost implements PageInterface
         $requestConstraints->check($this->request);
         if ($requestConstraints->hasErrors()) {
             return $output->withMetadata(
-                PageInterface::STATUS,
-                PageInterface::STATUS_400_BAD_REQUEST
+                PageInterface::OUTPUT_STATUS,
+                PageInterface::OUTPUT_STATUS_400_BAD_REQUEST
             )->withMetadata(
                 PageInterface::METADATA_BODY,
                 json_encode(['errors' => $requestConstraints->errors()])
@@ -69,8 +69,8 @@ class EmailSendPost implements PageInterface
             case 'sendinblue':
                 $this->sendOverSendinblue($this->request);
                 return $output->withMetadata(
-                    PageInterface::STATUS,
-                    PageInterface::STATUS_200_OK
+                    PageInterface::OUTPUT_STATUS,
+                    PageInterface::OUTPUT_STATUS_200_OK
                 );
             default:
                 $transport = new SendmailTransport();
@@ -80,8 +80,8 @@ class EmailSendPost implements PageInterface
         $mailer->send($email);
 
         return $output->withMetadata(
-            PageInterface::STATUS,
-            PageInterface::STATUS_200_OK
+            PageInterface::OUTPUT_STATUS,
+            PageInterface::OUTPUT_STATUS_200_OK
         );
     }
 

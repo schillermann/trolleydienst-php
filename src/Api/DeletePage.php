@@ -20,7 +20,7 @@ class DeletePage implements PageInterface
     function viaOutput(OutputInterface $output): OutputInterface
     {
         return $output->withMetadata(
-            PageInterface::STATUS,
+            PageInterface::OUTPUT_STATUS,
             'HTTP/1.1 404 Not Found'
         );
     }
