@@ -49,7 +49,7 @@ class ShiftsPost implements PageInterface
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name === PageInterface::BODY) {
+        if ($name === PageInterface::METADATA_BODY) {
             $body = json_decode($value, true, 2);
 
             return new self(

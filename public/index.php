@@ -47,7 +47,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
         public function withMetadata(string $name, string $value): PageInterface
         {
-            if (PageInterface::METHOD === $name) {
+            if (PageInterface::METADATA_METHOD === $name) {
                 $this->session->start();
                 if (!$this->userSession->active()) {
                     return new UnauthorizedPage();

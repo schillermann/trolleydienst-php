@@ -15,7 +15,8 @@ class PublisherDelete implements PageInterface
         private PublishersSqlite $publishers,
         private Config $config,
         private int $publisherId
-    ) {}
+    ) {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -24,7 +25,7 @@ class PublisherDelete implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
             );
         }
@@ -33,7 +34,7 @@ class PublisherDelete implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'Not allowed in the demo version'])
             );
         }

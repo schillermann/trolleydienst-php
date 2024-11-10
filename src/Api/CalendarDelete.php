@@ -30,7 +30,7 @@ class CalendarDelete implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
             );
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -53,7 +54,7 @@ class EmailSettingsPage implements PageInterface
 
                 'MAINTENANCE' => MAINTENANCE,
             ];
-            if($write_config_file($config)) {
+            if ($write_config_file($config)) {
                 $placeholder['email_address_from'] = $input_fields['email_address_from'];
                 $placeholder['email_address_reply'] = $input_fields['email_address_reply'];
                 $placeholder['congregation_name'] = $input_fields['congregation_name'];
@@ -82,7 +83,7 @@ class EmailSettingsPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'email-settings.php')
             );
     }

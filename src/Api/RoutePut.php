@@ -45,7 +45,7 @@ class RoutePut implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
             );
         }
@@ -74,7 +74,7 @@ class RoutePut implements PageInterface
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name === PageInterface::BODY) {
+        if ($name === PageInterface::METADATA_BODY) {
             $body = json_decode($value, true);
             return new self(
                 $this->userSession,

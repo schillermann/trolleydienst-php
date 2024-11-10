@@ -38,7 +38,7 @@ class ShiftApplicationsGet implements PageInterface
                 'application/json'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(
                     $body,
                     JSON_THROW_ON_ERROR,

@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -17,20 +18,20 @@ class InstallPage implements PageInterface
 
         require __DIR__ . '/../vendor/autoload.php';
 
-        if(Tables\Database::exists_database()) {
+        if (Tables\Database::exists_database()) {
             header('location: /');
             exit;
         }
 
         $placeholder = [];
 
-        if(isset($_POST['install'])) {
+        if (isset($_POST['install'])) {
             $filter_post_input = include '../modules/filter_post_input.php';
             $input_list = $filter_post_input();
 
-            if(empty($_POST['password']) || empty($_POST['password_repeat']) || $_POST['password'] != $_POST['password_repeat']) {
+            if (empty($_POST['password']) || empty($_POST['password_repeat']) || $_POST['password'] != $_POST['password_repeat']) {
                 $placeholder['message']['error'] = __('Passwords do not match!');
-            } else if(count($input_list) >= REQUIRE_INPUT_FIELDS) {
+            } elseif (count($input_list) >= REQUIRE_INPUT_FIELDS) {
 
                 $user = new Models\User(
                     1,
@@ -67,7 +68,7 @@ class InstallPage implements PageInterface
 
                 );
 
-                if(
+                if (
                     Tables\Database::create_tables($pdo) &&
                     Tables\Publisher::insert($pdo, $user) &&
                     $pdo->exec(include '../install/sql_import.php') !== false &&
@@ -91,7 +92,7 @@ class InstallPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'install.php')
             );
     }

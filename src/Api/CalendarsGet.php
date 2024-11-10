@@ -44,7 +44,7 @@ class CalendarsGet implements PageInterface
                 'application/json'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(
                     $body,
                     JSON_THROW_ON_ERROR,
@@ -55,7 +55,7 @@ class CalendarsGet implements PageInterface
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name === PageInterface::QUERY) {
+        if ($name === PageInterface::METADATA_QUERY) {
             $query = new SimpleFormData($value);
 
             return new self(

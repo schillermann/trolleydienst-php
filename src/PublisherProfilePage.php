@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class PublisherProfilePage implements PageInterface
 {
-    function __construct(private Config $config) {}
+    function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -20,10 +22,11 @@ class PublisherProfilePage implements PageInterface
                 $profile_filter_post_input = include '../modules/filter_post_input.php';
                 $profile_update = new Models\Profile($_SESSION['publisher_id'], $profile_filter_post_input());
 
-                if (Tables\Publisher::update_profile($database_pdo, $profile_update))
+                if (Tables\Publisher::update_profile($database_pdo, $profile_update)) {
                     $placeholder['message']['success'] = __('Your profile has been successfully updated.');
-                else
+                } else {
                     $placeholder['message']['error'] = __('Your profile could not be updated!');
+                }
             }
         }
 
@@ -36,7 +39,7 @@ class PublisherProfilePage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'profile.php')
             );
     }

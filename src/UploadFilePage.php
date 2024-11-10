@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class UploadFilePage implements PageInterface
 {
-    function __construct(private Config $config) {}
+    function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -24,10 +26,11 @@ class UploadFilePage implements PageInterface
                     $_FILES['file']['tmp_name'],
                     $_FILES['file']['type'],
                     $_FILES['file']['size']
-                ))
+                )) {
                     $placeholder['message']['success'] = __('The file was uploaded successfully.');
-                else
+                } else {
                     $placeholder['message']['error'] = __('The file could not be uploaded!');
+                }
             }
         }
 
@@ -39,7 +42,7 @@ class UploadFilePage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'info-add.php')
             );
     }

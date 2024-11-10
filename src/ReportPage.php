@@ -20,10 +20,11 @@ class ReportPage implements PageInterface
 
         if (isset($_GET['id_report'])) {
             $id_report = (int)$_GET['id_report'];
-            if (Tables\Reports::delete($database_pdo, $id_report))
+            if (Tables\Reports::delete($database_pdo, $id_report)) {
                 $placeholder['message']['success'] = __('Your report has been deleted.');
-            else
+            } else {
                 $placeholder['message']['error'] = __('Your report could not be deleted!');
+            }
         }
 
         if ($id_shift_type > 0) {
@@ -49,7 +50,7 @@ class ReportPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'report.php')
             );
     }

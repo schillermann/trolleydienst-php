@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class NewsletterPage implements PageInterface
 {
-    function __construct(private Config $config) {}
+    function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -35,8 +37,9 @@ class NewsletterPage implements PageInterface
                         $email_message = strtr($placeholder['email']['message'], $replace_with);
 
                         $send_email = require('../modules/send_email.php');
-                        if ($send_email($user['email'], $placeholder['email']['subject'], $email_message))
+                        if ($send_email($user['email'], $placeholder['email']['subject'], $email_message)) {
                             $placeholder['user_list'][] = $user;
+                        }
                     }
                 }
             }
@@ -53,7 +56,7 @@ class NewsletterPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'email.php')
             );
     }

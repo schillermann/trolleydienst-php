@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -19,7 +20,7 @@ class InfoPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'info.php')
             );
     }

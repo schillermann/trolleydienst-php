@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -10,7 +11,7 @@ class SubmitReportPage implements PageInterface
     {
         $placeholder = require('../includes/init_page.php');
 
-        if(isset($_POST['save'])) {
+        if (isset($_POST['save'])) {
             Tables\Reports::delete_old_entries($database_pdo);
 
             $date_from = require('../filters/post_date_from.php');
@@ -32,10 +33,11 @@ class SubmitReportPage implements PageInterface
                 require('../filters/post_publisher_note.php'),
                 $shift_datetime_from
             );
-            if(Tables\Reports::insert($database_pdo, $report))
+            if (Tables\Reports::insert($database_pdo, $report)) {
                 $placeholder['message']['success'] = __('Your report has been saved.');
-            else
+            } else {
                 $placeholder['message']['error'] = __('Your report could not be saved!');
+            }
         }
 
         $placeholder['user_list'] = Tables\Publisher::select_all($database_pdo);
@@ -50,7 +52,7 @@ class SubmitReportPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'report-submit.php')
             );
     }

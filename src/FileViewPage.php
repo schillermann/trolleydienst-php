@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -8,7 +9,7 @@ class FileViewPage implements PageInterface
 {
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        if(empty($_SESSION) || !isset($_GET['id_info'])) {
+        if (empty($_SESSION) || !isset($_GET['id_info'])) {
             header('location: /');
             exit;
         }
@@ -18,7 +19,7 @@ class FileViewPage implements PageInterface
         $file_resource = Tables\InfoFiles::select($database_pdo, $id_info);
         $mime_type = Tables\Infos::select_mime_type($database_pdo, $id_info);
 
-        if(empty($mime_type)) {
+        if (empty($mime_type)) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $mime_type = finfo_buffer($finfo, $file_resource, FILEINFO_MIME_TYPE);
             finfo_close($finfo);
@@ -30,7 +31,7 @@ class FileViewPage implements PageInterface
                 $mime_type
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 stream_get_contents($file_resource)
             );
     }

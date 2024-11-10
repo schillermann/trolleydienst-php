@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -6,7 +7,6 @@ use PhpPages\PageInterface;
 
 class LoginHistoryPage implements PageInterface
 {
-
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
@@ -20,7 +20,7 @@ class LoginHistoryPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'history-login.php')
             );
     }

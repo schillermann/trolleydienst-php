@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class ChangePublisherPassword implements PageInterface
 {
-    public function __construct(private Config $config) {}
+    public function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -17,13 +19,15 @@ class ChangePublisherPassword implements PageInterface
             if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
             } else {
-                if ($_POST['password'] == $_POST['password_repeat'])
-                    if (Tables\Publisher::update_password($database_pdo, $_SESSION['publisher_id'], $_POST['password']))
+                if ($_POST['password'] == $_POST['password_repeat']) {
+                    if (Tables\Publisher::update_password($database_pdo, $_SESSION['publisher_id'], $_POST['password'])) {
                         $placeholder['message']['success'] = __('Your password has been changed successfully.');
-                    else
+                    } else {
                         $placeholder['message']['error'] = __('Your password could not be changed!');
-                else
+                    }
+                } else {
                     $placeholder['message']['error'] = __('Passwords do not match!');
+                }
             }
         }
 
@@ -35,7 +39,7 @@ class ChangePublisherPassword implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'profile-password.php')
             );
     }

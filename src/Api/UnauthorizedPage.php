@@ -18,7 +18,7 @@ class UnauthorizedPage implements PageInterface
 
     function withMetadata(string $name, string $value): PageInterface
     {
-        if (PageInterface::PATH === $name && '/' === $value) {
+        if (PageInterface::METADATA_PATH === $name && '/' === $value) {
             return new LoginPage();
         }
 

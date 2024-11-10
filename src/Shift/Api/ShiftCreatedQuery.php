@@ -28,7 +28,7 @@ class ShiftCreatedQuery implements PageInterface
                 'application/json'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(
                     (new ShiftCalendar($this->pdo))->shift($this->shiftId, $this->shiftTypeId)->array(),
                     JSON_THROW_ON_ERROR,
@@ -39,7 +39,7 @@ class ShiftCreatedQuery implements PageInterface
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name != PageInterface::QUERY) {
+        if ($name != PageInterface::METADATA_QUERY) {
             return $this;
         }
 

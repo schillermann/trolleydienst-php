@@ -36,7 +36,7 @@ class PublisherPost implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'You need admin permission'])
             );
         }
@@ -45,7 +45,7 @@ class PublisherPost implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_403_FORBIDDEN
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'Not allowed in the demo version'])
             );
         }
@@ -76,7 +76,7 @@ class PublisherPost implements PageInterface
             'application/json'
         )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(
                     [
                         'id' => $publisher->id(),
@@ -104,7 +104,7 @@ class PublisherPost implements PageInterface
 
     public function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name === PageInterface::BODY) {
+        if ($name === PageInterface::METADATA_BODY) {
             $body = json_decode($value, true);
             return new self(
                 $this->userSession,

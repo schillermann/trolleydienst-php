@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class ResetPasswordPage implements PageInterface
 {
-    function __construct(private Config $config) {}
+    function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -68,7 +70,7 @@ class ResetPasswordPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'password-forgot.php')
             );
     }

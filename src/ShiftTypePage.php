@@ -7,7 +7,6 @@ use PhpPages\PageInterface;
 
 class ShiftTypePage implements PageInterface
 {
-
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
@@ -19,7 +18,7 @@ class ShiftTypePage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'shifttype.php')
             );
     }

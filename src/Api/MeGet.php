@@ -26,7 +26,7 @@ class MeGet implements PageInterface
                 'application/json'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(
                     [
                         'id' => $this->userSession->publisherId(),

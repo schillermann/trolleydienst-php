@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class EditPublisherPage implements PageInterface
 {
-    function __construct(private Config $config) {}
+    function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -60,13 +62,15 @@ class EditPublisherPage implements PageInterface
             if ($this->config->demo()) {
                 $placeholder['message']['error'] = __('Passwords cannot be changed in the demo version!');
             } else {
-                if ($_POST['password'] == $_POST['password_repeat'])
-                    if (Tables\Publisher::update_password($database_pdo, $id_user, $_POST['password']))
+                if ($_POST['password'] == $_POST['password_repeat']) {
+                    if (Tables\Publisher::update_password($database_pdo, $id_user, $_POST['password'])) {
                         $placeholder['message']['success'] = __('Your password has been changed successfully.');
-                    else
+                    } else {
                         $placeholder['message']['error'] = __('Your password could not be changed!');
-                else
+                    }
+                } else {
                     $placeholder['message']['error'] = __('Passwords do not match!');
+                }
             }
         } elseif (isset($_POST['resend_welcome_email'])) {
 
@@ -88,8 +92,9 @@ class EditPublisherPage implements PageInterface
 
             $send_email = require('../modules/send_email.php');
 
-            if ($send_email($_POST['email'], $email_template['subject'], $email_template_message))
+            if ($send_email($_POST['email'], $email_template['subject'], $email_template_message)) {
                 $placeholder['message']['success'] .= __('The email has been sent to:') . ' ' . $_POST['email'];
+            }
         }
 
         $placeholder['user'] = Tables\Publisher::select_user($database_pdo, $id_user);
@@ -107,7 +112,7 @@ class EditPublisherPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'user-edit.php')
             );
     }

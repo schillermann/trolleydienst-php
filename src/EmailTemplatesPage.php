@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -10,21 +11,22 @@ class EmailTemplatesPage implements PageInterface
     {
         $placeholder = require '../includes/init_page.php';
 
-        if(!isset($_GET['id_email_template'])) {
+        if (!isset($_GET['id_email_template'])) {
             header('location: /newsletter');
             exit;
         }
 
         $id_email_template = (int)$_GET['id_email_template'];
 
-        if(isset($_POST['save'])) {
+        if (isset($_POST['save'])) {
             $template_email_subject = require('../filters/post_template_email_subject.php');
             $template_email_message = require('../filters/post_template_email_message.php');
 
-            if(Tables\EmailTemplates::update($database_pdo, $id_email_template, $template_email_message, $template_email_subject))
+            if (Tables\EmailTemplates::update($database_pdo, $id_email_template, $template_email_message, $template_email_subject)) {
                 $placeholder['message']['success'] = __('The template %s has been saved.', [ $template_email_subject ]);
-            else
+            } else {
                 $placeholder['message']['error'] = __('The template %s could not be saved!', [ $template_email_subject ]);
+            }
         }
 
         $placeholder['email_templates'] = Tables\EmailTemplates::select_all($database_pdo);
@@ -39,7 +41,7 @@ class EmailTemplatesPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'email-templates.php')
             );
     }

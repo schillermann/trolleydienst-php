@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class AddPublisherPage implements PageInterface
 {
-    public function __construct(private Config $config) {}
+    public function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -46,9 +48,9 @@ class AddPublisherPage implements PageInterface
                         include '../filters/post_admin_note.php'
                     );
 
-                    if (!Tables\Publisher::insert($database_pdo, $user))
+                    if (!Tables\Publisher::insert($database_pdo, $user)) {
                         $placeholder['message']['error'] = __('The publisher could not be created!');
-                    else {
+                    } else {
                         $placeholder['message']['success'] = __('The publisher was created successfully.');
 
                         $get_template_email_user_add = include '../services/get_email_template.php';
@@ -67,8 +69,9 @@ class AddPublisherPage implements PageInterface
 
                         $send_email = require('../modules/send_email.php');
 
-                        if ($send_email($email, $email_template['subject'], $email_template_message))
+                        if ($send_email($email, $email_template['subject'], $email_template_message)) {
                             $placeholder['message']['success'] .= __('<br>An email with access data was sent to %s successfully.', [$email]);
+                        }
                     }
                 }
             }
@@ -80,7 +83,7 @@ class AddPublisherPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'user-add.php')
             );
     }

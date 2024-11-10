@@ -18,7 +18,7 @@ class PublishersPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'user.php')
             );
     }

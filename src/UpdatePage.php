@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -10,8 +11,8 @@ class UpdatePage implements PageInterface
     {
         require __DIR__ . '/../vendor/autoload.php';
         include '../includes/language.php';
-        
-        if(!Tables\Database::exists_database()) {
+
+        if (!Tables\Database::exists_database()) {
             header('location: /install.php');
             exit;
         }
@@ -20,20 +21,20 @@ class UpdatePage implements PageInterface
         $database_pdo = Tables\Database::get_connection();
         $placeholder = [];
 
-        if($_POST)
-        {
+        if ($_POST) {
             $get_database_version = include '../services/get_database_version.php';
             $update = include '../services/update.php';
-            
+
             try {
                 $database_version = $get_database_version($database_pdo);
                 $success_migrations = $update($database_pdo, $database_version);
 
-                if($success_migrations)
+                if ($success_migrations) {
                     $placeholder['message']['success']  =
                         __('The following database migrations were carried out successfully: ') . implode(', ', $success_migrations);
-                else
+                } else {
                     $placeholder['message']['success'] = __('The database is up to date.');
+                }
             } catch (\Exception $exc) {
                 $placeholder['message']['error'] = $exc->getMessage();
             }
@@ -49,7 +50,7 @@ class UpdatePage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'update.php')
             );
     }

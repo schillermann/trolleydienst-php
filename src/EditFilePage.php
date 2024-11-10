@@ -7,7 +7,9 @@ use PhpPages\PageInterface;
 
 class EditFilePage implements PageInterface
 {
-    function __construct(private Config $config) {}
+    function __construct(private Config $config)
+    {
+    }
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
@@ -38,11 +40,13 @@ class EditFilePage implements PageInterface
             } else {
                 $file_label = include '../filters/post_info_file_label.php';
 
-                if ($file_label)
-                    if (Tables\Infos::update($database_pdo, $id_info, $file_label))
+                if ($file_label) {
+                    if (Tables\Infos::update($database_pdo, $id_info, $file_label)) {
                         $placeholder['message']['success'] = __('The file %s has been renamed.', [$file_label]);
-                    else
+                    } else {
                         $placeholder['message']['error'] = __('The file %s could not be renamed!', [$file_label]);
+                    }
+                }
             }
         }
 
@@ -56,7 +60,7 @@ class EditFilePage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'info-edit.php')
             );
     }

@@ -13,7 +13,7 @@ import "../components/calender-cards.js";
  * @property {string} phone
  * @property {string} mobile
  * @property {string} congregation
- * @property {string} language
+ * @property {string} languages
  * @property {string} publisherNote
  * @property {string} adminNote
  * @property {boolean} active

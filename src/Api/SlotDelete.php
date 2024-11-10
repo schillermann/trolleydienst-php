@@ -39,7 +39,7 @@ class SlotDelete implements PageInterface
                 PageInterface::STATUS,
                 PageInterface::STATUS_400_BAD_REQUEST
             )->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 json_encode(['error' => 'Wrong publisher'])
             );
         }

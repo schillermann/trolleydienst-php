@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use PhpPages\OutputInterface;
@@ -6,7 +7,6 @@ use PhpPages\PageInterface;
 
 class ShiftHistoryPage implements PageInterface
 {
-
     public function viaOutput(OutputInterface $output): OutputInterface
     {
         $placeholder = require '../includes/init_page.php';
@@ -17,10 +17,12 @@ class ShiftHistoryPage implements PageInterface
         $placeholder['shift_error_list'] = [];
         $placeholder['shift_success_list'] = [];
 
-        if(isset($shift_history_list['error']))
+        if (isset($shift_history_list['error'])) {
             $placeholder['shift_error_list'] = $shift_history_list['error'];
-        if(isset($shift_history_list['success']))
+        }
+        if (isset($shift_history_list['success'])) {
             $placeholder['shift_success_list'] = $shift_history_list['success'];
+        }
 
         $render_page = require('../includes/render_page.php');
 
@@ -30,7 +32,7 @@ class ShiftHistoryPage implements PageInterface
                 'text/html'
             )
             ->withMetadata(
-                PageInterface::BODY,
+                PageInterface::METADATA_BODY,
                 $render_page($placeholder, 'history-shift.php')
             );
     }

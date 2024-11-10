@@ -27,7 +27,7 @@ class DeletePage implements PageInterface
 
     function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name !== PageInterface::PATH) {
+        if ($name !== PageInterface::METADATA_PATH) {
             return $this;
         }
 

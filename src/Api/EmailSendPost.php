@@ -4,6 +4,9 @@ namespace App\Api;
 
 use App\Config;
 use PhpPages\OutputInterface;
+use PhpPages\Page\Request\ConstraintNotBlank;
+use PhpPages\Page\Request\ConstraintType;
+use PhpPages\Page\Request\RequestConstraints;
 use PhpPages\PageInterface;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
@@ -16,17 +19,26 @@ use Symfony\Component\Mime\Email;
 
 class EmailSendPost implements PageInterface
 {
-    public function __construct(
+    function __construct(
         private Config $config,
-        private string $to = '',
-        private string $subject = '',
-        private string $text = '',
-        private string $html = ''
+        private array $request = []
     ) {
     }
 
-    public function viaOutput(OutputInterface $output): OutputInterface
+    function viaOutput(OutputInterface $output): OutputInterface
     {
+        $requestConstraints = $this->requestConstraints();
+        $requestConstraints->check($this->request);
+        if ($requestConstraints->hasErrors()) {
+            return $output->withMetadata(
+                PageInterface::STATUS,
+                PageInterface::STATUS_400_BAD_REQUEST
+            )->withMetadata(
+                PageInterface::METADATA_BODY,
+                json_encode(['errors' => $requestConstraints->errors()])
+            );
+        }
+
         $email = (new Email())
             ->from(
                 Address::create(
@@ -38,14 +50,14 @@ class EmailSendPost implements PageInterface
                     "{$this->config->team()} <{$this->config->emailAddressReply()}>"
                 )
             )
-            ->to($this->to)
-            ->subject($this->subject);
+            ->to($this->request['to'])
+            ->subject($this->request['subject'] ?? '');
 
-        if ($this->text) {
-            $email->text($this->text);
+        if ($this->request['text']) {
+            $email->text($this->request['text']);
         }
-        if ($this->html) {
-            $email->html($this->html);
+        if ($this->request['html']) {
+            $email->html($this->request['html']);
         }
 
         switch ($this->config->emailDispatch()) {
@@ -55,8 +67,11 @@ class EmailSendPost implements PageInterface
                 $transport->setPassword($this->config->smtpPassword());
                 break;
             case 'sendinblue':
-                $this->sendOverSendinblue();
-                break;
+                $this->sendOverSendinblue($this->request);
+                return $output->withMetadata(
+                    PageInterface::STATUS,
+                    PageInterface::STATUS_200_OK
+                );
             default:
                 $transport = new SendmailTransport();
         }
@@ -70,23 +85,19 @@ class EmailSendPost implements PageInterface
         );
     }
 
-    public function withMetadata(string $name, string $value): PageInterface
+    function withMetadata(string $name, string $value): PageInterface
     {
-        if ($name === PageInterface::BODY) {
-            $body = json_decode($value, true);
+        if (PageInterface::METADATA_BODY === $name) {
             return new self(
                 $this->config,
-                $body['to'],
-                $body['subject'],
-                isset($body['text']) ? $body['text'] : '',
-                isset($body['html']) ? $body['html'] : ''
+                json_decode($value, true)
             );
         }
 
         return $this;
     }
 
-    public function sendOverSendinblue(): void
+    function sendOverSendinblue(array $request): void
     {
         (new TransactionalEmailsApi(
             new \GuzzleHttp\Client(),
@@ -97,15 +108,37 @@ class EmailSendPost implements PageInterface
         ))
             ->sendTransacEmail(
                 new SendSmtpEmail([
-                    'subject' => $this->subject,
+                    'subject' => $this->request['subject'],
                     'sender' => [
                         'name' => "{$this->config->congregation()} - {$this->config->application()}",
-                        'email' => $this->config->emailAddressFrom()
+                        'email' => $this->config->emailAddressFrom(),
                     ],
                     'replyTo' => ['name' => $this->config->team(), 'email' => $this->config->emailAddressReply()],
-                    'to' => [['email' => $this->to]],
-                    'htmlContent' => '<html><body>' . str_replace("||", "<br>", $this->html) . '</body></html>'
+                    'to' => [['email' => $this->request['to']]],
+                    'htmlContent' => '<html><body>' . str_replace("||", "<br>", $this->request['html']) . '</body></html>',
                 ])
+            );
+    }
+
+    function requestConstraints(): RequestConstraints
+    {
+        return (new RequestConstraints())
+            ->withPropertyConstraints(
+                'to',
+                new ConstraintNotBlank(),
+                new ConstraintType('string')
+            )
+            ->withPropertyConstraints(
+                'subject',
+                new ConstraintType('string')
+            )
+            ->withPropertyConstraints(
+                'text',
+                new ConstraintType('string')
+            )
+            ->withPropertyConstraints(
+                'html',
+                new ConstraintType('string')
             );
     }
 }

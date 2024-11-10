@@ -30,9 +30,6 @@ use App\UpdatePage;
 use App\UploadFilePage;
 use App\UserSession;
 use PhpPages\OutputInterface;
-use PhpPages\Page\Request\ConstraintLength;
-use PhpPages\Page\Request\ConstraintType;
-use PhpPages\Page\Request\RequestProperties;
 use PhpPages\PageInterface;
 
 class PostPage implements PageInterface
@@ -51,7 +48,7 @@ class PostPage implements PageInterface
 
     function withMetadata(string $name, string $value): PageInterface
     {
-        if (PageInterface::PATH !== $name) {
+        if (PageInterface::METADATA_PATH !== $name) {
             return $this;
         }
 
@@ -101,15 +98,7 @@ class PostPage implements PageInterface
         }
 
         if ('/api/emails/send' === $value) {
-            return new EmailSendPost(
-                $this->config,
-                (new RequestProperties())
-                ->withPropertyConstraints(
-                    'to',
-                    new ConstraintType('string'),
-                    new ConstraintLength(2, 50)
-                )
-            );
+            return new EmailSendPost($this->config);
         }
         if (preg_match('|^/api/calendars/([0-9]+)/shifts$|', $value, $matches) === 1) {
             return new ShiftsPost(
