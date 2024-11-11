@@ -7,7 +7,11 @@ use PhpPages\PageInterface;
 
 class LoginPage implements PageInterface
 {
-    public function viaOutput(OutputInterface $output): OutputInterface
+    function __construct(private Config $config)
+    {
+    }
+
+    function viaOutput(OutputInterface $output): OutputInterface
     {
         if (isset($_GET['logout'])) {
             $_SESSION = array();
@@ -25,7 +29,6 @@ class LoginPage implements PageInterface
             exit;
         }
 
-        include '../config.php';
         include '../includes/language.php';
 
         $placeholder = array();
@@ -38,7 +41,7 @@ class LoginPage implements PageInterface
             $database_pdo = Tables\Database::get_connection();
 
             $get_ban_time_in_minutes = require('../services/get_ban_time_in_minutes.php');
-            $ban_time_in_minutes = $get_ban_time_in_minutes($database_pdo, BAN_TIME_IN_MINUTES);
+            $ban_time_in_minutes = $get_ban_time_in_minutes($database_pdo, $this->config->banTimeInMinutes());
 
             if ($ban_time_in_minutes > 0) {
                 $placeholder['message']['error'] = 'Du bist noch für ' . $ban_time_in_minutes . ' Minuten gesperrt!';
@@ -48,8 +51,8 @@ class LoginPage implements PageInterface
             } else {
                 $set_ban_time = require('../services/set_ban_time.php');
 
-                if ($set_ban_time($database_pdo, LOGIN_FAIL_MAX)) {
-                    $placeholder['message']['error'] = __('You have been blocked for %d minutes!', [ BAN_TIME_IN_MINUTES ]);
+                if ($set_ban_time($database_pdo, $this->config->loginFailsMax())) {
+                    $placeholder['message']['error'] = __('You have been blocked for %d minutes!', [ $this->config->banTimeInMinutes() ]);
                 } else {
                     $placeholder['message']['error'] = __('Login failed!');
                 }
@@ -78,7 +81,7 @@ class LoginPage implements PageInterface
             );
     }
 
-    public function withMetadata(string $name, string $value): PageInterface
+    function withMetadata(string $name, string $value): PageInterface
     {
         return $this;
     }

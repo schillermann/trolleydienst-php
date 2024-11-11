@@ -49,10 +49,10 @@ require __DIR__ . '/../vendor/autoload.php';
         {
             if (PageInterface::METADATA_METHOD === $name) {
                 $this->session->start();
-                if (!$this->userSession->active()) {
-                    return new UnauthorizedPage();
-                }
                 $config = new Config();
+                if (!$this->userSession->active()) {
+                    return new UnauthorizedPage($config);
+                }
 
                 switch ($value) {
                     case RequestInterface::METHOD_GET:

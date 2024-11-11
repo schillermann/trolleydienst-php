@@ -1,14 +1,14 @@
 <?php
-if(empty($_SESSION)) {
+
+if (empty($_SESSION)) {
     header('location: /');
     return;
 }
 
-require('../config.php');
 require('../includes/language.php');
 require __DIR__ . '/../vendor/autoload.php';
 
-if(MAINTENANCE == true) {
+if (MAINTENANCE == true) {
     $_SESSION = array();
     header('location: /');
     return;

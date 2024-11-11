@@ -23,7 +23,7 @@ use App\NewsletterPage;
 use App\PublisherProfilePage;
 use App\PublishersPage;
 use App\ReportPage;
-use App\ResetPasswordPage;
+use App\Shift\ShiftPage;
 use App\ShiftHistoryPage;
 use App\ShiftTypePage;
 use App\SubmitReportPage;
@@ -56,6 +56,8 @@ class GetPage implements PageInterface
         }
 
         switch ($value) {
+            case '/shift':
+                return new ShiftPage();
             case '/report':
                 return new ReportPage();
             case '/submit-report':
@@ -80,8 +82,6 @@ class GetPage implements PageInterface
                 return new FileViewPage($this->config);
             case '/edit-file':
                 return new EditFilePage($this->config);
-            case '/reset-password':
-                return new ResetPasswordPage($this->config);
             case '/shift-type':
                 return new ShiftTypePage();
             case '/shift-history':
@@ -98,10 +98,6 @@ class GetPage implements PageInterface
                 return new UpdatePage();
             case '/install':
                 return new InstallPage();
-        }
-
-        if ('/' === $value) {
-            return new LoginPage();
         }
 
         if ('/api/me' === $value) {

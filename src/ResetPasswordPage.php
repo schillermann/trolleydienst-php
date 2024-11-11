@@ -13,7 +13,6 @@ class ResetPasswordPage implements PageInterface
 
     public function viaOutput(OutputInterface $output): OutputInterface
     {
-        include '../config.php';
         include '../includes/language.php';
         $database_pdo = Tables\Database::get_connection();
         $placeholder = array();
